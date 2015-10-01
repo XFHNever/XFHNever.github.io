@@ -1,1454 +1,6338 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
+
+    
   <url>
     <loc>http://xfhnever.com/2015/10/01/blog-hexo-setting/</loc>
     <lastmod>2015-10-01T03:08:30.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Blog(四)--Hexo博客的进一步配置</title>
+        <pubTime>2015-10-01T01:24:01.000Z</pubTime>
+        
+        <tag>Blog </tag>
+         
+        <tag>Hexo </tag>
+         
+         
+           
+             
+              <breadCrumb title="Blog" url="http://xfhnever.com/categories/Blog/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/02/2014-02-28-mongodb-gridfs/</loc>
     <lastmod>2015-09-29T01:21:55.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb（四）-GridFS简介</title>
+        <pubTime>2014-03-01T17:19:22.000Z</pubTime>
+        
+        <tag>GridFS </tag>
+         
+        <tag>MongoDB </tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-audio/</loc>
     <lastmod>2015-09-29T01:19:55.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(八)-音乐和音效</title>
+        <pubTime>2014-04-13T16:46:54.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>音乐 </tag>
+         
+        <tag>音效 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/25/2014-03-25-web-form-submit-with-image/</loc>
     <lastmod>2015-09-29T01:19:27.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Web-用图片代替form中的Submit按钮</title>
+        <pubTime>2014-03-25T01:39:26.000Z</pubTime>
+        
+        <tag>Form </tag>
+         
+        <tag>Submit </tag>
+         
+        <tag>Web </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/25/2014-03-25-js-common-expression/</loc>
     <lastmod>2015-09-29T01:18:52.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JS-一些常见的用于验证的正则表达式</title>
+        <pubTime>2014-03-25T03:01:34.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>正则表达式 </tag>
+         
+        <tag>验证 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/11/05/2014-11-05-algorithm-wordbreak/</loc>
     <lastmod>2015-09-29T01:18:16.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（十五）-Word Break</title>
+        <pubTime>2014-11-05T11:52:22.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/11/09/2014-11-09-algorithm-singlenumber/</loc>
     <lastmod>2015-09-29T01:18:10.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（十六）-SingleNumber</title>
+        <pubTime>2014-11-09T01:18:40.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/11/10/2014-11-10-algorithm-candy/</loc>
     <lastmod>2015-09-29T01:17:58.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（十七）-Candy</title>
+        <pubTime>2014-11-10T14:21:05.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/09/20/2015-09-20-log-java-2/</loc>
     <lastmod>2015-09-29T01:16:29.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>log(二) - java中log体系再讨论</title>
+        <pubTime>2015-09-20T02:34:01.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Log </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/09/19/2015-09-19-java-exception/</loc>
     <lastmod>2015-09-29T01:15:41.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java(十二) - Exception</title>
+        <pubTime>2015-09-19T08:55:24.000Z</pubTime>
+        
+        <tag>Exception </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/09/04/2015-09-04-mac-rzsz/</loc>
     <lastmod>2015-09-29T01:14:58.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mac(二)- Mac下使用rz、sz</title>
+        <pubTime>2015-09-04T14:26:21.000Z</pubTime>
+        
+        <tag>Mac </tag>
+         
+        <tag>Tools </tag>
+         
+         
+           
+             
+              <breadCrumb title="Tools" url="http://xfhnever.com/categories/Tools/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/04/21/2015-04-21-soa-intro/</loc>
     <lastmod>2015-09-29T01:14:16.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>SOA(一)- 介绍</title>
+        <pubTime>2015-04-21T11:19:31.000Z</pubTime>
+        
+        <tag>SOA </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/04/19/2015-04-19-vps-vpn/</loc>
     <lastmod>2015-09-29T01:13:34.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>VPS(一)- 搭建VPN</title>
+        <pubTime>2015-04-19T04:44:56.000Z</pubTime>
+        
+        <tag>Tools </tag>
+         
+        <tag>Vpn </tag>
+         
+        <tag>Vps </tag>
+         
+         
+           
+             
+              <breadCrumb title="Tools" url="http://xfhnever.com/categories/Tools/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/30/2015-03-30-avro-serialization/</loc>
     <lastmod>2015-09-29T01:12:25.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Avro(三)-序列化和反序列化</title>
+        <pubTime>2015-03-30T08:22:47.000Z</pubTime>
+        
+        <tag>Avro </tag>
+         
+        <tag>Serialization </tag>
+         
+        <tag>中间件 </tag>
+         
+         
+           
+             
+              <breadCrumb title="中间件" url="http://xfhnever.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/30/2015-03-30-avro-schema/</loc>
     <lastmod>2015-09-29T01:11:41.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Avro(二)-schema</title>
+        <pubTime>2015-03-30T02:58:12.000Z</pubTime>
+        
+        <tag>Avro </tag>
+         
+        <tag>Schema </tag>
+         
+        <tag>中间件 </tag>
+         
+         
+           
+             
+              <breadCrumb title="中间件" url="http://xfhnever.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/30/2015-03-30-avro-rpc/</loc>
     <lastmod>2015-09-29T01:10:51.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Avro(四)-RPC</title>
+        <pubTime>2015-03-30T10:04:48.000Z</pubTime>
+        
+        <tag>Avro </tag>
+         
+        <tag>RPC </tag>
+         
+        <tag>中间件 </tag>
+         
+         
+           
+             
+              <breadCrumb title="中间件" url="http://xfhnever.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/29/2015-03-29-avro-intro/</loc>
     <lastmod>2015-09-29T01:10:21.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Avro(一)-介绍</title>
+        <pubTime>2015-03-29T10:12:57.000Z</pubTime>
+        
+        <tag>Avro </tag>
+         
+        <tag>中间件 </tag>
+         
+         
+           
+             
+              <breadCrumb title="中间件" url="http://xfhnever.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/28/2015-03-28-poi-intro/</loc>
     <lastmod>2015-09-29T01:08:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>POI(一)-介绍</title>
+        <pubTime>2015-03-28T07:51:03.000Z</pubTime>
+        
+        <tag>Excel </tag>
+         
+        <tag>POI </tag>
+         
+        <tag>Tools </tag>
+         
+         
+           
+             
+              <breadCrumb title="Tools" url="http://xfhnever.com/categories/Tools/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/28/2015-03-28-dropwizard-intro/</loc>
     <lastmod>2015-09-29T01:07:58.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Dropwizard(一)-介绍</title>
+        <pubTime>2015-03-28T12:23:58.000Z</pubTime>
+        
+        <tag>Dropwizard </tag>
+         
+        <tag>Framework </tag>
+         
+        <tag>Jersey </tag>
+         
+        <tag>REST </tag>
+         
+        <tag>ttpod </tag>
+         
+         
+           
+             
+              <breadCrumb title="Framework" url="http://xfhnever.com/categories/Framework/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/28/2015-03-28-dropwizard-configuration/</loc>
     <lastmod>2015-09-29T01:06:08.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Dropwizard(二)-配置文件</title>
+        <pubTime>2015-03-28T15:01:28.000Z</pubTime>
+        
+        <tag>Dropwizard </tag>
+         
+        <tag>Framework </tag>
+         
+        <tag>REST </tag>
+         
+        <tag>ttpod </tag>
+         
+         
+           
+             
+              <breadCrumb title="Framework" url="http://xfhnever.com/categories/Framework/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/23/2015-03-23-mongodb-operatearrayelement/</loc>
     <lastmod>2015-09-29T01:04:34.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb(十一)- Array Operators</title>
+        <pubTime>2015-03-23T12:22:34.000Z</pubTime>
+        
+        <tag>DB </tag>
+         
+        <tag>Mongodb </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/22/2015-03-22-zookeeper-principle/</loc>
     <lastmod>2015-09-29T01:03:33.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>zookeeper（二）- 原理</title>
+        <pubTime>2015-03-22T05:47:39.000Z</pubTime>
+        
+        <tag>Framework </tag>
+         
+        <tag>Zookeeper </tag>
+         
+        <tag>ttpod </tag>
+         
+         
+           
+             
+              <breadCrumb title="Framework" url="http://xfhnever.com/categories/Framework/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/12/2015-03-12-zookeeper-intro/</loc>
     <lastmod>2015-09-29T01:02:41.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>zookeeper（一）- 介绍</title>
+        <pubTime>2015-03-12T02:40:59.000Z</pubTime>
+        
+        <tag>Framework </tag>
+         
+        <tag>Zookeeper </tag>
+         
+        <tag>ttpod </tag>
+         
+         
+           
+             
+              <breadCrumb title="Framework" url="http://xfhnever.com/categories/Framework/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/12/2015-03-12-kafka-intro/</loc>
     <lastmod>2015-09-29T00:04:42.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Kafka(一)- 介绍</title>
+        <pubTime>2015-03-12T01:38:58.000Z</pubTime>
+        
+        <tag>Framework </tag>
+         
+        <tag>Kafka </tag>
+         
+        <tag>ttpod </tag>
+         
+         
+           
+             
+              <breadCrumb title="Framework" url="http://xfhnever.com/categories/Framework/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/03/08/2015-03-08-dubbo-introduction/</loc>
     <lastmod>2015-09-29T00:03:58.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Dubbo(一)-介绍</title>
+        <pubTime>2015-03-08T11:13:21.000Z</pubTime>
+        
+        <tag>Dubbo </tag>
+         
+        <tag>Framework </tag>
+         
+        <tag>ttpod </tag>
+         
+         
+           
+             
+              <breadCrumb title="Framework" url="http://xfhnever.com/categories/Framework/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/23/2015-02-23-rws-contentnegotiation/</loc>
     <lastmod>2015-09-29T00:01:00.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(七)- 内容协商</title>
+        <pubTime>2015-02-23T06:20:23.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-servicediscoverability/</loc>
     <lastmod>2015-09-29T00:00:29.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(十四)- 服务发现</title>
+        <pubTime>2015-02-27T09:09:41.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-scalability-and-versioncontrol/</loc>
     <lastmod>2015-09-29T00:00:16.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(十三)- 可扩展性与版本控制</title>
+        <pubTime>2015-02-27T08:11:11.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-safety/</loc>
     <lastmod>2015-09-29T00:00:04.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(十二)- 安全</title>
+        <pubTime>2015-02-27T07:00:58.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-others/</loc>
     <lastmod>2015-09-28T23:59:50.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(十一)- 其他内容</title>
+        <pubTime>2015-02-26T23:31:01.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-conditionalrequest/</loc>
     <lastmod>2015-09-28T23:59:38.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(十)- 条件请求</title>
+        <pubTime>2015-02-26T23:05:51.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/26/2015-02-26-rws-webcache/</loc>
     <lastmod>2015-09-28T23:59:24.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(九)- Web缓存</title>
+        <pubTime>2015-02-26T08:34:22.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/26/2015-02-26-rws-query/</loc>
     <lastmod>2015-09-28T23:59:12.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(八)- 查询</title>
+        <pubTime>2015-02-26T03:05:58.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/22/2015-02-22-rws-atom-and-atompub/</loc>
     <lastmod>2015-09-28T23:57:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(六)-Atom和AtomPub</title>
+        <pubTime>2015-02-22T08:22:17.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/10/2015-02-10-rws-weblink/</loc>
     <lastmod>2015-09-28T23:57:30.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(五)-Web链接</title>
+        <pubTime>2015-02-10T15:26:27.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/09/2015-02-09-rws-designuri/</loc>
     <lastmod>2015-09-28T23:57:17.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(四)-设计URI</title>
+        <pubTime>2015-02-09T14:56:57.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/05/2015-02-05-restfulwsc-designformulation/</loc>
     <lastmod>2015-09-28T23:57:08.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service(三)-设计表述</title>
+        <pubTime>2015-02-05T15:16:00.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/01/2015-02-01-restfulwsc-usinguniforminterface/</loc>
     <lastmod>2015-09-28T23:56:45.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service（一）-使用统一接口</title>
+        <pubTime>2015-02-01T13:55:23.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/02/01/2015-02-01-restfulwsc-identifyresources/</loc>
     <lastmod>2015-09-28T23:56:10.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>RESTful Web Service（二）-识别资源</title>
+        <pubTime>2015-02-01T15:09:42.000Z</pubTime>
+        
+        <tag>REST </tag>
+         
+        <tag>RESTful </tag>
+         
+         
+           
+             
+              <breadCrumb title="RESTful" url="http://xfhnever.com/categories/RESTful/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/28/2015-01-28-refactoring-dealingwithgeneralization/</loc>
     <lastmod>2015-09-28T23:54:41.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Refactoring(七)- Dealing with Generalization</title>
+        <pubTime>2015-01-27T16:42:35.000Z</pubTime>
+        
+        <tag>Refactoring </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/27/2015-01-27-refactoring-making-methodcallssimpler/</loc>
     <lastmod>2015-09-28T23:53:01.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Refactoring(六)- Making Method Calls Simpler</title>
+        <pubTime>2015-01-27T05:12:01.000Z</pubTime>
+        
+        <tag>Refactoring </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/26/2015-01-26-refactoring-simplifyingconditionalexpressions/</loc>
     <lastmod>2015-09-28T23:52:02.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Refactoring(五)-Simplifying Conditional Expressions</title>
+        <pubTime>2015-01-26T13:22:00.000Z</pubTime>
+        
+        <tag>Refactoring </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/25/2015-01-25-refactoring-organizingdata/</loc>
     <lastmod>2015-09-28T23:49:22.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Refactoring(四)-Organizing Data</title>
+        <pubTime>2015-01-25T15:08:33.000Z</pubTime>
+        
+        <tag>Refactoring </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/24/2015-01-24-refactoring-movingfeaturesbetweenobjects/</loc>
     <lastmod>2015-09-28T23:46:45.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Refactoring(三)-Moving Features Between Objects</title>
+        <pubTime>2015-01-24T04:40:45.000Z</pubTime>
+        
+        <tag>Refactoring </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/23/2015-01-23-java-getipfromrequest/</loc>
     <lastmod>2015-09-28T23:39:55.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java(十一)- 根据Request获取客户端IP</title>
+        <pubTime>2015-01-23T05:41:54.000Z</pubTime>
+        
+        <tag>Ip </tag>
+         
+        <tag>Java </tag>
+         
+        <tag>Request </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/22/2015-01-22-softwaretesting-testprivatemethod/</loc>
     <lastmod>2015-09-28T16:23:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>软件测试（四）-单元测试中测试private方法</title>
+        <pubTime>2015-01-22T06:57:32.000Z</pubTime>
+        
+        <tag>Private </tag>
+         
+        <tag>Testing </tag>
+         
+        <tag>软件测试 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件测试" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/22/2015-01-22-refactoring-composingmehods/</loc>
     <lastmod>2015-09-28T16:20:32.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Refactoring(二)- Composing Methods</title>
+        <pubTime>2015-01-21T23:21:35.000Z</pubTime>
+        
+        <tag>Refactoring </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/22/2015-01-22-java-removespace/</loc>
     <lastmod>2015-09-28T16:17:40.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java(十)-去除字符串中空格</title>
+        <pubTime>2015-01-22T06:27:54.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/20/2015-01-20-refactoring-badsmells/</loc>
     <lastmod>2015-09-28T16:16:48.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Refactoring(一) - Bad Smells in code</title>
+        <pubTime>2015-01-20T03:49:51.000Z</pubTime>
+        
+        <tag>Refactoring </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/08/2015-01-08-mongodb-exportimport/</loc>
     <lastmod>2015-09-28T16:14:50.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb(十)-批量导入导出修改数据</title>
+        <pubTime>2015-01-08T13:49:10.000Z</pubTime>
+        
+        <tag>DB </tag>
+         
+        <tag>Mongodb </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/07/2015-01-07-mac-multiplejdk/</loc>
     <lastmod>2015-09-28T16:13:21.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mac(一)-安装多个版本的JDK</title>
+        <pubTime>2015-01-07T13:40:03.000Z</pubTime>
+        
+        <tag>JDK </tag>
+         
+        <tag>Mac </tag>
+         
+         
+           
+             
+              <breadCrumb title="Mac" url="http://xfhnever.com/categories/Mac/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2015/01/04/2015-01-04-blog-hexo/</loc>
     <lastmod>2015-09-28T16:12:47.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Blog（三）-使用hexo搭建blog</title>
+        <pubTime>2015-01-04T13:15:36.000Z</pubTime>
+        
+        <tag>Blog </tag>
+         
+        <tag>Hexo </tag>
+         
+         
+           
+             
+              <breadCrumb title="Blog" url="http://xfhnever.com/categories/Blog/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/31/2014-12-31-chrome-extensions/</loc>
     <lastmod>2015-09-28T16:07:39.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Chrome(一)-插件Download interrupted</title>
+        <pubTime>2014-12-31T09:19:54.000Z</pubTime>
+        
+        <tag>Chrome </tag>
+         
+        <tag>Extention </tag>
+         
+        <tag>Tools </tag>
+         
+         
+           
+             
+              <breadCrumb title="Tools" url="http://xfhnever.com/categories/Tools/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/27/2014-12-27-life%5Bnil%5Dmy2014/</loc>
     <lastmod>2015-09-28T16:06:36.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>我的2014</title>
+        <pubTime>2014-12-27T14:49:03.000Z</pubTime>
+        
+        <tag>2014 </tag>
+         
+        <tag>Life </tag>
+         
+         
+           
+             
+              <breadCrumb title="Life" url="http://xfhnever.com/categories/Life/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/26/2014-12-26-js-backtotop/</loc>
     <lastmod>2015-09-28T16:03:40.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(十六)-回到顶部</title>
+        <pubTime>2014-12-26T08:11:45.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/25/2014-12-25-spring-ioc/</loc>
     <lastmod>2015-09-28T16:01:01.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Spring(六)-IOC/DI</title>
+        <pubTime>2014-12-25T08:18:45.000Z</pubTime>
+        
+        <tag>DI </tag>
+         
+        <tag>IOC </tag>
+         
+        <tag>Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring" url="http://xfhnever.com/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/23/2014-12-23-spring%5Bnil%5Dbeanlifestyle/</loc>
     <lastmod>2015-09-28T15:59:23.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Spring(五)－ Bean的生命周期</title>
+        <pubTime>2014-12-23T14:48:34.000Z</pubTime>
+        
+        <tag>Bean </tag>
+         
+        <tag>Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring" url="http://xfhnever.com/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/22/2014-12-22-spring-models/</loc>
     <lastmod>2015-09-28T15:58:13.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Spring(四)-介绍</title>
+        <pubTime>2014-12-22T11:43:23.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring" url="http://xfhnever.com/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/22/2014-12-22-linux-vim/</loc>
     <lastmod>2015-09-28T15:56:44.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Linux(三)-Vim</title>
+        <pubTime>2014-12-22T14:21:33.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Vim </tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://xfhnever.com/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/22/2014-12-22-linux-shellcmd/</loc>
     <lastmod>2015-09-28T15:56:27.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Linux（一）-Shell指令</title>
+        <pubTime>2014-12-22T14:12:10.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Shell </tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://xfhnever.com/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/22/2014-12-22-linux-tips/</loc>
     <lastmod>2015-09-28T15:56:20.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Linux（二）-Tips</title>
+        <pubTime>2014-12-22T14:19:01.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>Tips </tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://xfhnever.com/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/22/2014-12-22-docker-intro/</loc>
     <lastmod>2015-09-28T15:55:40.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Docker（一）-介绍</title>
+        <pubTime>2014-12-22T14:24:14.000Z</pubTime>
+        
+        <tag>Docker </tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker" url="http://xfhnever.com/categories/Docker/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/22/2014-12-22-docker-dockerfile/</loc>
     <lastmod>2015-09-28T15:54:57.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Docker(二)-Dockerfile</title>
+        <pubTime>2014-12-22T14:27:13.000Z</pubTime>
+        
+        <tag>Docker </tag>
+         
+        <tag>Dockerfile </tag>
+         
+         
+           
+             
+              <breadCrumb title="Docker" url="http://xfhnever.com/categories/Docker/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/21/2014-12-21-java-pool%5Bnil%5Dapache%5Bnil%5Dcommonpools/</loc>
     <lastmod>2015-09-28T15:53:23.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（九）-使用common－pools实现对象池</title>
+        <pubTime>2014-12-21T07:43:12.000Z</pubTime>
+        
+        <tag>Common－pools </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/21/2014-12-21-java-pool/</loc>
     <lastmod>2015-09-28T15:52:27.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（八）－对象池</title>
+        <pubTime>2014-12-20T16:01:11.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Pool </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/20/2014-12-20-redis-introduction/</loc>
     <lastmod>2015-09-28T15:51:36.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Redis（一）-介绍</title>
+        <pubTime>2014-12-20T13:24:41.000Z</pubTime>
+        
+        <tag>Redis </tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="http://xfhnever.com/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/20/2014-12-20-guava-cache/</loc>
     <lastmod>2015-09-28T15:50:39.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Guava(三)-Cache</title>
+        <pubTime>2014-12-20T01:02:02.000Z</pubTime>
+        
+        <tag>Cache </tag>
+         
+        <tag>Guava </tag>
+         
+         
+           
+             
+              <breadCrumb title="Guava" url="http://xfhnever.com/categories/Guava/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/21/2014-12-21-java-collections-hashmaphashtable/</loc>
     <lastmod>2015-09-28T15:50:27.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java集合（二）-HashMap和HashTable</title>
+        <pubTime>2014-12-21T10:56:22.000Z</pubTime>
+        
+        <tag>HashMap </tag>
+         
+        <tag>HashTable </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/20/2014-12-20-encodingformat/</loc>
     <lastmod>2015-09-28T15:47:49.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>编码格式</title>
+        <pubTime>2014-12-20T07:34:07.000Z</pubTime>
+        
+        <tag>GBK </tag>
+         
+        <tag>UTF-8 </tag>
+         
+        <tag>编码 </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/18/2014-12-18-spring-loaddatawhenstart/</loc>
     <lastmod>2015-09-28T15:46:03.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Spring(三)-程序启动时加载数据到缓存</title>
+        <pubTime>2014-12-18T13:30:22.000Z</pubTime>
+        
+        <tag>Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring" url="http://xfhnever.com/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/14/2014-12-14-effictivejava-serializable/</loc>
     <lastmod>2015-09-28T15:45:48.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effictive Java(十)-serializable</title>
+        <pubTime>2014-12-14T09:49:05.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/14/2014-12-14-effictivejava-exception/</loc>
     <lastmod>2015-09-28T15:45:34.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effictive Java(八)- 异常</title>
+        <pubTime>2014-12-14T08:50:03.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/14/2014-12-14-effictivejava-concurrent/</loc>
     <lastmod>2015-09-28T15:45:22.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effictive Java(九)- 并发</title>
+        <pubTime>2014-12-14T09:45:55.000Z</pubTime>
+        
+        <tag>Concurrent </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/11/2014-12-11-effectivejava-methods/</loc>
     <lastmod>2015-09-28T15:45:04.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effective Java（六）- 方法</title>
+        <pubTime>2014-12-11T02:56:20.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/11/2014-12-11-effectivejava-commonprogramdesign/</loc>
     <lastmod>2015-09-28T15:44:18.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effective Java(七)- 通用程序设计</title>
+        <pubTime>2014-12-11T10:25:40.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-generic/</loc>
     <lastmod>2015-09-28T15:44:07.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effective Java(四)- 泛型</title>
+        <pubTime>2014-12-10T08:30:31.000Z</pubTime>
+        
+        <tag>Generic </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-enumandannotation/</loc>
     <lastmod>2015-09-28T15:43:37.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effective Java(五)-枚举和注解</title>
+        <pubTime>2014-12-10T09:09:52.000Z</pubTime>
+        
+        <tag>Annotation </tag>
+         
+        <tag>Enum </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-commonmethodstoallclasses/</loc>
     <lastmod>2015-09-28T15:43:13.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effective Java(二)- 对于所有类通用的方法</title>
+        <pubTime>2014-12-10T05:08:44.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-classandinterface/</loc>
     <lastmod>2015-09-28T15:42:57.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effective Java(三)-类和接口</title>
+        <pubTime>2014-12-10T06:36:40.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/10/2014-12-10-designpattern-singleton/</loc>
     <lastmod>2015-09-28T15:41:51.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（十一）-Singleton Pattern</title>
+        <pubTime>2014-12-10T03:08:31.000Z</pubTime>
+        
+        <tag>Singleton </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/09/2014-12-09-spring-injectdaoincommonclass/</loc>
     <lastmod>2015-09-28T15:40:51.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Spring（二）- 普通类中注入Dao</title>
+        <pubTime>2014-12-09T10:12:12.000Z</pubTime>
+        
+        <tag>Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring" url="http://xfhnever.com/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/09/2014-12-09-j2ee-povodtobo/</loc>
     <lastmod>2015-09-28T15:40:11.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>J2EE(四)- po，vo，bo，pojo，dto，dao区别</title>
+        <pubTime>2014-12-09T09:10:46.000Z</pubTime>
+        
+        <tag>J2EE </tag>
+         
+         
+           
+             
+              <breadCrumb title="J2EE" url="http://xfhnever.com/categories/J2EE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/09/2014-12-09-effictivejava-createobject/</loc>
     <lastmod>2015-09-28T15:27:05.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Effective Java(一) - 创建和销毁对象</title>
+        <pubTime>2014-12-09T15:14:44.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/12/07/2014-12-07-blog-binddomain/</loc>
     <lastmod>2015-09-28T15:26:33.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Blog（二）－－ 绑定域名</title>
+        <pubTime>2014-12-07T11:48:35.000Z</pubTime>
+        
+        <tag>Blog </tag>
+         
+        <tag>domain </tag>
+         
+        <tag>github </tag>
+         
+         
+           
+             
+              <breadCrumb title="Blog" url="http://xfhnever.com/categories/Blog/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/01/2014-03-01-github-plus-octopress-blog/</loc>
     <lastmod>2015-09-28T15:25:58.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Blog（一）－－ win7平台下使用github+octopress搭建个人Blog</title>
+        <pubTime>2014-03-01T01:31:12.000Z</pubTime>
+        
+        <tag>Blog </tag>
+         
+        <tag>github </tag>
+         
+        <tag>octopress </tag>
+         
+         
+           
+             
+              <breadCrumb title="Blog" url="http://xfhnever.com/categories/Blog/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/11/04/2014-11-04-algorithm-linklistcycle/</loc>
     <lastmod>2015-09-28T15:18:25.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（十四）-单链表的环问题</title>
+        <pubTime>2014-11-04T11:10:13.000Z</pubTime>
+        
+        <tag>单链表 </tag>
+         
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/11/03/2014-11-03-algorithm-lru/</loc>
     <lastmod>2015-09-28T15:14:12.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（十二）-LRU实现</title>
+        <pubTime>2014-11-03T12:22:08.000Z</pubTime>
+        
+        <tag>LRU </tag>
+         
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/11/03/2014-11-03-algorith-bttraversal/</loc>
     <lastmod>2015-09-28T15:13:42.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（十三）-二叉树遍历</title>
+        <pubTime>2014-11-03T14:21:59.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/31/2014-10-31-mysql-synax/</loc>
     <lastmod>2015-09-28T15:12:26.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mysql(五)-基本语法</title>
+        <pubTime>2014-10-31T15:17:19.000Z</pubTime>
+        
+        <tag>DB </tag>
+         
+        <tag>Mysql </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/31/2014-10-31-algorithm-recursivetc/</loc>
     <lastmod>2015-09-28T15:11:56.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（十一）-递归算法的时间复杂度</title>
+        <pubTime>2014-10-31T14:09:08.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/30/2014-10-30-algorithm-lnrs/</loc>
     <lastmod>2015-09-28T15:11:42.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（十）-最长无重复字符子串</title>
+        <pubTime>2014-10-30T15:19:41.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/26/2014-10-26-algorithm-symmetrical/</loc>
     <lastmod>2015-09-28T15:11:28.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（九）-最长回文字符串</title>
+        <pubTime>2014-10-26T00:59:20.000Z</pubTime>
+        
+        <tag>String </tag>
+         
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/22/2014-10-22-algorithm-kmp/</loc>
     <lastmod>2015-09-28T15:09:18.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（八）-KMP算法</title>
+        <pubTime>2014-10-22T15:09:57.000Z</pubTime>
+        
+        <tag>KMP </tag>
+         
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/21/2014-10-21-algorithm-findkintwoarrays/</loc>
     <lastmod>2015-09-28T15:08:50.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（六）-两个有序数组的第K大的数</title>
+        <pubTime>2014-10-21T12:28:45.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/21/2014-10-21-algorithm-findkinarrays/</loc>
     <lastmod>2015-09-28T15:08:42.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（七）-N个有序数组求最大的K个数</title>
+        <pubTime>2014-10-21T12:29:59.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/21/2014-10-21-algorithm-findk/</loc>
     <lastmod>2015-09-28T15:08:33.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（五）-无序数组寻找第K大的数</title>
+        <pubTime>2014-10-21T12:27:30.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/17/2014-10-17-algorithm-wholeknapsack/</loc>
     <lastmod>2015-09-28T15:08:23.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（四）-完全背包问题</title>
+        <pubTime>2014-10-17T13:29:26.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/17/2014-10-17-algorithm-01knapsack/</loc>
     <lastmod>2015-09-28T15:08:11.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（三）-01背包问题</title>
+        <pubTime>2014-10-17T13:13:07.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/16/2014-10-16-algorithm-moresumasafixedvalue/</loc>
     <lastmod>2015-09-28T15:07:51.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（二）-寻找和为定值的多个数</title>
+        <pubTime>2014-10-16T13:48:15.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/15/2014-10-15-algorithm-sumasafixedvalue/</loc>
     <lastmod>2015-09-28T15:07:24.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>算法（一）-寻找和为定值的两个数</title>
+        <pubTime>2014-10-15T13:03:45.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/14/2014-10-14-mysql-transaction/</loc>
     <lastmod>2015-09-28T15:06:05.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mysql（三）-事务</title>
+        <pubTime>2014-10-14T10:00:25.000Z</pubTime>
+        
+        <tag>DB </tag>
+         
+        <tag>Mysql </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/14/2014-10-14-mysql-queryoptimization/</loc>
     <lastmod>2015-09-28T15:04:59.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mysql（四）-查询优化</title>
+        <pubTime>2014-10-14T15:48:02.000Z</pubTime>
+        
+        <tag>DB </tag>
+         
+        <tag>Mysql </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/09/2014-10-09-mysql-index/</loc>
     <lastmod>2015-09-28T15:03:35.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mysql（二）-索引</title>
+        <pubTime>2014-10-09T15:46:42.000Z</pubTime>
+        
+        <tag>DB </tag>
+         
+        <tag>Mysql </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-webcache/</loc>
     <lastmod>2015-09-28T15:02:02.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Http（五）-深入理解一些概念</title>
+        <pubTime>2014-10-08T15:32:59.000Z</pubTime>
+        
+        <tag>Http </tag>
+         
+         
+           
+             
+              <breadCrumb title="Http" url="http://xfhnever.com/categories/Http/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-statuscode/</loc>
     <lastmod>2015-09-28T15:01:21.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Http（四）-状态码</title>
+        <pubTime>2014-10-08T14:54:46.000Z</pubTime>
+        
+        <tag>Http </tag>
+         
+         
+           
+             
+              <breadCrumb title="Http" url="http://xfhnever.com/categories/Http/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-requestmethod/</loc>
     <lastmod>2015-09-28T15:00:56.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Http（三）-请求方法</title>
+        <pubTime>2014-10-08T14:45:55.000Z</pubTime>
+        
+        <tag>Http </tag>
+         
+         
+           
+             
+              <breadCrumb title="Http" url="http://xfhnever.com/categories/Http/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-introduction/</loc>
     <lastmod>2015-09-28T15:00:26.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Http(一)-介绍</title>
+        <pubTime>2014-10-08T12:52:16.000Z</pubTime>
+        
+        <tag>Http </tag>
+         
+         
+           
+             
+              <breadCrumb title="Http" url="http://xfhnever.com/categories/Http/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-header/</loc>
     <lastmod>2015-09-28T14:59:48.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Http(二)-消息报头</title>
+        <pubTime>2014-10-08T14:10:52.000Z</pubTime>
+        
+        <tag>Http </tag>
+         
+        <tag>header </tag>
+         
+         
+           
+             
+              <breadCrumb title="Http" url="http://xfhnever.com/categories/Http/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/07/2014-10-07-java-reflection/</loc>
     <lastmod>2015-09-28T14:58:55.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（七）-反射机制</title>
+        <pubTime>2014-10-07T11:05:29.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>反射 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/07/2014-10-07-java-memorymodel/</loc>
     <lastmod>2015-09-28T14:58:19.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（六）-内存模型</title>
+        <pubTime>2014-10-07T02:13:06.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/07/2014-10-07-java-coderun/</loc>
     <lastmod>2015-09-28T14:57:47.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（五）-虚拟机字节码执行引擎</title>
+        <pubTime>2014-10-07T01:08:56.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/07/2014-10-07-java-class-load/</loc>
     <lastmod>2015-09-28T14:56:19.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（四）-虚拟机类加载机制</title>
+        <pubTime>2014-10-06T23:49:03.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/06/2014-10-06-java-memoryarea/</loc>
     <lastmod>2015-09-28T14:54:58.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（一）-内存区域与内存溢出异常</title>
+        <pubTime>2014-10-06T03:18:07.000Z</pubTime>
+        
+        <tag>JVM </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/06/2014-10-06-java-memoryallocation/</loc>
     <lastmod>2015-09-28T14:54:33.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（三）-内存分配策略</title>
+        <pubTime>2014-10-06T14:59:07.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/10/06/2014-10-06-java-gc/</loc>
     <lastmod>2015-09-28T14:53:56.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java（二）-垃圾收集器</title>
+        <pubTime>2014-10-06T07:36:31.000Z</pubTime>
+        
+        <tag>GC </tag>
+         
+        <tag>Java </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/09/29/2014-09-29-android-tips/</loc>
     <lastmod>2015-09-28T13:41:21.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Android（五）-tips</title>
+        <pubTime>2014-09-29T15:47:01.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+        <tag>Tips </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://xfhnever.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/09/29/2014-09-29-android-package/</loc>
     <lastmod>2015-09-28T13:40:55.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Android（四）-打包APK</title>
+        <pubTime>2014-09-29T13:47:58.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+        <tag>package </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://xfhnever.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/09/29/2014-09-29-android-notification/</loc>
     <lastmod>2015-09-28T13:40:36.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Android（三）-notification</title>
+        <pubTime>2014-09-29T13:45:52.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+        <tag>notification </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://xfhnever.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/09/29/2014-09-29-android-flashlight/</loc>
     <lastmod>2015-09-28T13:39:47.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Android（二）-Flashlight闪光灯</title>
+        <pubTime>2014-09-29T13:37:38.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+        <tag>flashlight </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://xfhnever.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/09/27/2014-09-27-android-shortcut/</loc>
     <lastmod>2015-09-28T13:39:26.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Android（一）-自动在桌面生成快捷方式</title>
+        <pubTime>2014-09-26T23:30:21.000Z</pubTime>
+        
+        <tag>Android </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://xfhnever.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/09/21/2014-09-21-js-async/</loc>
     <lastmod>2015-09-28T13:38:48.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript（十五）-异步加载JS</title>
+        <pubTime>2014-09-21T05:37:33.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/09/18/2014-09-18-mysql-storageengine/</loc>
     <lastmod>2015-09-28T13:37:40.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mysql（一）-存储引擎</title>
+        <pubTime>2014-09-17T23:08:44.000Z</pubTime>
+        
+        <tag>DB </tag>
+         
+        <tag>Mysql </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-symboltable/</loc>
     <lastmod>2015-09-28T13:35:51.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（十一）-符号表</title>
+        <pubTime>2014-08-24T13:28:46.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-semanticmodel/</loc>
     <lastmod>2015-09-28T13:35:37.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（十）-语义模型</title>
+        <pubTime>2014-08-24T07:34:39.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-notificaion/</loc>
     <lastmod>2015-09-28T13:35:28.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（十四）-通知</title>
+        <pubTime>2014-08-24T14:35:59.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-macro/</loc>
     <lastmod>2015-09-28T13:35:12.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（十三）-宏</title>
+        <pubTime>2014-08-24T14:32:43.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-contextvarible/</loc>
     <lastmod>2015-09-28T13:35:00.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（十二）-语境变量和构造型生成器</title>
+        <pubTime>2014-08-24T14:11:15.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/23/2014-08-23-regex/</loc>
     <lastmod>2015-09-28T01:37:34.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>正则表达式</title>
+        <pubTime>2014-08-23T15:50:17.000Z</pubTime>
+        
+        <tag>Regex </tag>
+         
+        <tag>正则表达式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/23/2014-08-23-nodejs-async-dot-js/</loc>
     <lastmod>2015-09-28T01:35:16.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（十一）-异步流程控制Async.js</title>
+        <pubTime>2014-08-23T00:46:02.000Z</pubTime>
+        
+        <tag>Async </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="Nodejs" url="http://xfhnever.com/categories/Nodejs/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/22/2014-08-22-softwaretesting-seleniumide/</loc>
     <lastmod>2015-09-28T01:34:26.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>软件测试（三）-Selenium IDE</title>
+        <pubTime>2014-08-21T23:10:41.000Z</pubTime>
+        
+        <tag>Selenium </tag>
+         
+        <tag>Testing </tag>
+         
+        <tag>软件测试 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件测试" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/22/2014-08-22-nodejs-mongodbfuzzyquery/</loc>
     <lastmod>2015-09-28T01:33:16.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（十）-MongoDB模糊查询</title>
+        <pubTime>2014-08-22T15:40:25.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="Nodejs" url="http://xfhnever.com/categories/Nodejs/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/22/2014-08-22-nodejs-mongodb/</loc>
     <lastmod>2015-09-28T01:32:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（九）-集成Mongodb</title>
+        <pubTime>2014-08-22T14:18:15.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="Nodejs" url="http://xfhnever.com/categories/Nodejs/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/22/2014-08-22-nodejs-express/</loc>
     <lastmod>2015-09-28T01:31:50.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（八）-Express</title>
+        <pubTime>2014-08-22T14:14:47.000Z</pubTime>
+        
+        <tag>Express </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="Nodejs" url="http://xfhnever.com/categories/Nodejs/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/21/2014-08-21-js-pagedirect-and-encode/</loc>
     <lastmod>2015-09-28T01:30:45.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript（十四）-页面跳转和编码格式</title>
+        <pubTime>2014-08-21T13:58:33.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/21/2014-08-21-jquery-usagecollection/</loc>
     <lastmod>2015-09-28T01:29:59.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery（九）-用法Tips</title>
+        <pubTime>2014-08-21T13:17:23.000Z</pubTime>
+        
+        <tag>JQuery </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/20/2014-08-20-js-equals-equals-and-equals-equals-equals/</loc>
     <lastmod>2015-09-28T01:28:34.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(十三)-==、！=和===、！==区别</title>
+        <pubTime>2014-08-20T10:59:40.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/20/2014-08-20-css-placeholder/</loc>
     <lastmod>2015-09-28T01:27:25.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS(十六)-设置input placeholder样式</title>
+        <pubTime>2014-08-20T11:20:30.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Web </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/10/2014-08-10-dsl-languageworkbench/</loc>
     <lastmod>2015-09-28T01:20:46.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（八）-语言工作台</title>
+        <pubTime>2014-08-10T07:34:42.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/19/2014-08-19-jquery-dom-and-jqueryobject/</loc>
     <lastmod>2015-09-28T01:20:11.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery(八)-JQuery对象和Dom对象</title>
+        <pubTime>2014-08-19T11:44:47.000Z</pubTime>
+        
+        <tag>Dom </tag>
+         
+        <tag>JQuery </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/17/2014-08-17-js-airbnb/</loc>
     <lastmod>2015-09-28T01:19:12.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript（十二）-Airbnb</title>
+        <pubTime>2014-08-17T06:01:38.000Z</pubTime>
+        
+        <tag>Airbnb </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/16/2014-08-16-mongodb-related/</loc>
     <lastmod>2015-09-28T01:17:47.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb(八)-数据建模</title>
+        <pubTime>2014-08-15T23:55:47.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+         
+           
+             
+              <breadCrumb title="MongoDB" url="http://xfhnever.com/categories/MongoDB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/16/2014-08-16-mongodb-advantage/</loc>
     <lastmod>2015-09-28T01:17:06.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb（九）-优缺点</title>
+        <pubTime>2014-08-16T14:08:23.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+         
+           
+             
+              <breadCrumb title="MongoDB" url="http://xfhnever.com/categories/MongoDB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/16/2014-08-16-intellij-usage/</loc>
     <lastmod>2015-09-28T01:16:26.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Intellij Idea（二）-用法Tips</title>
+        <pubTime>2014-08-15T23:30:27.000Z</pubTime>
+        
+        <tag>IDEA </tag>
+         
+        <tag>Tools </tag>
+         
+         
+           
+             
+              <breadCrumb title="Tools" url="http://xfhnever.com/categories/Tools/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/16/2014-08-16-git-error/</loc>
     <lastmod>2015-09-28T01:15:00.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Git(六)-使用过程中的错误整理</title>
+        <pubTime>2014-08-15T23:03:10.000Z</pubTime>
+        
+        <tag>Error </tag>
+         
+        <tag>Git </tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://xfhnever.com/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/14/2014-08-14-nodejs-crossdomainaccess/</loc>
     <lastmod>2015-09-28T01:13:22.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（七）-跨域访问</title>
+        <pubTime>2014-08-14T11:23:21.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="Nodejs" url="http://xfhnever.com/categories/Nodejs/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/14/2014-08-14-css-verticalcenter/</loc>
     <lastmod>2015-09-28T01:12:37.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（十五）-垂直居中</title>
+        <pubTime>2014-08-13T22:32:36.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Web </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/12/2014-08-12-js-eventbubble/</loc>
     <lastmod>2015-09-28T01:10:18.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(十一)-事件冒泡和事件捕获</title>
+        <pubTime>2014-08-12T15:52:57.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/12/2014-08-12-jquery-bindlivedelegateon/</loc>
     <lastmod>2015-09-28T01:09:12.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery（七）-事件处理方法bind、live、delegate、on</title>
+        <pubTime>2014-08-12T14:39:23.000Z</pubTime>
+        
+        <tag>JQuery </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/12/2014-08-12-dsl-example/</loc>
     <lastmod>2015-09-28T01:07:38.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（九）-各种DSL</title>
+        <pubTime>2014-08-11T23:02:56.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/11/2014-08-11-xml-parser/</loc>
     <lastmod>2015-09-28T01:06:47.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>XML（四）-解析</title>
+        <pubTime>2014-08-11T14:10:13.000Z</pubTime>
+        
+        <tag>DOM </tag>
+         
+        <tag>PULL </tag>
+         
+        <tag>SAX </tag>
+         
+        <tag>XML </tag>
+         
+         
+           
+             
+              <breadCrumb title="XML" url="http://xfhnever.com/categories/XML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/11/2014-08-11-xml-introduction/</loc>
     <lastmod>2015-09-28T01:05:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>XML(一)-简介</title>
+        <pubTime>2014-08-11T13:40:17.000Z</pubTime>
+        
+        <tag>XML </tag>
+         
+         
+           
+             
+              <breadCrumb title="XML" url="http://xfhnever.com/categories/XML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/11/2014-08-11-json-fastjsontechinsider/</loc>
     <lastmod>2015-09-28T01:04:51.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JSON(四)-Fastjson技术内幕</title>
+        <pubTime>2014-08-11T13:25:27.000Z</pubTime>
+        
+        <tag>Fastjson </tag>
+         
+        <tag>JSON </tag>
+         
+         
+           
+             
+              <breadCrumb title="JSON" url="http://xfhnever.com/categories/JSON/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/11/2014-08-11-json-fastjsonintroduction/</loc>
     <lastmod>2015-09-28T01:03:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JSON（三）-Fastjson介绍</title>
+        <pubTime>2014-08-11T13:19:46.000Z</pubTime>
+        
+        <tag>Fastjson </tag>
+         
+        <tag>JSON </tag>
+         
+         
+           
+             
+              <breadCrumb title="JSON" url="http://xfhnever.com/categories/JSON/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/11/2014-08-11-json-dif/</loc>
     <lastmod>2015-09-28T01:01:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JSON（二）-数据传输格式</title>
+        <pubTime>2014-08-11T11:03:12.000Z</pubTime>
+        
+        <tag>JSON </tag>
+         
+        <tag>XML </tag>
+         
+         
+           
+             
+              <breadCrumb title="JSON" url="http://xfhnever.com/categories/JSON/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/10/2014-08-10-dsl-generatecode/</loc>
     <lastmod>2015-09-28T00:59:04.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（七）-代码生成</title>
+        <pubTime>2014-08-10T06:43:43.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/10/2014-08-10-dsl-othermodel/</loc>
     <lastmod>2015-09-27T23:57:56.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（六）-其他计算模型概述</title>
+        <pubTime>2014-08-09T23:19:26.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/09/2014-08-09-dsl-internalvsouter/</loc>
     <lastmod>2015-09-27T23:56:55.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（五）-内部DSL vs 外部DSL</title>
+        <pubTime>2014-08-09T09:05:51.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/08/2014-08-08-dsl-implementouter/</loc>
     <lastmod>2015-09-27T23:56:31.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（四）-外部DSL实现</title>
+        <pubTime>2014-08-08T15:07:31.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/08/2014-08-08-dsl-implementinternal/</loc>
     <lastmod>2015-09-27T23:55:24.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（三）-内部DSL实现</title>
+        <pubTime>2014-08-08T12:39:27.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/07/2014-08-07-nodejs-connect/</loc>
     <lastmod>2015-09-27T23:53:37.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（六）-connect模块</title>
+        <pubTime>2014-08-07T11:00:10.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/07/2014-08-07-nodejs-buffer/</loc>
     <lastmod>2015-09-27T23:52:44.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（五）-buffer</title>
+        <pubTime>2014-08-07T10:58:39.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/07/2014-08-07-nodejs-asyni-slash-o/</loc>
     <lastmod>2015-09-27T23:51:37.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（四）-异步I/O</title>
+        <pubTime>2014-08-06T22:49:28.000Z</pubTime>
+        
+        <tag>I/O </tag>
+         
+        <tag>JS </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/06/2014-08-06-nodejs-event/</loc>
     <lastmod>2015-09-27T23:50:19.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Nodejs（三）-事件机制</title>
+        <pubTime>2014-08-06T12:17:48.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/06/2014-08-06-jade-syntax/</loc>
     <lastmod>2015-09-27T23:49:16.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Jade（二）-语法</title>
+        <pubTime>2014-08-06T12:26:00.000Z</pubTime>
+        
+        <tag>Jade </tag>
+         
+        <tag>Web </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/06/2014-08-06-jquery-function-dot/</loc>
     <lastmod>2015-09-27T23:47:35.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery（六）-function(window, $, undefined)</title>
+        <pubTime>2014-08-06T12:14:24.000Z</pubTime>
+        
+        <tag>JQuery </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/06/2014-08-06-jade-introduction/</loc>
     <lastmod>2015-09-27T23:46:48.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Jade（一）-简介</title>
+        <pubTime>2014-08-06T12:22:55.000Z</pubTime>
+        
+        <tag>Jade </tag>
+         
+        <tag>Web </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/05/2014-08-05-grunt-createtask/</loc>
     <lastmod>2015-09-27T23:44:39.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>GruntJS（三）-创建任务</title>
+        <pubTime>2014-08-05T14:57:24.000Z</pubTime>
+        
+        <tag>GruntJS </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/05/2014-08-05-grunt-configtask/</loc>
     <lastmod>2015-09-27T23:44:04.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>GruntJS（二）-配置任务</title>
+        <pubTime>2014-08-05T14:51:41.000Z</pubTime>
+        
+        <tag>GruntJS </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/05/2014-08-05-grunt-introduction/</loc>
     <lastmod>2015-09-27T23:42:57.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>GruntJS（一）-介绍</title>
+        <pubTime>2014-08-05T14:50:44.000Z</pubTime>
+        
+        <tag>GruntJS </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/05/2014-08-05-nodejs-modules/</loc>
     <lastmod>2015-09-27T23:40:57.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>nodejs（二）-模块机制</title>
+        <pubTime>2014-08-04T22:39:09.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/04/2014-08-04-nodejs-introduction/</loc>
     <lastmod>2015-09-27T23:39:19.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>nodejs(一)-简介</title>
+        <pubTime>2014-08-04T13:25:36.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>Nodejs </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/04/2014-08-04-jsoneditor/</loc>
     <lastmod>2015-09-27T23:37:16.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JSON（一）-JSONEditor</title>
+        <pubTime>2014-08-04T10:40:43.000Z</pubTime>
+        
+        <tag>JSON </tag>
+         
+        <tag>JSONEditor </tag>
+         
+         
+           
+             
+              <breadCrumb title="JSON" url="http://xfhnever.com/categories/JSON/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/04/2014-08-04-js-this/</loc>
     <lastmod>2015-09-27T23:35:18.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(九)-this</title>
+        <pubTime>2014-08-04T10:39:43.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>this </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/04/2014-08-04-js-memory/</loc>
     <lastmod>2015-09-27T23:34:29.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(十)-内存管理</title>
+        <pubTime>2014-08-04T12:28:43.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/04/2014-08-04-js-inherient/</loc>
     <lastmod>2015-09-27T23:33:38.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript（七）-继承</title>
+        <pubTime>2014-08-03T23:29:19.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>OO </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/04/2014-08-04-js-apply-and-call/</loc>
     <lastmod>2015-09-27T23:32:50.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript（八）-apply（）和call（）</title>
+        <pubTime>2014-08-04T10:39:31.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>apply </tag>
+         
+        <tag>call </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/03/2014-08-03-js-prototype/</loc>
     <lastmod>2015-09-27T23:31:27.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript（五）-prototype</title>
+        <pubTime>2014-08-03T02:23:26.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>Prototype </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/03/2014-08-03-js-createobject/</loc>
     <lastmod>2015-09-27T16:33:18.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript（六）-创建对象</title>
+        <pubTime>2014-08-03T03:17:50.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>OO </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/08/01/2014-08-01-html-iesupport5/</loc>
     <lastmod>2015-09-27T16:29:09.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>HTML(一)-低版本IE浏览器兼容HTML5</title>
+        <pubTime>2014-08-01T15:16:06.000Z</pubTime>
+        
+        <tag>Html </tag>
+         
+        <tag>IE </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/30/2014-07-30-css-zoom/</loc>
     <lastmod>2015-09-27T16:26:42.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（十四）-zoom及IE的hasLayout</title>
+        <pubTime>2014-07-30T13:37:57.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Zoom </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/30/2014-07-30-css-hack/</loc>
     <lastmod>2015-09-27T16:25:38.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（十三）-CSS Hack</title>
+        <pubTime>2014-07-29T23:09:52.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Hack </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/29/2014-07-29-less-functions/</loc>
     <lastmod>2015-09-27T16:24:49.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Less（三）-内置函数</title>
+        <pubTime>2014-07-29T10:49:57.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Less </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/29/2014-07-29-css-inline-and-block/</loc>
     <lastmod>2015-09-27T16:20:17.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS(十二)-行内元素和块级元素</title>
+        <pubTime>2014-07-29T15:33:58.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/29/2014-07-29-css-clearfloat/</loc>
     <lastmod>2015-09-27T16:19:40.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（十一）-清除浮动</title>
+        <pubTime>2014-07-29T14:48:44.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/29/2014-07-29-css-box/</loc>
     <lastmod>2015-09-27T16:19:19.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（十）-盒式模型</title>
+        <pubTime>2014-07-29T12:44:38.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/28/2014-07-28-less-languagefeatures/</loc>
     <lastmod>2015-09-27T16:10:42.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Less（二）-语言特性</title>
+        <pubTime>2014-07-28T14:36:45.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Less </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/28/2014-07-28-less-introduction/</loc>
     <lastmod>2015-09-27T16:06:55.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Less（一）-简单介绍和使用</title>
+        <pubTime>2014-07-28T13:21:49.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Less </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/28/2014-07-28-css-length/</loc>
     <lastmod>2015-09-27T16:04:31.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（九）-px等长度单位</title>
+        <pubTime>2014-07-28T13:14:11.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/27/2014-07-27-css-selector/</loc>
     <lastmod>2015-09-27T16:03:53.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（六）-selector</title>
+        <pubTime>2014-07-26T23:53:26.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Selector </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/27/2014-07-27-css-priority/</loc>
     <lastmod>2015-09-27T16:02:21.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（七）-优先级</title>
+        <pubTime>2014-07-27T03:14:58.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/27/2014-07-27-css-performance/</loc>
     <lastmod>2015-09-27T16:01:56.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（八）-性能优化</title>
+        <pubTime>2014-07-27T06:33:58.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/25/2014-07-25-css-reset/</loc>
     <lastmod>2015-09-27T16:01:38.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（四）-Reseet</title>
+        <pubTime>2014-07-25T10:38:58.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+        <tag>Reset </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/25/2014-07-25-css-css3/</loc>
     <lastmod>2015-09-27T16:00:56.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（五）-CSS3中的新属性</title>
+        <pubTime>2014-07-25T12:04:38.000Z</pubTime>
+        
+        <tag>CSS3 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/24/2014-07-24-css-usage/</loc>
     <lastmod>2015-09-27T15:59:36.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（二）-常用效果实现</title>
+        <pubTime>2014-07-24T15:33:36.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/24/2014-07-24-css-shape/</loc>
     <lastmod>2015-09-27T15:59:31.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（三）-shape</title>
+        <pubTime>2014-07-24T15:33:47.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/24/2014-07-24-css-introduction/</loc>
     <lastmod>2015-09-27T15:58:47.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>CSS（一）-一些属性介绍</title>
+        <pubTime>2014-07-24T15:33:24.000Z</pubTime>
+        
+        <tag>CSS </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/23/2014-07-23-guava-introduction/</loc>
     <lastmod>2015-09-27T15:57:36.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Guava（一）-简单介绍</title>
+        <pubTime>2014-07-22T16:13:52.000Z</pubTime>
+        
+        <tag>Guava </tag>
+         
+         
+           
+             
+              <breadCrumb title="Guava" url="http://xfhnever.com/categories/Guava/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/23/2014-07-23-guava-collection/</loc>
     <lastmod>2015-09-27T15:56:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Guava（二）-Collections</title>
+        <pubTime>2014-07-22T16:14:35.000Z</pubTime>
+        
+        <tag>Collections </tag>
+         
+        <tag>Guava </tag>
+         
+         
+           
+             
+              <breadCrumb title="Guava" url="http://xfhnever.com/categories/Guava/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/22/2014-07-22-java-collectionremoveproblem/</loc>
     <lastmod>2015-09-27T15:54:08.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java集合（一）-ArrayList遍历删除问题</title>
+        <pubTime>2014-07-21T22:41:51.000Z</pubTime>
+        
+        <tag>Collections </tag>
+         
+        <tag>Java </tag>
+         
+        <tag>Problem </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/21/2014-07-21-dsl-implementation/</loc>
     <lastmod>2015-09-27T15:52:57.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（二）-实现</title>
+        <pubTime>2014-07-21T12:59:43.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/19/2014-07-19-state-machine/</loc>
     <lastmod>2015-09-27T15:51:15.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>有限状态机（FSM）</title>
+        <pubTime>2014-07-19T00:21:57.000Z</pubTime>
+        
+        <tag>FSM </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/19/2014-07-19-programming-paradigm/</loc>
     <lastmod>2015-09-27T15:47:59.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>编程范式</title>
+        <pubTime>2014-07-19T06:16:41.000Z</pubTime>
+        
+        <tag>Programming </tag>
+         
+        <tag>软件工程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/18/2014-07-18-git-protocol/</loc>
     <lastmod>2015-09-27T15:46:54.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Git（五）-协议</title>
+        <pubTime>2014-07-18T02:18:04.000Z</pubTime>
+        
+        <tag>Git </tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://xfhnever.com/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/17/2014-07-17-git-usage/</loc>
     <lastmod>2015-09-27T15:44:32.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Git（二）-基本用法</title>
+        <pubTime>2014-07-17T02:40:09.000Z</pubTime>
+        
+        <tag>Git </tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://xfhnever.com/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/17/2014-07-17-git-remote/</loc>
     <lastmod>2015-09-27T15:42:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Git（三）-远程仓库的使用</title>
+        <pubTime>2014-07-17T08:25:47.000Z</pubTime>
+        
+        <tag>Git </tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://xfhnever.com/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/17/2014-07-17-git-introduction/</loc>
     <lastmod>2015-09-27T15:42:08.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Git（一）-介绍</title>
+        <pubTime>2014-07-17T02:37:17.000Z</pubTime>
+        
+        <tag>Git </tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://xfhnever.com/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/17/2014-07-17-git-branch/</loc>
     <lastmod>2015-09-27T15:41:36.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Git（四）-分支</title>
+        <pubTime>2014-07-17T14:48:46.000Z</pubTime>
+        
+        <tag>Git </tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://xfhnever.com/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/17/2014-07-17-coc/</loc>
     <lastmod>2015-09-27T15:39:39.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>约定优于配置</title>
+        <pubTime>2014-07-17T13:54:01.000Z</pubTime>
+        
+        <tag>COC </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件工程" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/10/2014-07-10-log-java/</loc>
     <lastmod>2015-09-27T15:39:08.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Log(一) - Java中的log的使用</title>
+        <pubTime>2014-07-10T15:22:56.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Log </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/15/2014-07-15-spring-mongodb/</loc>
     <lastmod>2015-09-27T15:38:34.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Spring（一）-和MongoDB集成</title>
+        <pubTime>2014-07-15T00:09:26.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+        <tag>Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring" url="http://xfhnever.com/categories/Spring/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/09/2014-07-09-intellij-key/</loc>
     <lastmod>2015-09-27T15:24:54.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Intellij Idea（一）-快捷键</title>
+        <pubTime>2014-07-09T05:26:23.000Z</pubTime>
+        
+        <tag>IDEA </tag>
+         
+        <tag>Tools </tag>
+         
+        <tag>快捷键 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Tools" url="http://xfhnever.com/categories/Tools/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/08/2014-07-08-swing-doublebuffer/</loc>
     <lastmod>2015-09-27T15:21:52.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Swing（三）-双缓冲</title>
+        <pubTime>2014-07-08T15:00:55.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>Swing </tag>
+         
+        <tag>双缓冲 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/08/2014-07-08-eclipse-key/</loc>
     <lastmod>2015-09-27T15:20:32.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Eclipse（一）-快捷键</title>
+        <pubTime>2014-07-08T08:59:50.000Z</pubTime>
+        
+        <tag>Eclipse </tag>
+         
+        <tag>Tools </tag>
+         
+        <tag>快捷键 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Tools" url="http://xfhnever.com/categories/Tools/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/04/2014-07-04-swing-viewupdate/</loc>
     <lastmod>2015-09-27T15:18:56.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>swing（二）-界面显示不出来的问题</title>
+        <pubTime>2014-07-04T02:52:53.000Z</pubTime>
+        
+        <tag>Bug </tag>
+         
+        <tag>Java </tag>
+         
+        <tag>Swing </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/07/02/2014-07-02-swing-beautyeye/</loc>
     <lastmod>2015-09-27T15:17:06.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Swing(一)-外观框架BeautyEye</title>
+        <pubTime>2014-07-02T15:30:27.000Z</pubTime>
+        
+        <tag>BeautyEye </tag>
+         
+        <tag>Swing </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/06/26/2014-06-26-maven-lifecycle/</loc>
     <lastmod>2015-09-27T15:13:35.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>maven（三）-build lifecycle</title>
+        <pubTime>2014-06-26T07:00:27.000Z</pubTime>
+        
+        <tag>Maven </tag>
+         
+        <tag>lifecycle </tag>
+         
+         
+           
+             
+              <breadCrumb title="Maven" url="http://xfhnever.com/categories/Maven/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/06/06/2014-06-06-softwaretesting-testinglayer/</loc>
     <lastmod>2015-09-27T14:37:47.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>软件测试（一）--测试层次</title>
+        <pubTime>2014-06-06T01:06:42.000Z</pubTime>
+        
+        <tag>Testing </tag>
+         
+        <tag>软件测试 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件测试" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/06/07/2014-06-07-softwaretesting-moco/</loc>
     <lastmod>2015-09-27T14:36:04.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>软件测试（二）--Moco framework</title>
+        <pubTime>2014-06-07T01:05:37.000Z</pubTime>
+        
+        <tag>Moco </tag>
+         
+        <tag>Testing </tag>
+         
+        <tag>软件测试 </tag>
+         
+         
+           
+             
+              <breadCrumb title="软件测试" url="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/06/12/2014-06-12-dsl/</loc>
     <lastmod>2015-09-27T14:34:44.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>DSL（一）--介绍</title>
+        <pubTime>2014-06-12T02:26:16.000Z</pubTime>
+        
+        <tag>DSL </tag>
+         
+        <tag>领域特定语言 </tag>
+         
+         
+           
+             
+              <breadCrumb title="DSL" url="http://xfhnever.com/categories/DSL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/06/26/2014-06-26-maven-dependency/</loc>
     <lastmod>2015-09-27T14:33:32.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>maven（四）-dependency</title>
+        <pubTime>2014-06-26T09:37:49.000Z</pubTime>
+        
+        <tag>Maven </tag>
+         
+        <tag>dependency </tag>
+         
+         
+           
+             
+              <breadCrumb title="Maven" url="http://xfhnever.com/categories/Maven/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/06/18/2014-06-18-maven-pom-dot-xml/</loc>
     <lastmod>2015-09-27T14:23:06.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>maven（二）-pom.xml介绍</title>
+        <pubTime>2014-06-18T05:25:02.000Z</pubTime>
+        
+        <tag>Maven </tag>
+         
+        <tag>POM </tag>
+         
+         
+           
+             
+              <breadCrumb title="Maven" url="http://xfhnever.com/categories/Maven/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/06/03/2014-06-03-maven-introduction/</loc>
     <lastmod>2015-09-27T14:18:22.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Maven(一)--介绍</title>
+        <pubTime>2014-06-03T08:28:36.000Z</pubTime>
+        
+        <tag>Maven </tag>
+         
+         
+           
+             
+              <breadCrumb title="Maven" url="http://xfhnever.com/categories/Maven/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/27/2014-05-27-xpath/</loc>
     <lastmod>2015-09-27T14:17:26.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>XML（二）--XPath</title>
+        <pubTime>2014-05-26T23:18:32.000Z</pubTime>
+        
+        <tag>XML </tag>
+         
+        <tag>XPath </tag>
+         
+         
+           
+             
+              <breadCrumb title="XML" url="http://xfhnever.com/categories/XML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/24/2014-05-24-xml-dtd/</loc>
     <lastmod>2015-09-27T14:14:39.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>XML（一）-DTD</title>
+        <pubTime>2014-05-24T00:11:56.000Z</pubTime>
+        
+        <tag>DTD </tag>
+         
+        <tag>XML </tag>
+         
+         
+           
+             
+              <breadCrumb title="XML" url="http://xfhnever.com/categories/XML/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/18/2014-05-18-jquery-ajax/</loc>
     <lastmod>2015-09-27T08:52:06.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery（五）--AJAX</title>
+        <pubTime>2014-05-18T05:59:15.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>jQuery </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/18/2014-05-18-jquery-html/</loc>
     <lastmod>2015-09-27T08:50:52.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery（三）--HTML</title>
+        <pubTime>2014-05-18T01:34:02.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>jQuery </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/18/2014-05-18-jquery-ergodic/</loc>
     <lastmod>2015-09-27T08:46:33.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery（四）--遍历</title>
+        <pubTime>2014-05-18T03:08:46.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>jQuery </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/16/2014-05-16-jquery-effect/</loc>
     <lastmod>2015-09-27T08:44:40.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery（二）--效果</title>
+        <pubTime>2014-05-16T00:40:51.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>jQuery </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/15/2014-05-15-jquery-basicsyntax/</loc>
     <lastmod>2015-09-27T08:41:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JQuery（一）--基本语法</title>
+        <pubTime>2014-05-15T15:14:50.000Z</pubTime>
+        
+        <tag>JQuery </tag>
+         
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/14/2014-05-14-weixin-sae-sql/</loc>
     <lastmod>2015-09-27T08:40:53.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>微信公众账号开发（二）-SAE连接MySQL</title>
+        <pubTime>2014-05-14T12:04:22.000Z</pubTime>
+        
+        <tag>MySQL </tag>
+         
+        <tag>SAE </tag>
+         
+        <tag>微信公众账号 </tag>
+         
+         
+           
+             
+              <breadCrumb title="微信公众账号" url="http://xfhnever.com/categories/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E8%B4%A6%E5%8F%B7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/13/2014-05-13-javanet-jdbc/</loc>
     <lastmod>2015-09-27T08:38:33.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java网络编程（二）---JDBC</title>
+        <pubTime>2014-05-13T05:39:16.000Z</pubTime>
+        
+        <tag>JDBC </tag>
+         
+        <tag>Java </tag>
+         
+        <tag>网络编程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/13/2014-05-13-javanet-applet/</loc>
     <lastmod>2015-09-27T08:37:01.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java网络编程（一）---Applet</title>
+        <pubTime>2014-05-12T16:05:56.000Z</pubTime>
+        
+        <tag>Applet </tag>
+         
+        <tag>Java </tag>
+         
+        <tag>网络编程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/11/2014-05-11-java-mt-threadpool/</loc>
     <lastmod>2015-09-27T08:35:10.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java多线程编程(七)---线程池</title>
+        <pubTime>2014-05-11T03:29:53.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>多线程 </tag>
+         
+        <tag>线程池 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/11/2014-05-11-java-mt-atomic/</loc>
     <lastmod>2015-09-27T08:33:50.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java多线程编程(六)---Atomic</title>
+        <pubTime>2014-05-11T01:52:50.000Z</pubTime>
+        
+        <tag>Atomic </tag>
+         
+        <tag>Java </tag>
+         
+        <tag>多线程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/09/2014-05-09-java-mt-lock/</loc>
     <lastmod>2015-09-27T08:32:22.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java多线程编程(五)---使用lock实现同步</title>
+        <pubTime>2014-05-09T06:54:54.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>lock </tag>
+         
+        <tag>多线程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/08/2014-05-08-js-window/</loc>
     <lastmod>2015-09-27T08:28:53.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(二)--Window</title>
+        <pubTime>2014-05-08T02:46:10.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/08/2014-05-08-js-compile/</loc>
     <lastmod>2015-09-27T08:28:24.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(四)--编译执行顺序</title>
+        <pubTime>2014-05-08T09:39:30.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/08/2014-05-08-js-closure/</loc>
     <lastmod>2015-09-27T08:27:44.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(三)--闭包</title>
+        <pubTime>2014-05-08T05:38:05.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/07/2014-05-07-js-basicsyntax/</loc>
     <lastmod>2015-09-27T08:27:05.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JavaScript(一)--基本语法</title>
+        <pubTime>2014-05-07T12:16:37.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+         
+           
+             
+              <breadCrumb title="JS" url="http://xfhnever.com/categories/JS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/06/2014-05-06-java-mt-synchronization/</loc>
     <lastmod>2015-09-27T08:23:20.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java多线程编程(四)---同步</title>
+        <pubTime>2014-05-06T13:49:26.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>同步 </tag>
+         
+        <tag>多线程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/06/2014-05-06-java-mt-schedule/</loc>
     <lastmod>2015-09-27T08:22:07.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java多线程编程(三)---作业调度</title>
+        <pubTime>2014-05-06T03:08:50.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>多线程 作业调度 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/06/2014-05-06-dsaa-tree/</loc>
     <lastmod>2015-09-27T08:21:08.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>数据结构和算法（一）--树</title>
+        <pubTime>2014-05-06T01:19:48.000Z</pubTime>
+        
+        <tag>数据结构 </tag>
+         
+        <tag>树 </tag>
+         
+        <tag>算法 </tag>
+         
+         
+           
+             
+              <breadCrumb title="算法与数据结构" url="http://xfhnever.com/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/05/2014-05-05-java-mt-lifecyclw/</loc>
     <lastmod>2015-09-27T08:19:53.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java多线程编程(二)---生命周期</title>
+        <pubTime>2014-05-05T07:54:40.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>多线程 </tag>
+         
+        <tag>生命周期 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/05/05/2014-05-05-java-mt-process-and-thread/</loc>
     <lastmod>2015-09-27T08:19:11.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Java多线程编程（一）---线程和进程</title>
+        <pubTime>2014-05-05T06:06:32.000Z</pubTime>
+        
+        <tag>Java </tag>
+         
+        <tag>多线程 </tag>
+         
+        <tag>进程 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/16/2014-04-16-cocos2dx-network/</loc>
     <lastmod>2015-09-27T08:16:01.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(十六)-网络</title>
+        <pubTime>2014-04-16T11:46:19.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>网络 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-data/</loc>
     <lastmod>2015-09-27T08:12:50.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(十五)-数据持久化</title>
+        <pubTime>2014-04-15T13:57:56.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>数据持久化 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-physicsengine/</loc>
     <lastmod>2015-09-27T08:12:03.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(十四)-物理引擎</title>
+        <pubTime>2014-04-15T13:26:38.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>物理引擎 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-drawing/</loc>
     <lastmod>2015-09-27T08:11:11.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(十二)-绘图原理及优化</title>
+        <pubTime>2014-04-15T02:08:17.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>绘图原理 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-drawingskills/</loc>
     <lastmod>2015-09-27T08:05:43.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(十三)-OpenGL绘图技巧</title>
+        <pubTime>2014-04-15T07:40:25.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>绘图 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-bigmap/</loc>
     <lastmod>2015-09-27T08:01:54.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(十一)-大型地图</title>
+        <pubTime>2014-04-14T14:36:35.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>大型地图 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-particlesystem/</loc>
     <lastmod>2015-09-27T08:00:27.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D（十）-粒子效果</title>
+        <pubTime>2014-04-14T13:47:18.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>粒子 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-userinput/</loc>
     <lastmod>2015-09-27T07:58:28.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(九)-用户输入</title>
+        <pubTime>2014-04-13T17:10:58.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>用户输入 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-animate/</loc>
     <lastmod>2015-09-27T07:20:35.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(七)-动画与场景特效</title>
+        <pubTime>2014-04-13T16:22:11.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>动画 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/13/2014-04-13-cocos2dx-action/</loc>
     <lastmod>2015-09-27T07:18:35.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(六)-动作</title>
+        <pubTime>2014-04-13T03:47:32.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>动作 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/13/2014-04-13-cocos2dx-coordinatesystem/</loc>
     <lastmod>2015-09-27T07:16:10.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(五)-游戏中的坐标系</title>
+        <pubTime>2014-04-13T02:03:06.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>坐标系 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/13/2014-04-13-cocos2dx-basicelements/</loc>
     <lastmod>2015-09-27T07:12:29.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(四)-基本元素</title>
+        <pubTime>2014-04-12T17:08:00.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>基本元素 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/12/2014-04-12-cocos2d-createobject/</loc>
     <lastmod>2015-09-27T07:10:09.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(三)-创建对象和内存管理</title>
+        <pubTime>2014-04-12T14:07:20.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>内存管理 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/10/2014-04-10-cocos2dx-tipsinstudy/</loc>
     <lastmod>2015-09-27T07:05:28.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title> Cocos2D(二)-tips in study</title>
+        <pubTime>2014-04-09T16:14:33.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>Tips </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/07/2014-04-07-cocos2dx-install-in-eclipse/</loc>
     <lastmod>2015-09-27T07:03:04.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Cocos2D(一)-Win7和eclipse中配置开发环境</title>
+        <pubTime>2014-04-06T18:33:58.000Z</pubTime>
+        
+        <tag>Cocos2D-x </tag>
+         
+        <tag>Eclipse </tag>
+         
+         
+           
+             
+              <breadCrumb title="Cocos2D-x" url="http://xfhnever.com/categories/Cocos2D-x/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/06/2014-04-06-designpattern-mediator/</loc>
     <lastmod>2015-09-27T07:01:32.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（十）-Mediator Pattern</title>
+        <pubTime>2014-04-06T00:26:28.000Z</pubTime>
+        
+        <tag>Mediator </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/05/2014-04-05-designpattern-adapter/</loc>
     <lastmod>2015-09-27T06:56:42.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（九）-Adapter Pattern</title>
+        <pubTime>2014-04-05T15:28:40.000Z</pubTime>
+        
+        <tag>Adapter </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/05/2014-04-05-ajax/</loc>
     <lastmod>2015-09-27T06:55:27.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>PHP(四)--利用AJAX进行分页</title>
+        <pubTime>2014-04-05T00:20:50.000Z</pubTime>
+        
+        <tag>AJAX </tag>
+         
+        <tag>PHP </tag>
+         
+        <tag>分页 </tag>
+         
+         
+           
+             
+              <breadCrumb title="PHP" url="http://xfhnever.com/categories/PHP/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/04/02/2014-04-02-js-secondmenu/</loc>
     <lastmod>2015-09-27T06:50:58.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>JS-二级联动菜单</title>
+        <pubTime>2014-04-02T14:46:14.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>菜单 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-bridge/</loc>
     <lastmod>2015-09-27T06:46:11.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（八）-Bridge Pattern</title>
+        <pubTime>2014-03-30T08:50:06.000Z</pubTime>
+        
+        <tag>Bridge </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-state/</loc>
     <lastmod>2015-09-27T06:44:06.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（七）-State Pattern</title>
+        <pubTime>2014-03-30T07:24:53.000Z</pubTime>
+        
+        <tag>State </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-facade/</loc>
     <lastmod>2015-09-27T06:43:01.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（六）-Facade Pattern</title>
+        <pubTime>2014-03-30T06:50:25.000Z</pubTime>
+        
+        <tag>Facade </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-decorator/</loc>
     <lastmod>2015-09-27T06:41:47.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（五）-Decorator Pattern</title>
+        <pubTime>2014-03-30T04:05:07.000Z</pubTime>
+        
+        <tag>Decorator </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-prototype/</loc>
     <lastmod>2015-09-27T06:40:21.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（四）-Prototype Pattern</title>
+        <pubTime>2014-03-30T03:06:49.000Z</pubTime>
+        
+        <tag>Prototype </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-proxy/</loc>
     <lastmod>2015-09-27T06:39:22.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（三）-Proxy Pattern</title>
+        <pubTime>2014-03-30T01:50:10.000Z</pubTime>
+        
+        <tag>Proxy </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-iterator/</loc>
     <lastmod>2015-09-27T06:36:41.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（二）-Iterator Pattern</title>
+        <pubTime>2014-03-29T16:14:24.000Z</pubTime>
+        
+        <tag>Iterator </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-strategy/</loc>
     <lastmod>2015-09-27T06:34:05.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>设计模式（一）-Strategy Pattern</title>
+        <pubTime>2014-03-29T16:10:44.000Z</pubTime>
+        
+        <tag>Strategy </tag>
+         
+        <tag>设计模式 </tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="http://xfhnever.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/01/2014-03-02-mongodb-for-java/</loc>
     <lastmod>2015-09-27T06:30:45.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb（三）--eclipse环境下集成到java代码中</title>
+        <pubTime>2014-03-01T02:07:35.000Z</pubTime>
+        
+        <tag>Eclipse </tag>
+         
+        <tag>Java </tag>
+         
+        <tag>MongoDB </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/29/2014-03-29-string/</loc>
     <lastmod>2015-09-27T06:29:51.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>【转】String、StringBuffer和StringBuilder的区别</title>
+        <pubTime>2014-03-28T16:29:41.000Z</pubTime>
+        
+        <tag>String </tag>
+         
+        <tag>StringBuffer </tag>
+         
+        <tag>StringBuilder </tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://xfhnever.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/27/2014-03-27-computer-vision-edge-and-boundary-detection/</loc>
     <lastmod>2015-09-27T06:18:46.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>计算机视觉-边界识别</title>
+        <pubTime>2014-03-27T02:14:06.000Z</pubTime>
+        
+        <tag>计算机视觉 </tag>
+         
+        <tag>边界识别 </tag>
+         
+         
+           
+             
+              <breadCrumb title="计算机视觉" url="http://xfhnever.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/26/2014-03-26-php-mysql-excel/</loc>
     <lastmod>2015-09-27T06:17:35.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>PHP(三)-将Mysql数据库中的数据导出到Excel中</title>
+        <pubTime>2014-03-26T14:38:40.000Z</pubTime>
+        
+        <tag>Excel </tag>
+         
+        <tag>Mysql </tag>
+         
+        <tag>PHP </tag>
+         
+         
+           
+             
+              <breadCrumb title="PHP" url="http://xfhnever.com/categories/PHP/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/26/2014-03-26-php-ajax/</loc>
     <lastmod>2015-09-27T06:16:30.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>PHP(二)-Ajax</title>
+        <pubTime>2014-03-26T05:11:34.000Z</pubTime>
+        
+        <tag>Ajax </tag>
+         
+        <tag>PHP </tag>
+         
+         
+           
+             
+              <breadCrumb title="PHP" url="http://xfhnever.com/categories/PHP/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/24/2014-03-24-php-errors-in-coding/</loc>
     <lastmod>2015-09-27T06:08:48.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>PHP(一)-开发过程出现的一些错误整理</title>
+        <pubTime>2014-03-24T09:28:29.000Z</pubTime>
+        
+        <tag>Error </tag>
+         
+        <tag>PHP </tag>
+         
+         
+           
+             
+              <breadCrumb title="PHP" url="http://xfhnever.com/categories/PHP/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/22/2014-03-22-responsive-media/</loc>
     <lastmod>2015-09-27T05:33:33.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>响应式设计--Media Queries</title>
+        <pubTime>2014-03-22T05:57:26.000Z</pubTime>
+        
+        <tag>Media Queries </tag>
+         
+        <tag>响应式设计 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/20/2014-03-20-web-jsdistinguishbrowser/</loc>
     <lastmod>2015-09-27T05:32:37.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Web-JS中区分浏览器</title>
+        <pubTime>2014-03-20T09:00:55.000Z</pubTime>
+        
+        <tag>JS </tag>
+         
+        <tag>Web </tag>
+         
+        <tag>浏览器 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Web" url="http://xfhnever.com/categories/Web/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/19/2014-03-19-j2ee-spring-quartz/</loc>
     <lastmod>2015-09-27T05:31:59.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>J2EE（二）-Spring中使用Quartz进行任务自动调度</title>
+        <pubTime>2014-03-19T02:05:51.000Z</pubTime>
+        
+        <tag>J2EE </tag>
+         
+        <tag>Quartz </tag>
+         
+        <tag>Spring </tag>
+         
+         
+           
+             
+              <breadCrumb title="J2EE" url="http://xfhnever.com/categories/J2EE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/15/2014-03-15-j2ee/</loc>
     <lastmod>2015-09-27T05:29:19.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>J2EE（一）-标签<s:url></title>
+        <pubTime>2014-03-15T00:49:02.000Z</pubTime>
+        
+        <tag>&lt;s:url&gt; </tag>
+         
+        <tag>J2EE </tag>
+         
+        <tag>标签 </tag>
+         
+         
+           
+             
+              <breadCrumb title="J2EE" url="http://xfhnever.com/categories/J2EE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/05/2014-03-05-telephone-interview-question/</loc>
     <lastmod>2015-09-27T05:16:53.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>【面试试题】那些年我遇到的面试</title>
+        <pubTime>2014-03-05T01:22:42.000Z</pubTime>
+        
+        <tag>试题 </tag>
+         
+        <tag>面试 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Job" url="http://xfhnever.com/categories/Job/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/04/2014-03-04-weixin-simple-configuration/</loc>
     <lastmod>2015-09-27T05:14:45.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>微信公众账号开发（一）-入门简介</title>
+        <pubTime>2014-03-04T02:55:35.000Z</pubTime>
+        
+        <tag>微信公众账号 </tag>
+         
+         
+           
+             
+              <breadCrumb title="微信公众账号" url="http://xfhnever.com/categories/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E8%B4%A6%E5%8F%B7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/02/2014-03-02-mongodb-sharding/</loc>
     <lastmod>2015-09-27T05:12:28.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb（七）-分片</title>
+        <pubTime>2014-03-02T12:33:32.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/02/2014-03-02-mongodb-replset/</loc>
     <lastmod>2015-09-27T05:11:51.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb（六）-副本集</title>
+        <pubTime>2014-03-02T08:49:20.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/02/2014-03-02-mongodb-master-slave-replication/</loc>
     <lastmod>2015-09-27T05:10:33.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb（五）-主从复制</title>
+        <pubTime>2014-03-02T07:06:51.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/03/02/2014-03-02-markdown-basic-syntax/</loc>
     <lastmod>2015-09-27T05:01:18.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Markdown-基本语法</title>
+        <pubTime>2014-03-02T13:12:05.000Z</pubTime>
+        
+        <tag>Markdown </tag>
+         
+        <tag>syntax </tag>
+         
+         
+           
+             
+              <breadCrumb title="Blog" url="http://xfhnever.com/categories/Blog/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/02/28/2014-02-28-mongodb-basic-syntax/</loc>
     <lastmod>2015-09-27T04:23:41.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb（二）--基本语法</title>
+        <pubTime>2014-02-28T07:18:51.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+        <tag>syntax </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
   <url>
     <loc>http://xfhnever.com/2014/02/28/2014-02-28-mongodb-installed-under-win7/</loc>
     <lastmod>2015-09-27T04:19:01.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://xfhnever.com/about/index.html</loc>
-    <lastmod>2015-09-27T03:34:36.000Z</lastmod>
-  </url>
-  
+    <data>
+        <display>
+        <title>Mongodb（一）--Win7下安装配置</title>
+        <pubTime>2014-02-28T02:17:16.000Z</pubTime>
+        
+        <tag>MongoDB </tag>
+         
+         
+           
+             
+              <breadCrumb title="DB" url="http://xfhnever.com/categories/DB/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
 </urlset>
