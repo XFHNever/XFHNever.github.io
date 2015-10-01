@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://xfhnever.com/2015/10/01/blog-hexo-setting/</loc>
+    <lastmod>2015-10-01T16:13:48.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://xfhnever.com/2015/03/08/dubbo-introduction/</loc>
     <lastmod>2015-10-01T15:27:11.000Z</lastmod>
   </url>
@@ -1384,11 +1389,6 @@
   <url>
     <loc>http://xfhnever.com/2015/09/20/log-java-2/</loc>
     <lastmod>2015-10-01T12:30:13.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://xfhnever.com/2015/10/01/blog-hexo-setting/</loc>
-    <lastmod>2015-10-01T12:12:56.000Z</lastmod>
   </url>
   
   <url>

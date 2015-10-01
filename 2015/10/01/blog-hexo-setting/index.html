@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://xfhnever.com/2015/10/01/blog-hexo-setting/index.html">
 <meta property="og:site_name" content="Never's Blog">
 <meta property="og:description" content="最近将自己博客从Octopress迁移到了Hexo，使用jacman主题，下一步就是做一些个性化的配置啦。">
-<meta property="og:updated_time" content="2015-10-01T12:12:56.000Z">
+<meta property="og:updated_time" content="2015-10-01T16:13:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Blog(四)--Hexo博客的进一步配置">
 <meta name="twitter:description" content="最近将自己博客从Octopress迁移到了Hexo，使用jacman主题，下一步就是做一些个性化的配置啦。">
@@ -97,7 +97,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加评论"><span class="toc-number">1.</span> <span class="toc-text">添加评论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.1.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义CSS"><span class="toc-number">1.2.</span> <span class="toc-text">自定义CSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成post时默认生成categories配置项"><span class="toc-number">1.3.</span> <span class="toc-text">生成post时默认生成categories配置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加标签云widget"><span class="toc-number">1.4.</span> <span class="toc-text">添加标签云widget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#统计"><span class="toc-number">1.5.</span> <span class="toc-text">统计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#百度统计"><span class="toc-number">1.5.1.</span> <span class="toc-text">百度统计</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sitemap插件"><span class="toc-number">1.6.</span> <span class="toc-text">Sitemap插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">2.</span> <span class="toc-text">参考</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加评论"><span class="toc-number">1.</span> <span class="toc-text">添加评论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.1.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义CSS"><span class="toc-number">1.2.</span> <span class="toc-text">自定义CSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成post时默认生成categories配置项"><span class="toc-number">2.</span> <span class="toc-text">生成post时默认生成categories配置项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加标签云widget"><span class="toc-number">3.</span> <span class="toc-text">添加标签云widget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统计"><span class="toc-number">4.</span> <span class="toc-text">统计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#百度统计"><span class="toc-number">4.1.</span> <span class="toc-text">百度统计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#谷歌统计"><span class="toc-number">4.2.</span> <span class="toc-text">谷歌统计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sitemap插件"><span class="toc-number">5.</span> <span class="toc-text">Sitemap插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索引擎"><span class="toc-number">6.</span> <span class="toc-text">搜索引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统计功能"><span class="toc-number">7.</span> <span class="toc-text">统计功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">8.</span> <span class="toc-text">参考</span></a></li></ol>
 		
 		</div>
 		
@@ -131,11 +131,11 @@
 }</span>
 </code></pre></li>
 </ol>
-<h3 id="生成post时默认生成categories配置项">生成post时默认生成categories配置项</h3><p>在scaffolds/post.md中，添加一行categories:</p>
-<h3 id="添加标签云widget">添加标签云widget</h3><p>在themes/jacman/_config.yml中，添加如下：</p>
+<h2 id="生成post时默认生成categories配置项">生成post时默认生成categories配置项</h2><p>在scaffolds/post.md中，添加一行categories:</p>
+<h2 id="添加标签云widget">添加标签云widget</h2><p>在themes/jacman/_config.yml中，添加如下：</p>
 <pre><code>widgets:
 <span class="bullet">- </span>tagcloud
-</code></pre><h3 id="统计">统计</h3><h4 id="百度统计">百度统计</h4><ol>
+</code></pre><h2 id="统计">统计</h2><h3 id="百度统计">百度统计</h3><ol>
 <li>注册<a href="http://tongji.baidu.com/web/welcome/login" target="_blank" rel="external">百度统计</a>账号</li>
 <li><p>修改themes/jacman/_config.yml</p>
 <pre><code><span class="attribute">baidu_tongji</span>:
@@ -145,8 +145,9 @@
 <li>验证：百度统计上面有代码安装检查，配置完成之后再check一下。</li>
 <li>去除多余的百度logo：安装完成之后发现页面左下角有个百度logo，可以进入网站中心-&gt;系统管理设置-&gt;统计图表设置目录，去掉显示图表的勾选即可。</li>
 </ol>
-<p><em>注:</em> 其他模版做法可能略有不同，下面附上其他的方案。              </p>
-<h3 id="Sitemap插件">Sitemap插件</h3><ol>
+<p><em>注:</em> 其他模版做法可能略有不同，下面附上其他的方案。  </p>
+<h3 id="谷歌统计">谷歌统计</h3><p>类似于上面百度统计。    </p>
+<h2 id="Sitemap插件">Sitemap插件</h2><ol>
 <li><p>安装插件</p>
 <pre><code>npm <span class="operator"><span class="keyword">install</span> hexo-generator-sitemap <span class="comment">--save</span></span>
 </code></pre></li>
@@ -155,6 +156,20 @@
     -hexo-generator-sitemap  <span class="preprocessor">#插件名 </span>
 </code></pre></li>
 </ol>
+<h2 id="搜索引擎">搜索引擎</h2><p>可以到<a href="http://www.sousuoyinqingtijiao.com/" target="_blank" rel="external">屈站长</a>提交你的站点给搜索引擎</p>
+<h2 id="统计功能">统计功能</h2><ol>
+<li><p>向themes/你的主题/layout/_partial/footer.ejs添加busuanzi.js</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">async</span> <span class="attribute">src</span>=<span class="value">"https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;</span><span class="undefined">
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre></li>
+<li><p>安装标签</p>
+<p> themes/你的主题/layout/_partial/footer.ejs中添加</p>
+<pre><code><span class="tag">&lt;<span class="title">span</span> <span class="attribute">id</span>=<span class="value">"busuanzi_container_site_uv"</span>&gt;</span>
+  本站访客数<span class="tag">&lt;<span class="title">span</span> <span class="attribute">id</span>=<span class="value">"busuanzi_value_site_uv"</span>&gt;</span><span class="tag">&lt;/<span class="title">span</span>&gt;</span>人次
+<span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+</code></pre><p> 详情请参考<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="external">为hexo博客添加访问次数统计功能</a></p>
+</li>
+</ol>
 <h2 id="参考">参考</h2><ol>
 <li><a href="http://dev.duoshuo.com/threads/541d3b2b40b5abcd2e4df0e9" target="_blank" rel="external">Hexo使用多说教程</a></li>
 <li><a href="http://dev.duoshuo.com/docs/4ff1cfd0397309552c000017" target="_blank" rel="external">多说CSS修改</a></li>
@@ -162,6 +177,7 @@
 <li><a href="http://blog.justforfun.top/2015/02/06/hexo-%E6%B7%BB%E5%8A%A0%E7%99%BE%E5%BA%A6%E7%BB%9F%E8%AE%A1/" target="_blank" rel="external">hexo 添加百度统计</a></li>
 <li><a href="https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="external">hexojs/hexo</a></li>
 <li><a href="https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="external">hexo/Plugins</a></li>
+<li><a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="external">为hexo博客添加访问次数统计功能</a></li>
 </ol>
   
 	</div>
@@ -235,7 +251,7 @@ true</script>
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加评论"><span class="toc-number">1.</span> <span class="toc-text">添加评论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.1.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义CSS"><span class="toc-number">1.2.</span> <span class="toc-text">自定义CSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成post时默认生成categories配置项"><span class="toc-number">1.3.</span> <span class="toc-text">生成post时默认生成categories配置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加标签云widget"><span class="toc-number">1.4.</span> <span class="toc-text">添加标签云widget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#统计"><span class="toc-number">1.5.</span> <span class="toc-text">统计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#百度统计"><span class="toc-number">1.5.1.</span> <span class="toc-text">百度统计</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sitemap插件"><span class="toc-number">1.6.</span> <span class="toc-text">Sitemap插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">2.</span> <span class="toc-text">参考</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加评论"><span class="toc-number">1.</span> <span class="toc-text">添加评论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.1.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义CSS"><span class="toc-number">1.2.</span> <span class="toc-text">自定义CSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成post时默认生成categories配置项"><span class="toc-number">2.</span> <span class="toc-text">生成post时默认生成categories配置项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加标签云widget"><span class="toc-number">3.</span> <span class="toc-text">添加标签云widget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统计"><span class="toc-number">4.</span> <span class="toc-text">统计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#百度统计"><span class="toc-number">4.1.</span> <span class="toc-text">百度统计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#谷歌统计"><span class="toc-number">4.2.</span> <span class="toc-text">谷歌统计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sitemap插件"><span class="toc-number">5.</span> <span class="toc-text">Sitemap插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索引擎"><span class="toc-number">6.</span> <span class="toc-text">搜索引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#统计功能"><span class="toc-number">7.</span> <span class="toc-text">统计功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">8.</span> <span class="toc-text">参考</span></a></li></ol>
  
   </div>
 
@@ -562,9 +578,14 @@ true</script>
 		
 		<a href="/about" target="_blank" title="Never">Never</a>
 		
-		
+		<span id="busuanzi_container_site_uv">
+		  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+		</span>
 		</p>
 </div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
 </footer>
     <script src="/js/jquery-2.0.3.min.js"></script>
 <script src="/js/jquery.imagesloaded.min.js"></script>
@@ -738,6 +759,15 @@ $(document).ready(function(){
 
 
 <!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-48525416-1', 'auto');  
+ga('send', 'pageview');
+</script>
 
 
 
