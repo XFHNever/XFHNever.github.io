@@ -1,0 +1,1454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://xfhnever.com/2015/10/01/blog-hexo-setting/</loc>
+    <lastmod>2015-10-01T03:08:30.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/02/2014-02-28-mongodb-gridfs/</loc>
+    <lastmod>2015-09-29T01:21:55.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-audio/</loc>
+    <lastmod>2015-09-29T01:19:55.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/25/2014-03-25-web-form-submit-with-image/</loc>
+    <lastmod>2015-09-29T01:19:27.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/25/2014-03-25-js-common-expression/</loc>
+    <lastmod>2015-09-29T01:18:52.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/11/05/2014-11-05-algorithm-wordbreak/</loc>
+    <lastmod>2015-09-29T01:18:16.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/11/09/2014-11-09-algorithm-singlenumber/</loc>
+    <lastmod>2015-09-29T01:18:10.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/11/10/2014-11-10-algorithm-candy/</loc>
+    <lastmod>2015-09-29T01:17:58.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/09/20/2015-09-20-log-java-2/</loc>
+    <lastmod>2015-09-29T01:16:29.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/09/19/2015-09-19-java-exception/</loc>
+    <lastmod>2015-09-29T01:15:41.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/09/04/2015-09-04-mac-rzsz/</loc>
+    <lastmod>2015-09-29T01:14:58.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/04/21/2015-04-21-soa-intro/</loc>
+    <lastmod>2015-09-29T01:14:16.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/04/19/2015-04-19-vps-vpn/</loc>
+    <lastmod>2015-09-29T01:13:34.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/30/2015-03-30-avro-serialization/</loc>
+    <lastmod>2015-09-29T01:12:25.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/30/2015-03-30-avro-schema/</loc>
+    <lastmod>2015-09-29T01:11:41.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/30/2015-03-30-avro-rpc/</loc>
+    <lastmod>2015-09-29T01:10:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/29/2015-03-29-avro-intro/</loc>
+    <lastmod>2015-09-29T01:10:21.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/28/2015-03-28-poi-intro/</loc>
+    <lastmod>2015-09-29T01:08:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/28/2015-03-28-dropwizard-intro/</loc>
+    <lastmod>2015-09-29T01:07:58.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/28/2015-03-28-dropwizard-configuration/</loc>
+    <lastmod>2015-09-29T01:06:08.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/23/2015-03-23-mongodb-operatearrayelement/</loc>
+    <lastmod>2015-09-29T01:04:34.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/22/2015-03-22-zookeeper-principle/</loc>
+    <lastmod>2015-09-29T01:03:33.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/12/2015-03-12-zookeeper-intro/</loc>
+    <lastmod>2015-09-29T01:02:41.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/12/2015-03-12-kafka-intro/</loc>
+    <lastmod>2015-09-29T00:04:42.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/03/08/2015-03-08-dubbo-introduction/</loc>
+    <lastmod>2015-09-29T00:03:58.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/23/2015-02-23-rws-contentnegotiation/</loc>
+    <lastmod>2015-09-29T00:01:00.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-servicediscoverability/</loc>
+    <lastmod>2015-09-29T00:00:29.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-scalability-and-versioncontrol/</loc>
+    <lastmod>2015-09-29T00:00:16.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-safety/</loc>
+    <lastmod>2015-09-29T00:00:04.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-others/</loc>
+    <lastmod>2015-09-28T23:59:50.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/27/2015-02-27-rws-conditionalrequest/</loc>
+    <lastmod>2015-09-28T23:59:38.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/26/2015-02-26-rws-webcache/</loc>
+    <lastmod>2015-09-28T23:59:24.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/26/2015-02-26-rws-query/</loc>
+    <lastmod>2015-09-28T23:59:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/22/2015-02-22-rws-atom-and-atompub/</loc>
+    <lastmod>2015-09-28T23:57:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/10/2015-02-10-rws-weblink/</loc>
+    <lastmod>2015-09-28T23:57:30.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/09/2015-02-09-rws-designuri/</loc>
+    <lastmod>2015-09-28T23:57:17.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/05/2015-02-05-restfulwsc-designformulation/</loc>
+    <lastmod>2015-09-28T23:57:08.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/01/2015-02-01-restfulwsc-usinguniforminterface/</loc>
+    <lastmod>2015-09-28T23:56:45.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/02/01/2015-02-01-restfulwsc-identifyresources/</loc>
+    <lastmod>2015-09-28T23:56:10.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/28/2015-01-28-refactoring-dealingwithgeneralization/</loc>
+    <lastmod>2015-09-28T23:54:41.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/27/2015-01-27-refactoring-making-methodcallssimpler/</loc>
+    <lastmod>2015-09-28T23:53:01.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/26/2015-01-26-refactoring-simplifyingconditionalexpressions/</loc>
+    <lastmod>2015-09-28T23:52:02.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/25/2015-01-25-refactoring-organizingdata/</loc>
+    <lastmod>2015-09-28T23:49:22.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/24/2015-01-24-refactoring-movingfeaturesbetweenobjects/</loc>
+    <lastmod>2015-09-28T23:46:45.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/23/2015-01-23-java-getipfromrequest/</loc>
+    <lastmod>2015-09-28T23:39:55.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/22/2015-01-22-softwaretesting-testprivatemethod/</loc>
+    <lastmod>2015-09-28T16:23:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/22/2015-01-22-refactoring-composingmehods/</loc>
+    <lastmod>2015-09-28T16:20:32.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/22/2015-01-22-java-removespace/</loc>
+    <lastmod>2015-09-28T16:17:40.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/20/2015-01-20-refactoring-badsmells/</loc>
+    <lastmod>2015-09-28T16:16:48.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/08/2015-01-08-mongodb-exportimport/</loc>
+    <lastmod>2015-09-28T16:14:50.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/07/2015-01-07-mac-multiplejdk/</loc>
+    <lastmod>2015-09-28T16:13:21.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2015/01/04/2015-01-04-blog-hexo/</loc>
+    <lastmod>2015-09-28T16:12:47.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/31/2014-12-31-chrome-extensions/</loc>
+    <lastmod>2015-09-28T16:07:39.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/27/2014-12-27-life%5Bnil%5Dmy2014/</loc>
+    <lastmod>2015-09-28T16:06:36.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/26/2014-12-26-js-backtotop/</loc>
+    <lastmod>2015-09-28T16:03:40.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/25/2014-12-25-spring-ioc/</loc>
+    <lastmod>2015-09-28T16:01:01.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/23/2014-12-23-spring%5Bnil%5Dbeanlifestyle/</loc>
+    <lastmod>2015-09-28T15:59:23.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/22/2014-12-22-spring-models/</loc>
+    <lastmod>2015-09-28T15:58:13.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/22/2014-12-22-linux-vim/</loc>
+    <lastmod>2015-09-28T15:56:44.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/22/2014-12-22-linux-shellcmd/</loc>
+    <lastmod>2015-09-28T15:56:27.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/22/2014-12-22-linux-tips/</loc>
+    <lastmod>2015-09-28T15:56:20.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/22/2014-12-22-docker-intro/</loc>
+    <lastmod>2015-09-28T15:55:40.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/22/2014-12-22-docker-dockerfile/</loc>
+    <lastmod>2015-09-28T15:54:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/21/2014-12-21-java-pool%5Bnil%5Dapache%5Bnil%5Dcommonpools/</loc>
+    <lastmod>2015-09-28T15:53:23.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/21/2014-12-21-java-pool/</loc>
+    <lastmod>2015-09-28T15:52:27.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/20/2014-12-20-redis-introduction/</loc>
+    <lastmod>2015-09-28T15:51:36.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/20/2014-12-20-guava-cache/</loc>
+    <lastmod>2015-09-28T15:50:39.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/21/2014-12-21-java-collections-hashmaphashtable/</loc>
+    <lastmod>2015-09-28T15:50:27.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/20/2014-12-20-encodingformat/</loc>
+    <lastmod>2015-09-28T15:47:49.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/18/2014-12-18-spring-loaddatawhenstart/</loc>
+    <lastmod>2015-09-28T15:46:03.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/14/2014-12-14-effictivejava-serializable/</loc>
+    <lastmod>2015-09-28T15:45:48.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/14/2014-12-14-effictivejava-exception/</loc>
+    <lastmod>2015-09-28T15:45:34.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/14/2014-12-14-effictivejava-concurrent/</loc>
+    <lastmod>2015-09-28T15:45:22.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/11/2014-12-11-effectivejava-methods/</loc>
+    <lastmod>2015-09-28T15:45:04.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/11/2014-12-11-effectivejava-commonprogramdesign/</loc>
+    <lastmod>2015-09-28T15:44:18.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-generic/</loc>
+    <lastmod>2015-09-28T15:44:07.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-enumandannotation/</loc>
+    <lastmod>2015-09-28T15:43:37.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-commonmethodstoallclasses/</loc>
+    <lastmod>2015-09-28T15:43:13.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-classandinterface/</loc>
+    <lastmod>2015-09-28T15:42:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/10/2014-12-10-designpattern-singleton/</loc>
+    <lastmod>2015-09-28T15:41:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/09/2014-12-09-spring-injectdaoincommonclass/</loc>
+    <lastmod>2015-09-28T15:40:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/09/2014-12-09-j2ee-povodtobo/</loc>
+    <lastmod>2015-09-28T15:40:11.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/09/2014-12-09-effictivejava-createobject/</loc>
+    <lastmod>2015-09-28T15:27:05.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/12/07/2014-12-07-blog-binddomain/</loc>
+    <lastmod>2015-09-28T15:26:33.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/01/2014-03-01-github-plus-octopress-blog/</loc>
+    <lastmod>2015-09-28T15:25:58.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/11/04/2014-11-04-algorithm-linklistcycle/</loc>
+    <lastmod>2015-09-28T15:18:25.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/11/03/2014-11-03-algorithm-lru/</loc>
+    <lastmod>2015-09-28T15:14:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/11/03/2014-11-03-algorith-bttraversal/</loc>
+    <lastmod>2015-09-28T15:13:42.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/31/2014-10-31-mysql-synax/</loc>
+    <lastmod>2015-09-28T15:12:26.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/31/2014-10-31-algorithm-recursivetc/</loc>
+    <lastmod>2015-09-28T15:11:56.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/30/2014-10-30-algorithm-lnrs/</loc>
+    <lastmod>2015-09-28T15:11:42.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/26/2014-10-26-algorithm-symmetrical/</loc>
+    <lastmod>2015-09-28T15:11:28.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/22/2014-10-22-algorithm-kmp/</loc>
+    <lastmod>2015-09-28T15:09:18.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/21/2014-10-21-algorithm-findkintwoarrays/</loc>
+    <lastmod>2015-09-28T15:08:50.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/21/2014-10-21-algorithm-findkinarrays/</loc>
+    <lastmod>2015-09-28T15:08:42.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/21/2014-10-21-algorithm-findk/</loc>
+    <lastmod>2015-09-28T15:08:33.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/17/2014-10-17-algorithm-wholeknapsack/</loc>
+    <lastmod>2015-09-28T15:08:23.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/17/2014-10-17-algorithm-01knapsack/</loc>
+    <lastmod>2015-09-28T15:08:11.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/16/2014-10-16-algorithm-moresumasafixedvalue/</loc>
+    <lastmod>2015-09-28T15:07:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/15/2014-10-15-algorithm-sumasafixedvalue/</loc>
+    <lastmod>2015-09-28T15:07:24.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/14/2014-10-14-mysql-transaction/</loc>
+    <lastmod>2015-09-28T15:06:05.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/14/2014-10-14-mysql-queryoptimization/</loc>
+    <lastmod>2015-09-28T15:04:59.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/09/2014-10-09-mysql-index/</loc>
+    <lastmod>2015-09-28T15:03:35.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-webcache/</loc>
+    <lastmod>2015-09-28T15:02:02.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-statuscode/</loc>
+    <lastmod>2015-09-28T15:01:21.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-requestmethod/</loc>
+    <lastmod>2015-09-28T15:00:56.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-introduction/</loc>
+    <lastmod>2015-09-28T15:00:26.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/08/2014-10-08-http-header/</loc>
+    <lastmod>2015-09-28T14:59:48.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/07/2014-10-07-java-reflection/</loc>
+    <lastmod>2015-09-28T14:58:55.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/07/2014-10-07-java-memorymodel/</loc>
+    <lastmod>2015-09-28T14:58:19.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/07/2014-10-07-java-coderun/</loc>
+    <lastmod>2015-09-28T14:57:47.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/07/2014-10-07-java-class-load/</loc>
+    <lastmod>2015-09-28T14:56:19.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/06/2014-10-06-java-memoryarea/</loc>
+    <lastmod>2015-09-28T14:54:58.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/06/2014-10-06-java-memoryallocation/</loc>
+    <lastmod>2015-09-28T14:54:33.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/10/06/2014-10-06-java-gc/</loc>
+    <lastmod>2015-09-28T14:53:56.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/09/29/2014-09-29-android-tips/</loc>
+    <lastmod>2015-09-28T13:41:21.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/09/29/2014-09-29-android-package/</loc>
+    <lastmod>2015-09-28T13:40:55.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/09/29/2014-09-29-android-notification/</loc>
+    <lastmod>2015-09-28T13:40:36.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/09/29/2014-09-29-android-flashlight/</loc>
+    <lastmod>2015-09-28T13:39:47.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/09/27/2014-09-27-android-shortcut/</loc>
+    <lastmod>2015-09-28T13:39:26.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/09/21/2014-09-21-js-async/</loc>
+    <lastmod>2015-09-28T13:38:48.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/09/18/2014-09-18-mysql-storageengine/</loc>
+    <lastmod>2015-09-28T13:37:40.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-symboltable/</loc>
+    <lastmod>2015-09-28T13:35:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-semanticmodel/</loc>
+    <lastmod>2015-09-28T13:35:37.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-notificaion/</loc>
+    <lastmod>2015-09-28T13:35:28.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-macro/</loc>
+    <lastmod>2015-09-28T13:35:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/24/2014-08-24-dsl-contextvarible/</loc>
+    <lastmod>2015-09-28T13:35:00.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/23/2014-08-23-regex/</loc>
+    <lastmod>2015-09-28T01:37:34.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/23/2014-08-23-nodejs-async-dot-js/</loc>
+    <lastmod>2015-09-28T01:35:16.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/22/2014-08-22-softwaretesting-seleniumide/</loc>
+    <lastmod>2015-09-28T01:34:26.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/22/2014-08-22-nodejs-mongodbfuzzyquery/</loc>
+    <lastmod>2015-09-28T01:33:16.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/22/2014-08-22-nodejs-mongodb/</loc>
+    <lastmod>2015-09-28T01:32:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/22/2014-08-22-nodejs-express/</loc>
+    <lastmod>2015-09-28T01:31:50.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/21/2014-08-21-js-pagedirect-and-encode/</loc>
+    <lastmod>2015-09-28T01:30:45.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/21/2014-08-21-jquery-usagecollection/</loc>
+    <lastmod>2015-09-28T01:29:59.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/20/2014-08-20-js-equals-equals-and-equals-equals-equals/</loc>
+    <lastmod>2015-09-28T01:28:34.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/20/2014-08-20-css-placeholder/</loc>
+    <lastmod>2015-09-28T01:27:25.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/10/2014-08-10-dsl-languageworkbench/</loc>
+    <lastmod>2015-09-28T01:20:46.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/19/2014-08-19-jquery-dom-and-jqueryobject/</loc>
+    <lastmod>2015-09-28T01:20:11.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/17/2014-08-17-js-airbnb/</loc>
+    <lastmod>2015-09-28T01:19:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/16/2014-08-16-mongodb-related/</loc>
+    <lastmod>2015-09-28T01:17:47.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/16/2014-08-16-mongodb-advantage/</loc>
+    <lastmod>2015-09-28T01:17:06.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/16/2014-08-16-intellij-usage/</loc>
+    <lastmod>2015-09-28T01:16:26.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/16/2014-08-16-git-error/</loc>
+    <lastmod>2015-09-28T01:15:00.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/14/2014-08-14-nodejs-crossdomainaccess/</loc>
+    <lastmod>2015-09-28T01:13:22.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/14/2014-08-14-css-verticalcenter/</loc>
+    <lastmod>2015-09-28T01:12:37.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/12/2014-08-12-js-eventbubble/</loc>
+    <lastmod>2015-09-28T01:10:18.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/12/2014-08-12-jquery-bindlivedelegateon/</loc>
+    <lastmod>2015-09-28T01:09:12.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/12/2014-08-12-dsl-example/</loc>
+    <lastmod>2015-09-28T01:07:38.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/11/2014-08-11-xml-parser/</loc>
+    <lastmod>2015-09-28T01:06:47.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/11/2014-08-11-xml-introduction/</loc>
+    <lastmod>2015-09-28T01:05:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/11/2014-08-11-json-fastjsontechinsider/</loc>
+    <lastmod>2015-09-28T01:04:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/11/2014-08-11-json-fastjsonintroduction/</loc>
+    <lastmod>2015-09-28T01:03:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/11/2014-08-11-json-dif/</loc>
+    <lastmod>2015-09-28T01:01:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/10/2014-08-10-dsl-generatecode/</loc>
+    <lastmod>2015-09-28T00:59:04.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/10/2014-08-10-dsl-othermodel/</loc>
+    <lastmod>2015-09-27T23:57:56.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/09/2014-08-09-dsl-internalvsouter/</loc>
+    <lastmod>2015-09-27T23:56:55.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/08/2014-08-08-dsl-implementouter/</loc>
+    <lastmod>2015-09-27T23:56:31.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/08/2014-08-08-dsl-implementinternal/</loc>
+    <lastmod>2015-09-27T23:55:24.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/07/2014-08-07-nodejs-connect/</loc>
+    <lastmod>2015-09-27T23:53:37.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/07/2014-08-07-nodejs-buffer/</loc>
+    <lastmod>2015-09-27T23:52:44.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/07/2014-08-07-nodejs-asyni-slash-o/</loc>
+    <lastmod>2015-09-27T23:51:37.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/06/2014-08-06-nodejs-event/</loc>
+    <lastmod>2015-09-27T23:50:19.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/06/2014-08-06-jade-syntax/</loc>
+    <lastmod>2015-09-27T23:49:16.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/06/2014-08-06-jquery-function-dot/</loc>
+    <lastmod>2015-09-27T23:47:35.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/06/2014-08-06-jade-introduction/</loc>
+    <lastmod>2015-09-27T23:46:48.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/05/2014-08-05-grunt-createtask/</loc>
+    <lastmod>2015-09-27T23:44:39.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/05/2014-08-05-grunt-configtask/</loc>
+    <lastmod>2015-09-27T23:44:04.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/05/2014-08-05-grunt-introduction/</loc>
+    <lastmod>2015-09-27T23:42:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/05/2014-08-05-nodejs-modules/</loc>
+    <lastmod>2015-09-27T23:40:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/04/2014-08-04-nodejs-introduction/</loc>
+    <lastmod>2015-09-27T23:39:19.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/04/2014-08-04-jsoneditor/</loc>
+    <lastmod>2015-09-27T23:37:16.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/04/2014-08-04-js-this/</loc>
+    <lastmod>2015-09-27T23:35:18.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/04/2014-08-04-js-memory/</loc>
+    <lastmod>2015-09-27T23:34:29.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/04/2014-08-04-js-inherient/</loc>
+    <lastmod>2015-09-27T23:33:38.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/04/2014-08-04-js-apply-and-call/</loc>
+    <lastmod>2015-09-27T23:32:50.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/03/2014-08-03-js-prototype/</loc>
+    <lastmod>2015-09-27T23:31:27.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/03/2014-08-03-js-createobject/</loc>
+    <lastmod>2015-09-27T16:33:18.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/08/01/2014-08-01-html-iesupport5/</loc>
+    <lastmod>2015-09-27T16:29:09.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/30/2014-07-30-css-zoom/</loc>
+    <lastmod>2015-09-27T16:26:42.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/30/2014-07-30-css-hack/</loc>
+    <lastmod>2015-09-27T16:25:38.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/29/2014-07-29-less-functions/</loc>
+    <lastmod>2015-09-27T16:24:49.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/29/2014-07-29-css-inline-and-block/</loc>
+    <lastmod>2015-09-27T16:20:17.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/29/2014-07-29-css-clearfloat/</loc>
+    <lastmod>2015-09-27T16:19:40.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/29/2014-07-29-css-box/</loc>
+    <lastmod>2015-09-27T16:19:19.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/28/2014-07-28-less-languagefeatures/</loc>
+    <lastmod>2015-09-27T16:10:42.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/28/2014-07-28-less-introduction/</loc>
+    <lastmod>2015-09-27T16:06:55.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/28/2014-07-28-css-length/</loc>
+    <lastmod>2015-09-27T16:04:31.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/27/2014-07-27-css-selector/</loc>
+    <lastmod>2015-09-27T16:03:53.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/27/2014-07-27-css-priority/</loc>
+    <lastmod>2015-09-27T16:02:21.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/27/2014-07-27-css-performance/</loc>
+    <lastmod>2015-09-27T16:01:56.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/25/2014-07-25-css-reset/</loc>
+    <lastmod>2015-09-27T16:01:38.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/25/2014-07-25-css-css3/</loc>
+    <lastmod>2015-09-27T16:00:56.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/24/2014-07-24-css-usage/</loc>
+    <lastmod>2015-09-27T15:59:36.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/24/2014-07-24-css-shape/</loc>
+    <lastmod>2015-09-27T15:59:31.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/24/2014-07-24-css-introduction/</loc>
+    <lastmod>2015-09-27T15:58:47.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/23/2014-07-23-guava-introduction/</loc>
+    <lastmod>2015-09-27T15:57:36.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/23/2014-07-23-guava-collection/</loc>
+    <lastmod>2015-09-27T15:56:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/22/2014-07-22-java-collectionremoveproblem/</loc>
+    <lastmod>2015-09-27T15:54:08.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/21/2014-07-21-dsl-implementation/</loc>
+    <lastmod>2015-09-27T15:52:57.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/19/2014-07-19-state-machine/</loc>
+    <lastmod>2015-09-27T15:51:15.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/19/2014-07-19-programming-paradigm/</loc>
+    <lastmod>2015-09-27T15:47:59.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/18/2014-07-18-git-protocol/</loc>
+    <lastmod>2015-09-27T15:46:54.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/17/2014-07-17-git-usage/</loc>
+    <lastmod>2015-09-27T15:44:32.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/17/2014-07-17-git-remote/</loc>
+    <lastmod>2015-09-27T15:42:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/17/2014-07-17-git-introduction/</loc>
+    <lastmod>2015-09-27T15:42:08.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/17/2014-07-17-git-branch/</loc>
+    <lastmod>2015-09-27T15:41:36.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/17/2014-07-17-coc/</loc>
+    <lastmod>2015-09-27T15:39:39.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/10/2014-07-10-log-java/</loc>
+    <lastmod>2015-09-27T15:39:08.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/15/2014-07-15-spring-mongodb/</loc>
+    <lastmod>2015-09-27T15:38:34.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/09/2014-07-09-intellij-key/</loc>
+    <lastmod>2015-09-27T15:24:54.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/08/2014-07-08-swing-doublebuffer/</loc>
+    <lastmod>2015-09-27T15:21:52.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/08/2014-07-08-eclipse-key/</loc>
+    <lastmod>2015-09-27T15:20:32.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/04/2014-07-04-swing-viewupdate/</loc>
+    <lastmod>2015-09-27T15:18:56.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/07/02/2014-07-02-swing-beautyeye/</loc>
+    <lastmod>2015-09-27T15:17:06.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/06/26/2014-06-26-maven-lifecycle/</loc>
+    <lastmod>2015-09-27T15:13:35.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/06/06/2014-06-06-softwaretesting-testinglayer/</loc>
+    <lastmod>2015-09-27T14:37:47.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/06/07/2014-06-07-softwaretesting-moco/</loc>
+    <lastmod>2015-09-27T14:36:04.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/06/12/2014-06-12-dsl/</loc>
+    <lastmod>2015-09-27T14:34:44.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/06/26/2014-06-26-maven-dependency/</loc>
+    <lastmod>2015-09-27T14:33:32.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/06/18/2014-06-18-maven-pom-dot-xml/</loc>
+    <lastmod>2015-09-27T14:23:06.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/06/03/2014-06-03-maven-introduction/</loc>
+    <lastmod>2015-09-27T14:18:22.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/27/2014-05-27-xpath/</loc>
+    <lastmod>2015-09-27T14:17:26.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/24/2014-05-24-xml-dtd/</loc>
+    <lastmod>2015-09-27T14:14:39.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/18/2014-05-18-jquery-ajax/</loc>
+    <lastmod>2015-09-27T08:52:06.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/18/2014-05-18-jquery-html/</loc>
+    <lastmod>2015-09-27T08:50:52.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/18/2014-05-18-jquery-ergodic/</loc>
+    <lastmod>2015-09-27T08:46:33.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/16/2014-05-16-jquery-effect/</loc>
+    <lastmod>2015-09-27T08:44:40.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/15/2014-05-15-jquery-basicsyntax/</loc>
+    <lastmod>2015-09-27T08:41:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/14/2014-05-14-weixin-sae-sql/</loc>
+    <lastmod>2015-09-27T08:40:53.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/13/2014-05-13-javanet-jdbc/</loc>
+    <lastmod>2015-09-27T08:38:33.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/13/2014-05-13-javanet-applet/</loc>
+    <lastmod>2015-09-27T08:37:01.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/11/2014-05-11-java-mt-threadpool/</loc>
+    <lastmod>2015-09-27T08:35:10.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/11/2014-05-11-java-mt-atomic/</loc>
+    <lastmod>2015-09-27T08:33:50.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/09/2014-05-09-java-mt-lock/</loc>
+    <lastmod>2015-09-27T08:32:22.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/08/2014-05-08-js-window/</loc>
+    <lastmod>2015-09-27T08:28:53.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/08/2014-05-08-js-compile/</loc>
+    <lastmod>2015-09-27T08:28:24.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/08/2014-05-08-js-closure/</loc>
+    <lastmod>2015-09-27T08:27:44.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/07/2014-05-07-js-basicsyntax/</loc>
+    <lastmod>2015-09-27T08:27:05.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/06/2014-05-06-java-mt-synchronization/</loc>
+    <lastmod>2015-09-27T08:23:20.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/06/2014-05-06-java-mt-schedule/</loc>
+    <lastmod>2015-09-27T08:22:07.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/06/2014-05-06-dsaa-tree/</loc>
+    <lastmod>2015-09-27T08:21:08.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/05/2014-05-05-java-mt-lifecyclw/</loc>
+    <lastmod>2015-09-27T08:19:53.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/05/05/2014-05-05-java-mt-process-and-thread/</loc>
+    <lastmod>2015-09-27T08:19:11.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/16/2014-04-16-cocos2dx-network/</loc>
+    <lastmod>2015-09-27T08:16:01.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-data/</loc>
+    <lastmod>2015-09-27T08:12:50.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-physicsengine/</loc>
+    <lastmod>2015-09-27T08:12:03.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-drawing/</loc>
+    <lastmod>2015-09-27T08:11:11.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-drawingskills/</loc>
+    <lastmod>2015-09-27T08:05:43.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-bigmap/</loc>
+    <lastmod>2015-09-27T08:01:54.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-particlesystem/</loc>
+    <lastmod>2015-09-27T08:00:27.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-userinput/</loc>
+    <lastmod>2015-09-27T07:58:28.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/14/2014-04-14-cocos2dx-animate/</loc>
+    <lastmod>2015-09-27T07:20:35.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/13/2014-04-13-cocos2dx-action/</loc>
+    <lastmod>2015-09-27T07:18:35.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/13/2014-04-13-cocos2dx-coordinatesystem/</loc>
+    <lastmod>2015-09-27T07:16:10.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/13/2014-04-13-cocos2dx-basicelements/</loc>
+    <lastmod>2015-09-27T07:12:29.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/12/2014-04-12-cocos2d-createobject/</loc>
+    <lastmod>2015-09-27T07:10:09.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/10/2014-04-10-cocos2dx-tipsinstudy/</loc>
+    <lastmod>2015-09-27T07:05:28.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/07/2014-04-07-cocos2dx-install-in-eclipse/</loc>
+    <lastmod>2015-09-27T07:03:04.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/06/2014-04-06-designpattern-mediator/</loc>
+    <lastmod>2015-09-27T07:01:32.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/05/2014-04-05-designpattern-adapter/</loc>
+    <lastmod>2015-09-27T06:56:42.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/05/2014-04-05-ajax/</loc>
+    <lastmod>2015-09-27T06:55:27.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/04/02/2014-04-02-js-secondmenu/</loc>
+    <lastmod>2015-09-27T06:50:58.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-bridge/</loc>
+    <lastmod>2015-09-27T06:46:11.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-state/</loc>
+    <lastmod>2015-09-27T06:44:06.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-facade/</loc>
+    <lastmod>2015-09-27T06:43:01.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-decorator/</loc>
+    <lastmod>2015-09-27T06:41:47.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-prototype/</loc>
+    <lastmod>2015-09-27T06:40:21.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-proxy/</loc>
+    <lastmod>2015-09-27T06:39:22.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-iterator/</loc>
+    <lastmod>2015-09-27T06:36:41.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/30/2014-03-30-designpattern-strategy/</loc>
+    <lastmod>2015-09-27T06:34:05.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/01/2014-03-02-mongodb-for-java/</loc>
+    <lastmod>2015-09-27T06:30:45.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/29/2014-03-29-string/</loc>
+    <lastmod>2015-09-27T06:29:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/27/2014-03-27-computer-vision-edge-and-boundary-detection/</loc>
+    <lastmod>2015-09-27T06:18:46.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/26/2014-03-26-php-mysql-excel/</loc>
+    <lastmod>2015-09-27T06:17:35.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/26/2014-03-26-php-ajax/</loc>
+    <lastmod>2015-09-27T06:16:30.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/24/2014-03-24-php-errors-in-coding/</loc>
+    <lastmod>2015-09-27T06:08:48.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/22/2014-03-22-responsive-media/</loc>
+    <lastmod>2015-09-27T05:33:33.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/20/2014-03-20-web-jsdistinguishbrowser/</loc>
+    <lastmod>2015-09-27T05:32:37.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/19/2014-03-19-j2ee-spring-quartz/</loc>
+    <lastmod>2015-09-27T05:31:59.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/15/2014-03-15-j2ee/</loc>
+    <lastmod>2015-09-27T05:29:19.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/05/2014-03-05-telephone-interview-question/</loc>
+    <lastmod>2015-09-27T05:16:53.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/04/2014-03-04-weixin-simple-configuration/</loc>
+    <lastmod>2015-09-27T05:14:45.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/02/2014-03-02-mongodb-sharding/</loc>
+    <lastmod>2015-09-27T05:12:28.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/02/2014-03-02-mongodb-replset/</loc>
+    <lastmod>2015-09-27T05:11:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/02/2014-03-02-mongodb-master-slave-replication/</loc>
+    <lastmod>2015-09-27T05:10:33.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/03/02/2014-03-02-markdown-basic-syntax/</loc>
+    <lastmod>2015-09-27T05:01:18.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/02/28/2014-02-28-mongodb-basic-syntax/</loc>
+    <lastmod>2015-09-27T04:23:41.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/2014/02/28/2014-02-28-mongodb-installed-under-win7/</loc>
+    <lastmod>2015-09-27T04:19:01.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://xfhnever.com/about/index.html</loc>
+    <lastmod>2015-09-27T03:34:36.000Z</lastmod>
+  </url>
+  
+</urlset>

@@ -1,0 +1,839 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>maven（三）-build lifecycle | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="Maven是基于构建生命周期的，就是说构建和分发一个特定的artifact（或者project）的过程是明确定义的。
+一共有三种类型：
+
+default：处理项目部署
+clean：处理项目清理
+site：处理项目网站文档生成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="maven（三）-build lifecycle">
+<meta property="og:url" content="http://xfhnever.com/2014/06/26/2014-06-26-maven-lifecycle/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="Maven是基于构建生命周期的，就是说构建和分发一个特定的artifact（或者project）的过程是明确定义的。
+一共有三种类型：
+
+default：处理项目部署
+clean：处理项目清理
+site：处理项目网站文档生成">
+<meta property="og:updated_time" content="2015-09-27T15:13:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="maven（三）-build lifecycle">
+<meta name="twitter:description" content="Maven是基于构建生命周期的，就是说构建和分发一个特定的artifact（或者project）的过程是明确定义的。
+一共有三种类型：
+
+default：处理项目部署
+clean：处理项目清理
+site：处理项目网站文档生成">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/06/26/2014-06-26-maven-lifecycle/" title="maven（三）-build lifecycle" itemprop="url">maven（三）-build lifecycle</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-06-26T07:00:27.000Z" itemprop="datePublished"> 发表于 Jun 26 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Maven是基于构建生命周期的，就是说构建和分发一个特定的artifact（或者project）的过程是明确定义的。</p>
+<p>一共有三种类型：</p>
+<ul>
+<li><strong>default</strong>：处理项目部署</li>
+<li><strong>clean</strong>：处理项目清理</li>
+<li><strong>site</strong>：处理项目网站文档生成</li>
+</ul>
+<a id="more"></a>
+<p>##build lifecycle是由phases构成的##<br>build lifecycle是由不同的phases序列构成，然后build项目的时候，这些phases会被顺序执行。下面我们就给出三种类型的lifecycle的phases完整序列。</p>
+<p>###default####</p>
+<ol>
+<li>validate：验证 </li>
+<li>initialize： 初始化配置，比如properties</li>
+<li>generate-sources： 生成所有需要包含在编译过程中的源代码 </li>
+<li>process-sources： 处理源代码，比如过滤一些值</li>
+<li>generate-resources：生成所有需要包含在打包过程中的资源文件 </li>
+<li>process-resources： 复制并处理资源文件至目标目录，准备打包 </li>
+<li>complie： 编译源代码</li>
+<li>process-classes：处理编译生成的文件，例如对Java类进行字节码增强（bytecode enhancement） </li>
+<li>generate-test-sources：生成所有包含在测试编译过程中的测试源码</li>
+<li>process-test-sources：处理测试源码，比如过滤一些值 </li>
+<li>generate-test-resources：生成测试需要的资源文件</li>
+<li>process-test-resources： 复制并处理测试资源文件至测试目标目录 </li>
+<li>test-compile： 编译测试源码至测试目标目录 </li>
+<li>process-test-classes：处理测试编译生成的文件，例如对Java类进行字节码增强（bytecode enhancement）</li>
+<li>test：使用合适的单元测试框架运行测试。这些测试应该不需要代码被打包或发布</li>
+<li>prepare-package：在真正的打包之前，执行一些准备打包必要的操作。这通常会产生一个包的展开的处理过的版本</li>
+<li>package：将编译好的代码打包成可分发的格式，如JAR，WAR，或者EAR</li>
+<li>pre-integration-test：执行一些在集成测试运行之前需要的动作。如建立集成测试需要的环境 </li>
+<li>integration-test：如果有必要的话，处理包并发布至集成测试可以运行的环境</li>
+<li>post-integration-test：     执行一些在集成测试运行之后需要的动作。如清理集成测试环境</li>
+<li>verify：执行所有检查，验证包是有效的，符合质量规范</li>
+<li>install：安装包至本地仓库，以备本地的其它项目作为依赖使用</li>
+<li>deploy：复制最终的包至远程仓库，共享给其它开发人员和项目（通常和一次正式的发布相关）</li>
+</ol>
+<p>###clean####</p>
+<ol>
+<li>pre-clean： 准备清理</li>
+<li>clean： 真正的清理</li>
+<li>post-clean： 执行清理之后的一些后续工作。</li>
+</ol>
+<p>###site####</p>
+<ol>
+<li>pre-site：准备生成站点</li>
+<li>site：生成站点及稳定</li>
+<li>post-site：站点收尾</li>
+<li>site-deploy：将生成的站点发布到服务器上</li>
+</ol>
+<p>对于default lifecycle，如果你想执行上面提到的所有指令，只需要mvn deploy，maven会自动帮你把deploy之前的所有phases按照顺序执行一遍。</p>
+<p>一个mvn命令可以执行多个phases，如:</p>
+<pre><code><span class="keyword">mvn </span>clean install
+</code></pre><p>该命令是先执行clean phases,然后执行install phase。</p>
+<p>##构建phases是由plugin Goals组成##<br>其实maven的生命周期仅仅是个抽象的标准，真正做事的是maven plugin。每个lifecycle phase实质上都会绑定到某个plugin：goal上，比如命令</p>
+<pre><code><span class="keyword">mvn </span>compile
+</code></pre><p>实际上等价于</p>
+<pre><code><span class="keyword">mvn </span>compiler：compile
+</code></pre><p>即执行compile phase指令 = 执行compiler plugin的compile goal</p>
+<p>##使用lifecycle创建项目##<br>maven构建lifecycle很容易使用，下面就介绍其使用方法</p>
+<p>###packaging####<br>pom.xml的<packaging>的值（default是jar）会直接影响mvn lifecyclephase的执行操作，即不同的值将影响lifecycle phase与哪个plugin：goal绑定。</packaging></p>
+<p>例如：<packaging>jar</packaging>那么绑定关系如下：</p>
+<pre><code>process-resources         <span class="string">resources:</span>resources
+compile                 <span class="string">compiler:</span>compile
+process-test-resources     <span class="string">resources:</span>testResources
+test-compile             <span class="string">compiler:</span>testCompile
+test                     <span class="string">surefire:</span>test
+<span class="keyword">package</span>                 <span class="string">jar:</span>jar
+install                 <span class="string">install:</span>install
+deploy                     <span class="string">deploy:</span>deploy
+</code></pre><p>如果是war，那么package phase会绑定到war.war</p>
+<p>如果是pom，那么上面只有install和deploy会被绑定，</p>
+<p>###plugin####<br>配置plugin也是使用maven构建项目的一种手段。如果某个phase被绑定了1个以上的goal，那么在执行该phase的mvn命令时，会先执行<packaging>本省所绑定的goal，然后再执行<plugin>绑定的goals，更可以使用<plugin>的<executions>来控制goal的执行顺序。</executions></plugin></plugin></packaging></p>
+<p>例如：有一个Modello plugin，它总是绑定modello：java到generate-source phase。</p>
+<pre><code><span class="tag">&lt;<span class="title">plugin</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.codehaus.modello<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>modello-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.4<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">executions</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">execution</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">configuration</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">models</span>&gt;</span>
+          <span class="tag">&lt;<span class="title">model</span>&gt;</span>src/main/mdo/maven.mdo<span class="tag">&lt;/<span class="title">model</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">models</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">version</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+      <span class="tag">&lt;/<span class="title">configuration</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">goals</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">goal</span>&gt;</span>java<span class="tag">&lt;/<span class="title">goal</span>&gt;</span>
+      <span class="tag">&lt;/<span class="title">goals</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">execution</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">executions</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">plugin</span>&gt;</span>
+</code></pre><p><executions>可以对同一个goal根据不同的<configuration>来执行多次。如果有多个匹配某个phase的<exection>，那么他们将会被依次按顺序执行（被继承的会先被执行）</exection></configuration></executions></p>
+<p>设置绑定不是自己在pom.xml中定义，而是plugin本身就已经定义好。那我们如何能够将goal绑定到另外的、非内在的phase上，我们可以在<execution>中设置。比如下面的例子，该plugin是绑定在test phase上，我们想让它也绑定到process-test-resources phase上。</execution></p>
+<pre><code><span class="tag">&lt;<span class="title">plugin</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.mycompany.example<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>display-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">executions</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">execution</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">phase</span>&gt;</span>process-test-resources<span class="tag">&lt;/<span class="title">phase</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">goals</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">goal</span>&gt;</span>time<span class="tag">&lt;/<span class="title">goal</span>&gt;</span>
+      <span class="tag">&lt;/<span class="title">goals</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">execution</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">executions</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">plugin</span>&gt;</span>
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Maven/">Maven</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Maven/">Maven</a><a href="/tags/lifecycle/">lifecycle</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/06/26/2014-06-26-maven-lifecycle/" data-title="maven（三）-build lifecycle | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/06/26/2014-06-26-maven-dependency/" title="maven（四）-dependency">
+  <strong>上一篇：</strong><br/>
+  <span>
+  maven（四）-dependency</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/06/18/2014-06-18-maven-pom-dot-xml/"  title="maven（二）-pom.xml介绍">
+ <strong>下一篇：</strong><br/> 
+ <span>maven（二）-pom.xml介绍
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/06/26/2014-06-26-maven-lifecycle/" data-title="maven（三）-build lifecycle" data-url="http://xfhnever.com/2014/06/26/2014-06-26-maven-lifecycle/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

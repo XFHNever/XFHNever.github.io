@@ -1,0 +1,865 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>CSS（十三）-CSS Hack | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="大家在进行前端开发时，是不是偶尔会看到一些类似于下面的代码：
+&amp;lt;!--[if IE]&amp;gt;
+
+&amp;lt;![endif]--&amp;gt;
+或者
+div{
+　　background:green;
+　　*background:red; 
+}
+上面的类似于注释的代码还有前缀“*”的CSS代码，在平时自己写的时候很少用到，这其实是CSS Hack技术，下面我们就为大家介绍一下CSS Hack。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS（十三）-CSS Hack">
+<meta property="og:url" content="http://xfhnever.com/2014/07/30/2014-07-30-css-hack/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="大家在进行前端开发时，是不是偶尔会看到一些类似于下面的代码：
+&amp;lt;!--[if IE]&amp;gt;
+
+&amp;lt;![endif]--&amp;gt;
+或者
+div{
+　　background:green;
+　　*background:red; 
+}
+上面的类似于注释的代码还有前缀“*”的CSS代码，在平时自己写的时候很少用到，这其实是CSS Hack技术，下面我们就为大家介绍一下CSS Hack。">
+<meta property="og:image" content="http://xfhnever.com/images/post/css13-1.png">
+<meta property="og:updated_time" content="2015-09-27T16:25:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS（十三）-CSS Hack">
+<meta name="twitter:description" content="大家在进行前端开发时，是不是偶尔会看到一些类似于下面的代码：
+&amp;lt;!--[if IE]&amp;gt;
+
+&amp;lt;![endif]--&amp;gt;
+或者
+div{
+　　background:green;
+　　*background:red; 
+}
+上面的类似于注释的代码还有前缀“*”的CSS代码，在平时自己写的时候很少用到，这其实是CSS Hack技术，下面我们就为大家介绍一下CSS Hack。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/30/2014-07-30-css-hack/" title="CSS（十三）-CSS Hack" itemprop="url">CSS（十三）-CSS Hack</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-07-29T23:09:52.000Z" itemprop="datePublished"> 发表于 Jul 30 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>大家在进行前端开发时，是不是偶尔会看到一些类似于下面的代码：</p>
+<pre><code><span class="comment">&lt;!--[if IE]&gt;
+
+&lt;![endif]--&gt;</span>
+</code></pre><p>或者</p>
+<pre><code><span class="tag">div</span>{
+　　<span class="attribute">background</span>:green;
+　　*<span class="attribute">background</span>:red; 
+}
+</code></pre><p>上面的类似于注释的代码还有前缀“*”的CSS代码，在平时自己写的时候很少用到，这其实是CSS Hack技术，下面我们就为大家介绍一下CSS Hack。<br><a id="more"></a></p>
+<p>##什么是CSS Hack##<br>由于不同厂商的流览器或某浏览器的不同版本（如IE6-IE11,Firefox/Safari/Opera/Chrome等），对CSS的支持、解析不一样，导致在不同浏览器的环境中呈现出不一致的页面展现效果。这时，我们为了获得统一的页面效果，就需要针对不同的浏览器或不同版本写特定的CSS样式，我们把这个针对不同的浏览器/不同版本写相应的CSS code的过程，叫做CSS hack!</p>
+<p>CSS Hack主要是针对IE浏览器。</p>
+<p>##CSS Hack原理##<br>由于不同的浏览器和浏览器各版本对CSS的支持及解析结果不一样，以及CSS优先级对浏览器展现效果的影响，我们可以据此针对不同的浏览器情景来应用不同的CSS。</p>
+<p>##CSS Hack分类##<br>有三种表现形式。</p>
+<p>###IE条件注释法####<br>这种方式是IE浏览器专有的Hack方式（IE10+不再支持），微软官方推荐使用的hack方式。例如：</p>
+<pre><code>只在IE下生效
+<span class="comment">&lt;!--[if IE]&gt;
+    这段文字只在IE浏览器显示
+&lt;![endif]--&gt;</span>
+
+只在IE6下生效
+<span class="comment">&lt;!--[if IE 6]&gt;
+    这段文字只在IE6浏览器显示
+&lt;![endif]--&gt;</span>
+
+只在IE6以上版本生效， lt表示低于，lte表示低于等于，gt表示高于
+<span class="comment">&lt;!--[if gte IE 6]&gt;
+    这段文字只在IE6以上(包括)版本IE浏览器显示
+&lt;![endif]--&gt;</span>
+
+非IE浏览器生效
+<span class="comment">&lt;!--[if !IE]&gt;
+    这段文字只在非IE浏览器显示
+&lt;![endif]--&gt;</span>
+</code></pre><p>###属性前缀法####<br>属性前缀法是在CSS样式属性名前加上一些只有特定浏览器才能识别的hack前缀，以达到预期的页面展现效果。</p>
+<p>各浏览器常用标记一览表：</p>
+<img src="/images/post/css13-1.png">
+<p>简单说明：</p>
+<ol>
+<li>“-″减号是IE6专有的hack</li>
+<li>“\9″ IE6/IE7/IE8/IE9/IE10都生效</li>
+<li>“\0″ IE8/IE9/IE10都生效，是IE8/9/10的hack</li>
+<li>“\9\0″ 只对IE9/IE10生效，是IE9/10的hack</li>
+<li>“<em>+” 、“ </em> ” 只对IE6/7有效</li>
+</ol>
+<p>###选择器前缀法####<br>选择器前缀法是针对一些页面表现不一致或者需要特殊对待的浏览器，在CSS选择器前加上一些只有某些特定浏览器才能识别的前缀进行hack。例如：</p>
+<ol>
+<li><em>html </em>前缀只对IE6生效</li>
+<li><em>+html </em>+前缀只对IE7生效</li>
+<li>@media screen\9{…}只对IE6/7生效</li>
+<li>@media \0screen {..}只对IE8有效</li>
+<li>@media \0screen\,screen\9{}只对IE6/7/8有效</li>
+<li>@media screen\0 {..} 只对IE8/9/10有效</li>
+<li>@media screen and (min-width:0\0) {..} 只对IE9/10有效</li>
+<li>@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {..} 只对IE10有效</li>
+<li>@media screen and (-webkit-min-device-pixel-ratio:0){..} 只对chrome和safari有效</li>
+<li>@media all and (min-width:0px){ #test {background-color:black\0;} } 这个是老是跟ie抢着认\0的神奇的opera，必须加个\0，不然firefox，chrome，safari也都认识。。。</li>
+<li>:root #test { background-color:purple\9; }只对IE9有效。格式：root 选择符 {属性\9;}</li>
+</ol>
+<p>##CSS Hack书写顺序##<br>一般是将适用范围广、被识别能力强的CSS定义在前面。</p>
+<p>浏览器优先级别:FF&lt;IE7&lt;IE6, CSS hack书写顺序一般为FF IE7 IE6</p>
+<p>##!important##<br>由于IE6不支持！important，但是其他IE其他浏览器支持，所以很多人也将其作为一种CSS Hack的手段。</p>
+<p>其实这是一个误区。!important常常被我们用来更改样式，而不是兼容hack。造成这个误区的原因是IE6在某些情况下不主动识别!important,以至于常常被人误用做识别IE6的hack。可是，大家注意一下，IE6只是在某些情况下不识别。</p>
+<p>ie6下，同一个大括号里对同一个样式属性定义，其中一个加important 则important标记是被忽略的，例：</p>
+<pre><code><span class="rules">{
+    <span class="rule"><span class="attribute">background</span>:<span class="value">red<span class="important">!important</span></span></span>;
+    <span class="rule"><span class="attribute">background</span>:<span class="value">green</span></span>;
+}</span>
+</code></pre><p>ie6下解释为背景色green，其它浏览器解释为背景色red；如果这同一个样式在不同大括号里定义，其中一个加important 则important发挥正常作用，例：</p>
+<pre><code><span class="tag">div</span>{
+    <span class="tag">background</span><span class="pseudo">:red</span>!important；
+} 
+<span class="tag">div</span>{
+    <span class="attribute">background</span>:green；
+}
+</code></pre><p>这时所有浏览器统一解释为背景色red。</p>
+<p>##实例##</p>
+<pre><code><span class="tag">&lt;<span class="title">style</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span><span class="css">
+<span class="comment">/***************** 各浏览器兼容CSS *****************/</span>
+    <span class="class">.bb</span><span class="rules">{
+        <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">32px</span></span></span>;
+        <span class="rule"><span class="attribute">background-color</span>:<span class="value"><span class="hexcolor">#f1ee18</span></span></span>;<span class="comment">/*所有识别*/</span> 
+        <span class="rule"><span class="attribute">background-color</span>:<span class="value"><span class="hexcolor">#00deff</span>\<span class="number">9</span></span></span>; <span class="comment">/*IE6、7、8识别*/</span>
+        +<span class="rule"><span class="attribute">background-color</span>:<span class="value"><span class="hexcolor">#a200ff</span></span></span>;<span class="comment">/*IE6、7识别*/</span> 
+        <span class="rule"><span class="attribute">_background-color</span>:<span class="value"><span class="hexcolor">#1e0bd1</span><span class="comment">/*IE6识别*/</span>
+    } 
+
+    @media screen and (-webkit-min-device-pixel-ratio:<span class="number">0</span>){
+        .bb{background-color:<span class="hexcolor">#f1ee18</span>}
+    } <span class="comment">/* Safari(Chrome) 有效 */</span>
+
+    @media all and (min-width: <span class="number">0px</span>){ 
+        .bb{
+            background-color:<span class="hexcolor">#f1ee18</span></span></span>;<span class="comment">/*opera and Safari(Chrome) and firefox*/</span> 
+            <span class="rule"><span class="attribute">background-color</span>:<span class="value"><span class="hexcolor">#4cac70</span>\<span class="number">0</span></span></span>;<span class="comment">/* 仅 Opera 有效 */</span> 
+        }</span>
+    } 
+
+    <span class="class">.bb</span>, <span class="rule"><span class="attribute">x</span>:<span class="value">-moz-any-link, x:default{background-color:<span class="hexcolor">#4eff00</span></span></span>;<span class="comment">/*IE7、Firefox3.5及以下 识别 */</span>} 
+    <span class="at_rule">@<span class="keyword">-moz-document</span> <span class="function">url-prefix</span>()</span>{<span class="class">.bb</span><span class="rules">{<span class="rule"><span class="attribute">background-color</span>:<span class="value"><span class="hexcolor">#4eff00</span></span></span>;<span class="comment">/*仅 Firefox 识别 */</span>}</span>} 
+    * +<span class="tag">html</span> <span class="class">.bb</span><span class="rules">{<span class="rule"><span class="attribute">background-color</span>:<span class="value"><span class="hexcolor">#a200ff</span></span></span>;}</span><span class="comment">/* 仅IE7 识别 */</span>
+
+    <span class="comment">/* 一般情况下 我们区分IE7 只用 +background-color 配合 _background-color 就行了
+     如果必须写 .bb, x:-moz-any-link, x:default 这样的代码区分 Firefox3.5及以下 
+     则谨记此写法对IE7也有效，故在其中要再重写一次 +background-color 或者使用 * +html .bb{background-color:blue;} 方法仅对 IE7 有效。
+     可使用 @-moz-document url-prefix(){} 方法独立区分所有 firefox */</span>
+
+    <span class="id">#firefoxTip</span>, <span class="rule"><span class="attribute">x</span>:<span class="value">-moz-any-link, x:default{display:block</span></span>;<span class="comment">/*IE7 firefox3.5及以下 识别 */</span>+<span class="rule"><span class="attribute">display</span>:<span class="value">none<span class="comment">/*再区分一次IE7*/</span>} 
+    @-moz-document <span class="function">url-prefix</span>(){<span class="hexcolor">#f</span>irefoxTip{display:block</span></span>;<span class="comment">/*仅 firefox 识别 */</span>}} 
+    <span class="id">#ChromeTip</span><span class="rules">{<span class="rule"><span class="attribute">display</span>:<span class="value">none</span></span>;}</span> 
+    <span class="at_rule">@<span class="keyword">media</span> screen and (-webkit-min-device-pixel-ratio:<span class="number">0</span>)</span>{<span class="id">#ChromeTip</span><span class="rules">{<span class="rule"><span class="attribute">display</span>:<span class="value">block</span></span>;}</span>} <span class="comment">/* safari(Chrome) 有效 */</span> 
+    <span class="at_rule">@<span class="keyword">media</span> all and (min-width: <span class="number">0px</span>)</span>{<span class="id">#ChromeTip</span><span class="rules">{<span class="rule"><span class="attribute">display</span>:<span class="value">none\<span class="number">0</span></span></span>;}</span> <span class="comment">/* 仅 Opera 有效 */</span> }
+</span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+</code></pre><p>##CSS Hack利弊##<br>一般情况下，我们尽量避免使用CSS hack，但是有些情况为了顾及用户体验实现向下兼容，不得已才使用hack。比如由于IE8及以下版本不支持CSS3,而我们的项目页面使用了大量CSS3新属性在IE9/Firefox/Chrome下正常渲染，这种情况下如果不使用css3pie或htc或条件注释等方法时,可能就得让IE8-的专属hack出马了。使用hack虽然对页面表现的一致性有好处，但过多的滥用会造成html文档混乱不堪，增加管理和维护的负担。</p>
+<p>##参考##</p>
+<ol>
+<li><a href="http://www.duitang.com/static/csshack.html" target="_blank" rel="external">CSS hack大全</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web/">Web</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/Hack/">Hack</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/07/30/2014-07-30-css-hack/" data-title="CSS（十三）-CSS Hack | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/07/30/2014-07-30-css-zoom/" title="CSS（十四）-zoom及IE的hasLayout">
+  <strong>上一篇：</strong><br/>
+  <span>
+  CSS（十四）-zoom及IE的hasLayout</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/07/29/2014-07-29-css-inline-and-block/"  title="CSS(十二)-行内元素和块级元素">
+ <strong>下一篇：</strong><br/> 
+ <span>CSS(十二)-行内元素和块级元素
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/07/30/2014-07-30-css-hack/" data-title="CSS（十三）-CSS Hack" data-url="http://xfhnever.com/2014/07/30/2014-07-30-css-hack/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

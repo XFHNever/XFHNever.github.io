@@ -1,0 +1,1977 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Never's Blog]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://xfhnever.com/"/>
+  <updated>2015-10-01T03:08:30.000Z</updated>
+  <id>http://xfhnever.com/</id>
+  
+  <author>
+    <name><![CDATA[Never]]></name>
+    <email><![CDATA[xfhnever@gmail.com]]></email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Blog(四)--Hexo博客的进一步配置]]></title>
+    <link href="http://xfhnever.com/2015/10/01/blog-hexo-setting/"/>
+    <id>http://xfhnever.com/2015/10/01/blog-hexo-setting/</id>
+    <published>2015-10-01T01:24:01.000Z</published>
+    <updated>2015-10-01T03:08:30.000Z</updated>
+    <content type="html"><![CDATA[<p>最近将自己博客从Octopress迁移到了Hexo，使用jacman主题，下一步就是做一些个性化的配置啦。<br><a id="more"></a></p>
+<p>##添加评论<br>hexo默认使用disqus，不过国内的话还是比较推荐<a href="http://duoshuo.com/" target="_blank" rel="external">多说</a>。</p>
+<p>###步骤</p>
+<ol>
+<li>在多说进行注册，获得通用代码。</li>
+<li><p>在_config.yml中添加多说的配置</p>
+<pre><code><span class="string">duoshuo_shortname:</span> 你站点的short_name  
+<span class="comment">//这里的short_name也就是你的二级域名</span>
+</code></pre></li>
+<li>将通用代码粘贴到themes\landscape\layout_partial\article.ejs中，如果不是默认主题landscape，需要修改 主题\layout_partial\comment.ejs,比如jacman主题是修改的\themes\jacman\layout_partial\post\comment.ejs配置。</li>
+</ol>
+<p><em>注:</em> jacman主题直接使用官网的的配置会提示post没有定义，可以将所有post修改为item。</p>
+<p>###自定义CSS<br>添加完多说评论之后发现评论区域特别丑，于是简单的调整了一下CSS。</p>
+<ol>
+<li><p>评论框左右边距</p>
+<pre><code><span class="id">#ds-thread</span> <span class="rules">{
+    <span class="rule"><span class="attribute">padding</span>:<span class="value"> <span class="number">14px</span> <span class="number">34px</span></span></span>;
+    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#ffffff</span></span></span>;
+}</span>
+</code></pre></li>
+<li><p>区分评论区域</p>
+<pre><code><span class="tag">section</span><span class="id">#comments</span> <span class="rules">{
+    <span class="rule"><span class="attribute">border-top</span>:<span class="value"> <span class="number">25px</span> solid <span class="hexcolor">#ddd</span></span></span>;
+}</span>
+</code></pre></li>
+<li><p>隐藏底部多说版权</p>
+<pre><code><span class="id">#ds-thread</span> <span class="id">#ds-reset</span> <span class="class">.ds-powered-by</span><span class="rules">{
+    <span class="rule"><span class="attribute">display</span>:<span class="value">none</span></span>;
+}</span>
+</code></pre></li>
+</ol>
+<p>###生成post时默认生成categories配置项<br>在scaffolds/post.md中，添加一行categories:</p>
+<p>###添加标签云widget<br>在themes/jacman/_config.yml中，添加如下：</p>
+<pre><code>widgets:
+<span class="bullet">- </span>tagcloud
+</code></pre><p>###统计</p>
+<p>####百度统计</p>
+<ol>
+<li>注册<a href="http://tongji.baidu.com/web/welcome/login" target="_blank" rel="external">百度统计</a>账号</li>
+<li><p>修改themes/jacman/_config.yml</p>
+<pre><code><span class="attribute">baidu_tongji</span>:
+      <span class="attribute">enable</span>: true
+      <span class="attribute">sitecode</span>:  your site's code <span class="comment">//百度统计为你的网站随机生成的code</span>
+</code></pre></li>
+<li>验证：百度统计上面有代码安装检查，配置完成之后再check一下。</li>
+<li>去除多余的百度logo：安装完成之后发现页面左下角有个百度logo，可以进入网站中心-&gt;系统管理设置-&gt;统计图表设置目录，去掉显示图表的勾选即可。</li>
+</ol>
+<p><em>注:</em> 其他模版做法可能略有不同，下面附上其他的方案。              </p>
+<p>###</p>
+<p>##参考</p>
+<ol>
+<li><a href="http://dev.duoshuo.com/threads/541d3b2b40b5abcd2e4df0e9" target="_blank" rel="external">Hexo使用多说教程</a></li>
+<li><a href="http://dev.duoshuo.com/docs/4ff1cfd0397309552c000017" target="_blank" rel="external">多说CSS修改</a></li>
+<li><a href="http://www.lichanglin.cn/%E5%9C%A8hexo%E4%B8%AD%E5%8A%A0%E5%85%A5%E5%A4%9A%E8%AF%B4%E8%AF%84%E8%AE%BA/" target="_blank" rel="external">在hexo中加入多说评论</a></li>
+<li><a href="http://blog.justforfun.top/2015/02/06/hexo-%E6%B7%BB%E5%8A%A0%E7%99%BE%E5%BA%A6%E7%BB%9F%E8%AE%A1/" target="_blank" rel="external">hexo 添加百度统计</a></li>
+<li><a href="https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="external">hexojs/hexo</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>最近将自己博客从Octopress迁移到了Hexo，使用jacman主题，下一步就是做一些个性化的配置啦。<br>]]>
+    
+    </summary>
+    
+      <category term="Blog" scheme="http://xfhnever.com/tags/Blog/"/>
+    
+      <category term="Hexo" scheme="http://xfhnever.com/tags/Hexo/"/>
+    
+      <category term="Blog" scheme="http://xfhnever.com/categories/Blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[log(二) - java中log体系再讨论]]></title>
+    <link href="http://xfhnever.com/2015/09/20/2015-09-20-log-java-2/"/>
+    <id>http://xfhnever.com/2015/09/20/2015-09-20-log-java-2/</id>
+    <published>2015-09-20T02:34:01.000Z</published>
+    <updated>2015-09-29T01:16:29.000Z</updated>
+    <content type="html"><![CDATA[<p>虽然之前已经介绍过Java中的log，但是目前使用的过程中依然傻傻分不清，决定再次整理和介绍一下。<br><a id="more"></a></p>
+<h2 id="各种log框架">各种log框架</h2><p>实际项目中我们经常可以看到log4j、logback、slf4j等框架的身影，对于这些乱七八糟的log框架大致可以分为两个种类：</p>
+<p><strong>日志框架</strong>：jdk自带的logging(jul)，log4j1、log4j2、logback</p>
+<p><strong>用于实现日志统一的框架</strong>： apache的commons-logging(jcl)、slf4j</p>
+<p>###log4j1和log4j2</p>
+<p>log4j2与log4j1发生了很大的变化，不兼容。log4j1仅仅作为一个实际的日志框架，slf4j、commons-logging作为门面，统一各种日志框架的混乱格局，现在log4j2也想跳出来充当门面了，也想统一大家了。</p>
+<p>log4j2分成2个部分：</p>
+<ol>
+<li>log4j-api： 作为日志接口层，用于统一底层日志系统</li>
+<li>log4j-core : 作为上述日志接口的实现，是一个实际的日志框架</li>
+</ol>
+<p>###各种jar包总结</p>
+<p><strong>log4j1</strong>:</p>
+<ol>
+<li>log4j：log4j1的全部内容</li>
+</ol>
+<p><strong>log4j2</strong>:</p>
+<ol>
+<li>log4j-api:log4j2定义的API</li>
+<li>log4j-core:log4j2上述API的实现</li>
+</ol>
+<p><strong>logback</strong>:</p>
+<ol>
+<li>logback-core:logback的核心包</li>
+<li>logback-classic：logback实现了slf4j的API</li>
+</ol>
+<p><strong>commons-logging</strong>:</p>
+<ol>
+<li>commons-logging:commons-logging的原生全部内容</li>
+<li>log4j-jcl:commons-logging到log4j2的桥梁</li>
+<li>jcl-over-slf4j：commons-logging到slf4j的桥梁</li>
+</ol>
+<p><strong>slf4j转向某个实际的日志框架</strong>:</p>
+<p>场景介绍：如 使用slf4j的API进行编程，底层想使用log4j1来进行实际的日志输出，这就是slf4j-log4j12干的事。</p>
+<ol>
+<li>slf4j-jdk14：slf4j到jdk-logging的桥梁</li>
+<li>slf4j-log4j12：slf4j到log4j1的桥梁</li>
+<li>log4j-slf4j-impl：slf4j到log4j2的桥梁</li>
+<li>logback-classic：slf4j到logback的桥梁</li>
+<li>slf4j-jcl：slf4j到commons-logging的桥梁</li>
+</ol>
+<p><strong>某个实际的日志框架转向slf4j</strong>：</p>
+<p>场景介绍：如 使用log4j1的API进行编程，但是想最终通过logback来进行输出，所以就需要先将log4j1的日志输出转交给slf4j来输出，slf4j再交给logback来输出。将log4j1的输出转给slf4j，这就是log4j-over-slf4j做的事。这一部分主要用来进行实际的日志框架之间的切换。</p>
+<ol>
+<li>jul-to-slf4j：jdk-logging到slf4j的桥梁</li>
+<li>log4j-over-slf4j：log4j1到slf4j的桥梁</li>
+<li>jcl-over-slf4j：commons-logging到slf4j的桥梁</li>
+</ol>
+<h2 id="jcl与日志框架的集成">jcl与日志框架的集成</h2><pre><code><span class="keyword">private</span> <span class="keyword">static</span> Log logger=LogFactory.getLog(Test.<span class="keyword">class</span>);
+</code></pre><p>###jul<br><strong>需要jar包</strong>：</p>
+<ol>
+<li>commons-logging</li>
+</ol>
+<p>###log4j1<br><strong>需要jar包</strong>：</p>
+<ol>
+<li>commons-logging</li>
+<li>log4j</li>
+</ol>
+<p>###log4j2<br><strong>需要jar包</strong>：</p>
+<ol>
+<li>commons-logging</li>
+<li>log4j-api  （log4j2的API包）</li>
+<li>log4j-core （log4j2的API实现包）</li>
+<li>log4j-jcl  （log4j2与commons-logging的集成包）</li>
+</ol>
+<p>###logback<br><strong>需要jar包</strong>：</p>
+<ol>
+<li>jcl-over-slf4j (替代了commons-logging)</li>
+<li>slf4j-api</li>
+<li>logback-core</li>
+<li>logback-classic</li>
+</ol>
+<p>logback本身的使用其实就和slf4j绑定了起来，现在要想指定commons-logging的底层log实现是logback，则需要2步走</p>
+<ol>
+<li>先将commons-logging底层的log实现转向slf4j (jcl-over-slf4j干的事)</li>
+<li>再根据slf4j的选择底层日志原理，我们使之选择上logback</li>
+</ol>
+<h2 id="slf4j与日志框架的集成">slf4j与日志框架的集成</h2><pre><code><span class="keyword">private</span> <span class="keyword">static</span> Logger logger=LoggerFactory.getLogger(Test.<span class="keyword">class</span>);
+</code></pre><p>###jul<br><strong>需要jar包</strong>：</p>
+<ol>
+<li>slf4j-api</li>
+<li>slf4j-jdk14</li>
+</ol>
+<p>###log4j1<br><strong>需要jar包</strong>：</p>
+<ol>
+<li>slf4j-api</li>
+<li>slf4j-log4j12</li>
+<li>log4j</li>
+</ol>
+<p>###log4j2<br><strong>需要jar包</strong>：</p>
+<ol>
+<li>slf4j-api</li>
+<li>log4j-api</li>
+<li>log4j-core</li>
+<li>log4j-slf4j-impl （用于log4j2与slf4j集成）</li>
+</ol>
+<p>###logback<br><strong>需要jar包</strong>：</p>
+<ol>
+<li>slf4j-api</li>
+<li>logback-core</li>
+<li>logback-classic（已含有对slf4j的集成包）</li>
+</ol>
+<h2 id="总结">总结</h2><p>由上面我们可以发现一个完整的Log日志主要包括如下三个部分：</p>
+<ol>
+<li>接口：sfl4j-api-xxx.jar</li>
+<li>实现，也就是具体的日志框架：log4-xxx.jar、logback等</li>
+<li>适配层：slf4j-log4j12-xxx.jar</li>
+</ol>
+<p>###问题<br>    SLF4J: Failed to load class “org.slf4j.impl.StaticLoggerBinder”.<br>    SLF4J: Defaulting to no-operation (NOP) logger implementation<br>    SLF4J: See <a href="http://www.slf4j.org/codes.html#StaticLoggerBinder" target="_blank" rel="external">http://www.slf4j.org/codes.html#StaticLoggerBinder</a> for further details.</p>
+<p>如果启动应用/程序的时候，报这样的错。那说明上面提到的sfl4j-log4j12没有依赖。需要在pom.xml显式的引入。</p>
+<h2 id="日志最佳实践">日志最佳实践</h2><ol>
+<li><p>检查日志是否可以被记录</p>
+<pre><code> <span class="preprocessor">if</span> (LOGGER.isDebugEnabled()) { 
+        LOGGER.debug(<span class="string">"This is a message."</span>)<span class="comment">; </span>
+    }
+作用在于避免了构造日志记录消息所带来的开销。日志消息中通常包含与当前上下文相关的信息。为了获取这些信息并构造相应的消息文本，不可避免会产生额外的开销。因此在记录 <span class="preprocessor">INFO</span>、DEBUG 和 TRACE 级别的日志时，首先进行相应的检查是一个好的实践。而 WARN 及其以上级别的日志则一般不需要进行检查。
+</code></pre></li>
+<li><p>日志中包含充分的信息。保证可读性，需记录现场信息，如当前处理id等 </p>
+</li>
+<li>绝不要打印没有用的日志，防止无用日志淹没重要信息</li>
+<li>日志格式要统一规范  </li>
+<li>用log.error表示系统级错误（不可预测）;用log.warn表示应用级错误（可预测）;服务初始化或结束用log.info;用log.warn(“”,e)替代e.printstack</li>
+</ol>
+<h2 id="参考">参考</h2><ol>
+<li><a href="http://my.oschina.net/pingpangkuangmo/blog/406618" target="_blank" rel="external">jdk-logging、log4j、logback日志介绍及原理</a></li>
+<li><a href="http://www.atatech.org/articles/15129" target="_blank" rel="external">java日志系统指南</a></li>
+<li><a href="http://blog.jobbole.com/51155/" target="_blank" rel="external">Java 日志管理最佳实践</a></li>
+<li><a href="http://blog.jobbole.com/56574/" target="_blank" rel="external">王健：最佳日志实践</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>虽然之前已经介绍过Java中的log，但是目前使用的过程中依然傻傻分不清，决定再次整理和介绍一下。<br>]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xfhnever.com/tags/Java/"/>
+    
+      <category term="Log" scheme="http://xfhnever.com/tags/Log/"/>
+    
+      <category term="Java" scheme="http://xfhnever.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Java(十二) - Exception]]></title>
+    <link href="http://xfhnever.com/2015/09/19/2015-09-19-java-exception/"/>
+    <id>http://xfhnever.com/2015/09/19/2015-09-19-java-exception/</id>
+    <published>2015-09-19T08:55:24.000Z</published>
+    <updated>2015-09-29T01:15:41.000Z</updated>
+    <content type="html"><![CDATA[<p>java中的Exception是面试中经常被问到的模块，虽然每次都能或多或少的讲出一些内容，但是直到最近才开始在编程实践中应用起来。良好的使用Exception能让程序bug更少，更加健壮。<br><a id="more"></a></p>
+<p>##Java的异常</p>
+<img src="/images/post/java12-1.jpg">
+<p><strong>Throwable</strong>：有两个重要的子类：Exception（异常）和 Error（错误），二者都是 Java 异常处理的重要子类，各自都包含大量子类。 </p>
+<p><strong>Error</strong>: 是程序无法处理的错误，表示运行应用程序中较严重问题。大多数错误与代码编写者执行的操作无关，而表示代码运行时 JVM（Java 虚拟机）出现的问题。这些异常发生时，Java虚拟机（JVM）一般会选择线程终止。</p>
+<p><strong>Exception</strong>: 是程序本身可以处理的异常。这种异常分两大类运行时异常和非运行时异常，程序中应当尽可能去处理这些异常。 </p>
+<p>###异常分类<br><strong>可查的异常（checked exceptions）</strong>: 除了RuntimeException及其子类以外，其他的Exception类及其子类都属于可查异常。这种异常的特点是Java编译器会检查它，也就是说，当程序中可能出现这类异常，要么用try-catch语句捕获它，要么用throws子句声明抛出它，否则编译不会通过。</p>
+<p><strong>不可查的异常（unchecked exceptions）</strong>: 包括运行时异常（RuntimeException与其子类）和错误（Error）</p>
+<p>由上可知， Exception 这种异常分两大类运行时异常和非运行时异常(编译异常)。程序中应当尽可能去处理这些异常。</p>
+<p><strong>运行时异常</strong>：这些异常是不检查异常，程序中可以选择捕获处理，也可以不处理。这些异常一般是由程序逻辑错误引起的，程序应该从逻辑角度尽可能避免这类异常的发生。运行时异常的特点是Java编译器不会检查它，也就是说，当程序中可能出现这类异常，即使没有用try-catch语句捕获它，也没有用throws子句声明抛出它，也会编译通过。</p>
+<p><strong>非运行时异常 （编译异常）</strong>：是RuntimeException以外的异常，类型上都属于Exception类及其子类。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。如IOException、SQLException等以及用户自定义的Exception异常，一般情况下不自定义检查异常。</p>
+<p>##处理异常机制<br>异常处理机制为：抛出异常，捕捉异常。</p>
+<p>###捕捉异常<br>    try{<br>      //（尝试运行的）程序代码<br>    }catch(异常类型 异常的变量名){<br>      //异常处理代码<br>    }finally{<br>      //异常发生，方法返回之前，总是要执行的代码<br>    }</p>
+<p>###抛出异常<br>    public static void test3() throws Exception {<br>        //抛出一个检查异常<br>        throw new Exception(“方法test3中的Exception”);<br>    } </p>
+<p><strong>throw</strong>关键字是用于方法体内部，用来抛出一个Throwable类型的异常。如果抛出了检查异常,则还应该在方法头部声明方法可能抛出的异常类型。该方法的调用者也必须检查处理抛出的异常。如果所有方法都层层上抛获取的异常，最终JVM会进行处理，处理也很简单，就是打印异常消息和堆栈信息。如果抛出的是Error或RuntimeException，则该方法的调用者可选择处理该异常。</p>
+<p><strong>throws</strong>关键字用于方法体外部的方法声明部分，用来声明方法可能会抛出某些异常。仅当抛出了检查异常，该方法的调用者才必须处理或者重新抛出该异常。当方法的调用者无力处理该异常的时候，应该继续抛出，而不是囫囵吞枣一般在catch块中打印一下堆栈信息做个勉强处理。</p>
+<p>###return语句的执行顺序</p>
+<ol>
+<li>如果finally{}块中有return语句，只执行finally{}块中的return语句</li>
+<li>如果finally{}块中没有return语句，如果try{}有异常，则返回catch{}中的return语句，不然执行try{}中return语句，在这种情况下，return语句块是在finally{}之后执行</li>
+</ol>
+<p>return并不是让函数马上返回，而是return语句执行后，将返回结果放置进函数栈中，此时函数并不是马上返回，它要执行finally语句后才真正开始返回。</p>
+<p>##异常的转译与异常链 </p>
+<p>###异常转译<br>谓的异常转译就是将一种异常转换另一种新的异常，也许这种新的异常更能准确表达程序发生异常。 </p>
+<p>几乎所有带异常原因的异常构造方法都使用Throwable类型做参数，这也就为异常的转译提供了直接的支持，因为任何形式的异常和错误都Throwable的子类。</p>
+<p>###异常链<br>异常链顾名思义就是将异常发生的原因一个传一个串起来，即把底层的异常信息传给上层，这样逐层抛出。</p>
+<pre><code><span class="keyword">try</span> {         
+    doLowerLevelThings();
+} <span class="keyword">catch</span> (LowerLevelException cause) {
+     <span class="keyword">throw</span> <span class="keyword">new</span> HigherLevelException(cause);
+}
+</code></pre><p>异常链的实际应用很少，发生异常时候逐层上抛不是个好注意，上层拿到这些异常又能奈之何？而且异常逐层上抛会消耗大量资源，因为要保存一个完整的异常链信息.     </p>
+<p>##最佳实践 </p>
+<ol>
+<li>提早抛出: 越早处理越早隔离异常。</li>
+<li>具体明确: 不能通过简单的catch住exception来处理所有异常，而应该捕获具体的异常。</li>
+<li>延迟捕获: 不要压制、隐瞒异常。将不能处理的异常往外抛，而不是捕获之后随便处理。捕获之后该拿异常怎么办？最不该做的就是什么都不做。</li>
+<li>避免在方法中抛出（throw）或者捕获（catch）运行时异常RuntimeException和Error。</li>
+<li>无论服务开发还是服务使用，都要尝试或者想到封装异常，提供友好错误设计的方案，最简单的是自定义一个业务Exception来封装.</li>
+</ol>
+<p>我们对异常的一个基本期望是异常究竟该被谁捕获，如果被你的服务下游捕获，那么这必须是一个受检的异常，如果是系统自身需要，那么这个我个人认为是分阶段设计的，在初期，也就是未发布状态，这些Exception应该总是被抛出的，因为这样可以快速的让测试和质量控制人员发现系统崩溃的点。在发布阶段，异常可能需要被内部消化，这时受检异常就要提供给业务系统，让业务开发自行捕获异常。当然，好的系统架构可能会把Exception作为一个内部可见外部不可见的内容，而基于此完全封装一套error code对外，这应该算是比较友好的做法了，也是很多API设计时的标准规范。毕竟对外部透明，不要让用户看到你的Exception，这是非常友好的做法。</p>
+<p>##参考</p>
+<ol>
+<li><a href="http://blog.csdn.net/hguisu/article/details/6155636" target="_blank" rel="external">深入理解java异常处理机制</a></li>
+<li><a href="http://blog.csdn.net/junlixxu/article/details/6096266" target="_blank" rel="external">Java异常体系结构</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>java中的Exception是面试中经常被问到的模块，虽然每次都能或多或少的讲出一些内容，但是直到最近才开始在编程实践中应用起来。良好的使用Exception能让程序bug更少，更加健壮。<br>]]>
+    
+    </summary>
+    
+      <category term="Exception" scheme="http://xfhnever.com/tags/Exception/"/>
+    
+      <category term="Java" scheme="http://xfhnever.com/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xfhnever.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Mac(二)- Mac下使用rz、sz]]></title>
+    <link href="http://xfhnever.com/2015/09/04/2015-09-04-mac-rzsz/"/>
+    <id>http://xfhnever.com/2015/09/04/2015-09-04-mac-rzsz/</id>
+    <published>2015-09-04T14:26:21.000Z</published>
+    <updated>2015-09-29T01:14:58.000Z</updated>
+    <content type="html"><![CDATA[<p>上传文件到服务器是开发人员经常遇到的事情，在window下我们可以很方面的使用rz、sz命令上传、下载文件，但是mac下一般都是通过scp命令完成，虽然也很方便，但是有些场景下是不能使用的，比如目前公司登录服务器需要经过跳板机，scp命令就不再适用。所以本篇我们就介绍一下如何在mac下使用rz、sz上传下载文件。<br><a id="more"></a></p>
+<p>##scp命令介绍<br>首先我们先介绍一下mac下的scp命令。</p>
+<p>###上传<br>    scp -r local_folder remote_username@remote_ip:remote_folder<br>或者</p>
+<pre><code>scp -r <span class="built_in">local</span>_folder remote_ip:remote_folder
+</code></pre><p>###下载<br>下载和上传对应，只需要修改后两个参数顺序即可，即调整源文件和目标文件顺序。</p>
+<pre><code>scp -r remote_username<span class="variable">@remote_ip</span><span class="symbol">:remote_folder</span> local_folder 
+</code></pre><p>###几个可能用到的参数</p>
+<ol>
+<li>-v 和大多数 linux 命令中的 -v 意思一样 , 用来显示进度 . 可以用来查看连接 , 认证 , 或是配置错误 .</li>
+<li>-r 　递归处理，将指定目录下的文档和子目录一并处理</li>
+<li>-C 使能压缩选项 .</li>
+<li>-P 选择端口 . 注意 -p 已经被 rcp 使用 .</li>
+<li>-4 强行使用 IPV4 地址 .</li>
+<li>-6 强行使用 IPV6 地址 .    </li>
+</ol>
+<p>##mac下如何配置才能使用rz、sz</p>
+<p>###安装Iterm2<br>    brew install lrzsz</p>
+<p>###下载iterm2-zmodem<br>    cd /usr/local/bin</p>
+<pre><code>sudo wget <span class="symbol">https:</span>/<span class="regexp">/raw.github.com/mmastrac</span><span class="regexp">/iterm2-zmodem/master</span><span class="regexp">/iterm2-send-zmodem.sh
+
+sudo wget https:/</span><span class="regexp">/raw.github.com/mmastrac</span><span class="regexp">/iterm2-zmodem/master</span><span class="regexp">/iterm2-recv-zmodem.sh
+
+sudo chmod 777 /usr</span><span class="regexp">/local/bin</span><span class="regexp">/iterm2-*</span>
+</code></pre><p>###添加trigger<br>打开Item2，点击profiles，选择某个profile之后然后继续选择advanced → triggers，添加triggers。</p>
+<table>
+<thead>
+<tr>
+<th>Regular expression</th>
+<th style="text-align:center">Action</th>
+<th style="text-align:right">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\*\*B0100</td>
+<td style="text-align:center">Run Silent Coprocess</td>
+<td style="text-align:right">/usr/local/bin/iterm2-send-zmodem.sh</td>
+</tr>
+<tr>
+<td>\*\*B00000000000000</td>
+<td style="text-align:center">Run Silent Coprocess</td>
+<td style="text-align:right">/usr/local/bin/iterm2-recv-zmodem.sh</td>
+</tr>
+</tbody>
+</table>
+<p>##参考</p>
+<ol>
+<li><a href="http://blog.csdn.net/emili/article/details/6858818" target="_blank" rel="external">linux下不同服务器间数据传输(rcp,scp,rsync,ftp,sftp,lftp,wget,curl)</a></li>
+<li><a href="http://www.ipython.me/other/mac-using-lrzsz.html" target="_blank" rel="external">Mac使用rz、sz远程上传下载文件</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>上传文件到服务器是开发人员经常遇到的事情，在window下我们可以很方面的使用rz、sz命令上传、下载文件，但是mac下一般都是通过scp命令完成，虽然也很方便，但是有些场景下是不能使用的，比如目前公司登录服务器需要经过跳板机，scp命令就不再适用。所以本篇我们就介绍一下如何在mac下使用rz、sz上传下载文件。<br>]]>
+    
+    </summary>
+    
+      <category term="Mac" scheme="http://xfhnever.com/tags/Mac/"/>
+    
+      <category term="Tools" scheme="http://xfhnever.com/tags/Tools/"/>
+    
+      <category term="Tools" scheme="http://xfhnever.com/categories/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[SOA(一)- 介绍]]></title>
+    <link href="http://xfhnever.com/2015/04/21/2015-04-21-soa-intro/"/>
+    <id>http://xfhnever.com/2015/04/21/2015-04-21-soa-intro/</id>
+    <published>2015-04-21T11:19:31.000Z</published>
+    <updated>2015-09-29T01:14:16.000Z</updated>
+    <content type="html"><![CDATA[<p>自SOA概念提出之后，越来越多的企业开始使用，之前实习的两家公司都是使用的SOA，对外提供REST风格的接口。所以本文就简单介绍一下SOA的概念。<br><a id="more"></a></p>
+<p>##什么是SOA<br>面向服务的体系结构（Service-oriented architecture）是构造分布式计算的应用程序的方法。它将应用程序功能作为服务发送给最终用户或者其他服务。</p>
+<p>它采用开放标准、与软件资源进行交互并采用表示的标准方式。</p>
+<p>百度文库介绍说面向服务的体系结构是一个组件模型，它将应用程序的不同功能单元（称为服务）通过这些服务之间定义良好的接口和契约联系起来。接口是采用中立的方式进行定义的，它应该独立于实现服务的硬件平台、操作系统和编程语言。这使得构建在各种各样的系统中的服务可以使用一种统一和通用的方式进行交互。</p>
+<p>##SOA的核心要素<br>SOA的目标就是实现灵活可变的IT系统。要达到灵活性，通过三个途径来解决：标准化封装、复用、松耦合可编排。</p>
+<img src="/images/post/soa1-1.jpg">
+<p>##SOA的原则<br>以下指导原则是开发，维护和使用SOA的基本原则：</p>
+<ol>
+<li>可重复使用, 粒度, 模组性, 可组合型, 物件化原件, 构件化以及具交互操作性</li>
+<li>符合开放标准(通用的或行业的)</li>
+<li>服务的识别和分类，提供和发布，监控和跟踪。</li>
+</ol>
+<p>##服务导向的架构和Web服务协议<br>服务导向的架构通常被定义为通过Web服务协议栈暴露的服务. 与SOA相关的Web服务的标准主要有：</p>
+<ol>
+<li>XML - 一种标记语言，用于以文档格式描述消息中的数据。</li>
+<li>HTTP （或HTTPS） - 客户端和服务端之间用于传送信息而发送请求/回复的协议。</li>
+<li>SOAP(Simple Object Access Protocol) - 在计算机网络上交换基于XML的消息的协议，通常是用HTTP。</li>
+<li>WSDL(Web Services Description Language) （Web服务描述语言） - 基于XML的描述语言，用于描述与服务交互所需的服务的公共接口，协议绑定，消息格式。</li>
+<li>UDDI(Universal Description, Discovery, and Integration) （是统一描述、发现和集成） - 基于XML的注册协议，用于发布WSDL并允许第三方发现这些服务。</li>
+</ol>
+<p>注意，一个系统要成为服务导向的系统并不需要这些协议，比如一些服务导向的系统可以通过CORBA实现。</p>
+<p>##参考</p>
+<ol>
+<li><a href="http://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%9E%B6%E6%9E%84" target="_blank" rel="external">面向服务的体系结构</a></li>
+<li><a href="http://blog.vsharing.com/fengjicheng/A1059842.html" target="_blank" rel="external">浅析深究什么是SOA？</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>自SOA概念提出之后，越来越多的企业开始使用，之前实习的两家公司都是使用的SOA，对外提供REST风格的接口。所以本文就简单介绍一下SOA的概念。<br>]]>
+    
+    </summary>
+    
+      <category term="SOA" scheme="http://xfhnever.com/tags/SOA/"/>
+    
+      <category term="软件工程" scheme="http://xfhnever.com/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    
+      <category term="软件工程" scheme="http://xfhnever.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[VPS(一)- 搭建VPN]]></title>
+    <link href="http://xfhnever.com/2015/04/19/2015-04-19-vps-vpn/"/>
+    <id>http://xfhnever.com/2015/04/19/2015-04-19-vps-vpn/</id>
+    <published>2015-04-19T04:44:56.000Z</published>
+    <updated>2015-09-29T01:13:34.000Z</updated>
+    <content type="html"><![CDATA[<p>前段时间买了VPS，然后最近就利用这个搭建了个VPN玩玩，下面就将整个搭建流程纪录一下。<br><a id="more"></a></p>
+<p>##环境<br>我买的是Linode的VPS，安装的是Centos7系统。</p>
+<p>##具体步骤</p>
+<p>###检查系统是否开启TUN/TAP支持<br>    cat /dev/net/tun<br>如果这条指令显示结果为下面的文本，则表明通过</p>
+<pre><code><span class="string">cat:</span> <span class="regexp">/dev/</span>net/<span class="string">tun:</span> 文件描述符处于错误状态
+</code></pre><p>###安装ppp , pptpd 和 iptables<br>    yum install update<br>    yum -y install ppp pptpd<br>    yum install iptables</p>
+<p>###配置PPTP服务器</p>
+<ol>
+<li><p>配置pptpd.conf</p>
+<pre><code>vi /etc/pptpd.conf    <span class="preprocessor">#找到localip，去掉开始的那个#符号</span>
+localip <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>
+remoteip <span class="number">192.168</span><span class="number">.0</span><span class="number">.234</span>-<span class="number">238</span>,<span class="number">192.168</span><span class="number">.0</span><span class="number">.245</span>
+<span class="preprocessor">#这些是默认的，一般不需要去修改，分配给客户端的ip就是<span class="number">234</span>到<span class="number">238</span>之间，你也可以往大了写，看你的客户端有多少。</span>
+</code></pre></li>
+<li><p>配置options.pptpd</p>
+<pre><code>vi /etc/ppp/options.pptpd      <span class="preprocessor">#在末尾添加dns</span>
+ms-dns  <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>       <span class="preprocessor">#这是谷歌的，你也可以改成阿里巴巴的或者其它</span>
+ms-dns  <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>
+</code></pre></li>
+<li><p>添加PPTP VPN用户</p>
+<pre><code>vi /etc/ppp/chap-secrets    #格式很通俗易懂。
+<span class="preprocessor">#   client为帐号，server是pptpd服务，secret是密码，*表示是分配任意的ip</span>
+<span class="preprocessor"># Secrets for authentication using CHAP</span>
+<span class="preprocessor"># client        server     secret                  IP addresses</span>
+  xfhnever      pptpd      <span class="number">771297972</span>            *
+</code></pre></li>
+<li><p>配置sysctl.conf</p>
+<pre><code>vi /etc/sysctl<span class="class">.conf</span>
+#添加一行    net<span class="class">.ipv4</span><span class="class">.ip_forward</span> = <span class="number">1</span>    到末尾即可，然后保存
+sysctl -<span class="tag">p</span>    #运行这个命令会输出上面添加的那一行信息，意思是使内核修改生效
+</code></pre></li>
+</ol>
+<p>###配置iptables</p>
+<ol>
+<li><p>开启iptables转发</p>
+<pre><code>iptables -t nat -A POSTROUTING -s <span class="number">192.168</span><span class="number">.217</span><span class="number">.0</span>/<span class="number">24</span> -o eth0 -j MASQUERADE
+iptables-save &gt; /etc/iptables.pptp
+</code></pre></li>
+<li><p>创建iptables文件</p>
+<p> 在/etc/network/if-up.d/目录下创建iptables文件，内容如下：</p>
+<pre><code><span class="shebang">#!/bin/sh</span>
+iptables-restore &lt; /etc/iptables.pptp
+</code></pre></li>
+<li><p>给脚本添加执行权限</p>
+<pre><code>chmod +x <span class="regexp">/etc/</span>network<span class="regexp">/if-up.d/i</span>ptables
+</code></pre></li>
+</ol>
+<p>###Done<br>VPN搭建完成。</p>
+<p>##最新方案<br>用了一段时间之后，vpn不稳定，基本连接不上，重新使用了一种新的搭建方案，详见 <a href="http://csli.cc/479.html" target="_blank" rel="external">使用Linode搭建一个Shadowsocks，实现智能和谐上网</a></p>
+<p>##参考</p>
+<ol>
+<li><a href="http://www.cnblogs.com/qingjoin/p/3811967.html" target="_blank" rel="external">Mac 搭建Linode的 Vps pptp Vpn 服务</a></li>
+<li><a href="http://www.open-open.com/lib/view/open1414554734044.html" target="_blank" rel="external">Centos7搭建VPN服务器</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>前段时间买了VPS，然后最近就利用这个搭建了个VPN玩玩，下面就将整个搭建流程纪录一下。<br>]]>
+    
+    </summary>
+    
+      <category term="Tools" scheme="http://xfhnever.com/tags/Tools/"/>
+    
+      <category term="Vpn" scheme="http://xfhnever.com/tags/Vpn/"/>
+    
+      <category term="Vps" scheme="http://xfhnever.com/tags/Vps/"/>
+    
+      <category term="Tools" scheme="http://xfhnever.com/categories/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Avro(四)-RPC]]></title>
+    <link href="http://xfhnever.com/2015/03/30/2015-03-30-avro-rpc/"/>
+    <id>http://xfhnever.com/2015/03/30/2015-03-30-avro-rpc/</id>
+    <published>2015-03-30T10:04:48.000Z</published>
+    <updated>2015-09-29T01:10:51.000Z</updated>
+    <content type="html"><![CDATA[<p>Avro除了用于序列化外，还可以作为一种RPC框架来使用。客户端希望同服务器端交互时，就需要交换双方通信的协议，它类似于模式，需要双方来定义，在Avro中被称为消息(Message)。通信双方都必须保持这种协议，以便于解析从对方发送过来的数据，这也就是传说中的握手阶段。<br><a id="more"></a></p>
+<p>##Message Transport<br>消息从客户端发送到服务器端需要经过传输层(Transport Layer)，它发送消息并接收服务器端的响应。到达传输层的数据就是二进制数据。通常以HTTP作为传输模型，数据以POST方式发送到对方去。在 Avro中，它的消息被封装成为一组缓冲区(Buffer)，类似于下图的模型：</p>
+<img src="/images/post/avro4-1.jpeg">
+<p>如上图，每个缓冲区以四个字节开头，中间是多个字节的缓冲数据，最后以一个空缓冲区结尾。这种机制的好处在于，发送端在发送数据时可以很方便地组装不同数据源的数据，接收方也可以将数据存入不同的存储区。还有，当往缓冲区中写数据时，大对象可以独占一个缓冲区，而不是与其它小对象混合存放，便于接收方方便地读取大对象。</p>
+<p>对象容器文件是Avro的数据存储的具体实现，数据交换则由RPC服务提供，与对象容器文件类似，数据交换也完全依赖Schema，所以与Hadoop目前的RPC不同，Avro在数据交换之前需要通过握手过程先交换Schema。</p>
+<p>##握手过程<br>握手的过程是确保Server和Client获得对方的Schema定义，从而使Server能够正确反序列化请求信息，Client能够正确反序列化响应信息。一般的，Server/Client会缓存最近使用到的一些协议格式，所以，大多数情况下，握手过程不需要交换整个Schema文本。</p>
+<p>所有的RPC请求和响应处理都建立在已经完成握手的基础上。对于无状态的连接，所有的请求响应之前都附有一次握手过程；对于有状态的连接，一次握手完成，整个连接的生命期内都有效。</p>
+<p>##消息帧格式<br>消息从客户端发送到服务器端需要经过传输层，它发送请求并接收服务器端的响应。到达传输层的数据就是二进制数据。通常以HTTP作为传输模型，数据以POST方式发送到对方去。在 Avro中消息首先分帧后被封装成为一组缓冲区(Buffer)。</p>
+<p>数据帧的格式如下：</p>
+<ol>
+<li><p>一系列Buffer：</p>
+<pre><code><span class="number">4</span>字节的<span class="keyword">Buffer</span>长度
+<span class="keyword">Buffer</span>字节数据
+</code></pre></li>
+<li><p>长度为0的Buffer结束数据帧 </p>
+</li>
+</ol>
+<p>##Call格式<br>一个调用由请求消息、结果响应消息或者错误消息组成。请求和响应包含可扩展的元数据，两种消息都按照之前提出的方法分帧。</p>
+<p>调用的请求格式为：</p>
+<ol>
+<li>请求元数据，一个类型值的映射。</li>
+<li>消息名，一个Avro字符串。</li>
+<li>消息参数。参数根据消息的请求定义序列化。</li>
+</ol>
+<p>调用的响应格式为：</p>
+<ol>
+<li>响应的元数据，一个类型值的映射。</li>
+<li>一字节的错误标志位。</li>
+<li>如果错误标志为false，响应消息，根据响应的模式序列化。如果错误标志位true，错误消息，根据消息的错误联合模式序列化。 </li>
+</ol>
+<p>##参考</p>
+<ol>
+<li><a href="http://avro.apache.org/docs/current/spec.html#Protocol+Wire+Format" target="_blank" rel="external">Apache Avro™ 1.7.7 Specification</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Avro除了用于序列化外，还可以作为一种RPC框架来使用。客户端希望同服务器端交互时，就需要交换双方通信的协议，它类似于模式，需要双方来定义，在Avro中被称为消息(Message)。通信双方都必须保持这种协议，以便于解析从对方发送过来的数据，这也就是传说中的握手阶段。<br>]]>
+    
+    </summary>
+    
+      <category term="Avro" scheme="http://xfhnever.com/tags/Avro/"/>
+    
+      <category term="RPC" scheme="http://xfhnever.com/tags/RPC/"/>
+    
+      <category term="中间件" scheme="http://xfhnever.com/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+      <category term="中间件" scheme="http://xfhnever.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Avro(三)-序列化和反序列化]]></title>
+    <link href="http://xfhnever.com/2015/03/30/2015-03-30-avro-serialization/"/>
+    <id>http://xfhnever.com/2015/03/30/2015-03-30-avro-serialization/</id>
+    <published>2015-03-30T08:22:47.000Z</published>
+    <updated>2015-09-29T01:12:25.000Z</updated>
+    <content type="html"><![CDATA[<p>Avro是一个序列化的系统，所以本章我们介绍Avro的序列化和反序列化。<br><a id="more"></a><br>对Avro数据序列化/反序列化时都需要对模式以深度优先(Depth-First)，从左到右(Left-to-Right)的遍历顺序来执行。</p>
+<p>Avro指定两种数据序列化编码方式：binary encoding 和Json encoding。使用二进制编码会高效序列化，并且序列化后得到的结果会比较小；而JSON一般用于调试系统或是基于WEB的应用。</p>
+<p>##Binary Encoding</p>
+<p>###基本数据类型</p>
+<ol>
+<li>null: Zero bytes</li>
+<li>boolean: a single byte whose value is either 0 (false) or 1 (true).</li>
+<li>int/long: variable-length zig-zag </li>
+<li>float: 4 bytes</li>
+<li>double: 8 bytes.</li>
+<li>bytes: encoded as a long followed by that many bytes of data</li>
+<li>string: encoded as a long followed by that many bytes of UTF-8 encoded character data </li>
+</ol>
+<p>###复杂数据类型</p>
+<ol>
+<li>Records: encoded just the concatenation of the encodings of its fields</li>
+<li>Enums: a int representing the zero-based position of the symbol in the schema</li>
+<li>Arrays: encoded as series of blocks. A block with count 0 indicates the end of the array. block:{long,items}</li>
+<li>Maps: encoded as series of blocks. A block with count 0 indicates the end of the map. block:{long,key/value pairs}.</li>
+<li>Unions: encoded by first writing a long value indicating the zero-based position within the union of the schema of its value. The value is then encoded per the indicated schema within the union.</li>
+<li>Fixed: encoded using number of bytes declared in the schema</li>
+</ol>
+<p>####实例</p>
+<ol>
+<li><p>String： “foo”</p>
+<pre><code><span class="number">06</span> <span class="number">66</span> <span class="number">6f</span> <span class="number">6f</span>
+</code></pre></li>
+<li><p>records </p>
+<pre><code>{
+    "<span class="attribute">type</span>": <span class="value"><span class="string">"record"</span></span>, 
+    "<span class="attribute">name</span>": <span class="value"><span class="string">"test"</span></span>,
+    "<span class="attribute">fields</span>" : <span class="value">[
+    {"<span class="attribute">name</span>": <span class="value"><span class="string">"a"</span></span>, "<span class="attribute">type</span>": <span class="value"><span class="string">"long"</span></span>},
+    {"<span class="attribute">name</span>": <span class="value"><span class="string">"b"</span></span>, "<span class="attribute">type</span>": <span class="value"><span class="string">"string"</span></span>}
+    ]
+</span>}
+</code></pre><p> 一个a=27,b=”foo”的实例：</p>
+<pre><code><span class="number">36</span> <span class="number">06</span> <span class="number">66</span> <span class="number">6f</span> <span class="number">6f</span> 
+</code></pre></li>
+</ol>
+<p>##JSON Encoding<br>Except for unions, the JSON encoding is the same as is used to encode field default values</p>
+<p>###实例<br>the union schema [“null”,”string”,”Foo”]。</p>
+<ol>
+<li>null 编码为 null</li>
+<li>string “a” 编码为{“string”: “a”}</li>
+<li>Foo的实例编码为{“Foo”:{….}}</li>
+</ol>
+<p>##对象容器文件<br>Avro为了便于MapReduce的处理定义了一种容器文件格式(Container File Format)。这样的文件中只能有一种模式，所有需要存入这个文件的对象都需要按照这种模式以二进制编码的形式写入。对象在文件中以块(Block)来组织，并且这些对象都是可以被压缩的。块和块之间会存在同步标记符(Synchronization Marker)，以便MapReduce方便地切割文件用于处理。下图是根据文档描述画出的文件结构图：</p>
+<img src="/images/post/avro3-1.jpg">
+<p>一个存储文件由两部分组成:头信息(Header)和数据块(Data Block)。</p>
+<p>头信息又由三部分构成：四个字节的前缀(类似于Magic Number)，文件Meta-data信息和随机生成的16字节同步标记符。</p>
+<p>Avro目前支持的Meta-data有两种：schema和codec。codec表示对后面的文件数据块(File Data Block)采用何种压缩方式。Avro的实现都需要支持下面两种压缩方式：null(不压缩)和deflate(使用Deflate算法压缩数据块)。除了文档中认定的两种Meta-data，用户还可以自定义适用于自己的Meta-data。这里用long型来表示有多少个Meta-data数据对，也是让用户在实际应用中可以定义足够的Meta-data信息。对于每对Meta-data信息，都有一个string型的key(需要以“avro.” 为前缀)和二进制编码后的value。</p>
+<p>对于文件中头信息之后的每个数据块，有这样的结构：一个long值记录当前块有多少个对象，一个long值用于记录当前块经过压缩后的字节数，真正的序列化对象和16字节长度的同步标记符。由于对象可以组织成不同的块，使用时就可以不经过反序列化而对某个数据块进行操作。还可以由数据块数，对象数和同步标记符来定位损坏的块以确保数据完整性。</p>
+<p>##参考</p>
+<ol>
+<li><a href="http://avro.apache.org/docs/current/spec.html" target="_blank" rel="external">Apache Avro™ 1.7.7 Specification</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Avro是一个序列化的系统，所以本章我们介绍Avro的序列化和反序列化。<br>]]>
+    
+    </summary>
+    
+      <category term="Avro" scheme="http://xfhnever.com/tags/Avro/"/>
+    
+      <category term="Serialization" scheme="http://xfhnever.com/tags/Serialization/"/>
+    
+      <category term="中间件" scheme="http://xfhnever.com/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+      <category term="中间件" scheme="http://xfhnever.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Avro(二)-schema]]></title>
+    <link href="http://xfhnever.com/2015/03/30/2015-03-30-avro-schema/"/>
+    <id>http://xfhnever.com/2015/03/30/2015-03-30-avro-schema/</id>
+    <published>2015-03-30T02:58:12.000Z</published>
+    <updated>2015-09-29T01:11:41.000Z</updated>
+    <content type="html"><![CDATA[<p>Avro依赖于模式(Schema)。通过模式定义各种数据结构，只有确定了模式才能对数据进行解释，所以在数据的序列化和反序列化之前，必须先确定模式的结构。正是模式的引入，使得数据具有了自描述的功能，同时能够实现动态加载，另外与其他的数据序列化系统如Thrift相比，数据之间不存在其他的任何标识，有利于提高数据处理的效率。下面我们就介绍一下Avro中的schema。<br><a id="more"></a></p>
+<p>##schema定义<br>AVRO的Schema是用JSON的格式表示的，Schema可以用</p>
+<ol>
+<li>JSON String 来命名一个定义的类型</li>
+<li><p>JSON 对象，形式如：</p>
+<pre><code>{"<span class="attribute">type</span>": <span class="value"><span class="string">"typeName"</span> ...attributes...</span>}
+</code></pre><p> typeName可以是一个原生类型或者下面将要定义的衍生类型。这篇文档没有定义JSON对象中的属性，这些属性可以成为meta data，但是不能影响序列化数据的格式。</p>
+</li>
+<li>JSON 数组，代表内嵌类型的并集（union）。</li>
+</ol>
+<p>##基本类型<br>总共8种原生类型 null,boolean,int,long,float,double,bytes,string.</p>
+<ol>
+<li>原生类型不需要attributes</li>
+<li>可以通过type指定 “string” 和 ｛”type”:”string”｝是等同的</li>
+</ol>
+<p>##复杂类型<br>总共6种复合类型 records,enums,arrays,maps,unions,fixed</p>
+<p>###records<br>records一般是序列化数据的最终展现单元，而且可以自己嵌套</p>
+<pre><code><span class="collection">{
+  <span class="string">"type"</span>: <span class="string">"record"</span>, 
+  <span class="string">"name"</span>: <span class="string">"LongList"</span>,
+  <span class="string">"aliases"</span>: <span class="collection">[<span class="string">"LinkedLongs"</span>]</span>,                      // old name for this
+  <span class="string">"fields"</span> : <span class="collection">[
+    <span class="collection">{<span class="string">"name"</span>: <span class="string">"value"</span>, <span class="string">"type"</span>: <span class="string">"long"</span>}</span>,             // each element has a long
+    <span class="collection">{<span class="string">"name"</span>: <span class="string">"next"</span>, <span class="string">"type"</span>: <span class="collection">[<span class="string">"null"</span>, <span class="string">"LongList"</span>]</span>}</span> // optional next element
+  ]</span>
+}</span>
+</code></pre><p>###enums<br>    { “type”: “enum”,<br>      “name”: “Suit”,<br>      “symbols” : [“SPADES”, “HEARTS”, “DIAMONDS”, “CLUBS”]<br>    }</p>
+<p>###arrays<br>    {“type”: “array”, “items”: “string”}</p>
+<p>###Maps<br>keys必须是string，所以这里只指定了values的类型</p>
+<pre><code>{"<span class="attribute">type</span>": <span class="value"><span class="string">"map"</span></span>, "<span class="attribute">values</span>": <span class="value"><span class="string">"long"</span></span>}
+</code></pre><p>###Unions<br>不能包含两个或者两个以上没有name属性的相同类型</p>
+<pre><code>[<span class="string">"string"</span>, <span class="string">"null"</span>]
+</code></pre><p>###Fixed<br>size指定每个值占用多少个字节</p>
+<pre><code>{"<span class="attribute">type</span>": <span class="value"><span class="string">"fixed"</span></span>, "<span class="attribute">size</span>": <span class="value"><span class="number">16</span></span>, "<span class="attribute">name</span>": <span class="value"><span class="string">"md5"</span></span>}
+</code></pre><p>##schema兼容<br>因为应用版本的问题经常遇到读和写的schema不相同的情况，幸运的是avro已经提供了相关的解决方案：</p>
+<img src="/images/post/avro2-1.jpg">    
+<p>###record兼容<br>实际应用中，更多是以record的形式进行交互，接下来我们重点讲解下record的兼容。</p>
+<p>###读写schema的角度<br>从读写schema的角度考虑，读写schema的不同无外乎就两种，读的schema比写的schema多了一个field，读的schema比写的schema少了一个field，这两种情况处理起来都很简单。</p>
+<ol>
+<li>增加了field的情况:增加的fields用默认值空字符串代替；</li>
+<li>减少了field的情况:删除的field被忽略掉</li>
+</ol>
+<p>###新旧版本schema</p>
+<ol>
+<li><p>新版本schema比旧版本schema增加了一个字段</p>
+<p> 新版本读旧版本的数据，使用新版本schema里新增field的默认值</p>
+<p> 旧版本读新版本的数据，新版本schema里新增field被旧版本的忽略掉    </p>
+</li>
+<li><p>新版本schema比旧版本schema少了一个字段</p>
+<p> 新版本读旧版本的数据，减少的field被新版本忽略掉</p>
+<p> 旧版本读新版本的数据，旧版本的schema使用被删除field的默认值，如果没有就会报错，那么升级旧版本</p>
+</li>
+</ol>
+<p>###别名<br>别名是另一个用于schema兼容的方法，可以将写的schema的field名字转换成读的schema的field，记住并不是加了aliases字段。而是将写的filed的name属性变为aliases，读的时候只认name属性。</p>
+<p>##参考</p>
+<ol>
+<li><a href="http://avro.apache.org/docs/current/spec.html" target="_blank" rel="external">Apache Avro™ 1.7.7 Specification</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Avro依赖于模式(Schema)。通过模式定义各种数据结构，只有确定了模式才能对数据进行解释，所以在数据的序列化和反序列化之前，必须先确定模式的结构。正是模式的引入，使得数据具有了自描述的功能，同时能够实现动态加载，另外与其他的数据序列化系统如Thrift相比，数据之间不存在其他的任何标识，有利于提高数据处理的效率。下面我们就介绍一下Avro中的schema。<br>]]>
+    
+    </summary>
+    
+      <category term="Avro" scheme="http://xfhnever.com/tags/Avro/"/>
+    
+      <category term="Schema" scheme="http://xfhnever.com/tags/Schema/"/>
+    
+      <category term="中间件" scheme="http://xfhnever.com/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+      <category term="中间件" scheme="http://xfhnever.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Avro(一)-介绍]]></title>
+    <link href="http://xfhnever.com/2015/03/29/2015-03-29-avro-intro/"/>
+    <id>http://xfhnever.com/2015/03/29/2015-03-29-avro-intro/</id>
+    <published>2015-03-29T10:12:57.000Z</published>
+    <updated>2015-09-29T01:10:21.000Z</updated>
+    <content type="html"><![CDATA[<p>Avro是Hadoop中的一个子项目，也是Apache中一个独立的项目，Avro是一个基于二进制数据传输高性能的中间件。在Hadoop的其他项目中例如HBase(Ref)和Hive(Ref)的Client端与服务端的数据传输也采用了这个工具。Avro是一个数据序列化的系统。Avro 可以将数据结构或对象转化成便于存储或传输的格式。Avro设计之初就用来支持数据密集型应用，适合于远程或本地大规模数据的存储和交换。<br><a id="more"></a></p>
+<p>##特点</p>
+<ol>
+<li>丰富的数据结构类型；</li>
+<li>快速可压缩的二进制数据形式，对数据二进制序列化后可以节约数据存储空间和网络传输带宽；</li>
+<li>存储持久数据的文件容器；</li>
+<li>可以实现远程过程调用RPC；</li>
+<li>简单的动态语言结合功能，Avro和动态语言结合后，读写数据文件和使用RPC协议都不需要生成代码，而代码生成作为一种可选的优化只值得在静态类型语言中实现。</li>
+</ol>
+<p>##横向对比<br>同类软件还有：</p>
+<ol>
+<li>thrift：由 Facebook 主导开发的 , 一个跨平台，支持多语言的，通过定义 IDL 文件，自动生成 RPC 客户端与服务端通信代码的工具，以构建在多种编程语言间无缝结合的、高效的服务</li>
+<li>protocol buffer：一种序列化与结构化数据的一种机制，具有跨平台、解析速度快、序列化数据体积小、扩展性高、使用简单的特点</li>
+</ol>
+<p>###thrift和avro对比</p>
+<p>###Schema处理</p>
+<ol>
+<li>thrift依赖IDL–&gt;代码的生成，静态的。走代码生成，编译载入的流程。 </li>
+<li>Avro可以生成代码，后编译执行，但是还必须依赖IDL（meta元数据描述）；也可以走动态解释执行IDL序列化的方式</li>
+</ol>
+<p>###序列化的方式</p>
+<ol>
+<li><p>thrift</p>
+<p> 提供多种序列化实现，TCompactProtocol，TBinaryProtocol</p>
+<p> 每个Field前面都是带Tag的，这个Tag用于标识这个域的类型和顺序ID（IDL中定义，用于Versioning）。在同一批数据里面，这些Tag的信息是完全相同的，当数据条数大的时候这显然就浪费了。</p>
+ <img src="/images/post/avro1-1.jpg"></li>
+<li><p>Acro</p>
+<p> 格式包括:文件头中有schema+数据records(自描述)</p>
+ <img src="/images/post/avro1-2.jpg">
+<p> 只对感兴趣的部分反序列化</p>
+<p> schema允许定义数据的排序order</p>
+<p> 采用block链表结构，突破了用单一整型表示大小的限制。比如Array或Map由一系列Block组成，每个Block包含计数器和对应的元    素，计数器为0标识结束。</p>
+</li>
+</ol>
+<p>###RPC的服务</p>
+<ol>
+<li><p>Thrift</p>
+<p> TThreadPolServer: 多线程服务</p>
+<p> TNonBlockingServer: 单线程 non blocking的服务</p>
+<p> THsHaServer: 多线程 non blocking的服务</p>
+</li>
+<li><p>Avro</p>
+<p> HttpServer : 缺省,基于Jetty内核的服务.</p>
+<p> NettyServer: 新的基于Netty的服务.</p>
+</li>
+</ol>
+<p>###总结</p>
+<ol>
+<li>Thrift适用于程序对程序静态的数据交换，要求schema预知并相对固定</li>
+<li>Avro在Thrift基础上增加了对schema动态的支持且性能上不输于Thrift</li>
+<li>Avro显式schema设计使它更适用于搭建数据交换及存储的通用工具和平台,特别是在后台</li>
+<li>目前Thrift的优势在于更多的语言支持和相对成熟</li>
+<li>PB具有跨平台、解析速度快、序列化数据体积小、扩展性高、使用简单的特点，但是内嵌并没有提供RPC的通讯</li>
+</ol>
+<p>Avro的创新之处在于融合了显式,declarative的Schema和高效二进制的数据表达，强调数据的自我描述，克服了以往单纯XML或二进制系统的缺陷。Avro对Schema动态加载功能，是Thrift编程接口所不具备的，符合了Hadoop上的Hive/Pig及NOSQL 等既属于ad hoc，又追求性能的应用需求.</p>
+<p>###官网给出的对比</p>
+<ol>
+<li>动态类型：Avro并不需要生成代码，模式和数据存放在一起，而模式使得整个数据的处理过程并不生成代码、静态数据类型等等。这方便了数据处理系统和语言的构造。</li>
+<li>未标记的数据：由于读取数据的时候模式是已知的，那么需要和数据一起编码的类型信息就很少了，这样序列化的规模也就小了。</li>
+<li>不需要用户指定字段号：即使模式改变，处理数据时新旧模式都是已知的，所以通过使用字段名称可以解决差异问题。</li>
+</ol>
+<p>###为何不使用java序列化</p>
+<ol>
+<li>java序列化不够灵活，不能更好的控制序列化的整个流程</li>
+<li>java序列化不符合序列化的标准，没有做一定的压缩，java序列化首先写类名，然后再是整个类的数据，而且成员对象在序列化中只存引用，成员对象的可以出现的位置很随机，既可以在序列化的对象前，也可以在其后面，这样就对随机访问造成影响，一旦出错，整个后面的序列化就会全部错误</li>
+<li>Java序列化每次序列化都要重新创建对象，内存消耗大。</li>
+</ol>
+<p>##实例<br>因为目前我们使用Avro主要是用来进行序列化，所以下面给出的实例也是对Avro序列化功能的展示。</p>
+<p>首先定义一个schema: user.avsc：</p>
+<pre><code>{"<span class="attribute">namespace</span>": <span class="value"><span class="string">"example.avro"</span></span>,
+ "<span class="attribute">type</span>": <span class="value"><span class="string">"record"</span></span>,
+ "<span class="attribute">name</span>": <span class="value"><span class="string">"User"</span></span>,
+ "<span class="attribute">fields</span>": <span class="value">[
+     {"<span class="attribute">name</span>": <span class="value"><span class="string">"name"</span></span>, "<span class="attribute">type</span>": <span class="value"><span class="string">"string"</span></span>},
+     {"<span class="attribute">name</span>": <span class="value"><span class="string">"favorite_number"</span></span>,  "<span class="attribute">type</span>": <span class="value">[<span class="string">"int"</span>, <span class="string">"null"</span>]</span>},
+     {"<span class="attribute">name</span>": <span class="value"><span class="string">"favorite_color"</span></span>, "<span class="attribute">type</span>": <span class="value">[<span class="string">"string"</span>, <span class="string">"null"</span>]</span>}
+ ]
+</span>}
+</code></pre><p>使用Avro进行序列化和反序列化有两种不同的途径：代码生成和不走代码生成。</p>
+<p>###代码生成<br>首先使用schema生成Java类： User.class。</p>
+<ol>
+<li><p>创建User</p>
+<pre><code>User user1 = <span class="keyword">new</span> User();
+user1.setName(<span class="string">"Alyssa"</span>);
+user1.setFavoriteNumber(<span class="number">256</span>);
+<span class="comment">// Leave favorite color null</span>
+
+<span class="comment">// Alternate constructor</span>
+User user2 = <span class="keyword">new</span> User(<span class="string">"Ben"</span>, <span class="number">7</span>, <span class="string">"red"</span>);
+
+<span class="comment">// Construct via builder</span>
+User user3 = User.newBuilder()
+             .setName(<span class="string">"Charlie"</span>)
+             .setFavoriteColor(<span class="string">"blue"</span>)
+             .setFavoriteNumber(null)
+             .build();
+</code></pre></li>
+<li><p>序列化</p>
+<pre><code><span class="comment">// Serialize user1, user2 and user3 to disk</span>
+DatumWriter&lt;User&gt; userDatumWriter = <span class="keyword">new</span> SpecificDatumWriter&lt;User&gt;(User.<span class="keyword">class</span>);
+DataFileWriter&lt;User&gt; dataFileWriter = <span class="keyword">new</span> DataFileWriter&lt;User&gt;(userDatumWriter);
+dataFileWriter.create(user1.getSchema(), <span class="keyword">new</span> <span class="keyword">File</span>(<span class="string">"users.avro"</span>));
+dataFileWriter.<span class="keyword">append</span>(user1);
+dataFileWriter.<span class="keyword">append</span>(user2);
+dataFileWriter.<span class="keyword">append</span>(user3);
+dataFileWriter.close();
+</code></pre></li>
+<li><p>反序列化</p>
+<pre><code>// Deserialize Users <span class="keyword">from</span> disk
+DatumReader<span class="variable">&lt;User&gt;</span> <span class="keyword">user</span>DatumReader = new SpecificDatumReader<span class="variable">&lt;User&gt;</span>(User.class);
+DataFileReader<span class="variable">&lt;User&gt;</span> dataFileReader = new DataFileReader<span class="variable">&lt;User&gt;</span>(file, <span class="keyword">user</span>DatumReader);
+User <span class="keyword">user</span> = null;
+while (dataFileReader.hasNext()) {
+// Reuse <span class="keyword">user</span> object by passing it <span class="keyword">to</span> next(). This saves us <span class="keyword">from</span>
+// allocating and garbage collecting many objects <span class="keyword">for</span> files with
+// many items.
+<span class="keyword">user</span> = dataFileReader.next(<span class="keyword">user</span>);
+System.<span class="keyword">out</span>.println(<span class="keyword">user</span>);
+}
+</code></pre></li>
+</ol>
+<p>###直接使用schema</p>
+<ol>
+<li><p>创建User</p>
+<pre><code>Schema schema = <span class="keyword">new</span> Schema.Parser().parse(<span class="keyword">new</span> File(<span class="string">"user.avsc"</span>));
+GenericRecord user1 = <span class="keyword">new</span> GenericData.Record(schema);
+user1.<span class="keyword">put</span>(<span class="string">"name"</span>, <span class="string">"Alyssa"</span>);
+user1.<span class="keyword">put</span>(<span class="string">"favorite_number"</span>, <span class="number">256</span>);
+// Leave favorite color null
+
+GenericRecord user2 = <span class="keyword">new</span> GenericData.Record(schema);
+user2.<span class="keyword">put</span>(<span class="string">"name"</span>, <span class="string">"Ben"</span>);
+user2.<span class="keyword">put</span>(<span class="string">"favorite_number"</span>, <span class="number">7</span>);
+user2.<span class="keyword">put</span>(<span class="string">"favorite_color"</span>, <span class="string">"red"</span>);
+</code></pre></li>
+<li><p>序列化</p>
+<pre><code><span class="comment">// Serialize user1 and user2 to disk</span>
+<span class="keyword">File</span> <span class="keyword">file</span> = <span class="keyword">new</span> <span class="keyword">File</span>(<span class="string">"users.avro"</span>);
+DatumWriter&lt;GenericRecord&gt; datumWriter = <span class="keyword">new</span> GenericDatumWriter&lt;GenericRecord&gt;(schema);
+DataFileWriter&lt;GenericRecord&gt; dataFileWriter = <span class="keyword">new</span> DataFileWriter&lt;GenericRecord&gt;(datumWriter);
+dataFileWriter.create(schema, <span class="keyword">file</span>);
+dataFileWriter.<span class="keyword">append</span>(user1);
+dataFileWriter.<span class="keyword">append</span>(user2);
+dataFileWriter.close();
+</code></pre></li>
+<li><p>反序列化</p>
+<pre><code>// Deserialize users <span class="keyword">from</span> disk
+DatumReader<span class="variable">&lt;GenericRecord&gt;</span> datumReader = new GenericDatumReader<span class="variable">&lt;GenericRecord&gt;</span>(schema);
+DataFileReader<span class="variable">&lt;GenericRecord&gt;</span> dataFileReader = new DataFileReader<span class="variable">&lt;GenericRecord&gt;</span>(file, datumReader);
+GenericRecord <span class="keyword">user</span> = null;
+while (dataFileReader.hasNext()) {
+// Reuse <span class="keyword">user</span> object by passing it <span class="keyword">to</span> next(). This saves us <span class="keyword">from</span>
+// allocating and garbage collecting many objects <span class="keyword">for</span> files with
+// many items.
+<span class="keyword">user</span> = dataFileReader.next(<span class="keyword">user</span>);
+System.<span class="keyword">out</span>.println(<span class="keyword">user</span>);
+</code></pre></li>
+</ol>
+<p>##参考</p>
+<ol>
+<li><a href="http://avro.apache.org/docs/current/index.html" target="_blank" rel="external">Apache Avro™ 1.7.7 Documentation</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Avro是Hadoop中的一个子项目，也是Apache中一个独立的项目，Avro是一个基于二进制数据传输高性能的中间件。在Hadoop的其他项目中例如HBase(Ref)和Hive(Ref)的Client端与服务端的数据传输也采用了这个工具。Avro是一个数据序列化的系统。Avro 可以将数据结构或对象转化成便于存储或传输的格式。Avro设计之初就用来支持数据密集型应用，适合于远程或本地大规模数据的存储和交换。<br>]]>
+    
+    </summary>
+    
+      <category term="Avro" scheme="http://xfhnever.com/tags/Avro/"/>
+    
+      <category term="中间件" scheme="http://xfhnever.com/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+      <category term="中间件" scheme="http://xfhnever.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Dropwizard(二)-配置文件]]></title>
+    <link href="http://xfhnever.com/2015/03/28/2015-03-28-dropwizard-configuration/"/>
+    <id>http://xfhnever.com/2015/03/28/2015-03-28-dropwizard-configuration/</id>
+    <published>2015-03-28T15:01:28.000Z</published>
+    <updated>2015-09-29T01:06:08.000Z</updated>
+    <content type="html"><![CDATA[<p>Dropwizard每一个Application子类都有一个类型参数，也就是Configuration子类。当我们的应用运行server配置命令时，Dropwizard会解析YAML配置文件，然后通过映射来创建一个Configuration的实例。<br><a id="more"></a><br>YAML配置一般存在于项目中的.yml活着.yaml文件中，一个配置文件实例如下：</p>
+<pre><code><span class="attribute">template</span>: <span class="string">Hello, %s!</span>
+
+<span class="http"><span class="attribute">defaultName</span>: <span class="string">${DW_DEFAULT_NAME:-Stranger}</span>
+
+<span class="bash"><span class="comment"># Database settings.</span>
+database:
+
+  <span class="comment"># the name of your JDBC driver</span>
+  driverClass: org.h2.Driver
+
+  <span class="comment"># the username</span>
+  user: sa
+
+  <span class="comment"># the password</span>
+  password: sa
+
+  <span class="comment"># the JDBC URL</span>
+  url: jdbc:h2:./target/example
+
+<span class="comment"># use the simple server factory if you only want to run on a single port</span>
+<span class="comment">#server:</span>
+<span class="comment">#  type: simple</span>
+<span class="comment">#  connector:</span>
+<span class="comment">#    type: http</span>
+<span class="comment">#    port: 8080</span>
+
+server:
+<span class="comment">#  softNofileLimit: 1000</span>
+<span class="comment">#  hardNofileLimit: 1000</span>
+  applicationConnectors:
+    - <span class="built_in">type</span>: http
+      port: <span class="number">8080</span>
+    - <span class="built_in">type</span>: https
+      port: <span class="number">8443</span>
+      keyStorePath: example.keystore
+      keyStorePassword: example
+      validateCerts: <span class="literal">false</span>
+<span class="comment"># this requires the alpn-boot library on the JVM's boot classpath</span>
+<span class="comment">#    - type: spdy3</span>
+<span class="comment">#      port: 8445</span>
+<span class="comment">#      keyStorePath: example.keystore</span>
+<span class="comment">#      keyStorePassword: example</span>
+<span class="comment">#      validateCerts: false</span>
+  adminConnectors:
+    - <span class="built_in">type</span>: http
+      port: <span class="number">8081</span>
+    - <span class="built_in">type</span>: https
+      port: <span class="number">8444</span>
+      keyStorePath: example.keystore
+      keyStorePassword: example
+      validateCerts: <span class="literal">false</span>
+
+<span class="comment"># Logging settings.</span>
+logging:
+
+  <span class="comment"># The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.</span>
+  level: INFO
+
+  <span class="comment"># Logger-specific levels.</span>
+  loggers:
+
+    <span class="comment"># Sets the level for 'com.example.app' to DEBUG.</span>
+    com.example.app: DEBUG
+
+    org.hibernate.SQL: ALL
+
+  appenders:
+    - <span class="built_in">type</span>: console
+    - <span class="built_in">type</span>: file
+      threshold: DEBUG
+      <span class="built_in">log</span>Format: <span class="string">"%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"</span>
+      currentLogFilename: /tmp/application.log
+      archivedLogFilenamePattern: /tmp/application-%d{yyyy-MM-dd}.log
+      archivedFileCount: <span class="number">7</span>
+      timeZone: UTC
+
+<span class="comment"># the key needs to match the suffix of the renderer</span>
+viewRendererConfiguration:
+    .ftl:
+        strict_syntax: yes
+        whitespace_stripping: yes</span></span>
+</code></pre><p>下面我们就介绍一下其中我们项目中经常使用到的配置参数。</p>
+<p>##Logging<br>Dropwizard使用Logback记录日志，同时提供了slf4j的实现，甚至通过Logback可以使用所有的java.util.logging, Log4j, and Apache Commons Logging。</p>
+<p>###Log Format<br>    TRACE [2010-04-06 06:42:35,271] com.example.dw.Thing: Contemplating doing a thing.<br>    DEBUG [2010-04-06 06:42:35,274] com.example.dw.Thing: About to do a thing.</p>
+<p>可以通过tail和grep命令过滤Log，例如：</p>
+<pre><code>tail -f dw.<span class="keyword">log</span> | <span class="keyword">grep</span> <span class="string">'^WARN'</span>
+</code></pre><p>###Configuration<br>可以在YAML配置文件中进行配置</p>
+<p>##Logging settings.<br>    logging:</p>
+<pre><code># The <span class="keyword">default</span> level <span class="keyword">of</span> <span class="keyword">all</span> loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, <span class="keyword">or</span> <span class="keyword">ALL</span>.
+level: INFO
+
+# Logger-specific levels.
+loggers:
+
+  # Overrides the level <span class="keyword">of</span> com.example.dw.Thing <span class="keyword">and</span> sets it <span class="keyword">to</span> DEBUG.
+  <span class="string">"com.example.dw.Thing"</span>: DEBUG
+</code></pre><p>###Console Logging<br>By default, Dropwizard applications log INFO and higher to STDOUT。</p>
+<p>日志可以输出到控制台：</p>
+<pre><code><span class="attribute">logging</span>:
+  <span class="attribute">appenders</span>:
+    - <span class="attribute">type</span>: console
+      <span class="attribute">threshold</span>: WARN
+      <span class="attribute">target</span>: stderr
+</code></pre><p>###File Logging<br>也可以输出到文件中：</p>
+<pre><code>logging:
+
+  appenders:
+    - <span class="keyword">type</span>: <span class="keyword">file</span>
+      # The <span class="keyword">file</span> to <span class="keyword">which</span> current statements will be logged.
+      currentLogFilename: ./logs/example.<span class="literal">log</span>
+
+      # When the <span class="keyword">log</span> <span class="keyword">file</span> rotates, the archived <span class="keyword">log</span> will be renamed to this and gzipped. The
+      # %<span class="keyword">d</span> is replaced with the previous day (yyyy-MM-dd). Custom <span class="keyword">rolling</span> windows can be created
+      # <span class="keyword">by</span> passing a SimpleDateFormat-compatible <span class="keyword">format</span> <span class="keyword">as</span> <span class="keyword">an</span> argument: <span class="string">"%d{yyyy-MM-dd-hh}"</span>.
+      archivedLogFilenamePattern: ./logs/example-%<span class="keyword">d</span>.<span class="keyword">log</span>.gz
+
+      # The number of archived files to <span class="keyword">keep</span>.
+      archivedFileCount: 5
+
+      # The timezone used to <span class="keyword">format</span> dates. HINT: <span class="keyword">USE</span> THE DEFAULT, UTC.
+      timeZone: UTC
+</code></pre><p>###Syslog Logging<br>Dropwizard can also log statements to syslog：</p>
+<pre><code>logging:
+
+  appenders:
+    - <span class="built_in">type</span>: syslog
+      <span class="comment"># The hostname of the syslog server to which statements will be sent.</span>
+      <span class="comment"># N.B.: If this is the local host, the local syslog instance will need to be configured to</span>
+      <span class="comment"># listen on an inet socket, not just a Unix socket.</span>
+      host: localhost
+
+      <span class="comment"># The syslog facility to which statements will be sent.</span>
+      facility: <span class="built_in">local</span>0
+</code></pre><p>###参数介绍</p>
+<ol>
+<li>Level: Logback输出级别</li>
+<li>loggers: 特定日志配置</li>
+<li>appenders: 输出目标配置，可以组合多个。</li>
+</ol>
+<p>##Server<br>参考最初给出的配置文件例子，我们主要介绍下面几个配置参数：</p>
+<p>###applicationConnectors<br>处理应用请求的connectors集合。</p>
+<p>###adminConnectors<br>处理admin请求的connectors 集合。例如：</p>
+<ol>
+<li>POST <a href="http://dw.example.com:8081/tasks/gc" target="_blank" rel="external">http://dw.example.com:8081/tasks/gc</a></li>
+<li>GET <a href="http://dw.example.com:8081/threads" target="_blank" rel="external">http://dw.example.com:8081/threads</a></li>
+<li>GET <a href="http://dw.example.com:8081/healthcheck" target="_blank" rel="external">http://dw.example.com:8081/healthcheck</a> </li>
+</ol>
+<p>##参考</p>
+<ol>
+<li><a href="https://dropwizard.github.io/dropwizard/manual/core.html" target="_blank" rel="external">Dropwizard Core</a></li>
+<li><a href="https://dropwizard.github.io/dropwizard/manual/configuration.html" target="_blank" rel="external">Dropwizard Configuration Reference</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Dropwizard每一个Application子类都有一个类型参数，也就是Configuration子类。当我们的应用运行server配置命令时，Dropwizard会解析YAML配置文件，然后通过映射来创建一个Configuration的实例。<br>]]>
+    
+    </summary>
+    
+      <category term="Dropwizard" scheme="http://xfhnever.com/tags/Dropwizard/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
+    
+      <category term="REST" scheme="http://xfhnever.com/tags/REST/"/>
+    
+      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Dropwizard(一)-介绍]]></title>
+    <link href="http://xfhnever.com/2015/03/28/2015-03-28-dropwizard-intro/"/>
+    <id>http://xfhnever.com/2015/03/28/2015-03-28-dropwizard-intro/</id>
+    <published>2015-03-28T12:23:58.000Z</published>
+    <updated>2015-09-29T01:07:58.000Z</updated>
+    <content type="html"><![CDATA[<p>Dropwizard 是一个开源的Java框架，用于开发OPS友好、高性能的基于REST的后端。它是由Yammer开发的，来驱动基于JVM的后端。目前公司的Rest服务都是基于这个开发的。<br><a id="more"></a></p>
+<p>##包含类库<br>Dropwizard集成了Java生态系统中各个问题域中最优秀的组件，帮助开发者快速的打造一个Rest风格的后台服务。包含：</p>
+<ol>
+<li>Jetty for HTTP: 每一个应用程序被打包成一个jar（而不是war）文件，并开始自己的嵌入式Jetty容器。没有任何war文件和外部servlet容器。</li>
+<li>Jersey for REST: Jersey（JAX-RS的参考实现）是用来写基于REST的Web服务的。</li>
+<li>Jackson for JSON: 用来做所有的JSON处理。</li>
+<li>Metrics for metrics: 支持监控使用标准库，它在监控代码方面有无与伦比的洞察力。</li>
+<li>Log: 使用Logback和SLF4J完成 </li>
+<li>Hibernate Validator: 使用Hibernate验证API进行声明性验证。</li>
+<li>Guava: …….</li>
+</ol>
+<p>##优点</p>
+<ol>
+<li>和Maven,Gradle集成良好</li>
+<li>轻量级，开发迅速，部署简单； </li>
+<li>代码结构好，可读性高； </li>
+<li>自动为服务提供OM框架； </li>
+<li>Resource概念让开发者自然的把一个应用拆分为一个个的小服务 </li>
+</ol>
+<p>###与spring boot的对比<br><img src="/images/post/dropwizard1-1.png"></p>
+<p>###Spring的依赖<br>Spring Boot聚焦于Spring应用，如果你希望进入Spring生态环境，或者已经熟悉它，希望有一个快速起步，那么选择它是好的选择，而DropWizard是将其REST和Jersey结合在一起，它帮助你离开对Spring的依赖。</p>
+<p>###Http服务器<br>这里我们看到Spring Boot更加灵活，Dropwizard以约定优于配置，比Spring Boot更极端点，完全是基于Jetty，而Spring Boot默认使用嵌入的Tomcat，其他也可以选择。</p>
+<p>###日志<br>Dropwizard 从log4j切换到LogBack，而Spring boot提供 Logback, log4j 和 log4j2选择，LogBack是一个更好的Log4j，性能要比log4j提高，不过要注意不同的方法使用性能不同。</p>
+<p>###依赖注入<br>两个框架主要区别是依赖注入的不同，Spring核心有依赖注入，而DropWizard需要你选择，这也带来了灵活性，有Google Guice或更新更好的依赖注入框架可供选择。</p>
+<p>###测试<br>两个框架都有 dropwizard-testing 和 spring-boot-starter-test支持。</p>
+<p>两者都有很强很大的社区支持。如果你更喜欢轻量，无疑Dropwizard胜出，如果你已经有Spring经验，无疑使用Spring Boot。</p>
+<p>##代码实例</p>
+<p>###Creating A Configuration Class<br>    public class HelloWorldConfiguration extends Configuration {<br>        @NotEmpty<br>        private String template;<br>        @NotEmpty<br>        private String defaultName = “Stranger”;</p>
+<pre><code>    <span class="annotation">@JsonProperty</span>
+    <span class="keyword">public</span> <span class="function">String <span class="title">getTemplate</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> template;
+    }
+    <span class="annotation">@JsonProperty</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setTemplate</span><span class="params">(String template)</span> </span>{
+        <span class="keyword">this</span>.template = template;
+    }
+
+    <span class="annotation">@JsonProperty</span>
+    <span class="keyword">public</span> <span class="function">String <span class="title">getDefaultName</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> defaultName;
+    }
+    <span class="annotation">@JsonProperty</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setDefaultName</span><span class="params">(String name)</span> </span>{
+        <span class="keyword">this</span>.defaultName = name;
+    }
+}
+</code></pre><p>其中YAML配置文件hello-world.yml对应内容如下：</p>
+<pre><code><span class="attribute">template</span>: <span class="string">Hello, %s!</span>
+<span class="attribute">defaultName</span>: <span class="string">Stranger</span>
+</code></pre><p>###Creating An Application Class<br>    public class HelloWorldApplication extends Application<helloworldconfiguration> {<br>        public static void main(String[] args) throws Exception {<br>            new HelloWorldApplication().run(args);<br>        }</helloworldconfiguration></p>
+<pre><code>    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function">String <span class="title">getName</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> <span class="string">"hello-world"</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">initialize</span><span class="params">(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap)</span> </span>{
+        <span class="comment">// nothing to do yet</span>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">(HelloWorldConfiguration configuration,
+                    Environment environment)</span> </span>{
+        <span class="comment">// nothing to do yet</span>
+    }
+
+}
+</code></pre><p>###Creating A Representation Class<br>    public class Saying {<br>        private long id;</p>
+<pre><code>    <span class="annotation">@Length</span>(max = <span class="number">3</span>)
+    <span class="keyword">private</span> String content;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">Saying</span><span class="params">()</span> </span>{
+        <span class="comment">// Jackson deserialization</span>
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="title">Saying</span><span class="params">(<span class="keyword">long</span> id, String content)</span> </span>{
+        <span class="keyword">this</span>.id = id;
+        <span class="keyword">this</span>.content = content;
+    }
+
+    <span class="annotation">@JsonProperty</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">long</span> <span class="title">getId</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> id;
+    }
+
+    <span class="annotation">@JsonProperty</span>
+    <span class="keyword">public</span> <span class="function">String <span class="title">getContent</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> content;
+    }
+}
+</code></pre><p>###Creating A Resource Class<br>    @Path(“/hello-world”)<br>    @Produces(MediaType.APPLICATION_JSON)<br>    public class HelloWorldResource {<br>        private final String template;<br>        private final String defaultName;<br>        private final AtomicLong counter;</p>
+<pre><code>    <span class="keyword">public</span> HelloWorldResource(String <span class="keyword">template</span>, String defaultName) {
+        <span class="keyword">this</span>.<span class="keyword">template</span> = <span class="keyword">template</span>;
+        <span class="keyword">this</span>.defaultName = defaultName;
+        <span class="keyword">this</span>.counter = <span class="keyword">new</span> AtomicLong();
+    }
+
+    <span class="keyword">@GET</span>
+    <span class="keyword">@Timed</span>
+    <span class="keyword">public</span> Saying sayHello(<span class="keyword">@QueryParam</span>(<span class="string">"name"</span>) Optional&lt;String&gt; name) {
+        <span class="keyword">final</span> String value = String.format(<span class="keyword">template</span>, name.or(defaultName));
+        <span class="keyword">return</span> <span class="keyword">new</span> Saying(counter.incrementAndGet(), value);
+    }
+}
+</code></pre><p>###Registering A Resource<br>    @Override<br>    public void run(HelloWorldConfiguration configuration,<br>                    Environment environment) {<br>        final HelloWorldResource resource = new HelloWorldResource(<br>            configuration.getTemplate(),<br>            configuration.getDefaultName()<br>        );<br>        environment.jersey().register(resource);<br>    }</p>
+<p>###Creating A Health Check<br>    public class TemplateHealthCheck extends HealthCheck {<br>        private final String template;</p>
+<pre><code>    <span class="function"><span class="keyword">public</span> <span class="title">TemplateHealthCheck</span><span class="params">(String template)</span> </span>{
+        <span class="keyword">this</span>.template = template;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected</span> <span class="function">Result <span class="title">check</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+        <span class="keyword">final</span> String saying = String.format(template, <span class="string">"TEST"</span>);
+        <span class="keyword">if</span> (!saying.contains(<span class="string">"TEST"</span>)) {
+            <span class="function"><span class="keyword">return</span> Result.<span class="title">unhealthy</span><span class="params">(<span class="string">"template doesn't include a name"</span>)</span></span>;
+        }
+        <span class="function"><span class="keyword">return</span> Result.<span class="title">healthy</span><span class="params">()</span></span>;
+    }
+}
+</code></pre><p>###Adding A Health Check<br>    @Override<br>    public void run(HelloWorldConfiguration configuration,<br>                    Environment environment) {<br>        final HelloWorldResource resource = new HelloWorldResource(<br>            configuration.getTemplate(),<br>            configuration.getDefaultName()<br>        );<br>        final TemplateHealthCheck healthCheck =<br>            new TemplateHealthCheck(configuration.getTemplate());<br>        environment.healthChecks().register(“template”, healthCheck);<br>        environment.jersey().register(resource);<br>    }</p>
+<p>###Building JARs<br>pom文件&lt;build&gt;&lt;plugins&gt;中添加：</p>
+<pre><code><span class="variable">&lt;plugin&gt;</span>
+    <span class="variable">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="variable">&lt;/groupId&gt;</span>
+    <span class="variable">&lt;artifactId&gt;</span>maven-jar-plugin<span class="variable">&lt;/artifactId&gt;</span>
+    <span class="variable">&lt;version&gt;</span>2.4<span class="variable">&lt;/version&gt;</span>
+    <span class="variable">&lt;configuration&gt;</span>
+        <span class="variable">&lt;archive&gt;</span>
+            <span class="variable">&lt;manifest&gt;</span>
+                <span class="variable">&lt;addDefaultImplementationEntries&gt;</span>true<span class="variable">&lt;/addDefaultImplementationEntries&gt;</span>
+            <span class="variable">&lt;/manifest&gt;</span>
+        <span class="variable">&lt;/archive&gt;</span>
+    <span class="variable">&lt;/configuration&gt;</span>
+<span class="variable">&lt;/plugin&gt;</span>
+<span class="variable">&lt;plugin&gt;</span>
+    <span class="variable">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="variable">&lt;/groupId&gt;</span>
+    <span class="variable">&lt;artifactId&gt;</span>maven-shade-plugin<span class="variable">&lt;/artifactId&gt;</span>
+    <span class="variable">&lt;version&gt;</span>1.6<span class="variable">&lt;/version&gt;</span>
+    <span class="variable">&lt;configuration&gt;</span>
+        <span class="variable">&lt;createDependencyReducedPom&gt;</span>true<span class="variable">&lt;/createDependencyReducedPom&gt;</span>
+        <span class="variable">&lt;filters&gt;</span>
+            <span class="variable">&lt;filter&gt;</span>
+                <span class="variable">&lt;artifact&gt;</span><span class="keyword">*</span>:<span class="keyword">*</span><span class="variable">&lt;/artifact&gt;</span>
+                <span class="variable">&lt;excludes&gt;</span>
+                    <span class="variable">&lt;exclude&gt;</span>META-INF/<span class="keyword">*</span>.SF<span class="variable">&lt;/exclude&gt;</span>
+                    <span class="variable">&lt;exclude&gt;</span>META-INF/<span class="keyword">*</span>.DSA<span class="variable">&lt;/exclude&gt;</span>
+                    <span class="variable">&lt;exclude&gt;</span>META-INF/<span class="keyword">*</span>.RSA<span class="variable">&lt;/exclude&gt;</span>
+                <span class="variable">&lt;/excludes&gt;</span>
+            <span class="variable">&lt;/filter&gt;</span>
+        <span class="variable">&lt;/filters&gt;</span>
+    <span class="variable">&lt;/configuration&gt;</span>
+    <span class="variable">&lt;executions&gt;</span>
+        <span class="variable">&lt;execution&gt;</span>
+            <span class="variable">&lt;phase&gt;</span>package<span class="variable">&lt;/phase&gt;</span>
+            <span class="variable">&lt;goals&gt;</span>
+                <span class="variable">&lt;goal&gt;</span>shade<span class="variable">&lt;/goal&gt;</span>
+            <span class="variable">&lt;/goals&gt;</span>
+            <span class="variable">&lt;configuration&gt;</span>
+                <span class="variable">&lt;transformers&gt;</span>
+                    <span class="variable">&lt;transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/&gt;</span>
+                    <span class="variable">&lt;transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"&gt;</span>
+                        <span class="variable">&lt;mainClass&gt;</span>com.example.helloworld.HelloWorldApplication<span class="variable">&lt;/mainClass&gt;</span>
+                    <span class="variable">&lt;/transformer&gt;</span>
+                <span class="variable">&lt;/transformers&gt;</span>
+            <span class="variable">&lt;/configuration&gt;</span>
+        <span class="variable">&lt;/execution&gt;</span>
+    <span class="variable">&lt;/executions&gt;</span>
+<span class="variable">&lt;/plugin&gt;</span>
+</code></pre><p>###Running Application<br>    java -jar target/hello-world-0.0.1-SNAPSHOT.jar server hello-world.yml</p>
+<p>##参考</p>
+<ol>
+<li><a href="https://dropwizard.github.io/dropwizard/getting-started.html" target="_blank" rel="external">Dropwizard- Getting Started</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Dropwizard 是一个开源的Java框架，用于开发OPS友好、高性能的基于REST的后端。它是由Yammer开发的，来驱动基于JVM的后端。目前公司的Rest服务都是基于这个开发的。<br>]]>
+    
+    </summary>
+    
+      <category term="Dropwizard" scheme="http://xfhnever.com/tags/Dropwizard/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
+    
+      <category term="Jersey" scheme="http://xfhnever.com/tags/Jersey/"/>
+    
+      <category term="REST" scheme="http://xfhnever.com/tags/REST/"/>
+    
+      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[POI(一)-介绍]]></title>
+    <link href="http://xfhnever.com/2015/03/28/2015-03-28-poi-intro/"/>
+    <id>http://xfhnever.com/2015/03/28/2015-03-28-poi-intro/</id>
+    <published>2015-03-28T07:51:03.000Z</published>
+    <updated>2015-09-29T01:08:43.000Z</updated>
+    <content type="html"><![CDATA[<p>最近需要在Java程序中读取Excel，于是开始接触POI。</p>
+<p>Apache POI是Apache软件基金会的开放源码函式库，POI提供API给Java程式对Microsoft Office格式档案读和写的功能。<br><a id="more"></a></p>
+<p>##POI结构</p>
+<ol>
+<li>HSSF － 提供读写Microsoft Excel XLS格式档案的功能。</li>
+<li>XSSF － 提供读写Microsoft Excel OOXML XLSX格式档案的功能。</li>
+<li>HWPF － 提供读写Microsoft Word DOC格式档案的功能。</li>
+<li>HSLF － 提供读写Microsoft PowerPoint格式档案的功能。</li>
+<li>HDGF － 提供读Microsoft Visio格式档案的功能。</li>
+<li>HPBF － 提供读Microsoft Publisher格式档案的功能。</li>
+<li>HSMF － 提供读Microsoft Outlook格式档案的功能。</li>
+</ol>
+<p>HSSF是指Excel2007年以前的(.xls),XSSF是指2007年版本以上的(.xlsx).</p>
+<p>##实例<br>    public static List<integer>  getIds(String filePath) throws IOException {<br>        ArrayList<integer> ids = new ArrayList&lt;&gt;();<br>        if (filePath == null)<br>            return ids;<br>        InputStream is = new FileInputStream(filePath);<br>        HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);</integer></integer></p>
+<pre><code>    HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(<span class="number">0</span>);
+    <span class="keyword">if</span> (hssfSheet == null)
+        <span class="keyword">return</span> ids;
+
+    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;hssfSheet.getLastRowNum(); i++) {
+        HSSFRow hssfRow = hssfSheet.getRow(i);
+        <span class="keyword">if</span> (hssfRow == null)
+            <span class="keyword">continue</span>;
+        ids.add(getValue(hssfRow.getCell(<span class="number">0</span>)));
+    }
+    <span class="keyword">return</span> ids;
+}
+
+<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">writeToXLS</span><span class="params">(List&lt;SongDto&gt; songDtos, String filePath)</span> throws IOException </span>{
+    <span class="keyword">if</span> (songDtos == null || filePath == null)
+        <span class="keyword">return</span>;
+
+    HSSFWorkbook hssfWorkbook = <span class="keyword">new</span> HSSFWorkbook();
+    HSSFSheet sheet = hssfWorkbook.createSheet(<span class="string">"song"</span>);
+    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;songDtos.size(); i++) {
+        HSSFRow row = sheet.createRow(i);
+        SongDto songDto = songDtos.get(i);
+        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;<span class="number">4</span>; j++) {
+            HSSFCell song_id = row.createCell(<span class="number">0</span>);
+            HSSFCell song_name = row.createCell(<span class="number">1</span>);
+            HSSFCell singer_name = row.createCell(<span class="number">2</span>);
+            HSSFCell status = row.createCell(<span class="number">3</span>);
+            song_id.setCellValue(songDto.getId());
+            song_name.setCellValue(songDto.getName());
+            singer_name.setCellValue(songDto.getSingerName());
+            status.setCellValue(songDto.getStatus());
+        }
+    }
+
+    File file = <span class="keyword">new</span> File(filePath);
+    OutputStream os = <span class="keyword">new</span> FileOutputStream(file);
+    hssfWorkbook.write(os);
+    os.close();
+}
+
+<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">(HSSFCell cell)</span> </span>{
+    <span class="keyword">if</span> (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+        <span class="keyword">return</span> Double.valueOf(cell.getNumericCellValue()).intValue();
+    <span class="keyword">else</span> <span class="keyword">if</span> (cell.getCellType() == Cell.CELL_TYPE_STRING) 
+        <span class="keyword">return</span> Integer.parseInt(cell.getStringCellValue());
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>上面的实例是：读取Excel第一列的数据到List中，将List中数据写入到Excel。</p>
+<p>##参考</p>
+<ol>
+<li><a href="http://poi.apache.org/index.html" target="_blank" rel="external">Apache POI - the Java API for Microsoft Documents</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>最近需要在Java程序中读取Excel，于是开始接触POI。</p>
+<p>Apache POI是Apache软件基金会的开放源码函式库，POI提供API给Java程式对Microsoft Office格式档案读和写的功能。<br>]]>
+    
+    </summary>
+    
+      <category term="Excel" scheme="http://xfhnever.com/tags/Excel/"/>
+    
+      <category term="POI" scheme="http://xfhnever.com/tags/POI/"/>
+    
+      <category term="Tools" scheme="http://xfhnever.com/tags/Tools/"/>
+    
+      <category term="Tools" scheme="http://xfhnever.com/categories/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Mongodb(十一)- Array Operators]]></title>
+    <link href="http://xfhnever.com/2015/03/23/2015-03-23-mongodb-operatearrayelement/"/>
+    <id>http://xfhnever.com/2015/03/23/2015-03-23-mongodb-operatearrayelement/</id>
+    <published>2015-03-23T12:22:34.000Z</published>
+    <updated>2015-09-29T01:04:34.000Z</updated>
+    <content type="html"><![CDATA[<p>MongoDB中的Document是通过嵌套来描述数据之间的关系。对于嵌套了数组的Document来说，如何操作被嵌套的数组是本章我们将要介绍的内容。<br><a id="more"></a></p>
+<p>首先我们给出一个Document－songlist：</p>
+<pre><code>{
+  "<span class="attribute">_id</span>" : <span class="value"><span class="number">10</span></span>,
+  "<span class="attribute">createdTime</span>" : <span class="value"><span class="number">1363246285</span></span>,
+  "<span class="attribute">lastUpdated</span>" : <span class="value"><span class="number">1371398400</span></span>,
+  "<span class="attribute">songs</span>" : <span class="value">[{
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">6086104</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">1</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">2049114</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">2</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">1030287</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">3</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">4306167</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">4</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">2089947</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">5</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">4487220</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">6</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">989231</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">7</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">6079061</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">8</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">2918203</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">9</span>
+    </span>}, {
+      "<span class="attribute">song_id</span>" : <span class="value"><span class="number">6079120</span></span>,
+      "<span class="attribute">order</span>" : <span class="value"><span class="number">10</span>
+    </span>}]</span>,
+  "<span class="attribute">online_time</span>" : <span class="value"><span class="number">1371398400</span>
+</span>}
+</code></pre><p>如果我们需要往songs中添加一些歌或者删除一些歌，一种思路是直接取出整个文档，然后使用修改后的songs替换掉本来文档中的songs，然后再update整个文档。上面这种思路我们需要访问两次数据库，同时还需要手工遍历数组。更好的选择是直接操作文档中的数组。</p>
+<p>##添加</p>
+<p>###pushAll<br>将特定的值列表添加到数组中，格式如下：</p>
+<pre><code>{ <span class="variable">$pushAll</span>: { &lt;field&gt;: [ &lt;value1&gt;, &lt;value2&gt;, ... ] } }
+</code></pre><p>###push<br>将一个特定的值添加到数组中，格式如下：</p>
+<pre><code>{ <span class="variable">$push</span>: { &lt;field1&gt;: &lt;value1&gt;, ... }
+</code></pre><p>2.4版本之后，push加上each代替了本来的pushAll。</p>
+<pre><code>db.songlist.<span class="keyword">update</span>(
+   { _id: <span class="number">10</span> },
+   {
+     <span class="variable">$push</span>: {
+       songs: {
+          <span class="variable">$each</span>: [ { song_id: <span class="number">5</span>, order: <span class="number">8</span> }, { song_id: <span class="number">6</span>, order: <span class="number">9</span> }, { song_id: <span class="number">7</span>, order: <span class="number">6</span> } ],
+          <span class="variable">$sort</span>: { order: -<span class="number">1</span> },
+          <span class="variable">$slice</span>: <span class="number">3</span>
+       }
+     }
+   }
+)
+</code></pre><p>其中：</p>
+<ol>
+<li>the <strong>$each</strong> modifier to append to the array 2 new elements,</li>
+<li>the <strong>$sort</strong> modifier to order the elements by ascending (1) score</li>
+<li>the <strong>$slice</strong> modifier to keep the last 3 elements of the ordered array.</li>
+</ol>
+<p>###addToSet<br>The $addToSet operator adds a value to an array only if the value is not already in the array. If the value is in the array, $addToSet does not modify the array</p>
+<pre><code>{ <span class="variable">$addToSet</span>: { &lt;field1&gt;: &lt;value1&gt;, ... } }
+</code></pre><p>##删除</p>
+<p>###pullAll<br>删除数组中存在于给定列表中元素，格式如下：</p>
+<pre><code>{ <span class="variable">$pullAll</span>: { &lt;field1&gt;: [ &lt;value1&gt;, &lt;value2&gt; ... ], ... } }
+</code></pre><p>###pull<br>pull操作符可以定义查询语句，根据条件进行删除，格式如下：</p>
+<pre><code>{ <span class="variable">$pull</span>: { &lt;field1&gt;: &lt;value|query&gt;, ... } }
+</code></pre><p>实例：</p>
+<pre><code>db.songlist.<span class="keyword">update</span>(
+  { },
+  { <span class="variable">$pull</span>: { songs: { song_id: <span class="number">8</span> , order: <span class="number">10</span> } } },
+  { multi: true }
+)
+</code></pre><p>###pop<br>The $pop operator removes the first or last element of an array. Pass $pop a value of -1 to remove the first element of an array and 1 to remove the last element in an array.</p>
+<pre><code>{ <span class="variable">$pop</span>: { &lt;field&gt;: &lt;-<span class="number">1</span> | <span class="number">1</span>&gt;, ... } }
+</code></pre><p>##提取数组部分信息<br>根据上面的介绍，我们发现可以使用slice限定数组元素长度</p>
+<pre><code>{
+  <span class="variable">$push</span>: {
+     &lt;field&gt;: {
+       <span class="variable">$each</span>: [ &lt;value1&gt;, &lt;value2&gt;, ... ],
+       <span class="variable">$slice</span>: &lt;num&gt;
+     }
+  }
+}
+</code></pre><p>其中num可以是：</p>
+<ol>
+<li><strong>Zero</strong>：    To update the array <field> to an empty array.</field></li>
+<li><strong>Negative</strong>：    To update the array <field> to contain only the last <num> elements.</num></field></li>
+<li><strong>Positive</strong>：    To update the array <field> contain only the first <num> elements.</num></field></li>
+</ol>
+<p>##参考<br><a href="http://docs.mongodb.org/manual/reference/operator/update/addToSet/" target="_blank" rel="external">官方文档</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>MongoDB中的Document是通过嵌套来描述数据之间的关系。对于嵌套了数组的Document来说，如何操作被嵌套的数组是本章我们将要介绍的内容。<br>]]>
+    
+    </summary>
+    
+      <category term="DB" scheme="http://xfhnever.com/tags/DB/"/>
+    
+      <category term="Mongodb" scheme="http://xfhnever.com/tags/Mongodb/"/>
+    
+      <category term="DB" scheme="http://xfhnever.com/categories/DB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[zookeeper（二）- 原理]]></title>
+    <link href="http://xfhnever.com/2015/03/22/2015-03-22-zookeeper-principle/"/>
+    <id>http://xfhnever.com/2015/03/22/2015-03-22-zookeeper-principle/</id>
+    <published>2015-03-22T05:47:39.000Z</published>
+    <updated>2015-09-29T01:03:33.000Z</updated>
+    <content type="html"><![CDATA[<p>之前的blog简单介绍了zookeeper的特性，安装配置和适用范围，本章我们将进一步介绍zookeeper的基本原理。<br><a id="more"></a></p>
+<p>##重要概念</p>
+<p>###数据模型<br><img src="/images/post/zookeeper2-1.jpg"></p>
+<p>如上图所示，ZooKeeper数据模型的结构与Unix文件系统很类似，整体上可以看作是一棵树，每个节点称做一个ZNode。每个ZNode都可以通过其路径唯一标识，比如上图中第三层的第一个ZNode, 它的路径是/app1/c1。在每个ZNode上可存储少量数据(默认是1M, 可以通过配置修改, 通常不建议在ZNode上存储大量的数据)，这个特性非常有用，在后面的典型应用场景中会介绍到。另外，每个ZNode上还存储了其Acl信息，这里需要注意，虽说ZNode的树形结构跟Unix文件系统很类似，但是其Acl与Unix文件系统是完全不同的，每个ZNode的Acl的独立的，子结点不会继承父结点的。</p>
+<p>###ZNode<br>前文已介绍了ZNode, ZNode根据其本身的特性，可以分为下面两类：</p>
+<ol>
+<li>Regular ZNode: 常规型ZNode, 用户需要显式的创建、删除</li>
+<li>Ephemeral ZNode: 临时型ZNode, 用户创建它之后，可以显式的删除，也可以在创建它的Session结束后，由ZooKeeper Server自动删除</li>
+</ol>
+<p>ZNode还有一个Sequential的特性，如果创建的时候指定的话，该ZNode的名字后面会自动Append一个不断增加的SequenceNo。</p>
+<p>###Session<br>Client与ZooKeeper之间的通信，需要创建一个Session，这个Session会有一个超时时间。因为ZooKeeper集群会把Client的Session信息持久化，所以在Session没超时之前，Client与ZooKeeper Server的连接可以在各个ZooKeeper Server之间透明地移动。</p>
+<p>在实际的应用中，如果Client与Server之间的通信足够频繁，Session的维护就不需要其它额外的消息了。否则，ZooKeeper Client会每t/3 ms发一次心跳给Server，如果Client 2t/3 ms没收到来自Server的心跳回应，就会换到一个新的ZooKeeper Server上。这里t是用户配置的Session的超时时间。</p>
+<p>###Watcher<br>ZooKeeper支持一种Watch操作，Client可以在某个ZNode上设置一个Watcher，来Watch该ZNode上的变化。如果该ZNode上有相应的变化，就会触发这个Watcher，把相应的事件通知给设置Watcher的Client。需要注意的是，ZooKeeper中的Watcher是一次性的，即触发一次就会被取消，如果想继续Watch的话，需要客户端重新设置Watcher。这个跟epoll里的oneshot模式有点类似。</p>
+<p>###角色<br>Zookeeper中的角色主要有以下三类，如下表所示：</p>
+<img src="/images/post/zookeeper2-2.jpg">
+<p>系统模型如图所示：</p>
+<img src="/images/post/zookeeper2-3.jpg">
+<p>##工作原理<br>Zookeeper的核心是原子广播，这个机制保证了各个Server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）。当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数Server完成了和leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。</p>
+<p>为了保证事务的顺序一致性，zookeeper采用了递增的事务id号（zxid）来标识事务。所有的提议（proposal）都在被提出的时候加上了zxid。实现中zxid是一个64位的数字，它高32位是epoch用来标识leader关系是否改变，每次一个leader被选出来，它都会有一个新的epoch，标识当前属于那个leader的统治时期。低32位用于递增计数。</p>
+<p>每个Server在工作过程中有三种状态：</p>
+<ol>
+<li>LOOKING：当前Server不知道leader是谁，正在搜寻</li>
+<li>LEADING：当前Server即为选举出来的leader</li>
+<li>FOLLOWING：leader已经选举出来，当前Server与之同步</li>
+</ol>
+<p>###选主流程<br>当leader崩溃或者leader失去大多数的follower，这时候zk进入恢复模式，恢复模式需要重新选举出一个新的leader，让所有的Server都恢复到一个正确的状态。Zk的选举算法有两种：一种是基于basic paxos实现的，另外一种是基于fast paxos算法实现的。系统默认的选举算法为fast paxos。先介绍basic paxos流程：</p>
+<ol>
+<li>选举线程由当前Server发起选举的线程担任，其主要功能是对投票结果进行统计，并选出推荐的Server；</li>
+<li>选举线程首先向所有Server发起一次询问(包括自己)；</li>
+<li>选举线程收到回复后，验证是否是自己发起的询问(验证zxid是否一致)，然后获取对方的id(myid)，并存储到当前询问对象列表中，最后获取对方提议的leader相关信息(id,zxid)，并将这些信息存储到当次选举的投票记录表中；</li>
+<li>收到所有Server回复以后，就计算出zxid最大的那个Server，并将这个Server相关信息设置成下一次要投票的Server；</li>
+<li>线程将当前zxid最大的Server设置为当前Server要推荐的Leader，如果此时获胜的Server获得n/2 + 1的Server票数， 设置当前推荐的leader为获胜的Server，将根据获胜的Server相关信息设置自己的状态，否则，继续这个过程，直到leader被选举出来。</li>
+</ol>
+<p>每个Server启动后都会重复以上流程。在恢复模式下，如果是刚从崩溃状态恢复的或者刚启动的server还会从磁盘快照中恢复数据和会话信息，zk会记录事务日志并定期进行快照，方便在恢复时进行状态恢复。选主的具体流程图如下所示：</p>
+<img src="/images/post/zookeeper2-4.jpg">
+<p>fast paxos流程是在选举过程中，某Server首先向所有Server提议自己要成为leader，当其它Server收到提议以后，解决epoch和zxid的冲突，并接受对方的提议，然后向对方发送接受提议完成的消息，重复这个流程，最后一定能选举出Leader。其流程图如下所示：</p>
+<img src="/images/post/zookeeper2-5.jpg">
+<p>###同步流程<br>选完leader以后，zk就进入状态同步过程。</p>
+<ol>
+<li>leader等待server连接；</li>
+<li>Follower连接leader，将最大的zxid发送给leader；</li>
+<li>Leader根据follower的zxid确定同步点；</li>
+<li>完成同步后通知follower 已经成为uptodate状态；</li>
+<li>Follower收到uptodate消息后，又可以重新接受client的请求进行服务了。</li>
+</ol>
+<img src="/images/post/zookeeper2-6.jpg">
+<p>###工作流程</p>
+<p>###Leader工作流程<br>Leader主要有三个功能:</p>
+<ol>
+<li>恢复数据；</li>
+<li>维持与Learner的心跳，接收Learner请求并判断Learner的请求消息类型；</li>
+<li>Learner的消息类型主要有PING消息、REQUEST消息、ACK消息、REVALIDATE消息，根据不同的消息类型，进行不同的处理。</li>
+</ol>
+<p>PING消息是指Learner的心跳信息；REQUEST消息是Follower发送的提议信息，包括写请求及同步请求；ACK消息是Follower的对提议的回复，超过半数的Follower通过，则commit该提议；REVALIDATE消息是用来延长SESSION有效时间。</p>
+<img src="/images/post/zookeeper2-7.jpg">
+<p>###Follower工作流程<br>Follower主要有四个功能：</p>
+<ol>
+<li>向Leader发送请求（PING消息、REQUEST消息、ACK消息、REVALIDATE消息）；</li>
+<li>接收Leader消息并进行处理；</li>
+<li>接收Client的请求，如果为写请求，发送给Leader进行投票</li>
+<li>返回Client结果。</li>
+</ol>
+<p>Follower的消息循环处理如下几种来自Leader的消息：</p>
+<ol>
+<li>PING消息： 心跳消息；</li>
+<li>PROPOSAL消息：Leader发起的提案，要求Follower投票；</li>
+<li>COMMIT消息：服务器端最新一次提案的信息；</li>
+<li>UPTODATE消息：表明同步完成；</li>
+<li>REVALIDATE消息：根据Leader的REVALIDATE结果，关闭待revalidate的session还是允许其接受消息；</li>
+<li>SYNC消息：返回SYNC结果到客户端，这个消息最初由客户端发起，用来强制得到最新的更新。</li>
+</ol>
+<p>Follower的工作流程简图如下所示，在实际实现中，Follower是通过5个线程来实现功能的。</p>
+<img src="/images/post/zookeeper2-8.jpg">
+<p>对于observer的流程不再叙述，observer流程和Follower的唯一不同的地方就是observer不会参加leader发起的投票。</p>
+<p>##参考</p>
+<ol>
+<li><a href="http://cailin.iteye.com/blog/2014486" target="_blank" rel="external">zookeeper原理（转）</a></li>
+<li><a href="http://www.wuzesheng.com/?p=2609" target="_blank" rel="external">ZooKeeper原理及使用</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>之前的blog简单介绍了zookeeper的特性，安装配置和适用范围，本章我们将进一步介绍zookeeper的基本原理。<br>]]>
+    
+    </summary>
+    
+      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
+    
+      <category term="Zookeeper" scheme="http://xfhnever.com/tags/Zookeeper/"/>
+    
+      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[zookeeper（一）- 介绍]]></title>
+    <link href="http://xfhnever.com/2015/03/12/2015-03-12-zookeeper-intro/"/>
+    <id>http://xfhnever.com/2015/03/12/2015-03-12-zookeeper-intro/</id>
+    <published>2015-03-12T02:40:59.000Z</published>
+    <updated>2015-09-29T01:02:41.000Z</updated>
+    <content type="html"><![CDATA[<p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、名字服务、分布式同步、组服务等。<br><a id="more"></a><br>ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
+<p>ZooKeeper包含一个简单的原语集，提供Java和C的接口。</p>
+<p>##特点</p>
+<ol>
+<li>最终一致性：client不论连接到哪个Server，展示给它都是同一个视图，这是zookeeper最重要的性能。</li>
+<li>可靠性：具有简单、健壮、良好的性能，如果消息m被到一台服务器接受，那么它将被所有的服务器接受。</li>
+<li>实时性：Zookeeper保证客户端将在一个时间间隔范围内获得服务器的更新信息，或者服务器失效的信息。但由于网络延时等原因，Zookeeper不能保证两个客户端能同时得到刚更新的数据，如果需要最新数据，应该在读数据之前调用sync()接口。</li>
+<li>等待无关（wait-free）：慢的或者失效的client不得干预快速的client的请求，使得每个client都能有效的等待。</li>
+<li>原子性：更新只能成功或者失败，没有中间状态。</li>
+<li>顺序性：包括全局有序和偏序两种：全局有序是指如果在一台服务器上消息a在消息b前发布，则在所有Server上消息a都将在消息b前被发布；偏序是指如果一个消息b在消息a后被同一个发送者发布，a必将排在b前面。</li>
+</ol>
+<p>##安装配置<br>Zookeeper的安装和配置十分简单, 既可以配置成单机模式, 也可以配置成集群模式. </p>
+<p>###单机模式<br>单机安装非常简单，下载之后解压就可以，然后linux或者mac系统下可以启动脚本zkServer.sh。</p>
+<p>不过在执行启动脚本之前，还有几个基本的配置项需要配置一下，Zookeeper 的配置文件在 conf 目录下，这个目录下有 zoo_sample.cfg 和 log4j.properties，你需要做的就是将 zoo_sample.cfg 改名为 zoo.cfg，因为 Zookeeper 在启动时会找这个文件作为默认配置文件。下面详细介绍一下，这个配置文件中各个配置项的意义。</p>
+<pre><code>tickTime=<span class="number">2000</span> 
+dataDir=<span class="constant">D</span><span class="symbol">:/devtools/zookeeper-</span><span class="number">3.2</span>.<span class="number">2</span>/build 
+clientPort=<span class="number">2181</span>
+</code></pre><p>下面详细介绍一下，这个配置文件中各个配置项的意义。</p>
+<ol>
+<li>tickTime：这个时间是作为 Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。</li>
+<li>dataDir：顾名思义就是 Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存在这个目录里。</li>
+<li>clientPort：这个端口就是客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求。</li>
+</ol>
+<p>###集群模式<br>Zookeeper 不仅可以单机提供服务，同时也支持多机组成集群来提供服务。实际上 Zookeeper 还支持另外一种伪集群的方式，也就是可以在一台物理机上运行多个 Zookeeper 实例，下面将介绍集群模式的安装和配置。</p>
+<p>Zookeeper 的集群模式的安装和配置也不是很复杂，所要做的就是增加几个配置项。集群模式除了上面的三个配置项还要增加下面几个配置项：</p>
+<pre><code>initLimit=<span class="number">5</span> 
+syncLimit=<span class="number">2</span> 
+server<span class="number">.1</span>=<span class="number">192.168</span><span class="number">.211</span><span class="number">.1</span>:<span class="number">2888</span>:<span class="number">3888</span> 
+server<span class="number">.2</span>=<span class="number">192.168</span><span class="number">.211</span><span class="number">.2</span>:<span class="number">2888</span>:<span class="number">3888</span>
+</code></pre><p>各个配置项的意义：</p>
+<ol>
+<li>initLimit：这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5*2000=10 秒</li>
+<li>syncLimit：这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 2*2000=4 秒</li>
+<li>server.A=B：C：D：其中 A 是一个数字，表示这个是第几号服务器；B 是这个服务器的 ip 地址；C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。</li>
+</ol>
+<p>除了修改 zoo.cfg 配置文件，集群模式下还要配置一个文件 myid，这个文件在 dataDir 目录下，这个文件里面就有一个数据就是 A 的值，Zookeeper 启动时会读取这个文件，拿到里面的数据与 zoo.cfg 里面的配置信息比较从而判断到底是那个 server。</p>
+<p>##应用场景</p>
+<p>###名字服务(NameService)<br>分布式应用中，通常需要有一套完整的命名规则，既能够产生唯一的名称又便于人识别和记住，通常情况下用树形的名称结构是一个理想的选择，树形的名称结构是一个有层次的目录结构，既对人友好又不会重复。说到这里你可能想到了 JNDI，没错 Zookeeper 的 Name Service 与 JNDI 能够完成的功能是差不多的，它们都是将有层次的目录结构关联到一定资源上，但是 Zookeeper 的 Name Service 更加是广泛意义上的关联，也许你并不需要将名称关联到特定资源上，你可能只需要一个不会重复名称，就像数据库中产生一个唯一的数字主键一样。</p>
+<p>Name Service 已经是 Zookeeper 内置的功能，你只要调用 Zookeeper 的 API 就能实现。如调用 create 接口就可以很容易创建一个目录节点。</p>
+<p>###配置管理(Configuration Management)<br>在分布式系统中，常会遇到这样的场景: 某个Job的很多个实例在运行，它们在运行时大多数配置项是相同的，如果想要统一改某个配置，一个个实例去改，是比较低效，也是比较容易出错的方式。通过ZooKeeper可以很好的解决这样的问题，下面的基本的步骤：</p>
+<ol>
+<li>将公共的配置内容放到ZooKeeper中某个ZNode上，比如/service/common-conf</li>
+<li>所有的实例在启动时都会传入ZooKeeper集群的入口地址，并且在运行过程中Watch /service/common-conf这个ZNode</li>
+<li>如果集群管理员修改了了common-conf，所有的实例都会被通知到，根据收到的通知更新自己的配置，并继续Watch /service/common-conf</li>
+</ol>
+<p>###集群管理（Group Membership）<br>Zookeeper 能够很容易的实现集群管理的功能，如有多台 Server 组成一个服务集群，那么必须要一个“总管”知道当前集群中每台机器的服务状态，一旦有机器不能提供服务，集群中其它集群必须知道，从而做出调整重新分配服务策略。同样当增加集群的服务能力时，就会增加一台或多台 Server，同样也必须让“总管”知道。</p>
+<p>Zookeeper 不仅能够帮你维护当前的集群中机器的服务状态，而且能够帮你选出一个“总管”，让这个总管来管理集群，这就是 Zookeeper 的另一个功能 Leader Election。</p>
+<p>它们的实现方式都是在 Zookeeper 上创建一个 EPHEMERAL 类型的目录节点，然后每个 Server 在它们创建目录节点的父目录节点上调用 getChildren(String path, boolean watch) 方法并设置 watch 为 true，由于是 EPHEMERAL 目录节点，当创建它的 Server 死去，这个目录节点也随之被删除，所以 Children 将会变化，这时 getChildren上的 Watch 将会被调用，所以其它 Server 就知道已经有某台 Server 死去了。新增 Server 也是同样的原理。</p>
+<p>Zookeeper 如何实现 Leader Election，也就是选出一个 Master Server。和前面的一样每台 Server 创建一个 EPHEMERAL 目录节点，不同的是它还是一个 SEQUENTIAL 目录节点，所以它是个 EPHEMERAL_SEQUENTIAL 目录节点。之所以它是 EPHEMERAL_SEQUENTIAL 目录节点，是因为我们可以给每台 Server 编号，我们可以选择当前是最小编号的 Server 为 Master，假如这个最小编号的 Server 死去，由于是 EPHEMERAL 节点，死去的 Server 对应的节点也被删除，所以当前的节点列表中又出现一个最小编号的节点，我们就选择这个节点为当前 Master。这样就实现了动态选择 Master，避免了传统意义上单 Master 容易出现单点故障的问题。</p>
+<img src="/images/post/zookeeper1-1.png">
+<p>###简单互斥锁(Simple Lock)<br>在传统的应用程序中，线程、进程的同步，都可以通过操作系统提供的机制来完成。但是在分布式系统中，多个进程之间的同步，操作系统层面就无能为力了。这时候就需要像ZooKeeper这样的分布式的协调(Coordination)服务来协助完成同步，下面是用ZooKeeper实现简单的互斥锁的步骤，这个可以和线程间同步的mutex做类比来理解：</p>
+<ol>
+<li>多个进程尝试去在指定的目录下去创建一个临时性(Ephemeral)结点 /locks/my_lock</li>
+<li>ZooKeeper能保证，只会有一个进程成功创建该结点，创建结点成功的进程就是抢到锁的进程，假设该进程为A</li>
+<li>其它进程都对/locks/my_lock进行Watch</li>
+<li>当A进程不再需要锁，可以显式删除/locks/my_lock释放锁；或者是A进程宕机后Session超时，ZooKeeper系统自动删除/locks/my_lock结点释放锁。此时，其它进程就会收到ZooKeeper的通知，并尝试去创建/locks/my_lock抢锁，如此循环反复</li>
+</ol>
+<p>###互斥锁(Simple Lock without Herd Effect)<br>上一例子中有一个问题，每次抢锁都会有大量的进程去竞争，会造成羊群效应(Herd Effect)，为了解决这个问题，我们可以通过下面的步骤来改进上述过程：</p>
+<ol>
+<li>每个进程都在ZooKeeper上创建一个临时的顺序结点(Ephemeral Sequential) /locks/lock_${seq}<br>${seq}最小的为当前的持锁者(${seq}是ZooKeeper生成的Sequenctial Number)</li>
+<li>其它进程都对只watch比它次小的进程对应的结点，比如2 watch 1, 3 watch 2, 以此类推</li>
+<li>当前持锁者释放锁后，比它次大的进程就会收到ZooKeeper的通知，它成为新的持锁者，如此循环反复</li>
+</ol>
+<p>这里需要补充一点，通常在分布式系统中用ZooKeeper来做Leader Election(选主)就是通过上面的机制来实现的，这里的持锁者就是当前的“主”。</p>
+<p>###读写锁(Read/Write Lock)<br>读写锁跟互斥锁相比不同的地方是，它分成了读和写两种模式，多个读可以并发执行，但写和读、写都互斥，不能同时执行行。利用ZooKeeper，在上面的基础上，稍做修改也可以实现传统的读写锁的语义，下面是基本的步骤:</p>
+<ol>
+<li>每个进程都在ZooKeeper上创建一个临时的顺序结点(Ephemeral Sequential) /locks/lock_${seq}</li>
+<li>${seq}最小的一个或多个结点为当前的持锁者，多个是因为多个读可以并发</li>
+<li>需要写锁的进程，Watch比它次小的进程对应的结点</li>
+<li>需要读锁的进程，Watch比它小的最后一个写进程对应的结点</li>
+<li>当前结点释放锁后，所有Watch该结点的进程都会被通知到，他们成为新的持锁者，如此循环反复</li>
+</ol>
+<p>###屏障(Barrier)<br>在分布式系统中，屏障是这样一种语义: 客户端需要等待多个进程完成各自的任务，然后才能继续往前进行下一步。下用是用ZooKeeper来实现屏障的基本步骤：</p>
+<ol>
+<li>Client在ZooKeeper上创建屏障结点/barrier/my_barrier，并启动执行各个任务的进程</li>
+<li>Client通过exist()来Watch /barrier/my_barrier结点</li>
+<li>每个任务进程在完成任务后，去检查是否达到指定的条件，如果没达到就啥也不做，如果达到了就把/barrier/my_barrier结点删除</li>
+<li>Client收到/barrier/my_barrier被删除的通知，屏障消失，继续下一步任务</li>
+</ol>
+<p>###双屏障(Double Barrier)<br>双屏障是这样一种语义: 它可以用来同步一个任务的开始和结束，当有足够多的进程进入屏障后，才开始执行任务；当所有的进程都执行完各自的任务后，屏障才撤销。下面是用ZooKeeper来实现双屏障的基本步骤：</p>
+<p>进入屏障：</p>
+<ol>
+<li>Client Watch /barrier/ready结点, 通过判断该结点是否存在来决定是否启动任务</li>
+<li>每个任务进程进入屏障时创建一个临时结点/barrier/process/${process_id}，然后检查进入屏障的结点数是否达到指定的值，如果达到了指定的值，就创建一个/barrier/ready结点，否则继续等待</li>
+<li>Client收到/barrier/ready创建的通知，就启动任务执行过程</li>
+</ol>
+<p>离开屏障：</p>
+<ol>
+<li>Client Watch /barrier/process，如果其没有子结点，就可以认为任务执行结束，可以离开屏障</li>
+<li>每个任务进程执行任务结束后，都需要删除自己对应的结点/barrier/process/${process_id}</li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、名字服务、分布式同步、组服务等。<br>]]>
+    
+    </summary>
+    
+      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
+    
+      <category term="Zookeeper" scheme="http://xfhnever.com/tags/Zookeeper/"/>
+    
+      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Kafka(一)- 介绍]]></title>
+    <link href="http://xfhnever.com/2015/03/12/2015-03-12-kafka-intro/"/>
+    <id>http://xfhnever.com/2015/03/12/2015-03-12-kafka-intro/</id>
+    <published>2015-03-12T01:38:58.000Z</published>
+    <updated>2015-09-29T00:04:42.000Z</updated>
+    <content type="html"><![CDATA[<p>Kafka是一个分布式的、可分区的、可复制的消息系统。它提供了普通消息系统的功能，但具有自己独特的设计。<br><a id="more"></a></p>
+<p>##架构</p>
+<p>###组件</p>
+<ol>
+<li><strong>话题（Topic）</strong>是特定类型的消息流。消息是字节的有效负载（Payload），话题是消息的分类名或种子（Feed）名。</li>
+<li><strong>生产者（Producer）</strong>是能够发布消息到话题的任何对象。</li>
+<li>已发布的消息保存在一组服务器中，它们被称为<strong>代理（Broker）</strong>或<strong>Kafka集群</strong>。</li>
+<li><strong>消费者</strong>可以订阅一个或多个话题，并从Broker拉数据，从而消费这些已发布的消息。</li>
+</ol>
+<img src="/images/post/kafka1-1.png">
+<p>客户端和服务端通过TCP协议通信。Kafka提供了Java客户端，并且对多种语言都提供了支持。</p>
+<p>###整体架构<br>Kafka内在就是分布式的，一个Kafka集群通常包括多个代理。为了均衡负载，将话题分成多个分区，每个代理存储一或多个分区。多个生产者和消费者能够同时生产和获取消息。</p>
+<img src="/images/post/kafka1-2.png">
+<p>##Kafka存储架构<br>Kafka的存储布局非常简单。话题的每个分区对应一个逻辑日志。物理上，一个日志为相同大小的一组分段文件。每次生产者发布消息到一个分区，代理就将消息追加到最后一个段文件中。当发布的消息数量达到设定值或者经过一定的时间后，段文件真正写入磁盘中。写入完成后，消息公开给消费者。</p>
+<p>在一个可配置的时间段内，Kafka集群保留所有发布的消息，不管这些消息有没有被消费。比如，如果消息的保存策略被设置为2天，那么在一个消息被发布的两天时间内，它都是可以被消费的。之后它将被丢弃以释放空间。Kafka的性能是和数据量无关的常量级的，所以保留太多的数据并不是问</p>
+<p>与传统的消息系统不同，Kafka系统中存储的消息没有明确的消息Id。</p>
+<p>消息通过日志中的逻辑偏移量来公开。这样就避免了维护配套密集寻址，用于映射消息ID到实际消息地址的随机存取索引结构的开销。消息ID是增量的，但不连续。要计算下一消息的ID，可以在其逻辑偏移的基础上加上当前消息的长度。</p>
+<p>消费者始终从特定分区顺序地获取消息，如果消费者知道特定消息的偏移量，也就说明消费者已经消费了之前的所有消息。消费者向代理发出异步拉请求，准备字节缓冲区用于消费。每个异步拉请求都包含要消费的消息偏移量。Kafka利用sendfile API高效地从代理的日志段文件中分发字节给消费者。</p>
+<img src="/images/post/kafka1-3.png">
+<p>##Kafka代理<br>与其它消息系统不同，Kafka代理是无状态的。这意味着消费者必须维护已消费的状态信息。这些信息由消费者自己维护，代理完全不管。这种设计非常微妙，它本身包含了创新。</p>
+<ol>
+<li>从代理删除消息变得很棘手，因为代理并不知道消费者是否已经使用了该消息。Kafka创新性地解决了这个问题，它将一个简单的基于时间的SLA应用于保留策略。当消息在代理中超过一定时间后，将会被自动删除。</li>
+<li>这种创新设计有很大的好处，消费者可以故意倒回到老的偏移量再次消费数据。这违反了队列的常见约定，但被证明是许多消费者的基本特征。</li>
+</ol>
+<p>##分布式<br>每个分区在Kafka集群的若干服务中都有副本，这样这些持有副本的服务可以共同处理数据和请求，副本数量是可以配置的。副本使Kafka具备了容错能力。</p>
+<p>每个分区都由一个服务器作为“leader”，零或若干服务器作为“followers”,leader负责处理消息的读和写，followers则去复制leader.如果leader down了，followers中的一台则会自动成为leader。集群中的每个服务都会同时扮演两个角色：作为它所持有的一部分分区的leader，同时作为其他分区的followers，这样集群就会据有较好的负载均衡。</p>
+<p>##Consumers<br>发布消息通常有两种模式：队列模式（queuing）和发布-订阅模式(publish-subscribe)。队列模式中，consumers可以同时从服务端读取消息，每个消息只被其中一个consumer读到；发布-订阅模式中消息被广播到所有的consumer中。</p>
+<p>Consumers可以加入一个consumer 组，共同竞争一个topic，topic中的消息将被分发到组中的一个成员中。同一组中的consumer可以在不同的程序中，也可以在不同的机器上。如果所有的consumer都在一个组中，这就成为了传统的队列模式，在各consumer中实现负载均衡。</p>
+<p>如果所有的consumer都不在不同的组中，这就成为了发布-订阅模式，所有的消息都被分发到所有的consumer中。</p>
+<p>更常见的是，每个topic都有若干数量的consumer组，每个组都是一个逻辑上的“订阅者”，为了容错和更好的稳定性，每个组由若干consumer组成。这其实就是一个发布-订阅模式，只不过订阅者是个组而不是单个consumer。</p>
+<p>相比传统的消息系统，Kafka可以很好的保证有序性。</p>
+<p>传统的队列在服务器上保存有序的消息，如果多个consumers同时从这个服务器消费消息，服务器就会以消息存储的顺序向consumer分发消息。虽然服务器按顺序发布消息，但是消息是被异步的分发到各consumer上，所以当消息到达时可能已经失去了原来的顺序，这意味着并发消费将导致顺序错乱。为了避免故障，这样的消息系统通常使用“专用consumer”的概念，其实就是只允许一个消费者消费消息，当然这就意味着失去了并发性。</p>
+<p>在这方面Kafka做的更好，通过分区的概念，Kafka可以在多个consumer组并发的情况下提供较好的有序性和负载均衡。将每个分区分只分发给一个consumer组，这样一个分区就只被这个组的一个consumer消费，就可以顺序的消费这个分区的消息。因为有多个分区，依然可以在多个consumer组之间进行负载均衡。注意consumer组的数量不能多于分区的数量，也就是有多少分区就允许多少并发消费。</p>
+<p>Kafka只能保证一个分区之内消息的有序性，在不同的分区之间是不可以的，这已经可以满足大部分应用的需求。如果需要topic中所有消息的有序性，那就只能让这个topic只有一个分区，当然也就只有一个consumer组消费它。</p>
+<p>##ZooKeeper与Kafka<br>正如ZooKeeper用于分布式系统的协调和促进，Kafka使用ZooKeeper也是基于相同的原因。ZooKeeper用于管理、协调Kafka代理。每个Kafka代理都通过ZooKeeper协调其它Kafka代理。当Kafka系统中新增了代理或者某个代理故障失效时，ZooKeeper服务将通知生产者和消费者。生产者和消费者据此开始与其它代理协调工作。</p>
+<img src="/images/post/kafka1-4.png">
+<p>##特性<br>Apache Kafka与传统消息系统相比，有以下不同：</p>
+<ol>
+<li>它被设计为一个分布式系统，易于向外扩展；</li>
+<li>它同时为发布和订阅提供高吞吐量；</li>
+<li>它支持多订阅者，当失败时能自动平衡消费者；</li>
+<li>它将消息持久化到磁盘，因此可用于批量消费，例如ETL，以及实时应用程序。</li>
+</ol>
+<p>###生产者性能好的原因</p>
+<ol>
+<li>Kafka不等待代理的确认，以代理能处理的最快速度发送消息。</li>
+<li>Kafka有更高效的存储格式。平均而言，Kafka每条消息有9字节的开销，而ActiveMQ有144字节。其原因是JMS所需的沉重消息头，以及维护各种索引结构的开销。LinkedIn注意到ActiveMQ一个最忙的线程大部分时间都在存取B-Tree以维护消息元数据和状态。</li>
+</ol>
+<p>###消费者性能好的原因</p>
+<ol>
+<li>Kafka有更高效的存储格式；在Kafka中，从代理传输到消费者的字节更少。</li>
+<li>ActiveMQ和RabbitMQ两个容器中的代理必须维护每个消息的传输状态。LinkedIn团队注意到其中一个ActiveMQ线程在测试过程中，一直在将KahaDB页写入磁盘。与此相反，Kafka代理没有磁盘写入动作。最后，Kafka通过使用sendfile API降低了传输开销。</li>
+</ol>
+<p>##缺点</p>
+<ol>
+<li>不支持事务</li>
+<li>会丢失数据</li>
+</ol>
+<p>##更多参考</p>
+<ol>
+<li><a href="http://www.linuxidc.com/Linux/2014-01/94682.htm" target="_blank" rel="external">Apache Kafka 教程笔记</a></li>
+<li><a href="http://kafka.apache.org/documentation.html#introduction" target="_blank" rel="external">Apache Kafka</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Kafka是一个分布式的、可分区的、可复制的消息系统。它提供了普通消息系统的功能，但具有自己独特的设计。<br>]]>
+    
+    </summary>
+    
+      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
+    
+      <category term="Kafka" scheme="http://xfhnever.com/tags/Kafka/"/>
+    
+      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Dubbo(一)-介绍]]></title>
+    <link href="http://xfhnever.com/2015/03/08/2015-03-08-dubbo-introduction/"/>
+    <id>http://xfhnever.com/2015/03/08/2015-03-08-dubbo-introduction/</id>
+    <published>2015-03-08T11:13:21.000Z</published>
+    <updated>2015-09-29T00:03:58.000Z</updated>
+    <content type="html"><![CDATA[<p>在天天动听(ttpod)实习也有了一段时间，也接触到了一些项目。所以最近决定开始整理一些公司项目中使用的技术框架，以加深对技术的理解。<br><a id="more"></a><br>Dubbo是Alibaba开源的分布式服务框架，它最大的特点是按照分层的方式来架构，使用这种方式可以使各个层之间解耦合（或者最大限度地松耦合）。目前公司最新版本的服务端接口基本都是基于Dubbo开发的，所以我们第一篇就介绍Dubbo。</p>
+<p>##架构<br><img src="/images/post/dubbo1-1.jpg"></p>
+<p>###节点角色说明</p>
+<ol>
+<li>Provider: 暴露服务的服务提供方。</li>
+<li>Consumer: 调用远程服务的服务消费方。</li>
+<li>Registry: 服务注册与发现的注册中心。</li>
+<li>Monitor: 统计服务的调用次调和调用时间的监控中心。</li>
+<li>Container: 服务运行容器。</li>
+</ol>
+<p>###调用关系说明</p>
+<ol>
+<li>服务容器负责启动，加载，运行服务提供者。</li>
+<li>服务提供者在启动时，向注册中心注册自己提供的服务。</li>
+<li>服务消费者在启动时，向注册中心订阅自己所需的服务。</li>
+<li>注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。</li>
+<li>服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</li>
+<li>服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。</li>
+</ol>
+<p>##优势</p>
+<p>###连通性</p>
+<ol>
+<li>注册中心负责服务地址的注册与查找，相当于目录服务，服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小</li>
+<li>监控中心负责统计各服务调用次数，调用时间等，统计先在内存汇总后每分钟一次发送到监控中心服务器，并以报表展示</li>
+<li>服务提供者向注册中心注册其提供的服务，并汇报调用时间到监控中心，此时间不包含网络开销</li>
+<li>服务消费者向注册中心获取服务提供者地址列表，并根据负载算法直接调用提供者，同时汇报调用时间到监控中心，此时间包含网络开销</li>
+<li>注册中心，服务提供者，服务消费者三者之间均为长连接，监控中心除外<br>注册中心通过长连接感知服务提供者的存在，服务提供者宕机，注册中心将立即推送事件通知消费者</li>
+<li>注册中心和监控中心全部宕机，不影响已运行的提供者和消费者，消费者在本地缓存了提供者列表</li>
+<li>注册中心和监控中心都是可选的，服务消费者可以直连服务提供者</li>
+</ol>
+<p>###健状性</p>
+<ol>
+<li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
+<li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
+<li>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</li>
+<li>注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯</li>
+<li>服务提供者无状态，任意一台宕掉后，不影响使用</li>
+<li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
+</ol>
+<p>###伸缩性</p>
+<ol>
+<li>注册中心为对等集群，可动态增加机器部署实例，所有客户端将自动发现新的注册中心</li>
+<li>服务提供者无状态，可动态增加机器部署实例，注册中心将推送新的服务提供者信息给消费者</li>
+</ol>
+<p>###升级性</p>
+<ol>
+<li>当服务集群规模进一步扩大，带动IT治理结构进一步升级，需要实现动态部署，进行流动计算，现有分布式服务架构不会带来阻力</li>
+</ol>
+<p>##功能</p>
+<p>###配置</p>
+<ol>
+<li>配置继承</li>
+<li><p>可配置编程</p>
+<p> 同时支持编程配置和Schema配置</p>
+</li>
+</ol>
+<p>###服务匹配</p>
+<ol>
+<li><p>服务分组，多版本</p>
+<p> 当一个接口有多种实现时,可以用group区分</p>
+<pre><code>&lt;dubbo:service <span class="keyword">group</span>=<span class="string">"feedback"</span> <span class="keyword">interface</span>=<span class="string">"com.xxx.IndexService"</span> /&gt; 
+&lt;dubbo:service <span class="keyword">group</span>=<span class="string">"member"</span> <span class="keyword">interface</span>=<span class="string">"com.xxx.IndexService"</span> /&gt;
+</code></pre><p> 当一个接口实现,出现不兼容升级时,可以用版本号过渡,<br>版本号不同的服务相互间不引用</p>
+<pre><code>&lt;dubbo:service <span class="keyword">interface</span>=<span class="string">"com.foo.BarService"</span> version=<span class="string">"1.0.0"</span> /&gt; 
+&lt;dubbo:service <span class="keyword">interface</span>=<span class="string">"com.foo.BarService"</span> version=<span class="string">"2.0.0"</span> /&gt;
+</code></pre></li>
+<li><p>指定调用</p>
+<p> 点对点直连/指定调用需求 (开发/测试环境)，多种方式实现，比如：</p>
+<pre><code><span class="number">1</span>. &lt;dubbo:reference interface=<span class="string">"com.alibaba.xxx.XxxService"</span> url=<span class="string">"dubbo://localhost:20890"</span> /&gt;
+<span class="number">2</span>. java -Dcom<span class="class">.alibaba</span><span class="class">.xxx</span><span class="class">.XxxService</span>=dubbo:<span class="comment">//localhost:20890</span>
+<span class="number">3</span>. java -Ddubbo<span class="class">.resolve</span><span class="class">.file</span>=xxx<span class="class">.properties</span>
+   com<span class="class">.alibaba</span><span class="class">.xxx</span><span class="class">.XxxService</span>=dubbo:<span class="comment">//localhost:20890</span>
+</code></pre></li>
+<li><p>只订阅</p>
+<p> 共用注册中心,开发人员机器上的服务提供者被误 调,影响其他开发人员(开发、测试环境) &lt;dubbo:registry register=”false” /&gt;<br>###集群&amp;容错</p>
+<img src="/images/post/dubbo1-2.jpg">
+</li>
+</ol>
+<p>###多协议</p>
+<ol>
+<li><p>不同服务不同协议</p>
+<p> 比如:不同服务在性能上适用不同协议进行传输,比如大数据用短连接协议,小数据大并发用长连接协议。</p>
+<pre><code>￼
+
+<span class="comment">&lt;!-- 多协议配置 --&gt;</span>
+<span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">"dubbo"</span> <span class="attribute">port</span>=<span class="value">"20880"</span> /&gt;</span> <span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">"rmi"</span> <span class="attribute">port</span>=<span class="value">"1099"</span> /&gt;</span>
+<span class="comment">&lt;!-- 使用dubbo协议暴露服务 --&gt;</span>
+<span class="tag">&lt;<span class="title">dubbo:service</span> <span class="attribute">interface</span>=<span class="value">"com.alibaba.hello.api.HelloService"</span> <span class="attribute">version</span>=<span class="value">"1.0.0"</span> <span class="attribute">ref</span>=<span class="value">"helloService"</span> <span class="attribute">protocol</span>=<span class="value">"dubbo"</span> /&gt;</span> <span class="comment">&lt;!-- 使用rmi协议暴露服务 --&gt;</span>
+<span class="tag">&lt;<span class="title">dubbo:service</span> <span class="attribute">interface</span>=<span class="value">"com.alibaba.hello.api.DemoService"</span> <span class="attribute">version</span>=<span class="value">"1.0.0"</span> <span class="attribute">ref</span>=<span class="value">"demoService"</span> <span class="attribute">protocol</span>=<span class="value">"rmi"</span> /&gt;</span>
+</code></pre></li>
+<li><p>同一服务多协议</p>
+<pre><code><span class="comment">&lt;!-- 多协议配置 --&gt;</span>
+<span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">"dubbo"</span> <span class="attribute">port</span>=<span class="value">"20880"</span> /&gt;</span> <span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">"hessian"</span> <span class="attribute">port</span>=<span class="value">"8080"</span> /&gt;</span>
+<span class="comment">&lt;!-- 使用多个协议暴露服务 --&gt;</span>
+<span class="tag">&lt;<span class="title">dubbo:reference</span> <span class="attribute">id</span>=<span class="value">"helloService"</span> <span class="attribute">interface</span>=<span class="value">"com.alibaba.hello.api.HelloService"</span> <span class="attribute">version</span>=<span class="value">"1.0.0"</span> <span class="attribute">protocol</span>=<span class="value">"dubbo,hessian"</span> /&gt;</span>
+</code></pre></li>
+<li><p>本地服务调用(InJvm调用)</p>
+<p> 同一个jvm内部的服务调用采用短路的方式 •先本地服务化,再做物理远程调用</p>
+<pre><code><span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">“injvm”</span> &gt;</span>
+<span class="tag">&lt;<span class="title">dubbo:provider</span> <span class="attribute">interface</span> = “<span class="attribute">HelloService</span>” <span class="attribute">injvm</span>=<span class="value">“true”</span>/&gt;</span> 
+<span class="tag">&lt;<span class="title">dubbo:consumer</span> <span class="attribute">interface</span>=<span class="value">“Helloservice”</span> <span class="attribute">injvm</span>=<span class="value">“true”</span> &gt;</span>
+</code></pre><p>￼</p>
+</li>
+</ol>
+<p>###多注册中心<br>解决CRM需同时调用中文站和国际站PC2相同接口相同版本服务的问题</p>
+<pre><code>￼定义多个注册中心:
+&lt;dubbo:registry <span class="property">id</span>=“chinaRegistry” address=<span class="string">"172.29.63.18:9090"</span> /&gt; &lt;dubbo:registry <span class="property">id</span>=“intlRegistry” address=<span class="string">"172.29.61.132:9090"</span> /&gt;
+￼
+不同注册中心使用不同引用:
+&lt;dubbo:<span class="keyword">reference</span> <span class="property">id</span>=“chinaXxxService” interface=<span class="string">"com.alibaba.xxx.XxxService"</span> <span class="property">version</span>=<span class="string">"1.0.0“ registry=“chinaRegistry” /&gt;
+&lt;dubbo:reference id=“intlXxxService” interface="</span>com.alibaba.xxx.XxxService<span class="string">" version="</span><span class="number">1.0</span><span class="number">.0</span>“ registry=“intlRegistry” /&gt;
+</code></pre><p>###Graceful shutdown<br><img src="/images/post/dubbo1-3.png"></p>
+<p>本章完美简单介绍了一下dubbo的特性和基本功能，鉴于我目前只使用了这些基本功能，就暂时先介绍到这边，后面如有机会，我们会继续研究。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>在天天动听(ttpod)实习也有了一段时间，也接触到了一些项目。所以最近决定开始整理一些公司项目中使用的技术框架，以加深对技术的理解。<br>]]>
+    
+    </summary>
+    
+      <category term="Dubbo" scheme="http://xfhnever.com/tags/Dubbo/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
+    
+      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
+    
+      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[RESTful Web Service(十四)- 服务发现]]></title>
+    <link href="http://xfhnever.com/2015/02/27/2015-02-27-rws-servicediscoverability/"/>
+    <id>http://xfhnever.com/2015/02/27/2015-02-27-rws-servicediscoverability/</id>
+    <published>2015-02-27T09:09:41.000Z</published>
+    <updated>2015-09-29T00:00:29.000Z</updated>
+    <content type="html"><![CDATA[<p>当创建RESTful web服务时，需要解决设计时可发现性和运行时可发现性这两类可发现性。设计时可发现性有助于其他设计和创建客户端，它描述了客户端开发组和管理员用于构建和启动客户端的基本信息。运行时可发现性有助于维护客户端和服务器之间的松散耦合并使能即插即用式自动化。运行时可发现性解决了HTTP统一接口、媒体类型、链接和链接关系类型。本章是关于设计时可发现性的。<br><a id="more"></a><br>设计时发现简单来说就是将web服务用散文描述，不管这些散文诗有工具生成还是设计者手工写作。客户端开发者可以查询散文以理解资源语义、媒体类型、链接类型等信息以实现客户端。</p>
+<p>##如何编写RESTful Web服务的文档<br>下面这些信息需要在RESTful web服务文档中描述：</p>
+<ol>
+<li>所有资源及每个资源支持的方法</li>
+<li>请求和响应中资源的媒体类型和表述格式</li>
+<li>使用的链接关系、商业意义、所用的HTTP方法及链接标识的资源</li>
+<li>所用不通过链接提供的固定URI</li>
+<li>用于所有固定URI的查询参数</li>
+<li>URI模板和符号替换规则</li>
+<li>访问资源的认证和安全证书</li>
+</ol>
+<p>对于XML表述，如果客户端和服务器支持XML schema，使用schema语言描述用于请求和响应中表述的XML结构。对于其他格式，使用散文描述表述。</p>
+<p>##如何使用OPTIONS<br>通过支持HTTP OPTIONS方法，有助于工具了解web服务中的资源。在服务器端，实现OPTIONS方法通过Allow头返回支持方法列表。当资源支持PATCH方法，添加Accept-Patch头列举支持PATCH请求的媒体类型。可选择性添加含有资源描述文档的链接的Link头。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>当创建RESTful web服务时，需要解决设计时可发现性和运行时可发现性这两类可发现性。设计时可发现性有助于其他设计和创建客户端，它描述了客户端开发组和管理员用于构建和启动客户端的基本信息。运行时可发现性有助于维护客户端和服务器之间的松散耦合并使能即插即用式自动化。运行时可发现性解决了HTTP统一接口、媒体类型、链接和链接关系类型。本章是关于设计时可发现性的。<br>]]>
+    
+    </summary>
+    
+      <category term="REST" scheme="http://xfhnever.com/tags/REST/"/>
+    
+      <category term="RESTful" scheme="http://xfhnever.com/tags/RESTful/"/>
+    
+      <category term="RESTful" scheme="http://xfhnever.com/categories/RESTful/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[RESTful Web Service(十三)- 可扩展性与版本控制]]></title>
+    <link href="http://xfhnever.com/2015/02/27/2015-02-27-rws-scalability-and-versioncontrol/"/>
+    <id>http://xfhnever.com/2015/02/27/2015-02-27-rws-scalability-and-versioncontrol/</id>
+    <published>2015-02-27T08:11:11.000Z</published>
+    <updated>2015-09-29T00:00:16.000Z</updated>
+    <content type="html"><![CDATA[<p>在任何分布式CS环境管理变化都是困难的。在这些环境中，客户端依赖服务器来遵守契约，RESTful web服务也不例外。对于web服务，契约包含URI、资源、表述的结构和内容、格式及对每个资源所用的HTTP方法。任何对服务器的改变在向后兼容之前似乎都是良性的。<br><a id="more"></a><br>当变化是后向兼容的，当修改服务器时无需升级客户端，客户端除了在服务器升级时宕机之外能够继续按照以往的方式使用服务器。当多个客户端和服务器在不同时刻升级，另一个比较重要的兼容性是前向兼容。在某些情况下，一些新客户端可能会和老服务器交互。前向兼容的目的是确保新客户端即使在老服务器功能缺失时能够继续使用老服务器。应用是否需要考虑后向兼容和前向兼容取决于操作环境，维护兼容性的手段是可扩展性。可扩展性是解决未来变化的设计过程。作为传输协议，HTTP是可扩展的，可以添加新方法或标头来扩展HTTP（须谨慎使用），但不意味着HTTP之上的应用也自动地可扩展。尽管维护兼容性是值得的，但并不总是有可能实现。</p>
+<p>##如何维持URI的兼容性<br>为了使URI变化跟现有客户端兼容，必须保持URI持久不变。将相同查询参数但排序不同的请求URI视为相同。客户端必须能够对不同查询参数排序获得相同的结果。当对URI添加新参数，继续使用现有参数并将新参数视为可选。当改变查询参数数据格式，继续使用现有格式。如果行不通，通过新的查询参数或新URI引入格式变化。默认情况下，将URI中的查询参数视为可选，除非这些参数基于并发或安全使用。</p>
+<p>##如何维持XML和JSON表述的兼容性<br>为了使XML/JSON表述变化跟现有客户端兼容，设计XML/JSON格式保持子节点无序。当对XML/JSON进行改动，保持现有分层结构以使客户端能够继续使用相同结构提取数据。使请求中新创建的数据节点可选以同现有客户端兼容。如果客户端发送新数据字段，服务器也必须能继续处理。不要删除或重命名响应体中表述的任何数据字段。</p>
+<p>##如何扩展Atom<br>Atom格式被设计成支持未来的扩展。Atom格式中的所有元素允许外来的XML元素和属性。可以通过下列方式扩展Atom：</p>
+<ol>
+<li>添加链接关系类型，例如”种子分页和打包”扩展（RFC 5005）引入了fist、last、previous和next链接关系类型。</li>
+<li>在诸如atom:entry、atom:feed和atom:link之类的Atom元素内增加新元素。例如”Atom跟帖扩展”（RFC 4685）引入了in-reply-to和total元素。</li>
+<li>在atom:content元素内嵌套外来的XML或其他文本内容。</li>
+</ol>
+<p>对atom:feed和atom:entry元素添加子元素或属性进行扩展，只要这些扩展不破坏客户端自身的功能且其他软件不了解这些扩展。当在atom:content元素下添加外来内容，在atom:summary元素下添加可读文本或XHTML。</p>
+<p>##如何维护链接的兼容性<br>为了使链接变化跟现有客户端兼容，避免删除链接，不要改变链接的rel和href属性值。当引入新资源，使用链接向客户端提供资源的URI。</p>
+<p>##如何实现支持可扩展性的客户端<br>当服务器作出兼容性改变，为了使客户端不操作失败，可让客户端解析表述体，仅寻找已知数据。不要假设从服务器接收到的表述是固定媒体类型、字符编码、内容语言或内容编码。</p>
+<p>##何时需要版本化&amp;如何版本化RESTful Web服务<br>当服务器无法维持兼容性时或某些客户端需要与其他客户端不同的行为或功能时考虑对某些或所有资源版本化以对客户端隔离改变。当对RESTful web服务版本化时，当资源行为或表述所含信息发生变化时使用新URI添加新资源，在子域名、路径片段或查询参数中使用例如v1或v2这样易于检测的模式分辨URI。避免对同一资源使用不同媒体类型的新表述视为一个版本。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>在任何分布式CS环境管理变化都是困难的。在这些环境中，客户端依赖服务器来遵守契约，RESTful web服务也不例外。对于web服务，契约包含URI、资源、表述的结构和内容、格式及对每个资源所用的HTTP方法。任何对服务器的改变在向后兼容之前似乎都是良性的。<br>]]>
+    
+    </summary>
+    
+      <category term="REST" scheme="http://xfhnever.com/tags/REST/"/>
+    
+      <category term="RESTful" scheme="http://xfhnever.com/tags/RESTful/"/>
+    
+      <category term="RESTful" scheme="http://xfhnever.com/categories/RESTful/"/>
+    
+  </entry>
+  
+</feed>

@@ -1,0 +1,833 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Nodejs（三）-事件机制 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="Node.js在其Github代码仓库上有着一句短短的介绍：Evented I/O for V8 JavaScript。这句近似广告语的句子却道尽了Node.js自身的特色所在：基于V8引擎实现的事件驱动IO。本文我们就介绍一下nodejs的事件机制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nodejs（三）-事件机制">
+<meta property="og:url" content="http://xfhnever.com/2014/08/06/2014-08-06-nodejs-event/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="Node.js在其Github代码仓库上有着一句短短的介绍：Evented I/O for V8 JavaScript。这句近似广告语的句子却道尽了Node.js自身的特色所在：基于V8引擎实现的事件驱动IO。本文我们就介绍一下nodejs的事件机制。">
+<meta property="og:updated_time" content="2015-09-27T23:50:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nodejs（三）-事件机制">
+<meta name="twitter:description" content="Node.js在其Github代码仓库上有着一句短短的介绍：Evented I/O for V8 JavaScript。这句近似广告语的句子却道尽了Node.js自身的特色所在：基于V8引擎实现的事件驱动IO。本文我们就介绍一下nodejs的事件机制。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/06/2014-08-06-nodejs-event/" title="Nodejs（三）-事件机制" itemprop="url">Nodejs（三）-事件机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-06T12:17:48.000Z" itemprop="datePublished"> 发表于 Aug 6 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Node.js在其<a href="https://github.com/joyent/node" target="_blank" rel="external">Github代码仓库</a>上有着一句短短的介绍：Evented I/O for V8 JavaScript。这句近似广告语的句子却道尽了Node.js自身的特色所在：基于V8引擎实现的事件驱动IO。本文我们就介绍一下nodejs的事件机制。<br><a id="more"></a></p>
+<p>Node.js的推出,改变了两个状况：</p>
+<ol>
+<li>统一了前后端JavaScript的编程模型。</li>
+<li>利用事件机制充分利用用异步IO突破单线程编程模型的性能瓶颈，使得JavaScript在后端达到实用价值。</li>
+</ol>
+<p>有了第二次浏览器大战中的佼佼者V8的适时助力，使得Node.js在短短的两年内达到可观的运行效率，并迅速被大家接受。</p>
+<p>##事件机制的实现##<br>Node.js中大部分的模块，都继承自<a href="http://nodejs.org/docs/latest/api/events.html" target="_blank" rel="external">Event模块</a>。Event模块（events.EventEmitter）是一个简单的事件监听器模式的实现。具有addListener/on，once，removeListener，removeAllListeners，emit等基本的事件监听模式的方法实现。它与前端DOM树上的事件并不相同，因为它不存在冒泡，逐层捕获等属于DOM的事件行为，也没有preventDefault()、stopPropagation()、 stopImmediatePropagation() 等处理事件传递的方法。</p>
+<p>从另一个角度来看，事件侦听器模式也是一种事件钩子（hook）的机制，利用事件钩子导出内部数据或状态给外部调用者。Node.js中的很多对象，大多具有黑盒的特点，功能点较少，如果不通过事件钩子的形式，对象运行期间的中间值或内部状态，是我们无法获取到的。这种通过事件钩子的方式，可以使编程者不用关注组件是如何启动和执行的，只需关注在需要的事件点上即可。</p>
+<pre><code><span class="keyword">var</span> options = {
+    host: <span class="string">'www.google.com'</span>,
+    port: <span class="number">80</span>,
+    path: <span class="string">'/upload'</span>,
+    method: <span class="string">'POST'</span>
+};
+<span class="keyword">var</span> req = http.request(options, <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">'STATUS: '</span> + res.statusCode);
+    <span class="built_in">console</span>.log(<span class="string">'HEADERS: '</span> + <span class="built_in">JSON</span>.stringify(res.headers));
+    res.setEncoding(<span class="string">'utf8'</span>);
+    res.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>{
+        <span class="built_in">console</span>.log(<span class="string">'BODY: '</span> + chunk);
+    });
+});
+req.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">'problem with request: '</span> + e.message);
+});
+<span class="comment">// write data to request body</span>
+req.write(<span class="string">'data\n'</span>);
+req.write(<span class="string">'data\n'</span>);
+req.end();
+</code></pre><p>在这段HTTP request的代码中，程序员只需要将视线放在error，data这些业务事件点即可，至于内部的流程如何，无需过于关注。</p>
+<p>值得一提的是如果对一个事件添加了超过10个侦听器，将会得到一条警告，这一处设计与Node.js自身单线程运行有关，设计者认为侦听器太多，可能导致内存泄漏，所以存在这样一个警告。调用：</p>
+<pre><code>emitter.setMaxListeners(<span class="number">0</span>);
+</code></pre><p>可以将这个限制去掉。</p>
+<p>###error事件####<br>EventEmitter 定义了一个特殊的事件 error，EventEmitter对象对error事件进行了特殊对待。如果运行期间的错误触发了error事件。EventEmitter会检查是否有对error事件添加过侦听器，如果添加了，这个错误将会交由该侦听器处理，否则，这个错误将会作为异常抛出。如果外部没有捕获这个异常，将会引起线程的退出。</p>
+<p>##继承event.EventEmitter##<br>实现一个继承了EventEmitter类是十分简单的，以下是Node.js中流对象继承EventEmitter的例子：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Stream</span><span class="params">()</span> {</span>
+    <span class="keyword">events</span>.EventEmitter.call(this);
+}
+util.inherits(Stream, <span class="keyword">events</span>.EventEmitter);
+</code></pre><p>Node.js在工具模块中封装了继承的方法，所以此处可以很便利地调用。程序员可以通过这样的方式轻松继承EventEmitter对象，利用事件机制，可以帮助你解决一些问题。</p>
+<p>##多事件之间协作##<br>web应用中，在渲染一张页面的时候，通常需要从多个数据源拉取数据，并最终渲染至客户端。Node.js在这种场景中可以很自然很方便的同时并行发起对多个数据源的请求。</p>
+<pre><code>api.getUser(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(profile)</span> </span>{
+    <span class="comment">// Got the profile</span>
+});
+api.getTimeline(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(timeline)</span> </span>{
+    <span class="comment">// Got the timeline</span>
+});
+api.getSkin(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(skin)</span> </span>{
+    <span class="comment">// Got the skin</span>
+});
+</code></pre><p>Node.js通过异步机制使请求之间无阻塞，达到并行请求的目的，有效的调用下层资源。但是，这个场景中的问题是对于多个事件响应结果的协调并非被Node.js原生优雅地支持。为了达到三个请求都得到结果后才进行下一个步骤，程序也许会被变成以下情况：</p>
+<pre><code>api.getUser(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(profile)</span> </span>{
+    api.getTimeline(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(timeline)</span> </span>{
+        api.getSkin(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(skin)</span> </span>{
+            <span class="comment">// TODO</span>
+        });
+    });
+});
+</code></pre><p>这将导致请求变为串行进行，无法最大化利用底层的API服务器。</p>
+<p>有什么方法解决这个问题呢？本文的原作者<a href="https://github.com/JacksonTian" target="_blank" rel="external">Jackson Tian</a>曾经写了一个<a href="https://github.com/JacksonTian/eventproxy" target="_blank" rel="external">EventProxy</a>来实现多事件协作。下面是解决方案：</p>
+<pre><code><span class="keyword">var</span> proxy = <span class="keyword">new</span> EventProxy();
+proxy.all(<span class="string">"profile"</span>, <span class="string">"timeline"</span>, <span class="string">"skin"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(profile, timeline, skin)</span> </span>{
+    <span class="comment">// TODO</span>
+});
+api.getUser(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(profile)</span> </span>{
+    proxy.emit(<span class="string">"profile"</span>, profile);
+});
+api.getTimeline(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(timeline)</span> </span>{
+    proxy.emit(<span class="string">"timeline"</span>, timeline);
+});
+api.getSkin(<span class="string">"username"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(skin)</span> </span>{
+    proxy.emit(<span class="string">"skin"</span>, skin);
+});
+</code></pre><p>EventProxy也是一个简单的事件侦听者模式的实现，由于底层实现跟Node.js的EventEmitter不同，无法合并进Node.js中。但是却提供了比EventEmitter更强大的功能，且API保持与EventEmitter一致，与Node.js的思路保持契合，并可以适用在前端中。</p>
+<p>另外还有一个解决方案：<a href="https://github.com/JeffreyZhao/jscex" target="_blank" rel="external">Jscex</a>.Jscex通过运行时编译的思路（需要时也可在运行前编译），将同步思维的代码转换为最终异步的代码来执行，可以在编写代码的时候通过同步思维来写，可以享受到同步思维的便利写作，异步执行的高效性能。如果通过Jscex编写，将会是以下形式：</p>
+<pre><code>var data = <span class="variable">$await</span>(Task.whenAll({
+    profile: api.getUser(<span class="string">"username"</span>),
+    timeline: api.getTimeline(<span class="string">"username"</span>),
+    skin: api.getSkin(<span class="string">"username"</span>)
+}));
+// 使用data.profile, data.timeline, data.skin
+// TODO
+</code></pre><p>##利用事件队列解决雪崩问题##<br>所谓雪崩问题，是在缓存失效的情景下，大并发高访问量同时涌入数据库中查询，数据库无法同时承受如此大的查询请求，进而往前影响到网站整体响应缓慢。那么在Node.js中如何应付这种情景呢。</p>
+<pre><code><span class="keyword">var</span> select = <span class="function"><span class="keyword">function</span> <span class="params">(callback)</span> </span>{
+        db.select(<span class="string">"SQL"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(results)</span> </span>{
+            <span class="keyword">callback</span>(results);
+        });
+    };
+</code></pre><p>以上是一句数据库查询的调用，如果站点刚好启动，这时候缓存中是不存在数据的，而如果访问量巨大，同一句SQL会被发送到数据库中反复查询，影响到服务的整体性能。一个改进是添加一个状态锁。</p>
+<pre><code><span class="keyword">var</span> status = <span class="string">"ready"</span>;
+<span class="keyword">var</span> select = <span class="function"><span class="keyword">function</span> <span class="params">(callback)</span> </span>{
+        <span class="keyword">if</span> (status === <span class="string">"ready"</span>) {
+            status = <span class="string">"pending"</span>;
+            db.select(<span class="string">"SQL"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(results)</span> </span>{
+                <span class="keyword">callback</span>(results);
+                status = <span class="string">"ready"</span>;
+            });
+        }
+    };
+</code></pre><p>但是这种情景，连续的多次调用select发现，只有第一次调用是生效的，后续的select是没有数据服务的。所以这个时候引入事件队列吧：</p>
+<pre><code><span class="keyword">var</span> proxy = <span class="keyword">new</span> EventProxy();
+<span class="keyword">var</span> status = <span class="string">"ready"</span>;
+<span class="keyword">var</span> select = <span class="function"><span class="keyword">function</span> <span class="params">(callback)</span> </span>{
+        proxy.once(<span class="string">"selected"</span>, <span class="keyword">callback</span>);
+        <span class="keyword">if</span> (status === <span class="string">"ready"</span>) {
+            status = <span class="string">"pending"</span>;
+            db.select(<span class="string">"SQL"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(results)</span> </span>{
+                proxy.emit(<span class="string">"selected"</span>, results);
+                status = <span class="string">"ready"</span>;
+            });
+        }
+    };
+</code></pre><p>这里利用了EventProxy对象的once方法，将所有请求的回调都压入事件队列中，并利用其执行一次就会将监视器移除的特点，保证每一个回调只会被执行一次。对于相同的SQL语句，保证在同一个查询开始到结束的时间中永远只有一次，在这查询期间到来的调用，只需在队列中等待数据就绪即可，节省了重复的数据库调用开销。由于Node.js单线程执行的原因，此处无需担心状态问题。这种方式其实也可以应用到其他远程调用的场景中，即使外部没有缓存策略，也能有效节省重复开销。此处也可以用EventEmitter替代EventProxy，不过可能存在侦听器过多，引发警告，需要调用setMaxListeners(0)移除掉警告，或者设更大的警告阀值。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JS/">JS</a><a href="/tags/Nodejs/">Nodejs</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/06/2014-08-06-nodejs-event/" data-title="Nodejs（三）-事件机制 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/06/2014-08-06-jade-introduction/" title="Jade（一）-简介">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Jade（一）-简介</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/06/2014-08-06-jquery-function-dot/"  title="JQuery（六）-function(window, $, undefined)">
+ <strong>下一篇：</strong><br/> 
+ <span>JQuery（六）-function(window, $, undefined)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/06/2014-08-06-nodejs-event/" data-title="Nodejs（三）-事件机制" data-url="http://xfhnever.com/2014/08/06/2014-08-06-nodejs-event/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

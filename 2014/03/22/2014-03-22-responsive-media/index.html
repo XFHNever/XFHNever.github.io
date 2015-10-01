@@ -1,0 +1,853 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>响应式设计--Media Queries | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="响应式Web设计(Responsive Web design)的理念是：页面的设计与开发应当根据用户行为以及设备环境（系统平台、屏幕尺寸、屏幕定向等）进行相应的响应和调整。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="响应式设计--Media Queries">
+<meta property="og:url" content="http://xfhnever.com/2014/03/22/2014-03-22-responsive-media/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="响应式Web设计(Responsive Web design)的理念是：页面的设计与开发应当根据用户行为以及设备环境（系统平台、屏幕尺寸、屏幕定向等）进行相应的响应和调整。">
+<meta property="og:updated_time" content="2015-09-27T05:33:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="响应式设计--Media Queries">
+<meta name="twitter:description" content="响应式Web设计(Responsive Web design)的理念是：页面的设计与开发应当根据用户行为以及设备环境（系统平台、屏幕尺寸、屏幕定向等）进行相应的响应和调整。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/03/22/2014-03-22-responsive-media/" title="响应式设计--Media Queries" itemprop="url">响应式设计--Media Queries</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-03-22T05:57:26.000Z" itemprop="datePublished"> 发表于 Mar 22 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>响应式Web设计(Responsive Web design)的理念是：页面的设计与开发应当根据用户行为以及设备环境（系统平台、屏幕尺寸、屏幕定向等）进行相应的响应和调整。<br><a id="more"></a><br>下面我们就介绍一下响应式设计的一个手段—–CSS3 Media Queries。其原理是：在CSS3中我们可以设置不同类型的媒体条件，并根据对应的条件，给相应符合条件的媒体调用相对应的样式表。</p>
+<p>##媒体类型##<br>媒体类型(Media Type)在css2中是一个常见的属性，也是一个非常有用的属性，可以通过媒体类型对不同的设备指定不同的样式，在css2中我们常碰到的就是 all（全部）,screen（屏幕）,print（页面打印或打邱预览模式）,其实在媒体类型不止这三种，w3c总共列出了10种媒体类型。</p>
+<pre><code><span class="number">1.</span> all：所有设备
+<span class="number">2.</span> screen ：电脑显示器
+<span class="number">3.</span> print：打印用纸或打印预览视图
+<span class="number">4.</span> handheld：便携设备
+<span class="number">5.</span> tv：电视机类型的设备
+<span class="number">6.</span> speech：语意和音频盒成器
+<span class="number">7.</span> braille：盲人用点字法触觉回馈设备
+<span class="number">8.</span> embossed：盲文打印机
+<span class="number">9.</span> projection：各种投影设备
+<span class="number">10.</span> tty：使用固定密度字母栅格的媒介，比如电传打字机和终端
+</code></pre><p>##引入媒体类型方式##</p>
+<ol>
+<li><p>link方法引入</p>
+<pre><code>&lt;link rel=<span class="string">"stylesheet"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"text/css"</span> href=<span class="string">"../css/print.css"</span> media=<span class="string">"print"</span> /&gt;
+</code></pre></li>
+<li><p>xml方式引入</p>
+<pre><code><span class="preprocessor">&lt;?</span>xml-stylesheet <span class="built_in">rel</span>=<span class="string">"stylesheet"</span> media=<span class="string">"screen"</span> href=<span class="string">"css/style.css"</span> ？&gt;
+</code></pre></li>
+<li><p>@import方式引入</p>
+<pre><code>1、在样式文件中调用另一个样式文件
+    <span class="at_rule">@<span class="keyword">import</span> <span class="function">url</span>(<span class="string">"css/reset.css"</span>) screen</span>;
+    <span class="at_rule">@<span class="keyword">import</span> <span class="function">url</span>(<span class="string">"css/print.css"</span>) print</span>;
+2、在<span class="tag">head</span>标签中的<span class="tag">style</span>标签中调用
+    <span class="at_rule">@<span class="keyword">import</span> <span class="function">url</span>(<span class="string">"css/style.css"</span>) all</span>;
+</code></pre></li>
+<li><p>@media引入</p>
+<pre><code>1、样式文件中使用
+    <span class="at_rule">@<span class="keyword">media</span><span class="preprocessor"> screen</span>{</span>
+        选择器{
+        属性：属性值；
+        }
+    }
+2、在<span class="tag">head</span>标签中的<span class="tag">style</span>标签中调用
+    <span class="at_rule">@<span class="keyword">media</span><span class="preprocessor"> screen</span>{</span>
+        选择器{
+        属性：属性值；
+        }
+    }
+</code></pre></li>
+</ol>
+<p>##媒体特性##</p>
+<ol>
+<li>width：浏览器宽度</li>
+<li>height：浏览器高度</li>
+<li>device-width：设备屏幕分辨率的宽度值</li>
+<li>device-height：设备屏幕分辨率的高度值</li>
+<li>orientation：浏览器窗口的方向纵向还是横向，当窗口的高度值大于等于宽度时该特性值为portrait，否则为landscape。</li>
+<li>aspect-ratio：比例值，浏览器的纵横比.</li>
+<li>device-aspect-ratio：比例值，屏幕的纵横比.</li>
+<li>color：设备使用多少位的颜色值，如果不是彩色设备，值为0</li>
+<li>color-index：色彩表的色彩数</li>
+<li>monochrome：单色帧缓冲器每个像素的字节</li>
+<li>resolution：分辨率值，设备分辨率值</li>
+<li>scan：电视机类型设备扫描方式，progressive或interlace</li>
+<li>grid：只能指定两个值0或1</li>
+</ol>
+<p>##not only all等关键字##</p>
+<ol>
+<li>not： 用来排除掉某些特定的设备的，比如 @media not print（非打印设备）</li>
+<li>only：用来定某种特别的媒体类型。对于支持Media Queries的移动设备来说，如果存在only关键字，移动设备的Web浏览器会忽略only关键字并直接根据后面的表达式应用样式文件。对于不支持Media Queries的设备但能够读取Media Type类型的Web浏览器，遇到only关键字时会忽略这个样式文件。</li>
+<li>all：所有设备</li>
+<li><p>（，）：被用来表示并列或者表示或.</p>
+<pre><code>&lt;link rel=<span class="string">"stylesheet"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"text/css"</span> href=<span class="string">"style.css"</span> media=<span class="string">"handheld and (max-width:480px), screen and (min-width:960px)"</span> /&gt;
+</code></pre><p> 上面代码中style.css样式被用在宽度小于或等于480px的手持设备上，或者被用于屏幕宽度大于或等于960px的设备上。</p>
+</li>
+</ol>
+<p>##例子##<br>CSS文件：</p>
+<pre><code>/* <span class="keyword">Default</span> wide-screen styles */
+<span class="constant">@media</span> all <span class="literal">and</span> (<span class="built_in">max</span>-width: <span class="number">1024</span>px) {
+    /* styles <span class="keyword">for</span> narrow desktop browsers <span class="literal">and</span> iPad landscape */
+}
+<span class="constant">@media</span> all <span class="literal">and</span> (<span class="built_in">max</span>-width: <span class="number">768</span>px) {
+    /* styles <span class="keyword">for</span> narrower desktop browsers <span class="literal">and</span> iPad portrait */
+}
+<span class="constant">@media</span> all <span class="literal">and</span> (<span class="built_in">max</span>-width: <span class="number">480</span>px) {
+    /* styles <span class="keyword">for</span> iPhone/Android landscape (<span class="literal">and</span> really narrow browser windows) */
+}
+<span class="constant">@media</span> all <span class="literal">and</span> (<span class="built_in">max</span>-width: <span class="number">320</span>px) {
+    /* styles <span class="keyword">for</span> iPhone/Android portrait */
+}
+<span class="constant">@media</span> all <span class="literal">and</span> (<span class="built_in">max</span>-width: <span class="number">240</span>px) {
+    /* styles <span class="keyword">for</span> smaller devices */
+}
+</code></pre><p>##ViewPorts##<br>当我们调整我们浏览器的大小时，上面的代码已经可以非常不错的完成工作了。但这并不能满足移动端的浏览器。原因是移动端浏览器（iPhone/Safari, Android/Chrome和Fennec）会默认页面是为宽屏幕设计的，所以将它缩小整个页面来适应小屏幕。这就表明了上面的代码完全不足于适应移动端的浏览器，因为设备无法识别正确的宽度。解决方法：在文档的头部使用苹果提供的viewport meta标签，并结合@media queries：</p>
+<pre><code>&lt;meta <span class="property">name</span>=<span class="string">"viewport"</span> content=<span class="string">"..."</span>&gt;
+</code></pre><p>以上的代码中，content为空,下面我们就将介绍一下应该填什么。</p>
+<ol>
+<li><p>width=device-width</p>
+<p> 很多网站都建议把content属性的值设置为width=device-width。这相当于告诉浏览器将页面宽度假设为设备宽度。不幸的是，只有当设备是纵向时假设才是正确的。当我们把设备旋转成横向时，device-width还是和纵向的一样（比如，320px），这意味着，即使我们把页面设计成适应了480px横向设备，它还是会返回320px的效果。</p>
+<p> 如果我们的页面在纵向和横向设备中样式相同，那么我们就可以用width=device-width就足够了，需要注意的是这个是唯一告诉android设备使用设备宽度的方法。</p>
+</li>
+<li><p>initial-scale=1.0,maximum-scale=1.0</p>
+<p> initial-scale=1设置告诉浏览器初始化页面时不要对页面进行缩放。解决了没有使用viewport时出现的页面缩放问题。但还是有bug，当我们把移动端设备从纵向转成横向时，你就会发现这个问题了。这是因为initial-scale只在页面完全加载后有作用。在我们把移动设备从纵向转成横向的过程中，浏览器就会认为页面不变，但scales会设置为1.5，为了使320px的页面适应480px。但是，因为我们在@media queries中设置了480px这个宽度，那么页面CSS规则也会是适应480px的。结果就是，页面CSS规则是适应480px的，另外scale还是1.5。这个结果并不可怕，但是不可取。</p>
+<p> 为解决这个bug，我们可以添加maximum-scale=1这个设置。它的作用是阻止页面在旋转时放大，但它同时带来了更严重的问题：也阻止了用户手动放大或缩小页面。同样user-scalable=no设置也会让用户不能缩放页面。所以一般情况下，不要使用以上俩个设置。</p>
+</li>
+<li><p>width=&lt;actual width&gt; </p>
+<p> 有些人建议在viewport里使用特定的width，并且也按这个width设计页面。如果你可以为每个种类的device编写页面的话，这个设置是可行的，但需要我们明白的是它不是响应式设计。</p>
+</li>
+<li><p>@media all and (device-width:480)</p>
+<p> 这是个media query而不是viewport标签里的选项, 我在很多地方看到过这样的代码，但我并不认为这是好的做法。为什么？根据CSS3对media queries的描述，device-width在media queries里表示的是输出设备表面渲染的宽度。对于continuous media来说，device-width就是屏幕的宽度；对于paged media来说，device-width就是页面尺寸的宽度。以continuous media为例，device-width就是设备屏幕的宽度。除非浏览器最大化，它始终大于viewport的width。</p>
+<p> 测试表明，大多数桌面浏览器把device-width和width当作同义词。而移动端浏览器对此会有点混淆。至于viewport标签里，device-width只在纵向时等于设备的width。例如，一个320*480的设备，device-width总是320px，不论方向。然而对于CSS media queries，device-width是基于其目前方向上屏幕的width。</p>
+<p> 如果你一定要这样使用，请和orientation一起使用。但绝对不要使用max-device-width和min-device-width，因为用max-width和min-width替换会比较好。同样需要注意的是，新型号设备的宽度可能会改变。</p>
+</li>
+<li><p>中间尺寸 </p>
+<p> 我们可以为任意数量的width来设计页面。最重要的是在不同width的浏览器中测试他们，通过调整window浏览器的大小来测试是最简单的方法。随着设计页面的width越来越小，我们可以去掉（Display：none；）一些不重要的内容，比如footer，sidebars，menu等，为主要内容留足够大的空间。我们的网站也许需要一个可以在所有width屏幕上运行良好的布局，也许只需要满足两到三个布局。这是非常容易设计和测试的，所以没有理由不做。</p>
+</li>
+</ol>
+<p>而我在进行针对移动端进行响应式设计的时候，一直使用的设置是：</p>
+<pre><code>&lt;meta content=<span class="string">"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"</span> <span class="property">name</span>=<span class="string">"viewport"</span>&gt;
+</code></pre><p>##一些特定设备中Media Queries的使用##</p>
+<ol>
+<li><p>iPhone4</p>
+<pre><code>&lt;link rel=<span class="string">"stylesheet"</span> media=<span class="string">"only screen and (-webkit-min-device-pixel-ratio: 2)"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"text/css"</span> href=<span class="string">"iphone4.css"</span> /&gt;
+</code></pre><p> iPhone4分辨率：320px *480px,iPhone使用Safari浏览器进行页面显示窗口宽度为980px，可以利用标签在页面中指定safari浏览器在处理本页时按照多少像素窗口宽度来进行：</p>
+<pre><code><span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=600px"</span>&gt;</span><span class="tag">&lt;<span class="title">meta</span>&gt;</span>
+</code></pre></li>
+<li><p>iPad</p>
+<pre><code>&lt;link rel=<span class="string">"stylesheet"</span> media=<span class="string">"all and (orientation:portrait)"</span>href=<span class="string">"portrait.css"</span> <span class="class"><span class="keyword">type</span></span>=<span class="string">"text/css"</span> /&gt;
+&lt;link rel=<span class="string">"stylesheet"</span> media=<span class="string">"all and (orientation:landscape)"</span>href=<span class="string">"landscape.css"</span>  <span class="class"><span class="keyword">type</span></span>=<span class="string">"text/css"</span> /&gt;    
+</code></pre><p> 在大数情况下，移动设备iPad上的Safari和在iPhone上的是相同的，只是他们不同之处是iPad声明了不同的方向，比如说 上面的例子，在纵向(portrait)时采用portrait.css来渲染页面；在横向（landscape）时采用landscape.css来渲 染页面。</p>
+</li>
+<li><p>android</p>
+<pre><code><span class="comment">/*240px的宽度*/</span>
+&lt;<span class="keyword">link</span> rel=<span class="string">"stylesheet"</span> media=<span class="string">"only screen and (max-device-width:240px)"</span>href=<span class="string">"android240.css"</span> <span class="keyword">type</span>=<span class="string">"text/css"</span> /&gt;
+
+<span class="comment">/*360px的宽度*/</span>
+&lt;<span class="keyword">link</span> rel=<span class="string">"stylesheet"</span> media=<span class="string">"only screen and (min-device-width:241px) and (max-device-width:360px)"</span> href=<span class="string">"android360.css"</span> <span class="keyword">type</span>=<span class="string">"text/css"</span> /&gt;
+
+<span class="comment">/*480px的宽度*/</span>
+&lt;<span class="keyword">link</span> rel=<span class="string">"stylesheet"</span> media=<span class="string">"only screen and (min-device-width:361px) and (max-device-width:480px)"</span> href=<span class="string">"android480.css"</span> <span class="keyword">type</span>=<span class="string">"text/css"</span> /&gt;
+</code></pre></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web/">Web</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Media-Queries/">Media Queries</a><a href="/tags/响应式设计/">响应式设计</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/03/22/2014-03-22-responsive-media/" data-title="响应式设计--Media Queries | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/03/24/2014-03-24-php-errors-in-coding/" title="PHP(一)-开发过程出现的一些错误整理">
+  <strong>上一篇：</strong><br/>
+  <span>
+  PHP(一)-开发过程出现的一些错误整理</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/03/20/2014-03-20-web-jsdistinguishbrowser/"  title="Web-JS中区分浏览器">
+ <strong>下一篇：</strong><br/> 
+ <span>Web-JS中区分浏览器
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/03/22/2014-03-22-responsive-media/" data-title="响应式设计--Media Queries" data-url="http://xfhnever.com/2014/03/22/2014-03-22-responsive-media/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

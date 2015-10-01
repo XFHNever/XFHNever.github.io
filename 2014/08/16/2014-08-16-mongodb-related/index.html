@@ -1,0 +1,850 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Mongodb(八)-数据建模 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="MongoDB与关系型数据库的建模还是有许多不同，因为MongoDB支持内嵌对象和数组类型。MongoDB建模有两种方式，一种是内嵌(Embed)，另一种是引用(Link)。那么何时Embed何时Link呢？那得看两个实体之间的关系是什么类型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mongodb(八)-数据建模">
+<meta property="og:url" content="http://xfhnever.com/2014/08/16/2014-08-16-mongodb-related/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="MongoDB与关系型数据库的建模还是有许多不同，因为MongoDB支持内嵌对象和数组类型。MongoDB建模有两种方式，一种是内嵌(Embed)，另一种是引用(Link)。那么何时Embed何时Link呢？那得看两个实体之间的关系是什么类型。">
+<meta property="og:updated_time" content="2015-09-28T01:17:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mongodb(八)-数据建模">
+<meta name="twitter:description" content="MongoDB与关系型数据库的建模还是有许多不同，因为MongoDB支持内嵌对象和数组类型。MongoDB建模有两种方式，一种是内嵌(Embed)，另一种是引用(Link)。那么何时Embed何时Link呢？那得看两个实体之间的关系是什么类型。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/16/2014-08-16-mongodb-related/" title="Mongodb(八)-数据建模" itemprop="url">Mongodb(八)-数据建模</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-15T23:55:47.000Z" itemprop="datePublished"> 发表于 Aug 16 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>MongoDB与关系型数据库的建模还是有许多不同，因为MongoDB支持内嵌对象和数组类型。MongoDB建模有两种方式，一种是内嵌(Embed)，另一种是引用(Link)。那么何时Embed何时Link呢？那得看两个实体之间的关系是什么类型。<br><a id="more"></a></p>
+<p>##嵌入数据模型<br>嵌入数据模型是非正常（denormalized）的数据模型。嵌入数据模型，可以存相关的信息到同一个记录，用很少的操作就能完成查询，更新。以下场景使用嵌入数据模型：</p>
+<ol>
+<li>对象之间是包含关系，1对1关系</li>
+<li>对象之间是1对多关系</li>
+</ol>
+<p>通常嵌入方式可以通过比较好的读性能，也可以完成原子性，但是文档的增长会成为一个性能问题。而且需要小于BSON文档的最大值。</p>
+<p>嵌入文档的访问可以通过.（点）符号来实现。</p>
+<p>##引用数据模型<br>引用数据模型有一下好处：</p>
+<ol>
+<li>当嵌入模型有重复数据出现，用引用模型可以减少重复，但是不能提供读性能</li>
+<li>可以表示多对多关系</li>
+<li>表示巨大的多次数据集</li>
+</ol>
+<p>引用类型需要多趟执行才能获得结果这个是最大的缺点。</p>
+<p>##1:1<br>使用内嵌模型，就是将子文档嵌入在父文档中，如果使用引用类型，那么会需要多趟查询才能得到结果。如：</p>
+<pre><code><span class="collection">{
+    _id: &lt;ObjectId1&gt;,
+    username: <span class="string">"123xyz"</span>,
+    contact: <span class="collection">{
+                phone: <span class="string">"123-456-7890"</span>,
+                email: <span class="string">"xyz@example.com"</span>
+             }</span>
+}</span>
+</code></pre><p>##1:N<br>上面说1：N应该使用内嵌模型，一般情况下这个是对的，但是要考虑N的取值范围，有时候我们也可能要区别对待。</p>
+<p>###N比较小<br>比如每个Person会有多个Address。此种情况下，我们采用最简单的嵌入式文档来建模。</p>
+<pre><code>{  
+<span class="label">    name:</span> <span class="string">'Kate Monster'</span>,  
+<span class="label">    id:</span> <span class="string">'123-456-7890'</span>,  
+    <span class="string">addresses :</span> [     
+                    { 
+<span class="label">                      street:</span> <span class="string">'123 Sesame St'</span>, 
+<span class="label">                      city:</span> <span class="string">'Anytown'</span>, <span class="string">cc:</span> <span class="string">'USA'</span> 
+                    },
+                    { 
+<span class="label">                      street:</span> <span class="string">'123 Avenue Q'</span>, 
+<span class="label">                      city:</span> <span class="string">'New York'</span>, <span class="string">cc:</span> <span class="string">'USA'</span> 
+                    }  
+                ]
+}
+</code></pre><p>这种建模的方式包含了显而易见的优点和缺点：</p>
+<p><strong>优点</strong>：你不需要执行单独的查询就可以获得某个Person的所有Address信息。</p>
+<p><strong>缺点</strong>：你无法像操作独立文档那样来操作Address信息。你必须首先操作（比如查询）Person文档后，才有可能继续操作Address。</p>
+<p>在本实例中，我们不需要对Address进行独立的操作，且Address信息只有在关联到某一个具体Person后才有意义。所以结论是：采用这种embedded（嵌入式）建模是非常适合Person-Address场景的。</p>
+<p>###N比较大，<br>比如产品（Product）和零部件（part），每个产品会有很多个零部件。这种场景下，我们可以采用引用方式来建模，如下：</p>
+<p>零部件（Part）：</p>
+<pre><code>{
+    <span class="attribute">_id</span>: <span class="function">object</span>(<span class="string">'AAAA'</span>),
+    <span class="attribute">partno</span>: <span class="string">'123-aff-456'</span>,
+    <span class="attribute">name </span>: <span class="string">'#4 grommet'</span>,    
+    <span class="attribute">qty</span>: <span class="number">94</span>,    
+    <span class="attribute">cost</span>: <span class="number">0.94</span>,    
+    <span class="attribute">price</span>: <span class="number">3.99</span>
+}
+</code></pre><p>产品（Product）：</p>
+<pre><code>{
+    <span class="attribute">name </span>: <span class="string">'left-handed smoke shifter'</span>, m
+    <span class="attribute">anufacturer </span>: <span class="string">'Acme Corp'</span>, 
+    <span class="attribute">catalog_number</span>: <span class="number">1234</span>, 
+    <span class="attribute">parts </span>: [ 
+        <span class="comment">// array of references to Part documents </span>
+        <span class="function">ObjectID</span>(<span class="string">'AAAA'</span>), 
+        <span class="comment">// reference to the #4 grommet above </span>
+        <span class="function">ObjectID</span>(<span class="string">'F17C'</span>), 
+        <span class="comment">// reference to a different Part </span>
+        <span class="function">ObjectID</span>(<span class="string">'D2AA'</span>), 
+        <span class="comment">// etc </span>
+    ]
+}
+</code></pre><p>这种建模方式的优缺点也非常明显：</p>
+<p><strong>优点</strong>：部件是作为独立文档（document）存在的，你可以对某一部件进行独立的操作，比如查询或更新。</p>
+<p><strong>缺点</strong>：如上，你必须通过两次查询才能找到某一个产品所属的所有部件信息。</p>
+<p>在本例中，这个缺点是可以接受的，本身实现起来也不难。而且，通过这种建模，你可以轻易的将1 to n扩展到n to n，即一个产品可以包含多个部件，同时一个部件也可以被多个产品所引用（即同一部件可以被多个产品使用）。</p>
+<p>###N非常大<br>比如，每一个机器（host）会产生很大数量的日志信息（logmsg）。在这种情况下，如果你采用嵌入式建模，则一个host文档会非常庞大，从而轻易超过MongoDB的文档大小限制，所以不可行。如果你采用第二种方式建模，用数组来存放所有logmsg的_id值，这种方式同样不可行，因为当日志很多时，即使单单引用objectId也会轻易超过文档大小限制（16M）。所以此时，我们采用以下方式：</p>
+<p>主机（host）：</p>
+<pre><code>{
+    <span class="attribute">_id </span>: <span class="function">ObjectID</span>(<span class="string">'AAAB'</span>),    
+    <span class="attribute">name </span>: <span class="string">'goofy.example.com'</span>,    
+    <span class="attribute">ipaddr </span>: <span class="string">'127.66.66.66'</span>
+}
+</code></pre><p>日志（logmsg）：</p>
+<pre><code>{
+    <span class="attribute">time </span>: <span class="function">ISODate</span>(<span class="string">"2014-03-28T09:42:41.382Z"</span>),    
+    <span class="attribute">message </span>: <span class="string">'cpu is on fire!'</span>,    
+    <span class="attribute">host</span>: <span class="function">ObjectID</span>(<span class="string">'AAAB'</span>)       <span class="comment">// Reference to the Host document</span>
+}
+</code></pre><p>我们在logsmg中，存放对host的_id引用即可。 </p>
+<p>###总结</p>
+<ol>
+<li>一对很少且不需要单独访问内嵌内容的情况下可以使用内嵌多的一方。</li>
+<li>一对多且多的一端内容因为各种理由需要单独存在的情况下可以通过数组的方式引用多的一方的。</li>
+<li>一对非常多的情况下，请将一的那端引用嵌入进多的一端对象中。</li>
+</ol>
+<p>##N:N<br>使用引用模型，引用存在两种方式：</p>
+<p>###手动引用（Manual References）<br>User：</p>
+<pre><code>{
+    <span class="attribute">_id</span>: <span class="string">'never'</span>,
+    <span class="string">'name'</span>: <span class="string">'never'</span>,
+}
+</code></pre><p>Post：</p>
+<pre><code><span class="rules">{
+    <span class="rule"><span class="attribute">_id</span>:<span class="value"> <span class="function">objectId</span>(<span class="string">'....'</span>),
+    <span class="string">'title'</span>：<span class="string">'postA'</span>,
+    <span class="string">'author'</span>: <span class="string">'never'</span>
+}</span></span></span>
+</code></pre><p>Post中的author就是Manual References，如果想查询一篇文章的作者信息，首先在post集合找出那篇文章，然后在user集合查找出用户的全部信息。但是假如有这么一个场景：用户可以对图片，文章等各种资源评论，所有的评论都放在comment集合中，如果只是使用Manual References，就分不清楚评论到底是属于哪类资源了，图片？文章？。所以有了DBRef。</p>
+<p>###DBRefs<br>形式：</p>
+<pre><code>{ <span class="variable">$ref</span> : &lt;value&gt;, <span class="variable">$id</span> : &lt;value&gt;, <span class="variable">$db</span> : &lt;value&gt; }
+//<span class="variable">$ref</span>：集合名称；<span class="variable">$id</span>：引用的id；<span class="variable">$db</span>:数据库名称，可选参数
+</code></pre><p>可以看到DBRef的结构比Manual References的复杂，占用的空间大，但是功能也强大，如果要跨数据库连接，上面讲的评论集合的例子，都得需要使用DBRef，MongoDB提供了函数来解析DBRef，不用像Manual References需要自己手动写两次查询。</p>
+<pre><code>&gt;db.post.<span class="keyword">insert</span>({
+    title: <span class="string">'postA'</span>,
+    author: {<span class="variable">$ref</span>: <span class="string">'user'</span>, <span class="variable">$id</span>: <span class="string">'never'</span>}
+})
+</code></pre><p>或者：</p>
+<pre><code>&gt; <span class="tag">db</span><span class="class">.posts</span><span class="class">.insert</span>(<span class="rules">{<span class="rule"><span class="attribute">title</span>:<span class="value"><span class="string">'postA'</span>,  
+            authors:[new <span class="function">DBRef</span>(<span class="string">'authors'</span>,author._id)]})
+//此处author需要以及在上面初始化过。</span></span></span>
+</code></pre><p>查询：</p>
+<pre><code>db.post.find({<span class="string">"title"</span>:<span class="string">"Hello Mongodb DBRef1"</span>})<span class="string">[0]</span>.authors<span class="string">[0]</span>.fetch()   
+</code></pre><p>DBRef就是从文档的一个属性指向另一个文档的指针。</p>
+<p>##Tips</p>
+<ol>
+<li>优先考虑内嵌，除非有什么迫不得已的原因。</li>
+<li>需要单独访问一个对象，那这个对象就不适合被内嵌到其他对象中</li>
+<li>数组不应该无限制增长。如果many端有数百个文档对象就不要去内嵌他们可以采用引用ObjectID的方案；如果有数千个文档对象，那么就不要内嵌ObjectID的数组。该采取哪些方案取决于数组的大小</li>
+<li>不要害怕应用层级别的join：如果索引建的正确并且通过投影条件限制返回的结果，那么应用层级别的join并不会比关系数据库中join开销大多</li>
+<li>在进行反范式设计时请先确认读写比。一个几乎不更改只是读取的字段才适合冗余到其他对象中</li>
+<li>在mongodb中如何对你的数据建模，取决于你的应用程序如何去访问它们。数据的结构要去适应你的程序的读写场景</li>
+</ol>
+<p>了解更多请参考<a href="http://docs.mongodb.org/manual/data-modeling/#SchemaDesign-SummaryofBestPractices" target="_blank" rel="external">官方文档</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/MongoDB/">MongoDB</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MongoDB/">MongoDB</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/16/2014-08-16-mongodb-related/" data-title="Mongodb(八)-数据建模 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/16/2014-08-16-mongodb-advantage/" title="Mongodb（九）-优缺点">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Mongodb（九）-优缺点</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/16/2014-08-16-intellij-usage/"  title="Intellij Idea（二）-用法Tips">
+ <strong>下一篇：</strong><br/> 
+ <span>Intellij Idea（二）-用法Tips
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/16/2014-08-16-mongodb-related/" data-title="Mongodb(八)-数据建模" data-url="http://xfhnever.com/2014/08/16/2014-08-16-mongodb-related/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

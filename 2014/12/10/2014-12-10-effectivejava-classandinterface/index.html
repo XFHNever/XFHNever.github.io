@@ -1,0 +1,868 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Effective Java(三)-类和接口 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="类和接口是Java程序设计语言的核心，它们是Java语言的基本抽象单元。Java语言提供了很多强大的基本元素，供程序员来设计类和接口。本章阐述一些指导原则，帮助程序员更好地设计类和接口。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective Java(三)-类和接口">
+<meta property="og:url" content="http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-classandinterface/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="类和接口是Java程序设计语言的核心，它们是Java语言的基本抽象单元。Java语言提供了很多强大的基本元素，供程序员来设计类和接口。本章阐述一些指导原则，帮助程序员更好地设计类和接口。">
+<meta property="og:updated_time" content="2015-09-28T15:42:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Effective Java(三)-类和接口">
+<meta name="twitter:description" content="类和接口是Java程序设计语言的核心，它们是Java语言的基本抽象单元。Java语言提供了很多强大的基本元素，供程序员来设计类和接口。本章阐述一些指导原则，帮助程序员更好地设计类和接口。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/10/2014-12-10-effectivejava-classandinterface/" title="Effective Java(三)-类和接口" itemprop="url">Effective Java(三)-类和接口</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-12-10T06:36:40.000Z" itemprop="datePublished"> 发表于 Dec 10 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>类和接口是Java程序设计语言的核心，它们是Java语言的基本抽象单元。Java语言提供了很多强大的基本元素，供程序员来设计类和接口。本章阐述一些指导原则，帮助程序员更好地设计类和接口。<br><a id="more"></a></p>
+<p>##把类和成员的可访问范围降到最低<br>实例域绝不能是公有的；</p>
+<p>长度非零的数组总是可变的，所以有公有的静态final数组域，或者返回这种域的访问方法，几乎都是错的。例如：</p>
+<pre><code>public <span class="keyword">static</span> final <span class="type">Thing</span>[] <span class="type">VALUES</span> = <span class="decorator">{...}</span>;
+</code></pre><p>对于此类数组的访问有两种解决方案。</p>
+<p>增加一个公有的不可变列表：</p>
+<pre><code>private <span class="keyword">static</span> final <span class="type">Thing</span>[] <span class="type">PRIVATE_VALUES</span> = <span class="decorator">{...}</span>;    public <span class="keyword">static</span> final <span class="type">List</span>&lt;<span class="type">Thing</span>&gt; <span class="type">VALUES</span> = <span class="type">Collections</span>.unmodifiableList(<span class="type">Arrays</span>.asList(<span class="type">PRIVATE_VALUES</span>));
+</code></pre><p>或者返回备份。</p>
+<pre><code>private <span class="keyword">static</span> final <span class="type">Thing</span>[] <span class="type">PRIVATE_VALUES</span> = <span class="decorator">{...}</span>;
+public <span class="keyword">static</span> final <span class="type">Thing</span>[] values() {
+    <span class="keyword">return</span> <span class="type">PRIVATE_VALUES</span>.clone();
+}
+</code></pre><p>##在公有类中使用访问方法而不是公有域<br>使用getter／setter方法而不是公有域。</p>
+<p>##使可变性最小化<br>Java中包含很多不可变类，比如String,基本类型的包装类,BigInterger和BigDecimal等。不可变类更加易于设计实现和使用，不容易出错，且更加安全。</p>
+<p>设计不可变类，需要遵循：</p>
+<ol>
+<li>不要提供任何可以修改对象的方法</li>
+<li>确保没有方法能够被覆盖，可以通过把它声明为final</li>
+<li>所有字段设计成final</li>
+<li>所有字段设计成private</li>
+<li>确保外部不能访问到类的可修改的组件</li>
+</ol>
+<p>缺点是每一个不同的值都需要一个单独的对象。</p>
+<p>##复合优先继承<br>继承破坏了封装性，导致软件的键壮性不足。推荐用复合代替继承，例如：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForwardingSet</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">Set</span>&lt;<span class="title">E</span>&gt; </span>{
+    <span class="keyword">private</span> <span class="keyword">final</span> Set&lt;E&gt; s;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">ForwardingSet</span><span class="params">(Set&lt;E&gt; s)</span> </span>{
+        <span class="keyword">this</span>.s = s;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>{
+        s.clear();
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Object o)</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">contains</span><span class="params">(o)</span></span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">isEmpty</span><span class="params">()</span></span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">size</span><span class="params">()</span></span>;
+    }
+
+    <span class="keyword">public</span> Iterator&lt;E&gt; iterator() {
+        <span class="function"><span class="keyword">return</span> s.<span class="title">iterator</span><span class="params">()</span></span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">add</span><span class="params">(e)</span></span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">remove</span><span class="params">(o)</span></span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">containsAll</span><span class="params">(Collection&lt;?&gt; c)</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">containsAll</span><span class="params">(c)</span></span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">addAll</span><span class="params">(Collection&lt;? <span class="keyword">extends</span> E&gt; c)</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">addAll</span><span class="params">(c)</span></span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">removeAll</span><span class="params">(Collection&lt;?&gt; c)</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">removeAll</span><span class="params">(c)</span></span>;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">retainAll</span><span class="params">(Collection&lt;?&gt; c)</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">retainAll</span><span class="params">(c)</span></span>;
+    }
+
+    <span class="keyword">public</span> Object[] toArray() {
+        <span class="function"><span class="keyword">return</span> s.<span class="title">toArray</span><span class="params">()</span></span>;
+    }
+
+    <span class="keyword">public</span> &lt;T&gt; T[] toArray(T[] a) {
+        <span class="function"><span class="keyword">return</span> s.<span class="title">toArray</span><span class="params">(a)</span></span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">equals</span><span class="params">(o)</span></span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">hashCode</span><span class="params">()</span></span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function">String <span class="title">toString</span><span class="params">()</span> </span>{
+        <span class="function"><span class="keyword">return</span> s.<span class="title">toString</span><span class="params">()</span></span>;
+    }
+｝
+</code></pre><p>##要么为继承而设计，并提供文档说明，要么就禁止继承<br>为了避免继承带来的问题，你必须提供精确的文档来说明覆盖相关方法可能出现的问题。在构造器内千万不要调用可以被覆盖的方法，因为子类覆盖方法的时候会出现问题。</p>
+<p>##接口优于继承<br>接口的优点：</p>
+<ol>
+<li>现有类很容易被更新，以实现新的接口。</li>
+<li>接口是定义mixin（混合类型）的理想选择</li>
+<li>接口允许我们构造非层次结构的类型框架</li>
+</ol>
+<p>##接口只用于定义类型<br>常量接口模式是对接口的不良使用，应该使用Enum替代。</p>
+<p>##类层次优于标签类<br>带有多种风格的实例的标签类如下：</p>
+<pre><code>class Figure {
+    <span class="keyword">enum</span> Shape {
+        RECTANGLE, CIRCLE
+    };
+
+    <span class="comment">// Tag field - the shape of this figure</span>
+    <span class="keyword">final</span> Shape <span class="built_in">shape</span>;
+
+    <span class="comment">// These fields are used only if shape is RECTANGLE</span>
+    <span class="keyword">double</span> length;
+    <span class="keyword">double</span> <span class="variable">width</span>;
+
+    <span class="comment">// This field is used only if shape is CIRCLE</span>
+    <span class="keyword">double</span> radius;
+
+    <span class="comment">// Constructor for circle</span>
+    Figure(<span class="keyword">double</span> radius) {
+        <span class="built_in">shape</span> = Shape.CIRCLE;
+        <span class="keyword">this</span>.radius = radius;
+    }
+
+    <span class="comment">// Constructor for rectangle</span>
+    Figure(<span class="keyword">double</span> length, <span class="keyword">double</span> <span class="variable">width</span>) {
+        <span class="built_in">shape</span> = Shape.RECTANGLE;
+        <span class="keyword">this</span>.length = length;
+        <span class="keyword">this</span>.<span class="variable">width</span> = <span class="variable">width</span>;
+    }
+
+    <span class="keyword">double</span> area() {
+        <span class="keyword">switch</span> (<span class="built_in">shape</span>) {
+        <span class="keyword">case</span> RECTANGLE:
+            <span class="keyword">return</span> length * <span class="variable">width</span>;
+        <span class="keyword">case</span> CIRCLE:
+            <span class="keyword">return</span> Math.<span class="constant">PI</span> * (radius * radius);
+        <span class="keyword">default</span>:
+            <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError();
+        }
+    }
+}
+</code></pre><p>标签类过于冗长，容易出错，且效率低下。可以使用类层次来进行优化（继承）。</p>
+<p>##用函数对象表示策略<br>函数指针的主要用途就是实现策略模式，需要声明策略接口。比如Comparator接口。［用类和接口来代替函数指针］</p>
+<p>##优先考虑静态成员类<br>嵌套类可以分为静态内部类、非静态内部类、匿名类和局部类。后三种称为内部类。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-classandinterface/" data-title="Effective Java(三)-类和接口 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/10/2014-12-10-effectivejava-generic/" title="Effective Java(四)- 泛型">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Effective Java(四)- 泛型</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/10/2014-12-10-effectivejava-commonmethodstoallclasses/"  title="Effective Java(二)- 对于所有类通用的方法">
+ <strong>下一篇：</strong><br/> 
+ <span>Effective Java(二)- 对于所有类通用的方法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/12/10/2014-12-10-effectivejava-classandinterface/" data-title="Effective Java(三)-类和接口" data-url="http://xfhnever.com/2014/12/10/2014-12-10-effectivejava-classandinterface/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

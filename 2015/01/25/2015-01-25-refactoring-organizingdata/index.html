@@ -1,0 +1,978 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Refactoring(四)-Organizing Data | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="本章我们介绍几个让我们更加轻松处理数据的重构手法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Refactoring(四)-Organizing Data">
+<meta property="og:url" content="http://xfhnever.com/2015/01/25/2015-01-25-refactoring-organizingdata/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="本章我们介绍几个让我们更加轻松处理数据的重构手法。">
+<meta property="og:image" content="http://xfhnever.com/images/post/refactoring4-1.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/refactoring4-2.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/refactoring4-3.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/refactoring4-4.png">
+<meta property="og:updated_time" content="2015-09-28T23:49:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Refactoring(四)-Organizing Data">
+<meta name="twitter:description" content="本章我们介绍几个让我们更加轻松处理数据的重构手法。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/01/25/2015-01-25-refactoring-organizingdata/" title="Refactoring(四)-Organizing Data" itemprop="url">Refactoring(四)-Organizing Data</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2015-01-25T15:08:33.000Z" itemprop="datePublished"> 发表于 Jan 25 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>本章我们介绍几个让我们更加轻松处理数据的重构手法。<br><a id="more"></a></p>
+<p>##Self Encapsulate Field(自封装字段)<br>程序中直接访问一个字段，但是与字段之间的耦合关系逐渐变得笨拙。</p>
+<p>可以为这个字段建立getter/setter函数，并且只以这些函数来访问字段。</p>
+<p>###Before Refactoring<br>    private int _low, _high;<br>    boolean includes (int arg) {<br>        return arg &gt;= _low &amp;&amp; arg &lt;= _high;<br>    }</p>
+<p>###After Refactoring<br>    private int _low, _high;<br>    boolean includes (int arg) {<br>        return arg &gt;= getLow() &amp;&amp; arg &lt;= getHigh();<br>    }</p>
+<pre><code><span class="function"><span class="keyword">int</span> <span class="title">getLow</span><span class="params">()</span> </span>{<span class="keyword">return</span> _low;}
+<span class="function"><span class="keyword">int</span> <span class="title">getHigh</span><span class="params">()</span> </span>{<span class="keyword">return</span> _high;}
+</code></pre><p>间接访问变量的好处是，子类可以通过覆盖一个函数而改变获取数据的途径；还支持更灵活的数据管理，例如延迟初始化等。</p>
+<p>直接访问变量的好处则是：代码比较容易阅读。</p>
+<p>##Replace Data Value with Object(以对象取代数据值)<br>有一个数据项，需要与其他数据和行为一起使用才有意义。</p>
+<p>可以将数据项变成对象。</p>
+<p>###Before Refactoring<br>    class Order…<br>        private String _customer;<br>        public Order (String customer) {<br>            _customer = customer;<br>        }<br>        public void setCustomer(String arg) {<br>            _customer = arg;<br>        }<br>        public String getCustomer() {<br>            return _customer;<br>        }</p>
+<p>###After Refactoring<br>    class Order…<br>        private Customer _customer;<br>        public Order (String customerName) {<br>            _customer = new Customer(customerName);<br>        }<br>        public void setCustomer(String arg) {<br>            _customer = new Customer(arg);<br>        }<br>        public String getCustomer() {<br>            return _customer.getName();<br>        }</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">final</span> String _name;
+    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(String name)</span> </span>{
+        _name = name;
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _name;
+    }
+}
+</code></pre><p>##Change Value to Reference(将值对象改为引用对象)<br>从一个类衍生出许多彼此相等的实例，希望将它们替换为同一个对象。</p>
+<p>可以将这个值对象变成引用对象。</p>
+<p>###Before Refactoring<br>    class Order…<br>        private Customer _customer;<br>        public Order (String customerName) {<br>            _customer = new Customer(customerName);<br>        }<br>        public void setCustomer(String arg) {<br>            _customer = new Customer(arg);<br>        }<br>        public String getCustomer() {<br>            return _customer.getName();<br>        }</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">final</span> String _name;
+    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(String name)</span> </span>{
+        _name = name;
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _name;
+    }
+}
+</code></pre><p>目前为止，Customer还是值对象。就算多份订单属于同一客户，但每个Order对象还是拥有各自的Customer对象。</p>
+<p>###After Refactoring<br>    class Order…<br>        private Customer _customer;<br>        public Order (String customerName) {<br>            _customer = Customer.getNamed(customerName);<br>        }<br>        public void setCustomer(String arg) {<br>            _customer = Customer.getNamed(arg);<br>        }<br>        public String getCustomer() {<br>            return _customer.getName();<br>        }</p>
+<pre><code><span class="keyword">class</span> <span class="title">Customer</span> {
+    <span class="keyword">private</span> <span class="keyword">static</span> Dictionary _instance = <span class="keyword">new</span> Hashtable();
+
+    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadCustomers</span>(<span class="params"></span>) </span>{
+        <span class="keyword">new</span> Customer(<span class="string">"Never"</span>).store();
+        <span class="keyword">new</span> Customer(<span class="string">"xfh"</span>).store();
+        <span class="keyword">new</span> Customer(<span class="string">"test"</span>).store();
+    }
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">store</span>(<span class="params"></span>) </span>{
+        _instance.put(<span class="keyword">this</span>.getName, <span class="keyword">this</span>);
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Customer <span class="title">getNamed</span>(<span class="params">Stirng name</span>) </span>{
+        <span class="keyword">return</span> (Customer) _instance.<span class="keyword">get</span>(name);
+    }
+}
+</code></pre><p>##Change Reference to Value(将引用对象改为值对象)<br>程序中有一个引用对象，很小且不可变，而且不易管理。</p>
+<p>应该把它变成一个值对象。</p>
+<p>值对象有一个非常重要的特性：它们应该是不可变的。如果对象是可变的，就不可以使用这项重构手段。</p>
+<p>##Replace Array with Object(以对象取代数组)<br>有一个数组，其中的元素各自代表不同的东西。</p>
+<p>可以用对象替换数组。对于数组中的每个元素，以一个字段来表示。</p>
+<p>###Before Refactoring<br>    String[] row = new String[3];<br>    row[0] = “Liverpool”;<br>    row[1] = “15”;</p>
+<p>###After Refactoring<br>    Performance row = new Performance();<br>    row.setName(“Liverpool”);<br>    row.setWins(“15”);</p>
+<p>##Duplicate Observed Data(复制“被监视数据”)<br>有一些领域数据置身于GUI控件中，而领域函数需要访问这些数据。</p>
+<p>应该将这些数据复制到一个领域对象中。建立一个Observer模式，用以同步领域对象和GUI对象内的重复数据。</p>
+<img src="/images/post/refactoring4-1.png">
+<p>##Change Unidirectional Association to Bidirectional(将单向关联改为双向关联)</p>
+<p>两个类都需要使用对方特性，但其间只有一条单向连接。</p>
+<p>需要添加一个反向指针，并使改变函数能够同时更新两条连接。</p>
+<p>###Before Refactoring<br>    class Order…<br>        private Customer _customer;<br>        public void setCustomer(Customer arg) {<br>            _customer = arg;<br>        }<br>        public String getCustomer() {<br>            return _customer;<br>        }</p>
+<p>###After Refactoring</p>
+<p>由于一个用户拥有多份订单，所以可以在Customer中增加一个字段。</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> ｛</span>
+    <span class="keyword">private</span> Set _orders = <span class="keyword">new</span> HashSet();
+</code></pre><p>##Change Bidirectional Association to Unidirectional(将双向关联改为单向关联)</p>
+<p>两个类之间有双向关联，但其中一个类如今不再需要另一个类的特性。</p>
+<p>应该去除不必要的关联。双向关联很有用，但必须为维护双向连接付出代价。</p>
+<p>###Before Refactoring</p>
+<p>###After Refactoring</p>
+<p>##Replace Magic Number with Symbolic Constant(以字面常量取代魔法数)</p>
+<p>有一个字面数值，带有特别含义。</p>
+<p>应该创建一个常量，根据其意义为它命名，并将上述字面数值替换为这个常量。</p>
+<p>###Before Refactoring<br>    double potentialEnergy(double mass, double height) {<br>        return mass <em> 9.81 </em> height;<br>    }</p>
+<p>###After Refactoring<br>    double potentialEnergy(double mass, double height) {<br>        return mass<em>GRAVITATIONAL_CONSTANT</em>height;<br>    }<br>    static final double GRAVITATIONAL_CONSTANT = 9.81;</p>
+<p>##Encapsulate Field(封装字段)<br>类中存在一个public字段。应该把它声明为private，并提供相应的访问函数。</p>
+<p>##Encapsulate Collection(封装集合)<br>有一个函数返回一个集合。</p>
+<p>应该让这个函数返回集合的一个只读副本，并在这个类中提供添加／移除集合元素的函数。</p>
+<p>###Before Refactoring<br>    class Person…<br>        public Set getCourses() {<br>            return _courses;<br>        }<br>        public void setCourses(Set arg) {<br>            _courses = arg;<br>        }<br>        private Set _courses;</p>
+<p>###After Refactoring<br>    class Person…<br>        public void addCourse(Course arg) {<br>            _courses.add(arg);<br>        }<br>        public void removeCourse(Course arg) {<br>            _courses.remove(arg);<br>        }<br>        private Set _courses ＝ new HashSet();</p>
+<pre><code><span class="keyword">public</span> <span class="function">Set <span class="title">getCourses</span><span class="params">()</span> </span>{
+    <span class="function"><span class="keyword">return</span> Collections.<span class="title">unmodifiableSet</span><span class="params">(_courses)</span></span>;
+}
+</code></pre><p>##Replace Record with Data Class(以数据类取代纪录)<br>需要面对传统环境中的记录结构。</p>
+<p>为该记录创建一个“哑”数据对象。</p>
+<p>##Replace Type Code with Class(以类取代类型码)<br>类之中有一个数值类型码，但它并不影响类的行为。</p>
+<p>可以用一个新的类型替换该数值类型码。</p>
+<p>###Before Refactoring<br>    class Person {<br>        public static final int O = 0;<br>        public static final int A = 1;<br>        public static final int B = 2;<br>        public static final int AB = 3;</p>
+<pre><code>    <span class="keyword">private</span> <span class="keyword">int</span> _bloodGroup;
+    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(<span class="keyword">int</span> bloodGroup)</span> </span>{
+        _bloodGroup = bloodGroup;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setBloodGroup</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>{
+        _bloodGroup = arg;
+    }
+    <span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">getBloodGroup</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _bloodGroup;
+    }
+}
+</code></pre><p>###After Refactoring<br>    class Person {<br>        private BloodGroup _bloodGroup;<br>        public Person(int bloodGroup) {<br>            _bloodGroup = BloodGroup.code(bloodGroup);<br>        }</p>
+<pre><code>    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setBloodGroup</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>{
+        _bloodGroup = BloodGroup.code(arg);
+    }
+    <span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">getBloodGroup</span><span class="params">()</span> </span>{
+        <span class="function"><span class="keyword">return</span> _bloodGroup.<span class="title">getCode</span><span class="params">()</span></span>;
+    }
+}
+
+<span class="class"><span class="keyword">class</span> <span class="title">BloodGroup</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup O = <span class="keyword">new</span> BloodGroup(<span class="number">0</span>);
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup A = <span class="keyword">new</span> BloodGroup(<span class="number">1</span>);
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup B = <span class="keyword">new</span> BloodGroup(<span class="number">2</span>);
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup AB = <span class="keyword">new</span> BloodGroup(<span class="number">3</span>);
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup[] _values = {O, A, B, AB};
+
+    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> _code;
+    <span class="function"><span class="keyword">private</span> <span class="title">BloodGroup</span><span class="params">(<span class="keyword">int</span> code)</span> </span>{
+        _code = code;
+    }
+    <span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">getCode</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _code;
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function">BloodGroup <span class="title">code</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>{
+        <span class="keyword">return</span> _values[arg];
+    }
+}
+</code></pre><p>##Replace Type Code with Subclasses(以子类取代类型码)<br>有个不可变的类型码，会影响类到行为。</p>
+<p>应该使用子类取代这个类型码。<br><img src="/images/post/refactoring4-2.png"></p>
+<p>###Before Refactoring<br>    class Employee…<br>        private int _type;<br>        static final int ENGINEER = 0;<br>        static final int SALESMAN = 1;<br>        static final int MANAGER = 2;</p>
+<pre><code>Employee (int <span class="built_in">type</span>) {
+    _<span class="built_in">type</span> = <span class="built_in">type</span>;
+}
+int <span class="function"><span class="title">getType</span></span>() {
+    <span class="built_in">return</span> _<span class="built_in">type</span>;
+}
+</code></pre><p>###After Refactoring<br>    class Employee…<br>        private int _type;<br>        static final int ENGINEER = 0;<br>        static final int SALESMAN = 1;<br>        static final int MANAGER = 2;</p>
+<pre><code>    <span class="type">Employee</span> (int <span class="class"><span class="keyword">type</span>) {</span>
+        _type = <span class="class"><span class="keyword">type</span>;</span>
+    }
+    <span class="keyword">abstract</span> int getType();
+    static <span class="type">Employee</span> create(int <span class="class"><span class="keyword">type</span>) {</span>
+        switch (<span class="class"><span class="keyword">type</span>) {</span>
+            <span class="keyword">case</span> <span class="type">ENGINEER</span>:
+                <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Engineer</span>();
+            <span class="keyword">case</span> <span class="type">SALESMAN</span>:
+                <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Salesman</span>();
+            <span class="keyword">case</span> <span class="type">MANAGER</span>:
+                <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Manager</span>();
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">IllegalArgumentException</span>(<span class="string">"...."</span>);
+        }
+    }
+<span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Employee</span> {</span>
+    int getType() {
+        <span class="keyword">return</span> <span class="type">Employee</span>.<span class="type">ENGINEER</span>;
+    }
+}
+.......
+</code></pre><p>##Replace Type Code with State/Strategy(以State/Strategy取代类型码)<br>有一个状态码，会影响类到行为，但无法通过继承手段（类型码值在对象生命周期中发生变化或其他原因）消除它。</p>
+<p>应该用状态对象取代类型码。</p>
+<img src="/images/post/refactoring4-3.png">
+<p>###Before Refactoring<br>    class Employee…<br>        private int _type;<br>        static final int ENGINEER = 0;<br>        static final int SALESMAN = 1;<br>        static final int MANAGER = 2;</p>
+<pre><code>Employee (<span class="keyword">int</span> type) {
+    _type = type;
+}
+<span class="function"><span class="keyword">int</span> <span class="title">payAmount</span><span class="params">()</span> </span>{
+    <span class="keyword">switch</span> (type) {
+        <span class="keyword">case</span> ENGINEER:
+            <span class="keyword">return</span> _mongthlySalary;
+        <span class="keyword">case</span> SALESMAN:
+            <span class="keyword">return</span> _mongthlySalary + _commission;
+        <span class="keyword">case</span> MANAGER:
+            <span class="keyword">return</span> _mongthlySalary + _bonus;
+        <span class="keyword">default</span>:
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+    }
+}
+<span class="keyword">static</span> <span class="function">Employee <span class="title">create</span><span class="params">(<span class="keyword">int</span> type)</span> </span>{
+    <span class="keyword">switch</span> (type) {
+        <span class="keyword">case</span> ENGINEER:
+            <span class="keyword">return</span> <span class="keyword">new</span> Engineer();
+        <span class="keyword">case</span> SALESMAN:
+            <span class="keyword">return</span> <span class="keyword">new</span> Salesman();
+        <span class="keyword">case</span> MANAGER:
+            <span class="keyword">return</span> <span class="keyword">new</span> Manager();
+        <span class="keyword">default</span>:
+            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+    }
+}
+</code></pre><p>###After Refactoring<br>    class Employee…<br>        private EmployeeType _type;</p>
+<pre><code>    Employee (<span class="keyword">int</span> type) {
+        _type = EmployeeType.newType(arg);
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">payAmount</span><span class="params">()</span> </span>{
+        <span class="keyword">switch</span> (type) {
+            <span class="keyword">case</span> EmployeeType.ENGINEER:
+                <span class="keyword">return</span> _mongthlySalary;
+            <span class="keyword">case</span> EmployeeType.SALESMAN:
+                <span class="keyword">return</span> _mongthlySalary + _commission;
+            <span class="keyword">case</span> EmployeeType.MANAGER:
+                <span class="keyword">return</span> _mongthlySalary + _bonus;
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+        }
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">getType</span><span class="params">()</span></span>;
+    <span class="keyword">static</span> <span class="function">Employee <span class="title">create</span><span class="params">(<span class="keyword">int</span> type)</span> </span>{
+        <span class="keyword">switch</span> (getType()) {
+            <span class="keyword">case</span> ENGINEER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Engineer();
+            <span class="keyword">case</span> SALESMAN:
+                <span class="keyword">return</span> <span class="keyword">new</span> Salesman();
+            <span class="keyword">case</span> MANAGER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Manager();
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+        }
+    }
+
+<span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">EmployeeType</span> </span>{
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ENGINEER = <span class="number">0</span>;
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SALESMAN = <span class="number">1</span>;
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MANAGER = <span class="number">2</span>;
+    <span class="keyword">abstract</span> <span class="function"><span class="keyword">int</span> <span class="title">getTypeCode</span><span class="params">()</span></span>;
+    <span class="keyword">static</span> <span class="function">EmployeeType <span class="title">newType</span><span class="params">(<span class="keyword">int</span> code)</span> </span>{
+        <span class="keyword">switch</span> (code) {
+            <span class="keyword">case</span> ENGINEER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Engineer();
+            <span class="keyword">case</span> SALESMAN:
+                <span class="keyword">return</span> <span class="keyword">new</span> Salesman();
+            <span class="keyword">case</span> MANAGER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Manager();
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+        }
+    }
+}
+
+<span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">EmployeeType</span> </span>{
+    <span class="function"><span class="keyword">int</span> <span class="title">getTypeCode</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> EmployeeType.ENGINEER;
+    }    
+}
+</code></pre><p>然后程序就可以使用Replace Conditional with Polymorphism来处理payAmount()函数了。</p>
+<p>##Replace Subclass with Fields(以字段取代子类)<br>各个子类的唯一差别只在“返回常量数据”的函数身上。</p>
+<p>应该修改这些函数，使它们返回超类中的某个字段，然后销毁子类。</p>
+<p>###Before Refactoring</p>
+<p>###After Refactoring</p>
+<img src="/images/post/refactoring4-4.png">
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/软件工程/">软件工程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Refactoring/">Refactoring</a><a href="/tags/软件工程/">软件工程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2015/01/25/2015-01-25-refactoring-organizingdata/" data-title="Refactoring(四)-Organizing Data | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/01/26/2015-01-26-refactoring-simplifyingconditionalexpressions/" title="Refactoring(五)-Simplifying Conditional Expressions">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Refactoring(五)-Simplifying Conditional Expressions</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/01/24/2015-01-24-refactoring-movingfeaturesbetweenobjects/"  title="Refactoring(三)-Moving Features Between Objects">
+ <strong>下一篇：</strong><br/> 
+ <span>Refactoring(三)-Moving Features Between Objects
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2015/01/25/2015-01-25-refactoring-organizingdata/" data-title="Refactoring(四)-Organizing Data" data-url="http://xfhnever.com/2015/01/25/2015-01-25-refactoring-organizingdata/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

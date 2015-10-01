@@ -1,0 +1,850 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java（九）-使用common－pools实现对象池 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="上一篇文章中我们自己实现了一个对象池，但是实际上Java中已经存在一些第三方类库来帮助我们创建和管理对象池。鉴于不要重复造轮子的观点，我们决定使用apache的common－pools来实现我们的对象池。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java（九）-使用common－pools实现对象池">
+<meta property="og:url" content="http://xfhnever.com/2014/12/21/2014-12-21-java-pool[nil]apache[nil]commonpools/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="上一篇文章中我们自己实现了一个对象池，但是实际上Java中已经存在一些第三方类库来帮助我们创建和管理对象池。鉴于不要重复造轮子的观点，我们决定使用apache的common－pools来实现我们的对象池。">
+<meta property="og:updated_time" content="2015-09-28T15:53:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java（九）-使用common－pools实现对象池">
+<meta name="twitter:description" content="上一篇文章中我们自己实现了一个对象池，但是实际上Java中已经存在一些第三方类库来帮助我们创建和管理对象池。鉴于不要重复造轮子的观点，我们决定使用apache的common－pools来实现我们的对象池。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/21/2014-12-21-java-pool[nil]apache[nil]commonpools/" title="Java（九）-使用common－pools实现对象池" itemprop="url">Java（九）-使用common－pools实现对象池</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-12-21T07:43:12.000Z" itemprop="datePublished"> 发表于 Dec 21 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>上一篇文章中我们自己实现了一个对象池，但是实际上Java中已经存在一些第三方类库来帮助我们创建和管理对象池。鉴于不要重复造轮子的观点，我们决定使用apache的common－pools来实现我们的对象池。<br><a id="more"></a></p>
+<p>##依赖<br>除了Jakarta Commons Pool包外，还需要引入Jakarta Commons Collections，这样才可以使用pool组件。</p>
+<p>##主要对象<br>在Pool组件中，对象池化的工作被划分给了三类对象：</p>
+<ol>
+<li>PoolableObjectFactory用于管理被池化的对象的产生、激活、挂起、校验和销毁；</li>
+<li>ObjectPool用于管理要被池化的对象的借出和归还，并通知PoolableObjectFactory完成相应的工作；</li>
+<li>ObjectPoolFactory则用于大量生成相同类型和设置的ObjectPool。</li>
+</ol>
+<p>相应地，使用Pool组件的过程，也大体可以划分成“创立PoolableObjectFactory”、“使用ObjectPool”和可选的“利用ObjectPoolFactory”三种动作。</p>
+<p>##实例</p>
+<p>###创立PoolableObjectFactory<br>    public class GeTuiWorkerPoolableObjectFactory implements PoolableObjectFactory {<br>        private static final Logger logger = LoggerFactory.getLogger(GeTuiWorker.class);</p>
+<pre><code>    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function">Object <span class="title">makeObject</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+        logger.info(<span class="string">"make object"</span>);
+        Worker worker = <span class="keyword">new</span> GeTuiWorker();
+        <span class="keyword">return</span> worker;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">destroyObject</span><span class="params">(Object o)</span> <span class="keyword">throws</span> Exception </span>{
+        logger.info(<span class="string">"destroy object"</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">validateObject</span><span class="params">(Object o)</span> </span>{
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">activateObject</span><span class="params">(Object o)</span> <span class="keyword">throws</span> Exception </span>{
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">passivateObject</span><span class="params">(Object o)</span> <span class="keyword">throws</span> Exception </span>{
+
+    }
+}
+</code></pre><p>###使用ObjectPool<br>    public class GeTuiWorkerPool implements Pool {<br>        private static final Logger logger = LoggerFactory.getLogger(GeTuiWorkerPool.class);</p>
+<pre><code>    <span class="keyword">private</span> <span class="keyword">int</span> max_active = <span class="number">20</span>;
+    <span class="keyword">private</span> <span class="keyword">int</span> max_wait = <span class="number">20</span>;
+    <span class="keyword">private</span> GenericObjectPool pool;
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setMax_active</span><span class="params">(<span class="keyword">int</span> max_active)</span> </span>{
+        <span class="keyword">this</span>.max_active = max_active;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setMax_wait</span><span class="params">(<span class="keyword">int</span> max_wait)</span> </span>{
+        <span class="keyword">this</span>.max_wait = max_wait;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="title">GeTuiWorkerPool</span><span class="params">()</span> </span>{
+        pool = <span class="keyword">new</span> GenericObjectPool(<span class="keyword">new</span> GeTuiWorkerPoolableObjectFactory(), max_active,
+                GenericObjectPool.WHEN_EXHAUSTED_BLOCK, max_wait, <span class="keyword">true</span>, <span class="keyword">true</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function">Worker <span class="title">getWorker</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{
+        logger.info(<span class="string">"get worker"</span>);
+        <span class="keyword">return</span> (Worker) pool.borrowObject();
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">releaseWorker</span><span class="params">(Worker worker)</span> <span class="keyword">throws</span> Exception </span>{
+        logger.info(<span class="string">"release worker"</span>);
+        pool.returnObject(worker);
+    }
+}
+</code></pre><p>###利用ObjectPoolFactory<br>有时候，要在多处生成类型和设置都相同的ObjectPool。如果在每个地方都重写一次调用相应构造方法的代码，不但比较麻烦，而且日后修改起来，也有所不便。这种时候，正是使用ObjectPoolFactory的时机。</p>
+<p>ObjectPoolFactory是一个在org.apache.commons.pool中定义的接口，它定义了一个称为ObjectPool createPool()方法，可以用于大量生产类型和设置都相同的ObjectPool。</p>
+<p>Pool组件中，对每一个ObjectPool实现，都有一个对应的ObjectPoolFactory实现。它们相互之间，有一一对应的参数相同的构造方法。使用的时候，只要先用想要的参数和想用的ObjectPoolFactory实例，构造出一个ObjectPoolFactory对象，然后在需要生成ObjectPool的地方，调用这个对象的createPool()方法就可以了。日后无论想要调整所用ObjectPool的参数还是类型，只需要修改这一处，就可以大功告成了。</p>
+<p>由于我的项目中我暂时还未使用该接口，所以直接copy别人的代码：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ObjectPoolFactorySample</span> {
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>{
+        Object obj = <span class="keyword">null</span>;
+        PoolableObjectFactory factory
+                = <span class="keyword">new</span> PoolableObjectFactorySample();
+        ObjectPoolFactory poolFactory
+                = <span class="keyword">new</span> StackObjectPoolFactory(factory);
+        ObjectPool pool = poolFactory.createPool();
+        <span class="keyword">try</span> {
+            <span class="keyword">for</span>(<span class="keyword">long</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span> ; i++) {
+                System.<span class="keyword">out</span>.println(<span class="string">"== "</span> + i + <span class="string">" =="</span>);
+                obj = pool.borrowObject();
+                System.<span class="keyword">out</span>.println(obj);
+                pool.returnObject(obj);
+            }
+            obj = <span class="keyword">null</span>;
+        }
+        <span class="keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+        }
+        <span class="keyword">finally</span> {
+            <span class="keyword">try</span>{
+                <span class="keyword">if</span> (obj != <span class="keyword">null</span>) {
+                    pool.returnObject(obj);
+                }
+                pool.close();
+            }
+            <span class="keyword">catch</span> (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><p>##多种ObjectPool<br>Pool组件提供的ObjectPool实现则有StackObjectPool、SoftReferenceObjectPool和GenericObjectPool等种类。</p>
+<p>###StackObjectPool<br>StackObjectPool利用一个java.util.Stack对象来保存对象池里的对象。这种对象池的特色是：</p>
+<ol>
+<li>可以为对象池指定一个初始的参考大小（当空间不够时会自动增长）。</li>
+<li>在对象池已空的时候，调用它的borrowObject方法，会自动返回新创建的实例。</li>
+<li>可以为对象池指定一个可保存的对象数目的上限。达到这个上限之后，再向池里送回的对象会被自动送去回收。</li>
+</ol>
+<p>###SoftReferenceObjectPool<br>SoftReferenceObjectPool利用一个java.util.ArrayList对象来保存对象池里的对象。不过它并不在对象池里直接保存对象本身，而是保存它们的“软引用”（Soft Reference）。这种对象池的特色是：</p>
+<ol>
+<li>可以保存任意多个对象，不会有容量已满的情况发生。</li>
+<li>在对象池已空的时候，调用它的borrowObject方法，会自动返回新创建的实例。</li>
+<li>可以在初始化同时，在池内预先创建一定量的对象。<br>当内存不足的时候，池中的对象可以被Java虚拟机回收。</li>
+</ol>
+<p>###GenericObjectPool<br>GenericObjectPool利用一个org.apache.commons.collections.CursorableLinkedList对象来保存对象池里的对象。这种对象池的特色是：</p>
+<ol>
+<li>可以设定最多能从池中借出多少个对象。</li>
+<li>可以设定池中最多能保存多少个对象。</li>
+<li>可以设定在池中已无对象可借的情况下，调用它的borrowObject方法时的行为，是等待、创建新的实例还是抛出异常。</li>
+<li>可以分别设定对象借出和还回时，是否进行有效性检查。</li>
+<li>可以设定是否使用一个单独的线程，对池内对象进行后台清理。</li>
+</ol>
+<p>###KeyedObjectPool<br>可以通过为每一组参数相同的同类对象建立一个单独的对象池来解决这个问题。但是，如果使用普通的ObjectPool来实施这个计策的话，因为普通的PoolableObjectFactory只能生产出大批设置完全一致的对象，就需要为每一组参数相同的对象编写一个单独的PoolableObjectFactory，工作量相当可观。这种时候就适合调遣Pool组件中提供的一种“带键值的对象池”来展开工作了。</p>
+<p>Pool组件采用实现了KeyedObjectPool接口的类，来充当带键值的对象池。相应的，这种对象池需要配合实现了KeyedPoolableObjectFactory接口的类和实现了KeyedObjectPoolFactory接口的类来使用（这三个接口都在org.apache.commons.pool包中定义）：</p>
+<p>##参考</p>
+<ol>
+<li><a href="http://o-u-u.com/tag/common-pool/" target="_blank" rel="external">使用Jakarta Commons Pool处理对象池化</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Common－pools/">Common－pools</a><a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/12/21/2014-12-21-java-pool[nil]apache[nil]commonpools/" data-title="Java（九）-使用common－pools实现对象池 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/21/2014-12-21-java-collections-hashmaphashtable/" title="Java集合（二）-HashMap和HashTable">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java集合（二）-HashMap和HashTable</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/21/2014-12-21-java-pool/"  title="Java（八）－对象池">
+ <strong>下一篇：</strong><br/> 
+ <span>Java（八）－对象池
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/12/21/2014-12-21-java-pool[nil]apache[nil]commonpools/" data-title="Java（九）-使用common－pools实现对象池" data-url="http://xfhnever.com/2014/12/21/2014-12-21-java-pool[nil]apache[nil]commonpools/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

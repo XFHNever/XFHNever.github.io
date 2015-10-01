@@ -1,0 +1,1110 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Mongodb（二）--基本语法 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="数据库基本操作指令
+查看命令提示： help
+db.help();
+db.yourCollectionName.help();
+db.yourCollectionName.find().help();
+rs.help();
+
+显示数据库列表：
+show dbs;
+
+显示当前数据库中的集合（类似关系数据库中的表）: 
+show collections;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mongodb（二）--基本语法">
+<meta property="og:url" content="http://xfhnever.com/2014/02/28/2014-02-28-mongodb-basic-syntax/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="数据库基本操作指令
+查看命令提示： help
+db.help();
+db.yourCollectionName.help();
+db.yourCollectionName.find().help();
+rs.help();
+
+显示数据库列表：
+show dbs;
+
+显示当前数据库中的集合（类似关系数据库中的表）: 
+show collections;">
+<meta property="og:image" content="http://xfhnever.com/images/post/dbshutdown.jpg">
+<meta property="og:updated_time" content="2015-09-27T04:23:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mongodb（二）--基本语法">
+<meta name="twitter:description" content="数据库基本操作指令
+查看命令提示： help
+db.help();
+db.yourCollectionName.help();
+db.yourCollectionName.find().help();
+rs.help();
+
+显示数据库列表：
+show dbs;
+
+显示当前数据库中的集合（类似关系数据库中的表）: 
+show collections;">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/02/28/2014-02-28-mongodb-basic-syntax/" title="Mongodb（二）--基本语法" itemprop="url">Mongodb（二）--基本语法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-02-28T07:18:51.000Z" itemprop="datePublished"> 发表于 Feb 28 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库基本操作指令"><span class="toc-number">1.</span> <span class="toc-text">数据库基本操作指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户相关操作"><span class="toc-number">2.</span> <span class="toc-text">用户相关操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集（表）操作"><span class="toc-number">3.</span> <span class="toc-text">数据集（表）操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集查询语句"><span class="toc-number">4.</span> <span class="toc-text">数据集查询语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集插入更新删除记录语句"><span class="toc-number">5.</span> <span class="toc-text">数据集插入更新删除记录语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引"><span class="toc-number">6.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2D索引"><span class="toc-number">7.</span> <span class="toc-text">2D索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令执行器"><span class="toc-number">8.</span> <span class="toc-text">命令执行器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#固定集合"><span class="toc-number">9.</span> <span class="toc-text">固定集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭服务"><span class="toc-number">10.</span> <span class="toc-text">关闭服务</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="数据库基本操作指令">数据库基本操作指令</h2><ol>
+<li><p>查看命令提示： help</p>
+<pre><code><span class="tag">db</span><span class="class">.help</span>();
+<span class="tag">db</span><span class="class">.yourCollectionName</span><span class="class">.help</span>();
+<span class="tag">db</span><span class="class">.yourCollectionName</span><span class="class">.find</span>()<span class="class">.help</span>();
+<span class="tag">rs</span><span class="class">.help</span>();
+</code></pre></li>
+<li><p>显示数据库列表：</p>
+<pre><code><span class="operator"><span class="keyword">show</span> dbs;</span>
+</code></pre></li>
+<li><p>显示当前数据库中的集合（类似关系数据库中的表）: </p>
+<pre><code><span class="operator"><span class="keyword">show</span> collections;</span>  
+</code></pre></li>
+</ol>
+<a id="more"></a> 
+<ol>
+<li><p>切换/创建数据库： </p>
+<pre><code><span class="keyword">use</span> <span class="title">yourDB</span>;   当数据库已经存在时，将会切换到指定数据库，否则将会创建新的数据库。
+</code></pre></li>
+</ol>
+<ol>
+<li><p>删除当前使用的数据库：</p>
+<pre><code><span class="tag">db</span><span class="class">.dropDatabase</span>();
+</code></pre></li>
+<li><p>查看当前DB的状态： </p>
+<pre><code><span class="tag">db</span><span class="class">.stats</span>();
+</code></pre></li>
+<li><p>查看当前使用的数据库： </p>
+<pre><code><span class="keyword">db</span>.getName()或者<span class="keyword">db</span>;
+</code></pre></li>
+<li><p>当前db版本： </p>
+<pre><code><span class="keyword">db</span>.<span class="keyword">version</span>();
+</code></pre></li>
+<li><p>查看当前db的链接机器地址:</p>
+<pre><code><span class="tag">db</span><span class="class">.getMongo</span>();
+</code></pre></li>
+<li><p>从指定主机上克隆数据库: </p>
+<pre><code><span class="tag">db</span><span class="class">.cloneDatabase</span>(“127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span>”); 将指定机器上的数据库的数据克隆到当前数据库.
+</code></pre></li>
+<li><p>从指定的机器上复制指定数据库数据到某个数据库: </p>
+<pre><code><span class="tag">db</span><span class="class">.copyDatabase</span>("<span class="tag">mydb</span>", "<span class="tag">temp</span>", "127<span class="class">.0</span><span class="class">.0</span><span class="class">.1</span>");将本机的<span class="tag">mydb</span>的数据复制到<span class="tag">temp</span>数据库中
+</code></pre></li>
+<li><p>修复当前数据库: </p>
+<pre><code><span class="tag">db</span><span class="class">.repairDatabase</span>();
+</code></pre></li>
+<li><p>查看数据库服务器状态： </p>
+<pre><code><span class="tag">db</span><span class="class">.serverStatus</span>();
+</code></pre></li>
+<li><p>查询指定数据库包含的集合名称列表:</p>
+<pre><code><span class="tag">db</span><span class="class">.getCollectionNames</span>();
+</code></pre></li>
+</ol>
+<h2 id="用户相关操作">用户相关操作</h2><ol>
+<li><p>查看当前所有用户： </p>
+<pre><code><span class="operator"><span class="keyword">show</span> <span class="keyword">users</span>;</span>
+</code></pre></li>
+<li><p>添加一个用户：</p>
+<pre><code><span class="keyword">db</span>.addUser(<span class="string">"userName"</span>); 
+<span class="keyword">db</span>.addUser(<span class="string">"userName"</span>, <span class="string">"password"</span>, true); 添加用户、设置密码、是否只读
+</code></pre></li>
+<li><p>删除用户： </p>
+<pre><code><span class="keyword">db</span>.removeUser(<span class="string">"userName"</span>);
+</code></pre></li>
+<li><p>数据库认证、安全模式：</p>
+<pre><code><span class="keyword">db</span>.auth(<span class="string">"userName"</span>, <span class="string">"password"</span>);
+</code></pre></li>
+</ol>
+<h2 id="数据集（表）操作">数据集（表）操作</h2><ol>
+<li><p>创建集合： </p>
+<pre><code><span class="tag">db</span><span class="class">.createCollection</span>(“<span class="tag">collName</span>”);
+</code></pre></li>
+<li><p>得到指定名称的聚集集合:  </p>
+<pre><code><span class="keyword">db</span>.getCollection(<span class="string">"collName"</span>);
+</code></pre></li>
+<li><p>显示当前db所有聚集索引的状态:</p>
+<pre><code><span class="tag">db</span><span class="class">.printCollectionStats</span>();
+</code></pre></li>
+<li><p>查询当前集合的数据条数: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.count</span>();
+</code></pre></li>
+<li><p>查看数据空间大小: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.dataSize</span>();
+</code></pre></li>
+<li><p>得到当前聚集集合所在的db: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.getDB</span>();
+</code></pre></li>
+<li><p>得到当前聚集的状态</p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.stats</span>();
+</code></pre></li>
+<li><p>得到聚集集合总大小 </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.totalSize</span>();
+</code></pre></li>
+<li><p>聚集集合储存空间大小 </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.storageSize</span>();
+</code></pre></li>
+<li><p>Shard版本信息  </p>
+<pre><code>db<span class="class">.yourColl</span><span class="class">.getShardVersion</span>()
+</code></pre></li>
+<li><p>聚集集合重命名 </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.renameCollection</span>("<span class="tag">toColl</span>"); 将<span class="tag">yourColl</span>重命名为<span class="tag">toColl</span>
+</code></pre></li>
+<li><p>删除当前聚集集合 </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.drop</span>();
+</code></pre></li>
+</ol>
+<h2 id="数据集查询语句">数据集查询语句</h2><ol>
+<li><p>查询所有记录：</p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.find</span>();
+</code></pre></li>
+<li><p>查询去掉后的当前聚集集合中的某列的重复数据：</p>
+<pre><code>db.yourColl.<span class="keyword">distinct</span>(<span class="string">"name"</span>);会过滤掉name中的相同数据
+</code></pre></li>
+<li><p>条件查询： </p>
+<pre><code>db.yourColl.find({查询条件},{指定键}); 
+
+    - 查询age = <span class="number">22</span>的记录: db.yourColl.find({<span class="string">"age"</span>: <span class="number">22</span>});
+    - 查询age &gt;= <span class="number">23</span> 并且 age &lt;= <span class="number">26</span>: db.yourColl.find({age: {<span class="variable">$gte</span>: <span class="number">23</span>, <span class="variable">$lte</span>: <span class="number">26</span>}});
+    - 查询name中以mongo开头的: db.yourColl.find({name: /^mongo/});
+
+比较符号：<span class="variable">$lt</span>,<span class="variable">$lte</span>,<span class="variable">$gt</span>,<span class="variable">$gte</span>,<span class="variable">$ne</span>分别对应&gt;,&gt;=,&lt;,&lt;=,!= 
+</code></pre></li>
+<li><p>查询后排序： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.find</span>()<span class="class">.sort</span>({<span class="attribute">age</span>:<span class="number">1</span>}); 
+按照<span class="tag">age</span>升序，<span class="tag">age</span>：<span class="tag">-1</span>按照降序。
+</code></pre></li>
+<li><p>查询前十条数据： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.find</span>()<span class="class">.limit</span>(10);
+</code></pre></li>
+<li><p>查询10条以后的数据： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.find</span>()<span class="class">.skip</span>(10);
+</code></pre></li>
+<li><p>查询5到10之间的数据: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.find</span><span class="class">.limit</span>(10)<span class="class">.skip</span>(5); 
+可用于分页，<span class="tag">limit</span>是<span class="tag">pageSize</span>，<span class="tag">skip</span>是第几页*<span class="tag">pageSize</span>
+</code></pre></li>
+<li><p>查询第一条数据： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.findOne</span>();
+</code></pre></li>
+<li><p>包含于不包含： </p>
+<pre><code><span class="variable">$in</span>或<span class="variable">$nin</span> 
+db.yourColl.find({age:{<span class="variable">$in</span>:[<span class="number">25</span>,<span class="number">17</span>]}});
+</code></pre></li>
+<li><p>OR查询： </p>
+<pre><code>查询年龄大于<span class="number">20</span>或者班级号小于<span class="number">5</span>的学生 
+   db.yourColl.find({<span class="variable">$or</span>:[{age:{<span class="variable">$gt</span>:<span class="number">20</span>}},{grade:{<span class="variable">$lt</span>:<span class="number">5</span>}}]})
+</code></pre></li>
+<li><p>$not查询： </p>
+<pre><code>查询所有名字中不含有“li”的学生 
+    db.yourColl.find({name:{<span class="variable">$not</span>:/li/i}});
+</code></pre></li>
+<li><p>数组查询$all和index：</p>
+<pre><code>查询喜欢看MongoDB和JS的学生：
+  db.yourColl.find({books:{<span class="variable">$all</span>:[<span class="string">"MongoDB"</span>,<span class="string">"JS"</span>]}});
+查询第二本书是java的学生：
+  db.yourColl.find({<span class="string">"books.1"</span>:<span class="string">"java"</span>}); 
+【books是一个数组，也是yourColl中的一个键】
+</code></pre></li>
+<li><p>查询某个结果集的记录条数：</p>
+<pre><code>db.yourColl.find({age: {<span class="variable">$gte</span>: <span class="number">25</span>}}).count();
+</code></pre></li>
+<li><p>$slice查询返回指定数组的内部值： </p>
+<pre><code>查询jim书架中第<span class="number">2</span>~<span class="number">4</span>本书：
+db.yourColl.find({name:<span class="string">"jim"</span>},{books:{<span class="string">"$slice"</span>:[<span class="number">1</span>,<span class="number">3</span>]}}); 
+
+最后一本的话{<span class="string">"$slice"</span>:-<span class="number">1</span>}.
+</code></pre></li>
+<li><p>查询快照：</p>
+<pre><code>db.yourColl.find({<span class="variable">$query</span>:{name:<span class="string">"jim"</span>},<span class="variable">$snapshot</span>:true})
+</code></pre></li>
+<li><p>Group查询：</p>
+<pre><code>db.runCommand({group:{
+    ns:<span class="string">"persons"</span>,              //集合名称
+    key:{<span class="string">"country"</span>:true},      //分组的键对象
+    initial:{m:<span class="number">0</span>},             //初始化累加器
+    <span class="variable">$reduce</span>:function(doc,prev){     //组分解器
+        if(doc.m &gt; prev.m){
+            prev.m = doc.m;
+            prev.name = doc.name;
+            prev.country = doc.country;
+        }
+    },
+    finalize:function(prev){      //组完成器
+        prev.m = prev.name+<span class="string">" Math scores "</span>+prev.m
+    },
+    condition:{m:{<span class="variable">$gt</span>:<span class="number">90</span>}}       //条件
+}})
+</code></pre></li>
+</ol>
+<h2 id="数据集插入更新删除记录语句">数据集插入更新删除记录语句</h2><ol>
+<li><p>插入：</p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.insert</span>(<span class="rules">{}</span>);
+</code></pre></li>
+<li><p>批量插入：</p>
+<pre><code><span class="built_in">shell</span>不支持批量插入，可以用Mongo的应用驱动或是<span class="built_in">shell</span>的<span class="keyword">for</span>循环。
+</code></pre></li>
+<li><p>save操作: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.save</span>(<span class="rules">{}</span>);和<span class="tag">insert</span>的区别是：当遇到_<span class="tag">id</span>相同的情况下，<span class="tag">save</span>完成保存，<span class="tag">insert</span>则会报错。
+</code></pre></li>
+<li><p>删除列表中所有数据： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.remove</span>();
+</code></pre></li>
+<li><p>根据条件删除: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.remove</span>(<span class="rules">{}</span>); 注：对于数据量十分庞大的集合，直接删除该集合并重建索引比直接用<span class="tag">remove</span>效率高。
+</code></pre></li>
+<li><p>更新： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.update</span>({查询器},{修改器});
+</code></pre></li>
+<li><p>insertOrUpdate操作： </p>
+<pre><code>db.yourColl.<span class="keyword">update</span>({查询器},{修改器}，<span class="literal">true</span>);查询出就更新，否则插入.
+</code></pre></li>
+<li><p>批量更新： </p>
+<pre><code>db.yourColl.<span class="keyword">update</span>({查询器},{修改器},<span class="literal">false</span>,<span class="literal">true</span>);
+</code></pre></li>
+<li><p>查询修改删除：</p>
+<pre><code>db.yourColl.findAndModify({
+
+    query: {age: {<span class="variable">$gte</span>: <span class="number">25</span>}}, 
+
+    sort: {age: -<span class="number">1</span>}, 
+
+    update: {<span class="variable">$set</span>: {name: <span class="string">'a2'</span>}, <span class="variable">$inc</span>: {age: <span class="number">2</span>}},
+
+    remove: true
+
+});
+
+db.runCommand({ findandmodify : <span class="string">"yourColl"</span>, 
+
+    query: {age: {<span class="variable">$gte</span>: <span class="number">25</span>}}, 
+
+    sort: {age: -<span class="number">1</span>}, 
+
+    update: {<span class="variable">$set</span>: {name: <span class="string">'a2'</span>}, <span class="variable">$inc</span>: {age: <span class="number">2</span>}},
+
+    remove: true
+
+});
+</code></pre></li>
+</ol>
+<h2 id="索引">索引</h2><ol>
+<li><p>创建索引：</p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.ensureIndex</span>({<span class="attribute">name</span>: <span class="number">1</span>});  
+<span class="tag">1</span>是指正序；<span class="tag">-1</span>倒序。
+</code></pre></li>
+<li><p>查询当前聚集集合所有索引: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.getIndexes</span>();
+</code></pre></li>
+<li><p>查看总索引记录大小: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.totalIndexSize</span>();
+</code></pre></li>
+<li><p>读取当前集合的所有index信息: </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.reIndex</span>();
+</code></pre></li>
+<li><p>删除指定索引:</p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.dropIndex</span>("<span class="tag">name_1</span>");
+</code></pre></li>
+<li><p>删除所有索引索引:</p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.dropIndexes</span>();
+</code></pre></li>
+<li><p>创建索引并制定索引的名字： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.ensureIndex</span>({<span class="tag">age</span><span class="pseudo">:-1</span>},{<span class="attribute">name</span>:<span class="string">"indexName"</span>});
+</code></pre></li>
+<li><p>创建唯一索引： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.ensureIndex</span>({<span class="tag">age</span><span class="pseudo">:-1</span>},{<span class="attribute">unique</span>:true});不能插入重复的数值。
+</code></pre></li>
+<li><p>剔除重复数据： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.ensureIndex</span>({<span class="tag">age</span><span class="pseudo">:-1</span>},{<span class="attribute">unique</span>:true,<span class="attribute">dropDups</span>:true});
+</code></pre></li>
+<li><p>强制使用指定的索引： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.find</span>({查询器})<span class="class">.hint</span>({<span class="attribute">age</span>:<span class="number">1</span>}); 
+注：<span class="tag">age</span>必须是已经创建过的索引。
+</code></pre></li>
+<li><p>查看本次查询使用的索引和状态信息： </p>
+<pre><code>db.yourColl.find(<span class="decorator">{..}</span>).explain();
+</code></pre></li>
+<li><p>查看数据库已经建立的索引： </p>
+<pre><code><span class="tag">db</span><span class="class">.system</span><span class="class">.indexes</span><span class="class">.find</span>(); <span class="tag">db</span><span class="class">.system</span><span class="class">.namespaces</span><span class="class">.find</span>();
+</code></pre></li>
+<li><p>后台执行创建索引： </p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.ensureIndex</span>(<span class="rules">{}</span>,<span class="rules">{<span class="rule"><span class="attribute">background</span>:<span class="value">true})</span></span>;</span>
+</code></pre></li>
+<li><p>批量和精确删除： </p>
+<pre><code><span class="tag">db</span><span class="class">.runCommand</span>({<span class="attribute">dropIndexes</span>:<span class="string">"yourColl"</span>,<span class="attribute">index</span>:<span class="string">"name_-1"</span>}); 精确删除一个
+<span class="tag">db</span><span class="class">.runCommand</span>({<span class="attribute">dropIndexes</span>:<span class="string">"yourColl"</span>,<span class="attribute">index</span>:<span class="string">"*"</span>}); 删除所有
+</code></pre></li>
+</ol>
+<h2 id="2D索引">2D索引</h2><p>平面图中，很多个二维坐标的点。</p>
+<ol>
+<li><p>查询出距离点（70,180）最近的3个点：</p>
+<pre><code>//添加<span class="number">2</span>D索引
+db.yourColl.ensureIndex({<span class="string">"gis"</span>:<span class="number">2</span>D},{min:-<span class="number">1</span>,max:<span class="number">201</span>});     //gis属于yourColl
+db.yourColl.find({<span class="string">"gis"</span>:{<span class="variable">$near</span>:[<span class="number">70</span>,<span class="number">180</span>]}}).limit(<span class="number">3</span>);
+</code></pre></li>
+<li><p>查询以点（50,50）和（190,190）为对角线的正方形中的是有点：</p>
+<pre><code><span class="tag">db</span><span class="class">.yourColl</span><span class="class">.find</span>(<span class="rules">{<span class="rule"><span class="attribute">gis</span>:<span class="value">{<span class="string">"$within"</span>:[[<span class="number">50</span>,<span class="number">50</span>],[<span class="number">190</span>,<span class="number">190</span>]]}})</span></span>;</span>
+</code></pre></li>
+<li><p>查询以圆心为（56,80）半径为50规则下的圆形面积中的点：</p>
+<pre><code>db.yourColl.find({gis:{<span class="variable">$within</span>:{<span class="variable">$center</span>:[[<span class="number">56</span>,<span class="number">80</span>],<span class="number">50</span>]}}});
+</code></pre></li>
+</ol>
+<h2 id="命令执行器">命令执行器</h2><ol>
+<li>用命令执行器完成一次删除表的操作：</li>
+</ol>
+<pre><code>db.runCommand({drop:<span class="string">"yourColl"</span>})
+{
+        <span class="string">"nIndexesWas"</span> : <span class="number">2</span>,
+        <span class="string">"msg"</span> : <span class="string">"indexes dropped for collection"</span>,
+        <span class="string">"ns"</span> : <span class="string">"yourDB.yourColl"</span>,
+        <span class="string">"ok"</span> : <span class="number">1</span>
+}
+</code></pre><ol>
+<li><p>查询mongoDB为我们提供的命令：</p>
+<pre><code>在shell中执行 db.<span class="function"><span class="title">listCommands</span><span class="params">()</span></span>
+访问网址http:<span class="comment">//localhost:28017/_commands</span>
+</code></pre></li>
+<li><p>查询服务器版本号和主机操作系统：</p>
+<pre><code><span class="tag">db</span><span class="class">.runCommand</span>({<span class="attribute">buildInfo</span>:<span class="number">1</span>})  
+</code></pre></li>
+<li><p>查询执行集合的详细信息,大小,空间,索引等：</p>
+<pre><code><span class="tag">db</span><span class="class">.runCommand</span>({<span class="attribute">collStats</span>:<span class="string">"yourColl"</span>})
+</code></pre></li>
+<li><p>查看操作本集合最后一次错误信息：</p>
+<pre><code><span class="tag">db</span><span class="class">.runCommand</span>({<span class="attribute">getLastError</span>:<span class="string">"yourColl"</span>})
+</code></pre></li>
+</ol>
+<h2 id="固定集合">固定集合</h2><ol>
+<li><p>固定特性</p>
+<pre><code><span class="number">1.1</span>固定集合默认是没有索引的就算是_id也是没有索引的
+<span class="number">1.2</span>由于不需分配新的空间他的插入速度是非常快的
+<span class="number">1.3</span>固定集合的顺是确定的导致查询速度是非常快的
+<span class="number">1.4</span>最适合的是应用就是日志管理
+</code></pre></li>
+<li><p>创建固定集合：</p>
+<pre><code><span class="number">2.1</span>创建一个新的固定集合要求大小是<span class="number">100</span>个字节,可以存储文档<span class="number">10</span>个
+     db.createCollection(<span class="string">"yourColl"</span>,{size:<span class="number">100</span>,capped:<span class="literal">true</span>,max:<span class="number">10</span>})
+<span class="number">2.2</span>把一个普通集合转换成固定集合
+     db.runCommand({convertToCapped:”yourColl”,size:<span class="number">100000</span>})
+</code></pre></li>
+<li><p>反向排序,默认是插入顺序排序.</p>
+<pre><code><span class="number">3.1</span>查询固定集合yourColl并且反响排序
+     db<span class="class">.yourColl</span><span class="class">.find</span>().<span class="function"><span class="title">sort</span><span class="params">({<span class="variable">$natural</span>:-<span class="number">1</span>})</span></span>
+</code></pre></li>
+<li><p>尾部游标,可惜shell不支持java和php等驱动是支持的</p>
+<pre><code><span class="number">4.1</span>尾部游标概念
+     这是个特殊的只能用到固定级和身上的游标,他在没有结果的时候也不回自动销毁他是一直等待结果的到来
+</code></pre></li>
+</ol>
+<h2 id="关闭服务">关闭服务</h2><ol>
+<li><p>Ctrl+C关闭</p>
+<p>如果以前台方式启动 MongoDB 服务，使用“Crtl+C” 服务会关闭，这种关闭方式会等待当前进行中的的操作完成，所以依然是干净的关闭方式。</p>
+</li>
+<li><p>使用数据库命令关闭</p>
+  <img src="/images/post/dbshutdown.jpg">
+</li>
+</ol>
+<hr>
+<p>参考：<a href="http://www.cnblogs.com/xusir/archive/2012/12/24/2830957.html" target="_blank" rel="external">MongoDB基本命令用</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/DB/">DB</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MongoDB/">MongoDB</a><a href="/tags/syntax/">syntax</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/02/28/2014-02-28-mongodb-basic-syntax/" data-title="Mongodb（二）--基本语法 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/03/01/2014-03-01-github-plus-octopress-blog/" title="Blog（一）－－ win7平台下使用github+octopress搭建个人Blog">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Blog（一）－－ win7平台下使用github+octopress搭建个人Blog</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/02/28/2014-02-28-mongodb-installed-under-win7/"  title="Mongodb（一）--Win7下安装配置">
+ <strong>下一篇：</strong><br/> 
+ <span>Mongodb（一）--Win7下安装配置
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/02/28/2014-02-28-mongodb-basic-syntax/" data-title="Mongodb（二）--基本语法" data-url="http://xfhnever.com/2014/02/28/2014-02-28-mongodb-basic-syntax/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库基本操作指令"><span class="toc-number">1.</span> <span class="toc-text">数据库基本操作指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户相关操作"><span class="toc-number">2.</span> <span class="toc-text">用户相关操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集（表）操作"><span class="toc-number">3.</span> <span class="toc-text">数据集（表）操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集查询语句"><span class="toc-number">4.</span> <span class="toc-text">数据集查询语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集插入更新删除记录语句"><span class="toc-number">5.</span> <span class="toc-text">数据集插入更新删除记录语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引"><span class="toc-number">6.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2D索引"><span class="toc-number">7.</span> <span class="toc-text">2D索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令执行器"><span class="toc-number">8.</span> <span class="toc-text">命令执行器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#固定集合"><span class="toc-number">9.</span> <span class="toc-text">固定集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭服务"><span class="toc-number">10.</span> <span class="toc-text">关闭服务</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

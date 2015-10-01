@@ -1,0 +1,944 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JSON（三）-Fastjson介绍 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="Fastjson是一个Java语言编写的高性能功能完善的JSON库。它采用一种“假定有序快速匹配”的算法，把JSON Parse的性能提升到极致，是目前Java语言中最快的JSON库。Fastjson接口简单易用，已经被广泛使用在缓存序列化、协议交互、Web输出、Android客户端等多种应用场景。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSON（三）-Fastjson介绍">
+<meta property="og:url" content="http://xfhnever.com/2014/08/11/2014-08-11-json-fastjsonintroduction/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="Fastjson是一个Java语言编写的高性能功能完善的JSON库。它采用一种“假定有序快速匹配”的算法，把JSON Parse的性能提升到极致，是目前Java语言中最快的JSON库。Fastjson接口简单易用，已经被广泛使用在缓存序列化、协议交互、Web输出、Android客户端等多种应用场景。">
+<meta property="og:updated_time" content="2015-09-28T01:03:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSON（三）-Fastjson介绍">
+<meta name="twitter:description" content="Fastjson是一个Java语言编写的高性能功能完善的JSON库。它采用一种“假定有序快速匹配”的算法，把JSON Parse的性能提升到极致，是目前Java语言中最快的JSON库。Fastjson接口简单易用，已经被广泛使用在缓存序列化、协议交互、Web输出、Android客户端等多种应用场景。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/11/2014-08-11-json-fastjsonintroduction/" title="JSON（三）-Fastjson介绍" itemprop="url">JSON（三）-Fastjson介绍</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-11T13:19:46.000Z" itemprop="datePublished"> 发表于 Aug 11 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>Fastjson是一个Java语言编写的高性能功能完善的JSON库。它采用一种“假定有序快速匹配”的算法，把JSON Parse的性能提升到极致，是目前Java语言中最快的JSON库。Fastjson接口简单易用，已经被广泛使用在缓存序列化、协议交互、Web输出、Android客户端等多种应用场景。<br><a id="more"></a></p>
+<p>##Get It</p>
+<p>###Maven<br>    <dependency><br>        <groupid>com.alibaba</groupid><br>        <artifactid>fastjson</artifactid><br>        <version>1.1.41</version><br>    </dependency></p>
+<p>###下载</p>
+<ol>
+<li><a href="http://central.maven.org/maven2/com/alibaba/fastjson/" target="_blank" rel="external">maven中央仓库</a></li>
+<li><a href="http://code.alibabatech.com/mvn/releases/com/alibaba/fastjson/" target="_blank" rel="external">Alibaba OpenSesame</a></li>
+<li><a href="https://github.com/AlibabaTech/fastjson/downloads" target="_blank" rel="external">Github Download</a></li>
+</ol>
+<p>##特点</p>
+<ol>
+<li><strong>FAST</strong>:measured to be faster than any other Java parser and databinder, incudes jackson. </li>
+<li><strong>Powerful</strong>:full data binding for common JDK classes as well as any Java Bean class, Collection, Map, Date or enum</li>
+<li><strong>Zero-dependency</strong>:does not rely on other packages beyond JDK</li>
+<li><strong>Open Source</strong></li>
+</ol>
+<p>##主要API<br>fastjson入口类是com.alibaba.fastjson.JSON，主要的API是JSON.toJSONString，和parseObject。</p>
+<pre><code><span class="keyword">package</span> com.alibaba.fastjson;
+<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">JSON</span> </span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String <span class="title">toJSONString</span><span class="params">(Object object)</span></span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; <span class="function">T <span class="title">parseObject</span><span class="params">(String text, Class&lt;T&gt; clazz, Feature... features)</span></span>;
+}
+</code></pre><p>序列化：</p>
+<pre><code><span class="built_in">String</span> jsonString = <span class="built_in">JSON</span>.toJSONString(obj);
+</code></pre><p>反序列化：</p>
+<pre><code>VO vo = JSON.parseObject(<span class="string">"..."</span>, VO.<span class="keyword">class</span>);
+</code></pre><p>泛型反序列化：</p>
+<pre><code><span class="keyword">import</span> com<span class="built_in">.</span>alibaba<span class="built_in">.</span>fastjson<span class="built_in">.</span>TypeReference;
+
+<span class="built_in">List</span>&lt;VO&gt; <span class="built_in">list</span> = JSON<span class="built_in">.</span>parseObject(<span class="string">"..."</span>, <span class="literal">new</span> TypeReference&lt;<span class="built_in">List</span>&lt;VO&gt;&gt;() {});
+</code></pre><p>##实例</p>
+<p>###User<br>    public class User {</p>
+<pre><code>    <span class="keyword">private</span> Long   id;
+    <span class="keyword">private</span> String name;
+
+    <span class="keyword">public</span> <span class="function">Long <span class="title">getId</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> id;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setId</span><span class="params">(Long id)</span> </span>{
+        <span class="keyword">this</span>.id = id;
+    }
+
+    <span class="keyword">public</span> <span class="function">String <span class="title">getName</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> name;
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>{
+        <span class="keyword">this</span>.name = name;
+    }
+}
+</code></pre><p>###Group<br>    public class Group {</p>
+<pre><code>    <span class="keyword">private</span> Long       id;
+    <span class="keyword">private</span> String     name;
+    <span class="keyword">private</span> List&lt;User&gt; users = <span class="keyword">new</span> ArrayList&lt;User&gt;();
+
+    <span class="function"><span class="keyword">public</span> Long <span class="title">getId</span>(<span class="params"></span>) </span>{
+        <span class="keyword">return</span> id;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span>(<span class="params">Long id</span>) </span>{
+        <span class="keyword">this</span>.id = id;
+    }
+
+    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span>(<span class="params"></span>) </span>{
+        <span class="keyword">return</span> name;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span>(<span class="params">String name</span>) </span>{
+        <span class="keyword">this</span>.name = name;
+    }
+
+    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getUsers</span>(<span class="params"></span>) </span>{
+        <span class="keyword">return</span> users;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsers</span>(<span class="params">List&lt;User&gt; users</span>) </span>{
+        <span class="keyword">this</span>.users = users;
+    }
+}
+</code></pre><p>###Encode<br>    import com.alibaba.fastjson.JSON;</p>
+<pre><code>Group <span class="keyword">group</span> = new Group();
+<span class="keyword">group</span>.<span class="built_in">set</span>Id(<span class="number">0</span>L);
+<span class="keyword">group</span>.<span class="built_in">set</span>Name(<span class="string">"admin"</span>);
+
+User guestUser = new User();
+guestUser.<span class="built_in">set</span>Id(<span class="number">2</span>L);
+guestUser.<span class="built_in">set</span>Name(<span class="string">"guest"</span>);
+
+User rootUser = new User();
+rootUser.<span class="built_in">set</span>Id(<span class="number">3</span>L);
+rootUser.<span class="built_in">set</span>Name(<span class="string">"root"</span>);
+
+<span class="keyword">group</span>.getUsers().add(guestUser);
+<span class="keyword">group</span>.getUsers().add(rootUser);
+
+String jsonString = JSON.<span class="keyword">to</span>JSONString(<span class="keyword">group</span>);
+
+System.<span class="keyword">out</span>.println(jsonString);
+</code></pre><p>###Decode<br>    String jsonString = …;<br>    Group group = JSON.parseObject(jsonString, Group.class);</p>
+<p>###Attention<br>如何Java类中定义了带有参数的构造函数，那我们就必须加上默认的构造函数，否则不能解析。（fastjson 严格按照JavaBean的规范来，每一个实体类的属性的get和set方法也都必须写，且方法第四个字母必须大写）</p>
+<p>##处理日期<br>fastjson处理日期的API很简单，例如：</p>
+<pre><code>JSON.<span class="function"><span class="title">toJSONStringWithDateFormat</span><span class="params">(date, <span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>)</span></span>
+</code></pre><p>使用ISO-8601日期格式</p>
+<pre><code><span class="tag">JSON</span><span class="class">.toJSONString</span>(<span class="tag">obj</span>, <span class="tag">SerializerFeature</span><span class="class">.UseISO8601DateFormat</span>);
+</code></pre><p>全局修改日期格式</p>
+<pre><code><span class="built_in">JSON</span>.DEFFAULT_DATE_FORMAT = <span class="string">"yyyy-MM-dd"</span>;
+<span class="built_in">JSON</span>.toJSONString(obj, SerializerFeature.WriteDateUseDateFormat);
+</code></pre><p>反序列化能够自动识别如下日期格式：</p>
+<ul>
+<li>ISO-8601日期格式</li>
+<li>yyyy-MM-dd</li>
+<li>yyyy-MM-dd HH:mm:ss</li>
+<li>yyyy-MM-dd HH:mm:ss.SSS</li>
+<li>毫秒数字</li>
+<li>毫秒数字字符串</li>
+<li>.NET JSON日期格式</li>
+<li>new Date(198293238)</li>
+</ul>
+<p>##浏览器和设备兼容<br>fastjson缺省的序列化内容，是对序列化结果紧凑做了优化配置，使得序列化之后长度更小，但是这种优化配置是对一些浏览器和设备不兼容的。比如说在iphone上兼容emoji（绘文字）。</p>
+<pre><code><span class="tag">JSON</span><span class="class">.toJSONString</span>(<span class="tag">o</span>,<span class="tag">SerializerFeature</span><span class="class">.BrowserCompatible</span>);
+</code></pre><p>可以选择的SerializerFeature有很多，可以按照自己的需要去选择使用。</p>
+<p>##定制序列化</p>
+<p>###transient<br>为某些属性加上transient关键字，该属性就不会进行序列化。</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">Long</span> id;
+</code></pre><p>###使用Annotation过滤字段<br>使用@JSONField定制序列化输出，比如，希望希望序列化采用之后采用”ID”，而不是”id”。</p>
+<pre><code>@JSONField(<span class="property">name</span> = <span class="string">"ID"</span>)
+private Long <span class="property">id</span>;
+</code></pre><p>如果没有缺省构造函数，可以使用@JSONCreator来指定</p>
+<pre><code>@JSONCreator
+public User(@JSONField(<span class="property">name</span>=<span class="string">"id"</span>)Long <span class="property">id</span>) {
+    this.<span class="property">id</span> = <span class="property">id</span>;
+    this.<span class="property">name</span> = <span class="string">"annotation"</span>;
+}
+</code></pre><p>使用JSONType修改属性顺序、忽略某些属性等</p>
+<pre><code><span class="annotation">@JSONType</span>(orders = {<span class="string">"name"</span>, <span class="string">"id"</span>})
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> {</span>
+    。。。。
+}
+</code></pre><p>###使用SimplePropertyPreFilter过滤属性<br>SimplePropertyPreFilter的代码接口如下：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimplePropertyPreFilter</span> <span class="keyword">implements</span> <span class="title">PropertyPreFilter</span> </span>{      
+  <span class="function"><span class="keyword">public</span> <span class="title">SimplePropertyPreFilter</span><span class="params">(String... properties)</span></span>{
+      <span class="keyword">this</span>(<span class="keyword">null</span>, properties);
+  }
+
+  <span class="function"><span class="keyword">public</span> <span class="title">SimplePropertyPreFilter</span><span class="params">(Class&lt;?&gt; clazz, String... properties)</span></span>{
+      ... ...
+  }
+
+  <span class="keyword">public</span> Class&lt;?&gt; getClazz() {
+      <span class="keyword">return</span> clazz;
+  }
+
+  <span class="function"><span class="keyword">public</span> Set&lt;String&gt; <span class="title">getIncludes</span><span class="params">()</span></span>;
+
+  <span class="function"><span class="keyword">public</span> Set&lt;String&gt; <span class="title">getExcludes</span><span class="params">()</span></span>;
+...
+}
+</code></pre><p>可以配置includes、excludes。当class不为null时，针对特定类型；当class为null时，针对所有类型。</p>
+<p>当includes的size &gt; 0时，属性必须在includes中才会被序列化，excludes优先于includes。</p>
+<p>在1.1.23版本之后，JSON提供新的序列化接口toJSONString，如下：</p>
+<pre><code><span class="built_in">String</span> toJSONString(<span class="built_in">Object</span>, SerializeFilter, SerializerFeature...);
+</code></pre><p>使用：</p>
+<pre><code><span class="type">SimplePropertyPreFilter</span> <span class="built_in">filter</span> = <span class="keyword">new</span> <span class="type">SimplePropertyPreFilter</span>(<span class="type">VO</span>.<span class="keyword">class</span>, <span class="string">"name"</span>);
+<span class="type">JSON</span>.toJSONString(vo, <span class="built_in">filter</span>));
+</code></pre><p>###定制序列化<br>fastjson支持定制序列化，提供定制序列化的方式包括：</p>
+<pre><code><span class="comment">// 根据PropertyName判断是否序列化</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PropertyPreFilter</span> <span class="keyword">extends</span> <span class="title">SerializeFilter</span> </span>{
+  <span class="function"><span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(JSONSerializer serializer, Object object, String name)</span></span>;
+}
+
+<span class="comment">// 根据PropertyName和PropertyValue来判断是否序列化</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PropertyFilter</span> <span class="keyword">extends</span> <span class="title">SerializeFilter</span> </span>{
+  <span class="function"><span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(Object object, String propertyName, Object propertyValue)</span></span>;
+}
+
+<span class="comment">// 修改Key，如果需要修改Key,process返回值则可</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">NameFilter</span> <span class="keyword">extends</span> <span class="title">SerializeFilter</span> </span>{
+  <span class="function">String <span class="title">process</span><span class="params">(Object object, String propertyName, Object propertyValue)</span></span>;
+}
+
+<span class="comment">// 修改Value</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ValueFilter</span> <span class="keyword">extends</span> <span class="title">SerializeFilter</span> </span>{
+  <span class="function">Object <span class="title">process</span><span class="params">(Object object, String propertyName, Object propertyValue)</span></span>;
+}
+
+<span class="comment">// 序列化时在最前添加内容</span>
+<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BeforeFilter</span> <span class="keyword">implements</span> <span class="title">SerializeFilter</span> </span>{
+  <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">writeKeyValue</span><span class="params">(String key, Object value)</span> </span>{ ... }
+  <span class="comment">// 需要实现的抽象方法，在实现中调用writeKeyValue添加内容</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">writeBefore</span><span class="params">(Object object)</span></span>;
+}
+
+
+<span class="comment">// 序列化时在最前添加内容</span>
+<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AfterFilter</span> <span class="keyword">implements</span> <span class="title">SerializeFilter</span> </span>{
+  <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">writeKeyValue</span><span class="params">(String key, Object value)</span> </span>{ ... }
+  <span class="comment">// 需要实现的抽象方法，在实现中调用writeKeyValue添加内容</span>
+  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">writeAfter</span><span class="params">(Object object)</span></span>;
+}
+</code></pre><p>以上的SerializeFilter在JSON.toJSONString中可以使用。</p>
+<pre><code>SerializeFilter <span class="keyword">filter</span> = ...; <span class="comment">// 可以是上面5个SerializeFilter的任意一种。</span>
+JSON.toJSONString(obj, <span class="keyword">filter</span>);
+</code></pre><p>##处理超大对象和JSON文本<br>当需要处理超大JSON文本时，需要Stream API，在fastjson-1.1.32版本中开始提供Stream API。</p>
+<p>###序列化</p>
+<p>####超大JSON数组序列化<br>如果你的JSON格式是一个巨大的JSON数组，有很多元素，则先调用startArray，然后挨个写入对象，然后调用endArray。</p>
+<pre><code>JSONWriter writer = <span class="keyword">new</span> JSONWriter(<span class="keyword">new</span> FileWriter(<span class="string">"/tmp/huge.json"</span>));
+writer.startArray();
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span> * <span class="number">1000</span>; ++i) {
+    writer.writeValue(<span class="keyword">new</span> VO());
+}
+writer.endArray();
+writer.close();
+</code></pre><p>####超大JSON对象序列化<br>如果你的JSON格式是一个巨大的JSONObject，有很多Key/Value对，则先调用startObject，然后挨个写入Key和Value，然后调用endObject。</p>
+<pre><code>JSONWriter writer = <span class="keyword">new</span> JSONWriter(<span class="keyword">new</span> FileWriter(<span class="string">"/tmp/huge.json"</span>));
+writer.startObject();
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span> * <span class="number">1000</span>; ++i) {
+    writer.writeKey(<span class="string">"x"</span> + i);
+    writer.writeValue(<span class="keyword">new</span> VO());
+}
+writer.endObject();
+writer.close();
+</code></pre><p>###反序列化</p>
+<p>####大数组<br>    JSONReader reader = new JSONReader(new FileReader(“/tmp/huge.json”));<br>    reader.startArray();<br>    while(reader.hasNext()) {<br>        VO vo = reader.readObject(VO.class);<br>        // handle vo …<br>    }<br>    reader.endArray();<br>    reader.close();</p>
+<p>####大对象<br>    JSONReader reader = new JSONReader(new FileReader(“/tmp/huge.json”));<br>    reader.startObject();<br>    while(reader.hasNext()) {<br>        String key = reader.readString();<br>        VO vo = reader.readObject(VO.class);<br>        // handle vo …<br>    }<br>    reader.endObject();<br>    reader.close();</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JSON/">JSON</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Fastjson/">Fastjson</a><a href="/tags/JSON/">JSON</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/11/2014-08-11-json-fastjsonintroduction/" data-title="JSON（三）-Fastjson介绍 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/11/2014-08-11-json-fastjsontechinsider/" title="JSON(四)-Fastjson技术内幕">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JSON(四)-Fastjson技术内幕</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/11/2014-08-11-json-dif/"  title="JSON（二）-数据传输格式">
+ <strong>下一篇：</strong><br/> 
+ <span>JSON（二）-数据传输格式
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/11/2014-08-11-json-fastjsonintroduction/" data-title="JSON（三）-Fastjson介绍" data-url="http://xfhnever.com/2014/08/11/2014-08-11-json-fastjsonintroduction/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

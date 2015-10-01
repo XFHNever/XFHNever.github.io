@@ -1,0 +1,919 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JS-二级联动菜单 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="最近在做一个省份和城市对应的二级联动菜单，效果如下图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS-二级联动菜单">
+<meta property="og:url" content="http://xfhnever.com/2014/04/02/2014-04-02-js-secondmenu/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="最近在做一个省份和城市对应的二级联动菜单，效果如下图">
+<meta property="og:image" content="http://xfhnever.com/images/post/jss-1.png">
+<meta property="og:updated_time" content="2015-09-27T06:50:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS-二级联动菜单">
+<meta name="twitter:description" content="最近在做一个省份和城市对应的二级联动菜单，效果如下图">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/04/02/2014-04-02-js-secondmenu/" title="JS-二级联动菜单" itemprop="url">JS-二级联动菜单</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-04-02T14:46:14.000Z" itemprop="datePublished"> 发表于 Apr 2 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>最近在做一个省份和城市对应的二级联动菜单，效果如下图<br><img src="/images/post/jss-1.png"><br><a id="more"></a><br>主要使用JS技术,代码如下：</p>
+<pre><code><span class="tag">&lt;<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">language</span>=<span class="value">"javascript"</span>&gt;</span><span class="actionscript">
+cityareaname=<span class="keyword">new</span> Array(<span class="number">2</span>);
+cityareacode=<span class="keyword">new</span> Array(<span class="number">2</span>);
+<span class="function"><span class="keyword">function</span> <span class="title">first</span><span class="params">(preP,preC,formname,selectP,selectC)</span>
+</span>{
+    a=<span class="number">0</span>;
+
+    <span class="keyword">if</span> (selectP==<span class="string">'01'</span>)
+    { a=<span class="number">1</span>;tempoption=<span class="keyword">new</span> Option(<span class="string">'浙江'</span>,<span class="string">'01'</span>,<span class="literal">false</span>,<span class="literal">true</span>); }
+    <span class="keyword">else</span>
+    { tempoption=<span class="keyword">new</span> Option(<span class="string">'浙江'</span>,<span class="string">'01'</span>); }
+
+    eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preP+<span class="string">'.options[1]=tempoption;'</span>);
+    cityareacode[<span class="number">0</span>]=<span class="keyword">new</span> Array(<span class="string">'0101'</span>,<span class="string">'0102'</span>,<span class="string">'0103'</span>,<span class="string">'0104'</span>,<span class="string">'0105'</span>,<span class="string">'0106'</span>);
+    cityareaname[<span class="number">0</span>]=<span class="keyword">new</span> Array(<span class="string">'杭州'</span>,<span class="string">'宁波'</span>,<span class="string">'温州'</span>,<span class="string">'嘉兴'</span>,<span class="string">'绍兴'</span>,<span class="string">'金华'</span>);
+
+    <span class="keyword">if</span> (selectP==<span class="string">'02'</span>)
+    { a=<span class="number">2</span>;tempoption=<span class="keyword">new</span> Option(<span class="string">'江苏'</span>,<span class="string">'02'</span>,<span class="literal">false</span>,<span class="literal">true</span>); }
+    <span class="keyword">else</span>
+    { tempoption=<span class="keyword">new</span> Option(<span class="string">'江苏'</span>,<span class="string">'02'</span>); }
+    eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preP+<span class="string">'.options[2]=tempoption;'</span>);
+    cityareacode[<span class="number">1</span>]=<span class="keyword">new</span> Array(<span class="string">'0201'</span>,<span class="string">'0202'</span>,<span class="string">'0203'</span>,<span class="string">'0204'</span>);
+    cityareaname[<span class="number">1</span>]=<span class="keyword">new</span> Array(<span class="string">'南京'</span>,<span class="string">'苏州'</span>,<span class="string">'无锡'</span>,<span class="string">'常州'</span>);
+
+
+    eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preP+<span class="string">'.options[a].selected=true;'</span>);
+    cityid=selectP;
+    <span class="keyword">if</span> (cityid!=<span class="string">'0'</span>)
+    {
+    b=<span class="number">0</span>;<span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;cityareaname[cityid-<span class="number">1</span>].length;i++)
+    {
+    <span class="keyword">if</span> (selectC==cityareacode[cityid-<span class="number">1</span>][i])
+    {b=i+<span class="number">1</span>;tempoption=<span class="keyword">new</span> Option(cityareaname[cityid-<span class="number">1</span>][i],cityareacode[cityid-<span class="number">1</span>][i],<span class="literal">false</span>,<span class="literal">true</span>);}
+    <span class="keyword">else</span>
+    tempoption=<span class="keyword">new</span> Option(cityareaname[cityid-<span class="number">1</span>][i],cityareacode[cityid-<span class="number">1</span>][i]);
+    eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preC+<span class="string">'.options[i+1]=tempoption;'</span>);
+    }
+    eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preC+<span class="string">'.options[b].selected=true;'</span>);
+    }
+}
+<span class="function"><span class="keyword">function</span> <span class="title">selectcityarea</span><span class="params">(preP,preC,formname)</span>
+</span>{
+    cityid=eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preP+<span class="string">'.selectedIndex;'</span>);
+    &lt;!--清空原来的数据--&gt;
+    j=eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preC+<span class="string">'.length;'</span>);
+    <span class="keyword">for</span> (i=<span class="number">1</span>;i&lt;j;i++)
+    {
+        eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preC+<span class="string">'.options[j-i]=null;'</span>)
+    }
+
+    &lt;!--重新填入数据--&gt;
+    <span class="keyword">if</span> (cityid!=<span class="string">"0"</span>)
+    {
+        <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;cityareaname[cityid-<span class="number">1</span>].length;i++)
+        {
+            tempoption=<span class="keyword">new</span> Option(cityareaname[cityid-<span class="number">1</span>][i],cityareacode[cityid-<span class="number">1</span>][i]);
+            eval(<span class="string">'document.'</span>+formname+<span class="string">'.'</span>+preC+<span class="string">'.options[i+1]=tempoption;'</span>);
+        }
+    }
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">check</span><span class="params">()</span></span>{
+
+    <span class="keyword">var</span> province = document.getElementById(<span class="string">"province"</span>);
+    <span class="keyword">if</span>(province.value==<span class="string">"0"</span>) {
+        alert(<span class="string">"请选择省份"</span>);
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    }
+    <span class="keyword">var</span> province = document.getElementById(<span class="string">"city"</span>);
+    <span class="keyword">if</span>(province.value==<span class="string">"0"</span>) {
+        alert(<span class="string">"请选择城市"</span>);
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    }
+    <span class="keyword">return</span> <span class="literal">true</span>;
+}
+
+
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;<span class="title">form</span> <span class="attribute">action</span>=<span class="value">""</span> <span class="attribute">method</span>=<span class="value">post</span> <span class="attribute">name</span>=<span class="value">"form1"</span> <span class="attribute">onsubmit</span>=<span class="value">"return check()"</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">table</span> <span class="attribute">width</span>=<span class="value">300</span>  <span class="attribute">border</span>=<span class="value">0</span> <span class="attribute">cellspacing</span>=<span class="value">"0"</span> <span class="attribute">cellpadding</span>=<span class="value">"1"</span> !<span class="attribute">bgcolor</span>=<span class="value">#FFFDE6</span>&gt;</span>
+<span class="tag">&lt;<span class="title">tr</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">td</span> <span class="attribute">class</span>=<span class="value">"black_con9"</span> <span class="attribute">align</span>=<span class="value">"right"</span>&gt;</span>城市：<span class="tag">&lt;/<span class="title">td</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">td</span> <span class="attribute">class</span>=<span class="value">"black_con9"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">select</span> <span class="attribute">id</span>=<span class="value">"province"</span> <span class="attribute">name</span>=<span class="value">"selectp"</span> <span class="attribute">onChange</span>=<span class="value">"selectcityarea('selectp','selectc','form1');"</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">option</span> <span class="attribute">value</span>=<span class="value">"0"</span> <span class="attribute">selected</span>&gt;</span>请选择<span class="tag">&lt;/<span class="title">option</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">select</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">td</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">td</span> <span class="attribute">class</span>=<span class="value">"black_con9"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">select</span> <span class="attribute">id</span>=<span class="value">"city"</span> <span class="attribute">name</span>=<span class="value">"selectc"</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">option</span> <span class="attribute">value</span>=<span class="value">"0"</span> <span class="attribute">selected</span>&gt;</span>请选择<span class="tag">&lt;/<span class="title">option</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">select</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">td</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">tr</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">table</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">button</span> <span class="attribute">type</span>=<span class="value">"submit"</span> <span class="attribute">style</span>=<span class="value">" margin-left:200px; margin-top:20px;"</span>&gt;</span>提交<span class="tag">&lt;/<span class="title">button</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">form</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">language</span>=<span class="value">"javascript"</span>&gt;</span><span class="actionscript">
+first(<span class="string">"selectp"</span>,<span class="string">"selectc"</span>,<span class="string">"form1"</span>,<span class="number">0</span>,<span class="number">0</span>);
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+</code></pre><p>##Jquery的二级联动菜单实现##</p>
+<ol>
+<li><p>html页面代码</p>
+<pre><code><span class="tag">&lt;<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">meta</span> <span class="attribute">http-equiv</span>=<span class="value">"Content-Type"</span> <span class="attribute">content</span>=<span class="value">"text/html; charset=utf-8"</span> /&gt;</span>
+<span class="tag">&lt;<span class="title">title</span>&gt;</span>果<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"js/test.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+    $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+    $.initProv(<span class="string">"#pro"</span>, <span class="string">"#city"</span>, <span class="string">"辽宁省"</span>, <span class="string">"大连市"</span>);
+    });
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;<span class="title">select</span> <span class="attribute">id</span>=<span class="value">"pro"</span>&gt;</span><span class="tag">&lt;/<span class="title">select</span>&gt;</span><span class="tag">&lt;<span class="title">select</span> <span class="attribute">id</span>=<span class="value">"city"</span>&gt;</span><span class="tag">&lt;/<span class="title">select</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+</code></pre></li>
+<li><p>JS代码</p>
+<pre><code>/***
+ * 插件名称: 中国省市信息联动插件
+ */
+
+$._cityInfo = [{<span class="string">"n"</span>:<span class="string">"北京市"</span>,<span class="string">"c"</span>:[<span class="string">"北京市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"天津市"</span>,<span class="string">"c"</span>:[<span class="string">"天津市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"上海市"</span>,<span class="string">"c"</span>:[<span class="string">"上海市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"重庆市"</span>,<span class="string">"c"</span>:[<span class="string">"重庆市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"河北省"</span>,<span class="string">"c"</span>:[<span class="string">"石家庄市"</span>,<span class="string">"唐山市"</span>,<span class="string">"秦皇岛市"</span>,<span class="string">"邯郸市"</span>,<span class="string">"邢台市"</span>,<span class="string">"保定市"</span>,<span class="string">"张家口市"</span>,<span class="string">"承德市"</span>,<span class="string">"沧州市"</span>,<span class="string">"廊坊市"</span>,<span class="string">"衡水市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"山西省"</span>,<span class="string">"c"</span>:[<span class="string">"太原市"</span>,<span class="string">"大同市"</span>,<span class="string">"阳泉市"</span>,<span class="string">"长治市"</span>,<span class="string">"晋城市"</span>,<span class="string">"朔州市"</span>,<span class="string">"晋中市"</span>,<span class="string">"运城市"</span>,<span class="string">"忻州市"</span>,<span class="string">"临汾市"</span>,<span class="string">"吕梁市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"台湾省"</span>,<span class="string">"c"</span>:[<span class="string">"台北市"</span>,<span class="string">"高雄市"</span>,<span class="string">"基隆市"</span>,<span class="string">"台中市"</span>,<span class="string">"台南市"</span>,<span class="string">"新竹市"</span>,<span class="string">"嘉义市"</span>,<span class="string">"台北县"</span>,<span class="string">"宜兰县"</span>,<span class="string">"桃园县"</span>,<span class="string">"新竹县"</span>,<span class="string">"苗栗县"</span>,<span class="string">"台中县"</span>,<span class="string">"彰化县"</span>,<span class="string">"南投县"</span>,<span class="string">"云林县"</span>,<span class="string">"嘉义县"</span>,<span class="string">"台南县"</span>,<span class="string">"高雄县"</span>,<span class="string">"屏东县"</span>,<span class="string">"澎湖县"</span>,<span class="string">"台东县"</span>,<span class="string">"花莲县"</span>]},
+{<span class="string">"n"</span>:<span class="string">"辽宁省"</span>,<span class="string">"c"</span>:[<span class="string">"沈阳市"</span>,<span class="string">"大连市"</span>,<span class="string">"鞍山市"</span>,<span class="string">"抚顺市"</span>,<span class="string">"本溪市"</span>,<span class="string">"丹东市"</span>,<span class="string">"锦州市"</span>,<span class="string">"营口市"</span>,<span class="string">"阜新市"</span>,<span class="string">"辽阳市"</span>,<span class="string">"盘锦市"</span>,<span class="string">"铁岭市"</span>,<span class="string">"朝阳市"</span>,<span class="string">"葫芦岛市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"吉林省"</span>,<span class="string">"c"</span>:[<span class="string">"长春市"</span>,<span class="string">"吉林市"</span>,<span class="string">"四平市"</span>,<span class="string">"辽源市"</span>,<span class="string">"通化市"</span>,<span class="string">"白山市"</span>,<span class="string">"松原市"</span>,<span class="string">"白城市"</span>,<span class="string">"延边朝鲜族自治州"</span>]},
+{<span class="string">"n"</span>:<span class="string">"黑龙江省"</span>,<span class="string">"c"</span>:[<span class="string">"哈尔滨市"</span>,<span class="string">"齐齐哈尔市"</span>,<span class="string">"鹤岗市"</span>,<span class="string">"双鸭山市"</span>,<span class="string">"鸡西市"</span>,<span class="string">"大庆市"</span>,<span class="string">"伊春市"</span>,<span class="string">"牡丹江市"</span>,<span class="string">"佳木斯市"</span>,<span class="string">"七台河市"</span>,<span class="string">"黑河市"</span>,<span class="string">"绥化市"</span>,<span class="string">"大兴安岭地区"</span>]},
+{<span class="string">"n"</span>:<span class="string">"江苏省"</span>,<span class="string">"c"</span>:[<span class="string">"南京市"</span>,<span class="string">"无锡市"</span>,<span class="string">"徐州市"</span>,<span class="string">"常州市"</span>,<span class="string">"苏州市"</span>,<span class="string">"南通市"</span>,<span class="string">"连云港市"</span>,<span class="string">"淮安市"</span>,<span class="string">"盐城市"</span>,<span class="string">"扬州市"</span>,<span class="string">"镇江市"</span>,<span class="string">"泰州市"</span>,<span class="string">"宿迁市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"浙江省"</span>,<span class="string">"c"</span>:[<span class="string">"杭州市"</span>,<span class="string">"宁波市"</span>,<span class="string">"温州市"</span>,<span class="string">"嘉兴市"</span>,<span class="string">"湖州市"</span>,<span class="string">"绍兴市"</span>,<span class="string">"金华市"</span>,<span class="string">"衢州市"</span>,<span class="string">"舟山市"</span>,<span class="string">"台州市"</span>,<span class="string">"丽水市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"安徽省"</span>,<span class="string">"c"</span>:[<span class="string">"合肥市"</span>,<span class="string">"芜湖市"</span>,<span class="string">"蚌埠市"</span>,<span class="string">"淮南市"</span>,<span class="string">"马鞍山市"</span>,<span class="string">"淮北市"</span>,<span class="string">"铜陵市"</span>,<span class="string">"安庆市"</span>,<span class="string">"黄山市"</span>,<span class="string">"滁州市"</span>,<span class="string">"阜阳市"</span>,<span class="string">"宿州市"</span>,<span class="string">"巢湖市"</span>,<span class="string">"六安市"</span>,<span class="string">"亳州市"</span>,<span class="string">"池州市"</span>,<span class="string">"宣城市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"福建省"</span>,<span class="string">"c"</span>:[<span class="string">"福州市"</span>,<span class="string">"厦门市"</span>,<span class="string">"莆田市"</span>,<span class="string">"三明市"</span>,<span class="string">"泉州市"</span>,<span class="string">"漳州市"</span>,<span class="string">"南平市"</span>,<span class="string">"龙岩市"</span>,<span class="string">"宁德市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"江西省"</span>,<span class="string">"c"</span>:[<span class="string">"南昌市"</span>,<span class="string">"景德镇市"</span>,<span class="string">"萍乡市"</span>,<span class="string">"九江市"</span>,<span class="string">"新余市"</span>,<span class="string">"鹰潭市"</span>,<span class="string">"赣州市"</span>,<span class="string">"吉安市"</span>,<span class="string">"宜春市"</span>,<span class="string">"抚州市"</span>,<span class="string">"上饶市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"山东省"</span>,<span class="string">"c"</span>:[<span class="string">"济南市"</span>,<span class="string">"青岛市"</span>,<span class="string">"淄博市"</span>,<span class="string">"枣庄市"</span>,<span class="string">"东营市"</span>,<span class="string">"烟台市"</span>,<span class="string">"潍坊市"</span>,<span class="string">"济宁市"</span>,<span class="string">"泰安市"</span>,<span class="string">"威海市"</span>,<span class="string">"日照市"</span>,<span class="string">"莱芜市"</span>,<span class="string">"临沂市"</span>,<span class="string">"德州市"</span>,<span class="string">"聊城市"</span>,<span class="string">"滨州市"</span>,<span class="string">"荷泽市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"河南省"</span>,<span class="string">"c"</span>:[<span class="string">"郑州市"</span>,<span class="string">"开封市"</span>,<span class="string">"洛阳市"</span>,<span class="string">"平顶山市"</span>,<span class="string">"安阳市"</span>,<span class="string">"鹤壁市"</span>,<span class="string">"新乡市"</span>,<span class="string">"焦作市"</span>,<span class="string">"濮阳市"</span>,<span class="string">"许昌市"</span>,<span class="string">"漯河市"</span>,<span class="string">"三门峡市"</span>,<span class="string">"南阳市"</span>,<span class="string">"商丘市"</span>,<span class="string">"信阳市"</span>,<span class="string">"周口市"</span>,<span class="string">"驻马店市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"湖北省"</span>,<span class="string">"c"</span>:[<span class="string">"武汉市"</span>,<span class="string">"黄石市"</span>,<span class="string">"十堰市"</span>,<span class="string">"宜昌市"</span>,<span class="string">"襄樊市"</span>,<span class="string">"鄂州市"</span>,<span class="string">"荆门市"</span>,<span class="string">"孝感市"</span>,<span class="string">"荆州市"</span>,<span class="string">"黄冈市"</span>,<span class="string">"咸宁市"</span>,<span class="string">"随州市"</span>,<span class="string">"恩施土家族苗族自治州"</span>,<span class="string">"仙桃市"</span>,<span class="string">"潜江市"</span>,<span class="string">"天门市"</span>,<span class="string">"神农架林区"</span>]},
+{<span class="string">"n"</span>:<span class="string">"湖南省"</span>,<span class="string">"c"</span>:[<span class="string">"长沙市"</span>,<span class="string">"株洲市"</span>,<span class="string">"湘潭市"</span>,<span class="string">"衡阳市"</span>,<span class="string">"邵阳市"</span>,<span class="string">"岳阳市"</span>,<span class="string">"常德市"</span>,<span class="string">"张家界市"</span>,<span class="string">"益阳市"</span>,<span class="string">"郴州市"</span>,<span class="string">"永州市"</span>,<span class="string">"怀化市"</span>,<span class="string">"娄底市"</span>,<span class="string">"湘西土家族苗族自治州"</span>]},
+{<span class="string">"n"</span>:<span class="string">"广东省"</span>,<span class="string">"c"</span>:[<span class="string">"广州市"</span>,<span class="string">"深圳市"</span>,<span class="string">"珠海市"</span>,<span class="string">"汕头市"</span>,<span class="string">"韶关市"</span>,<span class="string">"佛山市"</span>,<span class="string">"江门市"</span>,<span class="string">"湛江市"</span>,<span class="string">"茂名市"</span>,<span class="string">"肇庆市"</span>,<span class="string">"惠州市"</span>,<span class="string">"梅州市"</span>,<span class="string">"汕尾市"</span>,<span class="string">"河源市"</span>,<span class="string">"阳江市"</span>,<span class="string">"清远市"</span>,<span class="string">"东莞市"</span>,<span class="string">"中山市"</span>,<span class="string">"潮州市"</span>,<span class="string">"揭阳市"</span>,<span class="string">"云浮市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"甘肃省"</span>,<span class="string">"c"</span>:[<span class="string">"兰州市"</span>,<span class="string">"金昌市"</span>,<span class="string">"白银市"</span>,<span class="string">"天水市"</span>,<span class="string">"嘉峪关市"</span>,<span class="string">"武威市"</span>,<span class="string">"张掖市"</span>,<span class="string">"平凉市"</span>,<span class="string">"酒泉市"</span>,<span class="string">"庆阳市"</span>,<span class="string">"定西市"</span>,<span class="string">"陇南市"</span>,<span class="string">"临夏回族自治州"</span>,<span class="string">"甘南藏族自治州"</span>]},
+{<span class="string">"n"</span>:<span class="string">"四川省"</span>,<span class="string">"c"</span>:[<span class="string">"成都市"</span>,<span class="string">"自贡市"</span>,<span class="string">"攀枝花市"</span>,<span class="string">"泸州市"</span>,<span class="string">"德阳市"</span>,<span class="string">"绵阳市"</span>,<span class="string">"广元市"</span>,<span class="string">"遂宁市"</span>,<span class="string">"内江市"</span>,<span class="string">"乐山市"</span>,<span class="string">"南充市"</span>,<span class="string">"眉山市"</span>,<span class="string">"宜宾市"</span>,<span class="string">"广安市"</span>,<span class="string">"达州市"</span>,<span class="string">"雅安市"</span>,<span class="string">"巴中市"</span>,<span class="string">"资阳市"</span>,<span class="string">"阿坝藏族羌族自治州"</span>,<span class="string">"甘孜藏族自治州"</span>,<span class="string">"凉山彝族自治州"</span>]},
+{<span class="string">"n"</span>:<span class="string">"贵州省"</span>,<span class="string">"c"</span>:[<span class="string">"贵阳市"</span>,<span class="string">"六盘水市"</span>,<span class="string">"遵义市"</span>,<span class="string">"安顺市"</span>,<span class="string">"铜仁地区"</span>,<span class="string">"毕节地区"</span>,<span class="string">"黔西南布依族苗族自治州"</span>,<span class="string">"黔东南苗族侗族自治州"</span>,<span class="string">"黔南布依族苗族自治州"</span>]},
+{<span class="string">"n"</span>:<span class="string">"海南省"</span>,<span class="string">"c"</span>:[<span class="string">"海口市"</span>,<span class="string">"三亚市"</span>,<span class="string">"五指山市"</span>,<span class="string">"琼海市"</span>,<span class="string">"儋州市"</span>,<span class="string">"文昌市"</span>,<span class="string">"万宁市"</span>,<span class="string">"东方市"</span>,<span class="string">"澄迈县"</span>,<span class="string">"定安县"</span>,<span class="string">"屯昌县"</span>,<span class="string">"临高县"</span>,<span class="string">"白沙黎族自治县"</span>,<span class="string">"昌江黎族自治县"</span>,<span class="string">"乐东黎族自治县"</span>,<span class="string">"陵水黎族自治县"</span>,<span class="string">"保亭黎族苗族自治县"</span>,<span class="string">"琼中黎族苗族自治县"</span>]},
+{<span class="string">"n"</span>:<span class="string">"云南省"</span>,<span class="string">"c"</span>:[<span class="string">"昆明市"</span>,<span class="string">"曲靖市"</span>,<span class="string">"玉溪市"</span>,<span class="string">"保山市"</span>,<span class="string">"昭通市"</span>,<span class="string">"丽江市"</span>,<span class="string">"思茅市"</span>,<span class="string">"临沧市"</span>,<span class="string">"楚雄彝族自治州"</span>,<span class="string">"红河哈尼族彝族自治州"</span>,<span class="string">"文山壮族苗族自治州"</span>,<span class="string">"西双版纳傣族自治州"</span>,<span class="string">"大理白族自治州"</span>,<span class="string">"德宏傣族景颇族自治州"</span>,<span class="string">"怒江傈僳族自治州"</span>,<span class="string">"迪庆藏族自治州"</span>]},
+{<span class="string">"n"</span>:<span class="string">"青海省"</span>,<span class="string">"c"</span>:[<span class="string">"西宁市"</span>,<span class="string">"海东地区"</span>,<span class="string">"海北藏族自治州"</span>,<span class="string">"黄南藏族自治州"</span>,<span class="string">"海南藏族自治州"</span>,<span class="string">"果洛藏族自治州"</span>,<span class="string">"玉树藏族自治州"</span>,<span class="string">"海西蒙古族藏族自治州"</span>]},
+{<span class="string">"n"</span>:<span class="string">"陕西省"</span>,<span class="string">"c"</span>:[<span class="string">"西安市"</span>,<span class="string">"铜川市"</span>,<span class="string">"宝鸡市"</span>,<span class="string">"咸阳市"</span>,<span class="string">"渭南市"</span>,<span class="string">"延安市"</span>,<span class="string">"汉中市"</span>,<span class="string">"榆林市"</span>,<span class="string">"安康市"</span>,<span class="string">"商洛市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"广西壮族自治区"</span>,<span class="string">"c"</span>:[<span class="string">"南宁市"</span>,<span class="string">"柳州市"</span>,<span class="string">"桂林市"</span>,<span class="string">"梧州市"</span>,<span class="string">"北海市"</span>,<span class="string">"防城港市"</span>,<span class="string">"钦州市"</span>,<span class="string">"贵港市"</span>,<span class="string">"玉林市"</span>,<span class="string">"百色市"</span>,<span class="string">"贺州市"</span>,<span class="string">"河池市"</span>,<span class="string">"来宾市"</span>,<span class="string">"崇左市"</span>]},
+{<span class="string">"n"</span>:<span class="string">"西藏自治区"</span>,<span class="string">"c"</span>:[<span class="string">"拉萨市"</span>,<span class="string">"昌都地区"</span>,<span class="string">"山南地区"</span>,<span class="string">"日喀则地区"</span>,<span class="string">"那曲地区"</span>,<span class="string">"阿里地区"</span>,<span class="string">"林芝地区"</span>]},
+{<span class="string">"n"</span>:<span class="string">"宁夏回族自治区"</span>,<span class="string">"c"</span>:[<span class="string">"银川市"</span>,<span class="string">"石嘴山市"</span>,<span class="string">"吴忠市"</span>,<span class="string">"固原市"</span>,<span class="string">"中卫市"</span>]}];
+
+$.initProv = <span class="keyword">function</span>(prov, city, defaultProv, defaultCity) {
+    var provEl = $(prov);
+    var cityEl = $(city);
+    var hasDefaultProv = (typeof(defaultCity) != <span class="string">'undefined'</span>);
+
+    var provHtml = <span class="string">''</span>;
+
+    provHtml += <span class="string">'&lt;option value="-1"&gt;请选择&lt;/option&gt;'</span>;
+    for(var i = <span class="number">0</span>; i &lt; $._cityInfo.length; i++) {
+        provHtml += <span class="string">'&lt;option value="'</span> + i + <span class="string">'"'</span> + ((hasDefaultProv &amp;&amp; $._cityInfo[i].n == defaultProv) ? <span class="string">' selected="selected"'</span> : <span class="string">''</span>) + <span class="string">'&gt;'</span> + $._cityInfo[i].n + <span class="string">'&lt;/option&gt;'</span>;
+    }
+    provEl.html(provHtml);
+    $.initCities(provEl, cityEl, defaultCity);
+    provEl.change(function() {
+        $.initCities(provEl, cityEl);
+    });
+};
+
+$.initCities = <span class="keyword">function</span>(provEl, cityEl, defaultCity) {
+    var hasDefaultCity = (typeof(defaultCity) != <span class="string">'undefined'</span>);
+    if(provEl.val() != <span class="string">''</span> &amp;&amp; parseInt(provEl.val()) &gt;= <span class="number">0</span>) {
+        var cities = $._cityInfo[parseInt(provEl.val())].c;
+        var cityHtml = <span class="string">''</span>;
+
+        cityHtml += <span class="string">'&lt;option value="-1"&gt;请选择&lt;/option&gt;'</span>;
+        for(var i = <span class="number">0</span>; i &lt; cities.length; i++) {
+            cityHtml += <span class="string">'&lt;option value="'</span> + i + <span class="string">'"'</span> + ((hasDefaultCity &amp;&amp; cities[i] == defaultCity) ? <span class="string">' selected="selected"'</span> : <span class="string">''</span>) + <span class="string">'&gt;'</span> + cities[i] + <span class="string">'&lt;/option&gt;'</span>;
+        }
+        cityEl.html(cityHtml);
+    } else {
+        cityEl.html(<span class="string">'&lt;option value="-1"&gt;请先选择&lt;/option&gt;'</span>);
+    }
+};
+</code></pre></li>
+</ol>
+<p>##Jquery实现的多级联动菜单二##<br>参考<a href="http://www.17sucai.com/pins/1863.html" target="_blank" rel="external">jquery select 多级联动插件<em>省市联动</em>二级联动<em>三级联动</em>城市联动菜单</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web/">Web</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JS/">JS</a><a href="/tags/菜单/">菜单</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/04/02/2014-04-02-js-secondmenu/" data-title="JS-二级联动菜单 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/04/05/2014-04-05-ajax/" title="PHP(四)--利用AJAX进行分页">
+  <strong>上一篇：</strong><br/>
+  <span>
+  PHP(四)--利用AJAX进行分页</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/03/30/2014-03-30-designpattern-bridge/"  title="设计模式（八）-Bridge Pattern">
+ <strong>下一篇：</strong><br/> 
+ <span>设计模式（八）-Bridge Pattern
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/04/02/2014-04-02-js-secondmenu/" data-title="JS-二级联动菜单" data-url="http://xfhnever.com/2014/04/02/2014-04-02-js-secondmenu/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

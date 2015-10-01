@@ -1,0 +1,983 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Cocos2D(十二)-绘图原理及优化 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="游戏引擎是对底层绘图接口的包装，cocos2dx也一样，是对OpenGL的包装。
+##OpenGL基础##OpenGL全称Open Graphics Library，是一个开放的、跨平台的高性能图形接口。OpenGL ES则是OpenGL在移动设备上的衍生版本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocos2D(十二)-绘图原理及优化">
+<meta property="og:url" content="http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-drawing/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="游戏引擎是对底层绘图接口的包装，cocos2dx也一样，是对OpenGL的包装。
+##OpenGL基础##OpenGL全称Open Graphics Library，是一个开放的、跨平台的高性能图形接口。OpenGL ES则是OpenGL在移动设备上的衍生版本。">
+<meta property="og:image" content="http://xfhnever.com/images/post/cocos2dx-10.png">
+<meta property="og:updated_time" content="2015-09-27T08:11:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cocos2D(十二)-绘图原理及优化">
+<meta name="twitter:description" content="游戏引擎是对底层绘图接口的包装，cocos2dx也一样，是对OpenGL的包装。
+##OpenGL基础##OpenGL全称Open Graphics Library，是一个开放的、跨平台的高性能图形接口。OpenGL ES则是OpenGL在移动设备上的衍生版本。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/04/15/2014-04-15-cocos2dx-drawing/" title="Cocos2D(十二)-绘图原理及优化" itemprop="url">Cocos2D(十二)-绘图原理及优化</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-04-15T02:08:17.000Z" itemprop="datePublished"> 发表于 Apr 15 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>游戏引擎是对底层绘图接口的包装，cocos2dx也一样，是对OpenGL的包装。</p>
+<p>##OpenGL基础##<br>OpenGL全称Open Graphics Library，是一个开放的、跨平台的高性能图形接口。OpenGL ES则是OpenGL在移动设备上的衍生版本。<br><a id="more"></a></p>
+<p>###OpenGL简介##<br>OpenGL是一个基于C语言的三维图形API，基本功能包括绘制几何图形、变换、着色、光照、贴图等。除了基本功能外，OpenGL还提供了诸如曲面图元、光栅操作、景深、shader编程等高级功能。</p>
+<p>####状态机####<br>OpenGL是一个基于状态的绘图模型，我们把这种模型称作状态机。在此模型下，OpenGL时刻维护着一组状态，这组状态涵盖了一切绘图参数。</p>
+<p>#####状态机的优势######</p>
+<ol>
+<li>绘制图形我们会需要设置许多参数，其中许多参数并不频繁改变，没有必要每次都重复设置，OpenGL把所有的参数作为状态保存，如果没有设置新的参数，则会一直采用当前的状态来绘图</li>
+<li><p>可以把绘图设备人为地分为两个部分：”服务器端”，负责具体的绘制渲染；“客户端”，负责向服务器端发送绘图指令。两者分离，可以轻而易举实现远程绘图。        但是通常情况下带宽不能满足CPU和GPU之间传递数据的需要，因此我们需要尽力避免在客户端与服务器端传递不必要的数据。<br>#####开启关闭绘图特性######</p>
+<p> GL_APICALL void GL_APIENTRY glEnable(GLenum cap); //开启一个状态<br> GL_APICALL void GL_APIENTRY glDisable(GLenum cap); //GU关闭一个状态<br>####坐标系####<br>三维图形接口，使用右手三维坐标系。在初始化时，屏幕向右的方向为X方向，屏幕向上的方向为Y方向，由屏幕指向我们的方向为Z方向。</p>
+</li>
+</ol>
+<p>OpenGL负责把三维空间中的对象通过投影、光栅化转化为二维图像，然后呈现到屏幕上。</p>
+<p>####渲染流水线####<br>OpenGL需要许多操作才能完成3D空间屏幕的投影。通常，渲染流水线过程有如下几步：显示列表、求值器、顶点装配、像素操作、纹理装配、光栅化和片段操作等。<br><img src="/images/post/cocos2dx-10.png"><br>OpenGL ES 1.0版本采用固定渲染管线，每个步骤都是固定不可修改的。</p>
+<p>OpenGL从2.0开始引入可编程着色器（shader），可以自定义渲染效果。可编程着色器主要包含顶点着色器和片段着色器。其中前者负责对顶点进行几何变换以及光照计算，后者负责处理光栅化得到的像素以及纹理。</p>
+<p>###绘图###<br>    void HelloWorld::draw()<br>    {<br>    //顶点数据<br>    static GLfloat vertex[] = { //顶点坐标：x,y,z<br>        0.0f, 0.0f, 0.0f, //左下<br>        200.0f, 0.0f, 0.0f, //右下<br>        0.0f, 200.0f, 0.0f, //左上<br>        200.0f, 200.0f, 0.0f, //右上<br>    };<br>    static GLfloat coord[] = { //纹理坐标：s,t<br>        0.0f, 1.0f,<br>        1.0f, 1.0f,<br>        0.0f, 0.0f,<br>        1.0f, 0.0f,<br>    };<br>    static GLfloat color[] = { //颜色：红色、蓝色、绿色、不透明度<br>        1.0f, 1.0f, 1.0f, 1.0f,<br>        1.0f, 1.0f, 1.0f, 1.0f,<br>        1.0f, 1.0f, 1.0f, 1.0f,<br>        1.0f, 1.0f, 1.0f, 1.0f,<br>    };</p>
+<pre><code><span class="comment">//初始化纹理</span>
+<span class="keyword">static</span> CCTexture2D* texture2d = <span class="literal">NULL</span>;
+<span class="keyword">if</span>(!texture2d) {
+    texture2d = CCTextureCache::sharedTextureCache()-&gt;addImage(<span class="string">"HelloWorld.png"</span>);
+    coord[<span class="number">2</span>] = coord[<span class="number">6</span>] = texture2d-&gt;getMaxS();
+    coord[<span class="number">1</span>] = coord[<span class="number">3</span>] = texture2d-&gt;getMaxT();
+}
+
+<span class="comment">//设置着色器</span>
+ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
+texture2d-&gt;getShaderProgram()-&gt;use();
+texture2d-&gt;getShaderProgram()-&gt;setUniformForModelViewProjectionMatrix();
+
+<span class="comment">//绑定纹理</span>
+glBindTexture(GL_TEXTURE_2D, texture2d-&gt;getName());
+
+<span class="comment">//设置顶点数组</span>
+glVertexAttribPointer(kCCVertexAttrib_Position, <span class="number">3</span>, GL_FLOAT, GL_FALSE, <span class="number">0</span>, vertex);
+glVertexAttribPointer(kCCVertexAttrib_TexCoords, <span class="number">2</span>, GL_FLOAT, GL_FALSE, <span class="number">0</span>, coord);
+glVertexAttribPointer(kCCVertexAttrib_Color, <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="number">0</span>, color);
+
+<span class="comment">//绘图</span>
+glDrawArrays(GL_TRIANGLE_STRIP, <span class="number">0</span>, <span class="number">4</span>);
+</code></pre><p>}</p>
+<p>####绘图过程######</p>
+<ol>
+<li>数据部分</li>
+<li>初始化纹理</li>
+<li>绘制图片 </li>
+</ol>
+<p>###矩阵和变换###<br>OpenGL对顶点进行的处理实际上可以归纳为接受顶点数据、进行投影、得到变换后的顶点数据这三个步骤。在计算机中，坐标的变换是通过矩阵乘法实现的。</p>
+<p>OpenGL ES 为我们提供了一系列创建变换矩阵的函数，在1.0中，有如下变换函数：</p>
+<pre><code><span class="title">glTranslate</span>      平移
+glRotate         旋转
+glScale          缩放
+</code></pre><p>而在2.0中，放弃了渲染流水线，取而代之的是自定义的各种着色器，一般需要开发者来维护。引擎引入第三方库Kazmath，分装成了一些替代函数，如：</p>
+<pre><code><span class="title">kmGLTranslatef</span>   平移
+kmGLRotatef      旋转
+。。。。
+</code></pre><p>##Cocos2dx绘图原理##</p>
+<p>###精灵绘制###<br>    void CCSprite::draw(void)<br>    {<br>    //1. 初始准备</p>
+<pre><code>CC_PROFILER_START_CATEGORY(kCCProfilerCategorySprite, <span class="string">"CCSprite - draw"</span>);
+CCAssert(!m_pobBatchNode, <span class="string">"If CCSprite is being rendered by CCSpriteBatchNode,
+CCSprite#draw SHOULD NOT be called"</span>);
+CC_NODE_DRAW_SETUP();
+
+<span class="comment">//2. 颜色混合函数</span>
+
+ccGLBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
+
+<span class="comment">//3. 绑定纹理</span>
+
+<span class="keyword">if</span> (m_pobTexture != <span class="keyword">NULL</span>)
+{
+     ccGLBindTexture2D(m_pobTexture-&gt;getName());
+}
+ <span class="keyword">else</span>
+{
+ ccGLBindTexture2D(<span class="number">0</span>);
+}
+
+<span class="comment">//4. 绘图</span>
+ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
+
+<span class="comment">#define kQuadSize sizeof(m_sQuad.bl)</span>
+<span class="keyword">long</span> offset = (<span class="keyword">long</span>)&amp;m_sQuad;
+
+<span class="comment">//顶点坐标</span>
+<span class="keyword">int</span> diff = offsetof(ccV3F_C4B_T2F, vertices);
+glVertexAttribPointer(kCCVertexAttrib_Position, <span class="number">3</span>, GL_FLOAT, GL_FALSE,
+kQuadSize, (void*) (offset + diff));
+
+<span class="comment">//纹理坐标</span>
+diff = offsetof(ccV3F_C4B_T2F, texCoords);
+glVertexAttribPointer(kCCVertexAttrib_TexCoords, <span class="number">2</span>, GL_FLOAT, GL_FALSE,
+kQuadSize, (void*)(offset + diff));
+
+<span class="comment">//顶点颜色</span>
+diff = offsetof(ccV3F_C4B_T2F, colors);
+glVertexAttribPointer(kCCVertexAttrib_Color, <span class="number">4</span>, GL_UNSIGNED_BYTE, GL_TRUE,
+kQuadSize, (void*)(offset + diff));
+
+<span class="comment">//绘制图形</span>
+glDrawArrays(GL_TRIANGLE_STRIP, <span class="number">0</span>, <span class="number">4</span>);
+
+ CHECK_GL_ERROR_DEBUG();
+
+
+<span class="comment">//5. 调试相关的处理</span>
+
+<span class="comment">#if CC_SPRITE_DEBUG_DRAW == 1</span>
+<span class="comment">//调试模式1：绘制边框</span>
+CCPoint vertices[<span class="number">4</span>]={
+    ccp(m_sQuad.tl.vertices.x,m_sQuad.tl.vertices.y),
+    ccp(m_sQuad.bl.vertices.x,m_sQuad.bl.vertices.y),
+    ccp(m_sQuad.br.vertices.x,m_sQuad.br.vertices.y),
+    ccp(m_sQuad.tr.vertices.x,m_sQuad.tr.vertices.y),
+};
+ccDrawPoly(vertices, <span class="number">4</span>, <span class="keyword">true</span>);
+<span class="comment">#elif CC_SPRITE_DEBUG_DRAW == 2</span>
+<span class="comment">//调试模式2：绘制纹理边缘</span>
+CCSize s = this-&gt;getTextureRect().size;
+CCPoint offsetPix = this-&gt;getOffsetPosition();
+CCPoint vertices[<span class="number">4</span>] = {
+ccp(offsetPix.x,offsetPix.y), ccp(offsetPix.x+s.width,offsetPix.y),
+ccp(offsetPix.x+s.width,offsetPix.y+s.height), ccp(offsetPix.x,offsetPix.y+s.height)
+};
+ccDrawPoly(vertices, <span class="number">4</span>, <span class="keyword">true</span>);
+<span class="comment">#endif</span>
+
+CC_INCREMENT_GL_DRAWS(<span class="number">1</span>);
+
+CC_PROFILER_STOP_CATEGORY(kCCProfilerCategorySprite, <span class="string">"CCSprite - draw"</span>);
+}
+</code></pre><p>####流程######</p>
+<ol>
+<li>设置OpenGL状态，如开启贴图</li>
+<li>设置颜色混合模式，与贴图的渲染方式有关</li>
+<li>绑定纹理</li>
+<li>绘图：分别设置顶点坐标、纹理坐标以及顶点颜色，最终绘制几何体。</li>
+<li>和调试相关的一些操作。</li>
+</ol>
+<p>###渲染树的绘制###<br>每一帧都是从根节点开始绘制，然后不断绘制子节点，直到绘制完成整个渲染树。</p>
+<pre><code>void CCNode::visit()
+{
+    <span class="comment">//1. 先行处理</span>
+    <span class="keyword">if</span> (!m_bIsVisible)
+    {
+        <span class="keyword">return</span>;
+    }
+    kmGLPushMatrix(); <span class="comment">//矩阵压栈</span>
+
+    <span class="comment">//处理Grid特效</span>
+    <span class="keyword">if</span> (m_pGrid &amp;&amp; m_pGrid-&gt;isActive())
+    {
+        m_pGrid-&gt;beforeDraw();
+    }
+
+    <span class="comment">//2. 应用变换</span>
+    this-&gt;transform();
+
+    <span class="comment">//3. 递归绘图</span>
+    CCNode* pNode = <span class="keyword">NULL</span>;
+    unsigned <span class="keyword">int</span> i = <span class="number">0</span>;
+
+    <span class="keyword">if</span>(m_pChildren &amp;&amp; m_pChildren-&gt;count() &gt; <span class="number">0</span>)
+    {
+        <span class="comment">//存在子节点</span>
+        sortAllChildren();
+        <span class="comment">//绘制zOrder &lt; 0的子节点</span>
+        ccArray *arrayData = m_pChildren-&gt;data;
+        <span class="keyword">for</span>( ; i &lt; arrayData-&gt;num; i++ )
+        {
+            pNode = (CCNode*) arrayData-&gt;arr[i];
+
+        <span class="keyword">if</span> ( pNode &amp;&amp; pNode-&gt;m_nZOrder &lt; <span class="number">0</span> )
+        {
+            pNode-&gt;visit();
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">break</span>;
+        }
+    }
+    <span class="comment">//绘制自身</span>
+    this-&gt;draw();
+
+    <span class="comment">//绘制剩余的子节点</span>
+    <span class="keyword">for</span>( ; i &lt; arrayData-&gt;num; i++ )
+    {
+        pNode = (CCNode*) arrayData-&gt;arr[i];
+        <span class="keyword">if</span> (pNode)
+        {
+            pNode-&gt;visit();
+        }
+    }
+    }
+    <span class="keyword">else</span>
+    {
+        <span class="comment">//没有子节点：直接绘制自身</span>
+        this-&gt;draw();
+    }
+
+    <span class="comment">//4. 恢复工作</span>
+    m_nOrderOfArrival = <span class="number">0</span>;
+
+    <span class="keyword">if</span> (m_pGrid &amp;&amp; m_pGrid-&gt;isActive())
+    {
+        m_pGrid-&gt;afterDraw(this);
+    }
+
+    kmGLPopMatrix(); <span class="comment">//矩阵出栈</span>
+}
+</code></pre><p>####绘制流程######</p>
+<ol>
+<li>先行的处理，例如当此节点被设置为不可见时，则直接返回不进行绘制等。在这一步中，重要的环节是保存当前的绘图矩阵，也就是注释中的”矩阵压栈”操作。绘图矩阵保存好之后，就可以根据需要对矩阵进行任意的操作了，直到操作结束后再通过”矩阵出栈”来恢复保存的矩阵。由于所有对绘图矩阵的操作都在恢复矩阵之前进行，因此我们的改动不会影响到以后的绘制。</li>
+<li>，visit方法调用了transform方法进行一系列变换，以便把自己以及子节点绘制到正确的位置上</li>
+<li>绘图。visit方法中进行了一个判断：如果节点不包含子节点，则直接绘制自身；如果节点包含子节点，则需要对子节点进行遍历，具体的方式为首先对子节点按照ZOrder由小到大排序，首先对于ZOrder小于0的子节点，调用其visit方法递归绘制，然后绘制自身，最后继续按次序把ZOrder大于0的子节点递归绘制出来。经过这一轮递归，以自己为根节点的整个渲染树包括其子树都绘制完了。</li>
+<li>绘制后的一些恢复工作。这一部分中重要的内容就是把之前压入栈中的矩阵弹出来，把当前矩阵恢复成压栈前的样子</li>
+</ol>
+<p>###坐标变换###<br>在绘制渲染树中，最关键的步骤之一就是进行坐标系的变换。没有坐标系的变换，则无法在正确的位置绘制出纹理。同时，坐标系的变换在其他的场合（例如碰撞检测中）也起着十分重要的作用。因此，我们将介绍Cocos2d-x中的坐标变换功能。</p>
+<pre><code><span class="keyword">void</span> CCNode::transform()
+{
+    kmMat4 transfrom4x4;
+
+    <span class="comment">//获取相对于父节点的变换矩阵transform4x4</span>
+    CCAffineTransform tmpAffine = <span class="keyword">this</span>-&gt;nodeToParentTransform();
+    CGAffineToGL(&amp;tmpAffine, transfrom4x4.mat);
+
+    <span class="comment">//设置z坐标</span>
+    transfrom4x4.mat[<span class="number">14</span>] = m_fVertexZ;
+
+    kmGLMultMatrix( &amp;transfrom4x4 ); <span class="comment">//当前矩阵与transform4x4相乘</span>
+
+
+    <span class="comment">//处理摄像机与Grid特效</span>
+    <span class="keyword">if</span> ( m_pCamera != <span class="literal">NULL</span> &amp;&amp; !(m_pGrid != <span class="literal">NULL</span> &amp;&amp; m_pGrid-&gt;isActive()) )
+    {
+        <span class="keyword">bool</span> translate = (m_tAnchorPointInPoints.x != <span class="number">0.0f</span> ||m_tAnchorPointInPoints.y != <span class="number">0.0f</span>);
+
+    <span class="keyword">if</span>( translate )
+        kmGLTranslatef(RENDER_IN_SUBPIXEL(m_tAnchorPointInPoints.x),
+    RENDER_IN_SUBPIXEL(m_tAnchorPointInPoints.y), <span class="number">0</span> );
+
+    m_pCamera-&gt;locate();
+
+    <span class="keyword">if</span>( translate )
+        kmGLTranslatef(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPoints.x),
+    RENDER_IN_SUBPIXEL(-m_tAnchorPointInPoints.y), <span class="number">0</span> );
+}
+</code></pre><p>##TexturePacker与优化##<br>当游戏规模变大，屏幕上精灵数量激增，精灵执行的动作越来越复杂，游戏帧率会随之下降，可能会出现明显的延迟现象。</p>
+<p>###绘图瓶颈###</p>
+<ol>
+<li>纹理过小：OpenGL在显存中保存的纹理的长宽像素数一定是2的幂，对于大小不足的纹理，则在其余部分填充空白，这无疑是对显存极大的浪费；另一方面，同一个纹理可以容纳多个精灵，把内容相近的精灵拼合到一起是一个很好的选择。</li>
+<li>纹理切换次数过多：GPU开销大，可以批量绘制一些内容相近的精灵，就可以考虑利用这个特点来减少纹理切换的次数</li>
+<li>纹理过大：显存是有限的，如果在游戏中不加节制地使用很大的纹理，则必然会导致显存紧张，因此要尽可能减少纹理的尺寸以及色深。</li>
+</ol>
+<p>下面就将介绍几种优化方式</p>
+<p>###碎图压缩与精灵框帧###<br>碎片压缩：将许多零碎的小图片合并到一张大图里（可以使用工具TexturePacker），导出一个Plist文件。</p>
+<p>使用过程中，先将Plist加载到引擎中</p>
+<pre><code><span class="rule"><span class="attribute">CCSpriteFrameCache</span>:<span class="value">:<span class="function">sharedSpriteFrameCache</span>()-&gt;<span class="function">addSpriteFramesWithFile</span>(<span class="string">"all.plist"</span>)</span></span>;
+</code></pre><p>CCSprite提供了接口让我们从精灵帧完成初始化：<br>    canno = CCSprite::createWithSpriteFrameName(cannonPath);</p>
+<p>###批量渲染###<br>在同一纹理下的绘制可以使用批量提交，CCSpriteBatchNode可以一次批量提交所有子节点的绘图请求，以减少提交次数，提高绘图性能。</p>
+<p>###色彩深度优化###<br>在低端机型中个，内存、显存资源有限，我们需要降低色彩深度来控制游戏尺寸。</p>
+<p>默认情况下，我们导出的纹理图片是RGBA8888格式，它的含义是每个像素的红、蓝、绿、不透明度4个值分别占用8比特（一个字节），因此一个像素总共需要使用4个字节。如果降低纹理的品质，可以采用RGBA4444来保存图片，对于不透明的图片，可以选择无Alpha通道的颜色格式，例如RGB565。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Cocos2D-x/">Cocos2D-x</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Cocos2D-x/">Cocos2D-x</a><a href="/tags/绘图原理/">绘图原理</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-drawing/" data-title="Cocos2D(十二)-绘图原理及优化 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/04/15/2014-04-15-cocos2dx-drawingskills/" title="Cocos2D(十三)-OpenGL绘图技巧">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Cocos2D(十三)-OpenGL绘图技巧</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/04/14/2014-04-14-cocos2dx-bigmap/"  title="Cocos2D(十一)-大型地图">
+ <strong>下一篇：</strong><br/> 
+ <span>Cocos2D(十一)-大型地图
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/04/15/2014-04-15-cocos2dx-drawing/" data-title="Cocos2D(十二)-绘图原理及优化" data-url="http://xfhnever.com/2014/04/15/2014-04-15-cocos2dx-drawing/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
