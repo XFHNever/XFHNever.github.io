@@ -1,0 +1,984 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>GruntJS（二）-配置任务 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="上篇Blog简单介绍了Grunt.js,并给出了一个小例子，其中提到Gruntfile一共分为4个部分，下面我们就介绍一下其中的配置任务部分。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GruntJS（二）-配置任务">
+<meta property="og:url" content="http://xfhnever.com/2014/08/05/grunt-configtask/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="上篇Blog简单介绍了Grunt.js,并给出了一个小例子，其中提到Gruntfile一共分为4个部分，下面我们就介绍一下其中的配置任务部分。">
+<meta property="og:updated_time" content="2015-10-01T14:24:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GruntJS（二）-配置任务">
+<meta name="twitter:description" content="上篇Blog简单介绍了Grunt.js,并给出了一个小例子，其中提到Gruntfile一共分为4个部分，下面我们就介绍一下其中的配置任务部分。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/05/grunt-configtask/" title="GruntJS（二）-配置任务" itemprop="url">GruntJS（二）-配置任务</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-05T14:51:41.000Z" itemprop="datePublished"> 发表于 Aug 5 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Grunt配置"><span class="toc-number">1.</span> <span class="toc-text">Grunt配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#任务配置和目标"><span class="toc-number">2.</span> <span class="toc-text">任务配置和目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选项"><span class="toc-number">3.</span> <span class="toc-text">选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件"><span class="toc-number">4.</span> <span class="toc-text">文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介文件格式"><span class="toc-number">4.1.</span> <span class="toc-text">简介文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件对象格式"><span class="toc-number">4.2.</span> <span class="toc-text">文件对象格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件数组格式"><span class="toc-number">4.3.</span> <span class="toc-text">文件数组格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义过滤函数"><span class="toc-number">4.4.</span> <span class="toc-text">自定义过滤函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通配符模式"><span class="toc-number">4.5.</span> <span class="toc-text">通配符模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态构建文件对象"><span class="toc-number">4.6.</span> <span class="toc-text">动态构建文件对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模板"><span class="toc-number">5.</span> <span class="toc-text">模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导入外部数据"><span class="toc-number">6.</span> <span class="toc-text">导入外部数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">7.</span> <span class="toc-text">实例</span></a></li></ol>
+		
+		</div>
+		
+		<p>上篇Blog简单介绍了Grunt.js,并给出了一个小例子，其中提到Gruntfile一共分为4个部分，下面我们就介绍一下其中的配置任务部分。<br><a id="more"></a></p>
+<h2 id="Grunt配置">Grunt配置</h2><p>任务配置定义在 Gruntfile 的 grunt.initConfig 方法中。配置主要是以任务命名的属性，也可以包含其他数据，但不能与任务所需的属性冲突。</p>
+<h2 id="任务配置和目标">任务配置和目标</h2><p>当任务运行时，Grunt 会从与其同名的属性中查找配置。多重任务可以有多个配置，每个任务使用任意命名的目标定义。例如，concat 任务有 foo 和 bar 两个目标，而 uglify 任务只有 bar 一个目标：</p>
+<pre><code><span class="tag">grunt</span><span class="class">.initConfig</span>({
+  <span class="tag">concat</span>: {
+    <span class="tag">foo</span>: {
+      <span class="comment">// concat 任务的目标 "foo"</span>
+    },
+    <span class="attribute">bar</span>: {
+      <span class="comment">// concat 任务的目标 "bar"</span>
+    },
+  },
+  <span class="attribute">uglify</span>: {
+    <span class="tag">bar</span>: {
+      <span class="comment">// uglify 任务的目标 "bar"</span>
+    },
+  },
+});
+</code></pre><p>运行 grunt concat:foo 或 grunt concat:bar 只会处理指定的目标配置，而运行 grunt concat 则会依次处理所有目标。</p>
+<h2 id="选项">选项</h2><p>在任务配置中，options 属性可用于覆盖默认值。每个目标都可以有独立的 options 属性。目标级的选项会覆盖任务级的选项。</p>
+<pre><code><span class="tag">grunt</span><span class="class">.initConfig</span>({
+  <span class="tag">concat</span>: {
+    <span class="tag">options</span>: {
+      <span class="comment">// 任务级的选项，覆盖任务的默认值</span>
+    },
+    <span class="attribute">foo</span>: {
+      <span class="tag">options</span>: {
+        <span class="comment">// 目标 "foo" 的选项，覆盖任务级的选项</span>
+      },
+    },
+    <span class="attribute">bar</span>: {
+      <span class="comment">// 没有定义选项，使用任务级的选项</span>
+    },
+  },
+});
+</code></pre><h2 id="文件">文件</h2><p>所有文件格式都支持 src 和 dest 属性，”简洁格式” 与 “文件数组格式” 还支持以下属性：</p>
+<ol>
+<li>filter 用于匹配 src 文件路径，传入 fs.Stats 方法名或自定义函数，返回 true 或 false。</li>
+<li>nonull 当一个匹配没有被检测到时，返回一个包含模式自身的列表。否则，如果没有任何匹配项时，则返回一个空列表。</li>
+<li>dot 允许模式匹配以句点开头的文件名。</li>
+<li>matchBase 不带斜线的模式将不会匹配包含在斜线中的文件名。比如，a?b 匹配路径 /xyz/123/acb 但不匹配 /xyz/acb/123。</li>
+<li>expand 处理动态的 src-dest 映射</li>
+</ol>
+<h3 id="简介文件格式">简介文件格式</h3><p>每个目标只有一个 src-dest 映射，每个映射可以有附加属性。</p>
+<pre><code><span class="tag">grunt</span><span class="class">.initConfig</span>({
+  <span class="tag">jshint</span>: {
+    <span class="tag">foo</span>: {
+      <span class="tag">src</span>: <span class="attr_selector">['src/aa.js', 'src/aaa.js']</span>
+    },
+  },
+  <span class="tag">concat</span>: {
+    <span class="tag">bar</span>: {
+      <span class="attribute">src</span>: [<span class="string">'src/bb.js'</span>, <span class="string">'src/bbb.js'</span>],
+      <span class="attribute">dest</span>: <span class="string">'dest/b.js'</span>,
+    },
+  },
+});
+</code></pre><h3 id="文件对象格式">文件对象格式</h3><p>每个目标可以有多个 src-dest 映射，其中属性名是目标文件，属性值是源文件。不能为每个映射定义附加属性。</p>
+<pre><code>grunt.initConfig({
+  concat: {
+    foo: {
+      files: {
+        <span class="symbol">'dest</span>/a.js': [<span class="symbol">'src</span>/aa.js', <span class="symbol">'src</span>/aaa.js'],
+        <span class="symbol">'dest</span>/a1.js': [<span class="symbol">'src</span>/aa1.js', <span class="symbol">'src</span>/aaa1.js'],
+      },
+    },
+    bar: {
+      files: {
+        <span class="symbol">'dest</span>/b.js': [<span class="symbol">'src</span>/bb.js', <span class="symbol">'src</span>/bbb.js'],
+        <span class="symbol">'dest</span>/b1.js': [<span class="symbol">'src</span>/bb1.js', <span class="symbol">'src</span>/bbb1.js'],
+      },
+    },
+  },
+});
+</code></pre><h3 id="文件数组格式">文件数组格式</h3><p>每个目标可以有多个 src-dest 映射，每个映射可以有附加属性</p>
+<pre><code>grunt.initConfig({
+<span class="label">  concat:</span> {
+<span class="label">    foo:</span> {
+<span class="label">      files:</span> [
+        {<span class="string">src:</span> [<span class="string">'src/aa.js'</span>, <span class="string">'src/aaa.js'</span>], <span class="string">dest:</span> <span class="string">'dest/a.js'</span>},
+        {<span class="string">src:</span> [<span class="string">'src/aa1.js'</span>, <span class="string">'src/aaa1.js'</span>], <span class="string">dest:</span> <span class="string">'dest/a1.js'</span>},
+      ],
+    },
+<span class="label">    bar:</span> {
+<span class="label">      files:</span> [
+        {<span class="string">src:</span> [<span class="string">'src/bb.js'</span>, <span class="string">'src/bbb.js'</span>], <span class="string">dest:</span> <span class="string">'dest/b/'</span>, <span class="string">nonull:</span> <span class="literal">true</span>},
+        {<span class="string">src:</span> [<span class="string">'src/bb1.js'</span>, <span class="string">'src/bbb1.js'</span>], <span class="string">dest:</span> <span class="string">'dest/b1/'</span>, <span class="string">filter:</span> <span class="string">'isFile'</span>},
+      ],
+    },
+  },
+});
+</code></pre><h3 id="自定义过滤函数">自定义过滤函数</h3><p>filter 属性可用于精确定位文件。属性值可以是 fs.Stats 方法名。</p>
+<p>也可以自定义 filter 函数，根据是否匹配返回 true 或 false。例如，匹配空目录：</p>
+<pre><code><span class="tag">grunt</span><span class="class">.initConfig</span>(<span class="rules">{
+  <span class="rule"><span class="attribute">clean</span>:<span class="value"> {
+    foo: {
+      src: [<span class="string">'tmp/**/*'</span>],
+      filter: <span class="function">function</span>(filepath) {
+        return (grunt.file.<span class="function">isDir</span>(filepath) &amp;&amp; <span class="function">require</span>(<span class="string">'fs'</span>).<span class="function">readdirSync</span>(filepath).length === <span class="number">0</span>)</span></span>;
+      }</span>,
+    },
+  },
+});
+</code></pre><h3 id="通配符模式">通配符模式</h3><ol>
+<li><ul>
+<li>匹配任意数量的字符，除了 /</li>
+</ul>
+</li>
+<li>? 匹配单个字符，除了 /</li>
+<li>** 匹配任意数量的字符，包括 /</li>
+<li>{} 以逗号分割的”或”表达式列表</li>
+<li>! 匹配取反</li>
+</ol>
+<p>实例：</p>
+<pre><code><span class="comment">// 单个文件</span>
+{<span class="string">src:</span> <span class="string">'foo/this.js'</span>, <span class="string">dest:</span> ...}
+<span class="comment">// 文件数组</span>
+{<span class="string">src:</span> [<span class="string">'foo/this.js'</span>, <span class="string">'foo/that.js'</span>, <span class="string">'foo/the-other.js'</span>], <span class="string">dest:</span> ...}
+<span class="comment">// 通配符模式</span>
+{<span class="string">src:</span> <span class="string">'foo/th*.js'</span>, <span class="string">dest:</span> ...}
+
+<span class="comment">// node-glob 模式</span>
+{<span class="string">src:</span> <span class="string">'foo/{a,b}*.js'</span>, <span class="string">dest:</span> ...}
+<span class="comment">// 等同于</span>
+{<span class="string">src:</span> [<span class="string">'foo/a*.js'</span>, <span class="string">'foo/b*.js'</span>], <span class="string">dest:</span> ...}
+
+<span class="comment">// foo/ 目录中所有的 .js 文件，按字母排序</span>
+{<span class="string">src:</span> [<span class="string">'foo/*.js'</span>], <span class="string">dest:</span> ...}
+<span class="comment">// 先是 bar.js，接着是剩下的 .js 文件，按字母排序</span>
+{<span class="string">src:</span> [<span class="string">'foo/bar.js'</span>, <span class="string">'foo/*.js'</span>], <span class="string">dest:</span> ...}
+
+<span class="comment">// 除 bar.js 之外的所有的 .js 文件，按字母排序</span>
+{<span class="string">src:</span> [<span class="string">'foo/*.js'</span>, <span class="string">'!foo/bar.js'</span>], <span class="string">dest:</span> ...}
+<span class="comment">// 所有 .js 文件，按字母排序, 但是 bar.js 在最后</span>
+{<span class="string">src:</span> [<span class="string">'foo/*.js'</span>, <span class="string">'!foo/bar.js'</span>, <span class="string">'foo/bar.js'</span>], <span class="string">dest:</span> ...}
+
+<span class="comment">// 可以用模板字符串</span>
+{<span class="string">src:</span> [<span class="string">'src/&lt;%= basename %&gt;.js'</span>], <span class="string">dest:</span> <span class="string">'build/&lt;%= basename %&gt;.min.js'</span>}
+<span class="comment">// 可以引用在配置中定义的其他文件列表</span>
+{<span class="string">src:</span> [<span class="string">'foo/*.js'</span>, <span class="string">'&lt;%= jshint.all.src %&gt;'</span>], <span class="string">dest:</span> ...}
+</code></pre><h3 id="动态构建文件对象">动态构建文件对象</h3><p>当处理大量的单个文件时，一些附加的属性可以用来动态地构建文件列表。</p>
+<p>expand 设为 true 用于启用以下选项：</p>
+<ol>
+<li>cwd 所有 src 的匹配都是相对于当前路径，但不包括当前路径。</li>
+<li>src 相对于 cwd 路径的匹配模式。</li>
+<li>dest 目标路径的前缀。</li>
+<li>ext 使用这个属性值替换生成的 dest 路径中所有文件的扩展名。</li>
+<li>extDot 用于指定扩展名点号的位置。可以设为 ‘first’ (扩展名始于文件名的第一个点号)或 ‘last’ (扩展名始于文件名的最后一个点号)，默认为 ‘first’。[0.4.3 新增]</li>
+<li>flatten 从生成的 dest 路径中移除所有的路径部分。</li>
+<li>rename 在执行 ext 和 flatten 之后，对每个匹配的 src 文件调用这个函数。传入 dest 和匹配的 src 路径，返回一个新的 dest 值。如果返回相同的 dest 不止一次，每个使用它的 src 来源都将被添加到一个数组中。</li>
+</ol>
+<p>在下面的例子中，static_mappings 和 dynamic_mappings 两个目标中查找到的文件映射列表是相同的，这是因为任务运行时 Grunt 会自动将 dynamic_mappings 文件对象扩展为与 static_mappings 一致的静态文件映射。</p>
+<pre><code>grunt.initConfig({
+<span class="label">  uglify:</span> {
+<span class="label">    static_mappings:</span> {
+      <span class="comment">// 静态文件映射，</span>
+      <span class="comment">// 添加或删除文件时需要更新 Gruntfile。</span>
+<span class="label">      files:</span> [
+        {<span class="string">src:</span> <span class="string">'lib/a.js'</span>, <span class="string">dest:</span> <span class="string">'build/a.min.js'</span>},
+        {<span class="string">src:</span> <span class="string">'lib/b.js'</span>, <span class="string">dest:</span> <span class="string">'build/b.min.js'</span>},
+        {<span class="string">src:</span> <span class="string">'lib/subdir/c.js'</span>, <span class="string">dest:</span> <span class="string">'build/subdir/c.min.js'</span>},
+        {<span class="string">src:</span> <span class="string">'lib/subdir/d.js'</span>, <span class="string">dest:</span> <span class="string">'build/subdir/d.min.js'</span>},
+      ],
+    },
+<span class="label">    dynamic_mappings:</span> {
+      <span class="comment">// 动态文件映射，</span>
+      <span class="comment">// 当任务运行时会自动在 "lib/" 目录下查找 "**/*.js" 并构建文件映射，</span>
+      <span class="comment">// 添加或删除文件时不需要更新 Gruntfile。</span>
+<span class="label">      files:</span> [
+        {
+<span class="label">          expand:</span> <span class="literal">true</span>,     <span class="comment">// 启用动态扩展</span>
+<span class="label">          cwd:</span> <span class="string">'lib/'</span>,      <span class="comment">// 源文件匹配都相对此目录</span>
+<span class="label">          src:</span> [<span class="string">'**/*.js'</span>], <span class="comment">// 匹配模式</span>
+<span class="label">          dest:</span> <span class="string">'build/'</span>,   <span class="comment">// 目标路径前缀</span>
+<span class="label">          ext:</span> <span class="string">'.min.js'</span>,   <span class="comment">// 目标文件路径中文件的扩展名</span>
+<span class="label">          extDot:</span> <span class="string">'first'</span>   <span class="comment">// 扩展名始于文件名的第一个点号</span>
+        },
+      ],
+    },
+  },
+});
+</code></pre><h2 id="模板">模板</h2><p>模版使用 &lt;% %&gt; 分隔符定义，当任务从配置读取时会自动进行扩展。模板会被递归地扩展，直到全部扩展完成。</p>
+<ol>
+<li><p>模版的处理都是在整个配置对象的上下文环境中的。因此，可以在模板中使用 grunt 方法，比如：</p>
+<p> &lt;%= grunt.template.today(‘yyyy-mm-dd’) %&gt;</p>
+</li>
+<li>&lt;%= prop.subprop %&gt; 扩展配置中 prop.subprop 的值，无论什么数据类型。不仅可以引用字符串值，也可以是数组或其他对象。</li>
+<li>&lt;% %&gt; 执行任意内联的 JavaScript 代码。可用于控制流或循环</li>
+</ol>
+<p>下面的例子中，运行 grunt concat:sample 时会拼接 banner 中的 /<em> abcde </em>/ 与 foo/<em>.js + bar/</em>.js + baz/*.js 所匹配的文件，并生成名为 build/abcde.js 的文件。</p>
+<pre><code><span class="tag">grunt</span><span class="class">.initConfig</span>({
+  <span class="tag">concat</span>: {
+    <span class="tag">sample</span>: {
+      <span class="tag">options</span>: {
+        <span class="attribute">banner</span>: <span class="string">'/* &lt;%= baz %&gt; */\n'</span>,   <span class="comment">// '/* abcde */\n'</span>
+      },
+      <span class="attribute">src</span>: [<span class="string">'&lt;%= qux %&gt;'</span>, <span class="string">'baz/*.js'</span>],  <span class="comment">// [['foo/*.js', 'bar/*.js'], 'baz/*.js']</span>
+      <span class="attribute">dest</span>: <span class="string">'build/&lt;%= baz %&gt;.js'</span>,      <span class="comment">// 'build/abcde.js'</span>
+    },
+  },
+  <span class="comment">// 用于任务配置模板的任意属性</span>
+  <span class="attribute">foo</span>: <span class="string">'c'</span>,
+  <span class="attribute">bar</span>: <span class="string">'b&lt;%= foo %&gt;d'</span>, <span class="comment">// 'bcd'</span>
+  <span class="attribute">baz</span>: <span class="string">'a&lt;%= bar %&gt;e'</span>, <span class="comment">// 'abcde'</span>
+  <span class="attribute">qux</span>: [<span class="string">'foo/*.js'</span>, <span class="string">'bar/*.js'</span>],
+});
+</code></pre><h2 id="导入外部数据">导入外部数据</h2><p>Grunt 有 grunt.file.readJSON 和 grunt.file.readYAML 两个方法分别用于导入 JSON 和 YAML 数据。</p>
+<h2 id="实例">实例</h2><pre><code><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">grunt</span>) </span>{
+
+  grunt.initConfig({
+    pkg: grunt.file.readJSON(<span class="string">'package.json'</span>),
+    concat: {
+      options: {
+        <span class="comment">// 定义分割合并文件的字符</span>
+        separator: <span class="string">';'</span>
+      },
+      dist: {
+        src: [<span class="string">'src/**/*.js'</span>],
+        dest: <span class="string">'dist/&lt;%= pkg.name %&gt;.js'</span>
+      }
+    },
+    uglify: {
+      options: {
+        <span class="comment">// 生成注释并插入到输出文件的顶部</span>
+        banner: <span class="string">'/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("dd-mm-yyyy") %&gt; */\n'</span>
+      },
+      dist: {
+        files: {
+          <span class="string">'dist/&lt;%= pkg.name %&gt;.min.js'</span>: [<span class="string">'&lt;%= concat.dist.dest %&gt;'</span>]
+        }
+      }
+    },
+    qunit: {
+      files: [<span class="string">'test/**/*.html'</span>]
+    },
+    jshint: {
+      <span class="comment">// 定义待检测的文件</span>
+      files: [<span class="string">'Gruntfile.js'</span>, <span class="string">'src/**/*.js'</span>, <span class="string">'test/**/*.js'</span>],
+      options: {
+        <span class="comment">// options here to override JSHint defaults</span>
+        globals: {
+          jQuery: <span class="literal">true</span>,
+          <span class="built_in">console</span>: <span class="literal">true</span>,
+          <span class="built_in">module</span>: <span class="literal">true</span>,
+          <span class="built_in">document</span>: <span class="literal">true</span>
+        }
+      }
+    },
+    watch: {
+      files: [<span class="string">'&lt;%= jshint.files %&gt;'</span>],
+      tasks: [<span class="string">'jshint'</span>, <span class="string">'qunit'</span>]
+    }
+  });
+
+  grunt.loadNpmTasks(<span class="string">'grunt-contrib-uglify'</span>);
+  grunt.loadNpmTasks(<span class="string">'grunt-contrib-jshint'</span>);
+  grunt.loadNpmTasks(<span class="string">'grunt-contrib-qunit'</span>);
+  grunt.loadNpmTasks(<span class="string">'grunt-contrib-watch'</span>);
+  grunt.loadNpmTasks(<span class="string">'grunt-contrib-concat'</span>);
+
+  grunt.registerTask(<span class="string">'test'</span>, [<span class="string">'jshint'</span>, <span class="string">'qunit'</span>]);
+
+  grunt.registerTask(<span class="string">'default'</span>, [<span class="string">'jshint'</span>, <span class="string">'qunit'</span>, <span class="string">'concat'</span>, <span class="string">'uglify'</span>]);
+
+};
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/GruntJS/">GruntJS</a><a href="/tags/JS/">JS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/05/grunt-configtask/" data-title="GruntJS（二）-配置任务 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/05/grunt-createtask/" title="GruntJS（三）-创建任务">
+  <strong>上一篇：</strong><br/>
+  <span>
+  GruntJS（三）-创建任务</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/05/grunt-introduction/"  title="GruntJS（一）-介绍">
+ <strong>下一篇：</strong><br/> 
+ <span>GruntJS（一）-介绍
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/05/grunt-configtask/" data-title="GruntJS（二）-配置任务" data-url="http://xfhnever.com/2014/08/05/grunt-configtask/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Grunt配置"><span class="toc-number">1.</span> <span class="toc-text">Grunt配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#任务配置和目标"><span class="toc-number">2.</span> <span class="toc-text">任务配置和目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选项"><span class="toc-number">3.</span> <span class="toc-text">选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件"><span class="toc-number">4.</span> <span class="toc-text">文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介文件格式"><span class="toc-number">4.1.</span> <span class="toc-text">简介文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件对象格式"><span class="toc-number">4.2.</span> <span class="toc-text">文件对象格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件数组格式"><span class="toc-number">4.3.</span> <span class="toc-text">文件数组格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自定义过滤函数"><span class="toc-number">4.4.</span> <span class="toc-text">自定义过滤函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通配符模式"><span class="toc-number">4.5.</span> <span class="toc-text">通配符模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态构建文件对象"><span class="toc-number">4.6.</span> <span class="toc-text">动态构建文件对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模板"><span class="toc-number">5.</span> <span class="toc-text">模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#导入外部数据"><span class="toc-number">6.</span> <span class="toc-text">导入外部数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-number">7.</span> <span class="toc-text">实例</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

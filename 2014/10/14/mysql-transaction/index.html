@@ -1,0 +1,797 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Mysql（三）-事务 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="事务是数据库中的一个重要特性，首先就给大家介绍一下这个。事务就是一组原子性的SQL查询，或者说一个独立的工作单元。对于事务内的语句，要么全部执行成功，要么失败回滚都不执行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql（三）-事务">
+<meta property="og:url" content="http://xfhnever.com/2014/10/14/mysql-transaction/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="事务是数据库中的一个重要特性，首先就给大家介绍一下这个。事务就是一组原子性的SQL查询，或者说一个独立的工作单元。对于事务内的语句，要么全部执行成功，要么失败回滚都不执行。">
+<meta property="og:updated_time" content="2015-10-01T14:33:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql（三）-事务">
+<meta name="twitter:description" content="事务是数据库中的一个重要特性，首先就给大家介绍一下这个。事务就是一组原子性的SQL查询，或者说一个独立的工作单元。对于事务内的语句，要么全部执行成功，要么失败回滚都不执行。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/10/14/mysql-transaction/" title="Mysql（三）-事务" itemprop="url">Mysql（三）-事务</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-10-14T10:00:25.000Z" itemprop="datePublished"> 发表于 Oct 14 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#特性（ACID）"><span class="toc-number">1.</span> <span class="toc-text">特性（ACID）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隔离级别"><span class="toc-number">2.</span> <span class="toc-text">隔离级别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#幻读和不可重复读区别"><span class="toc-number">2.1.</span> <span class="toc-text">幻读和不可重复读区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#死锁"><span class="toc-number">3.</span> <span class="toc-text">死锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务日志"><span class="toc-number">4.</span> <span class="toc-text">事务日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql中的事务"><span class="toc-number">5.</span> <span class="toc-text">Mysql中的事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自动提交"><span class="toc-number">5.1.</span> <span class="toc-text">自动提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务中混合使用存储引擎"><span class="toc-number">6.</span> <span class="toc-text">事务中混合使用存储引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式和显示锁定"><span class="toc-number">7.</span> <span class="toc-text">隐式和显示锁定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多版本并发控制（MVCC）"><span class="toc-number">8.</span> <span class="toc-text">多版本并发控制（MVCC）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务操作语句"><span class="toc-number">9.</span> <span class="toc-text">事务操作语句</span></a></li></ol>
+		
+		</div>
+		
+		<p>事务是数据库中的一个重要特性，首先就给大家介绍一下这个。事务就是一组原子性的SQL查询，或者说一个独立的工作单元。对于事务内的语句，要么全部执行成功，要么失败回滚都不执行。<br><a id="more"></a></p>
+<h2 id="特性（ACID）">特性（ACID）</h2><ol>
+<li><p>原子性（atomicity）</p>
+<p> 事务在执行性，要做到“要么不做，要么全做！”，就是说不允许事务部分得执行。即使因为故障而使事务不能完成，在rollback时也要消除对数据库得影响</p>
+</li>
+<li><p>一致性（consistency）</p>
+<p> 事务得操作应该使使数据库从一个一致状态转变倒另一个一致的状态！就拿网上购物来说吧，你只有即让商品出库，又让商品进入顾客得购物篮才能构成事务！</p>
+</li>
+<li><p>隔离性（isolation）</p>
+<p> 如果多个事务并发执行，应像各个事务独立执行一样！就是一个事务所做的修改再最终提交之前，其他事务是不可见的。</p>
+</li>
+<li><p>持久性（durability）</p>
+<p> 一个成功执行得事务对数据库得作用是持久的，即使数据库应故障出错，也应该能够恢复！</p>
+</li>
+</ol>
+<p>事务处理过程中额外的安全性，也会需要数据库系统做更多的额外工作。满足ACID的数据库通常需要更强的CPU处理能力、更大的内存和更多的磁盘空间。</p>
+<h2 id="隔离级别">隔离级别</h2><p>隔离性远比想象的复杂，SQL中定义了四种隔离级别。</p>
+<ol>
+<li><p>READ UNCOMMITTED</p>
+<p> 最低级别的隔离，通常又称为dirty read，它允许一个事务读取还没commit的数据，这样可能会提高性能，但是dirty read可能不是我们想要的。从性能上来说，该级别不会比其他好太多，但缺乏很多其他级别的好处，一般很少使用。</p>
+</li>
+<li><p>READ COMMITTED</p>
+<p> 在一个事务中只允许已经commit的记录可见，如果session中select还在查询中，另一session此时insert一条记录，则新添加的数据不可见。这个级别也叫做不可重复读（nonrepeatable read）,大多数数据库默认级别（但Mysql不是）。</p>
+</li>
+<li><p>REPEATABLE READ</p>
+<p> 在一个事务开始后，其他session对数据库的修改在本事务中不可见，直到本事务commit或rollback。在一个事务中重复select的结果一样，除非本事务中update数据库。这种隔离级别会导致引发幻读（多版本并发控制可以解决这个问题）。</p>
+<p> mysql默认隔离级别。</p>
+</li>
+<li><p>SERIALIZABLE</p>
+<p> 最高级别的隔离，只允许事务串行执行（单线程）。为了达到此目的，数据库会锁住每行已经读取的记录，其他session不能修改数据直到前一事务结束，事务commit或取消时才释放锁。</p>
+</li>
+</ol>
+<h3 id="幻读和不可重复读区别">幻读和不可重复读区别</h3><p>不可重复读是读取到了别人对表中的某一条记录进行了修改，导致前后读取的数据不一致。  幻读是前后读取到表中的记录总数不一样，读取到了其它事务插入的数据。  </p>
+<p>不可重复读的重点是修改，同样的条件, 你读取过的数据, 再次读取出来发现值不一样了</p>
+<p>幻读的重点在于新增或者删除，同样的条件, 第1次和第2次读出来的记录数不一样</p>
+<h2 id="死锁">死锁</h2><p>死锁是指两个或者多个事务在同一个资源上相互占用，并请求锁定对方占用的资源，从而导致恶性循环的现象。当多个事务视图以不同顺序锁定资源时，就可能产生死锁；多个资源同时锁定同一个资源也可能产生死锁。</p>
+<p>数据库系统实现了各种死锁检测和死锁超时机制。InnoDB目前处理死锁的方法是：将持有最少行级排他锁的事务进行回滚。</p>
+<p>死锁产生有双重原因：一是真正的数据冲突；二是存储引擎的实现方式。</p>
+<h2 id="事务日志">事务日志</h2><p>是用事务日志可以提高事务处理的效率。</p>
+<p>使用事务日志，存储引擎在修改表的数据时只需要修改其内存拷贝，再把该修改行为记录到持久的硬盘上的事务日志中，而不是每次都将修改数据本身持久到硬盘。事务日志采用的是追加的方式，因此写日志的操作是硬盘上一小块区域内的顺序I/O，而不像随机I/O需要在磁盘的多个地方移动磁头，所以采用事务日志相对要快的多。事务日志持久之后，内存中被修改的数据在后台慢慢地刷回到磁盘。目前大多数存储引擎都是这样实现的，我们通常称为预写式日志（Write-Ahead Logging）,修改数据需要写两次磁盘。</p>
+<h2 id="Mysql中的事务">Mysql中的事务</h2><p>提供了两种事务性的存储引擎：InnoDB和NDB Cluster。还有一些第三方存储引擎也支持。</p>
+<h3 id="自动提交">自动提交</h3><p>默认采用自动提交（AUTOCOMMIT）</p>
+<p>SET AUTOCOMMIT = 1（或者ON）表示启用，=0表示所有的查询都是在一个事务中。</p>
+<h2 id="事务中混合使用存储引擎">事务中混合使用存储引擎</h2><p>是不可靠的。</p>
+<h2 id="隐式和显示锁定">隐式和显示锁定</h2><p>InnoDB采用的是两阶段锁定协议。在事务执行过程中，随时都可以执行锁定，锁只有在执行COMMIT或者ROLLBACK时候才会释放，并且所有的锁是在同一时刻被释放。这里描述的都是隐式锁定。InnoDB会根据隔离级别自动加锁。</p>
+<p>InnoDB也支持显示锁定。</p>
+<pre><code><span class="operator"><span class="keyword">Select</span> 。。。。<span class="keyword">LOCK</span> <span class="keyword">IN</span> <span class="keyword">SHARE</span> <span class="keyword">MODE</span>
+<span class="keyword">SELECT</span> .....<span class="keyword">FOR</span> <span class="keyword">UPDATE</span></span>
+</code></pre><h2 id="多版本并发控制（MVCC）">多版本并发控制（MVCC）</h2><p>大多数事务性数据库都不是简单的行级锁，一般都是实现多版本并发控制（MVCC）。</p>
+<p>MVCC可认为是锁的变种，多数情况下可以避免加锁操作。</p>
+<p>MVCC通过保存数据在某个时间点的快照来实现的。也就是说，不论需要执行多长时间，每个事务看到的数据都是一致的。</p>
+<p>不同存储引擎的MVCC的实现是不同的，典型的有乐观和悲观两种。</p>
+<p>InnoD的MVCC通过在每行记录后面保存两个隐藏的列来实现。这两个列，一个保存了行的创建时间，一个保存行的过期时间（或删除时间）。当然存储的不是时间值，而是系统版本号。没开始一个新的事务，系统版本号都会自动增加。</p>
+<p>使用这两个额外的系统版本号，使大多数读操作都可以不用加锁。不足之处是每行记录都需要额外的存储空间，需要做更多的行检查工作，以及一些额外的维护工作。</p>
+<p>MVCC只在READ COMMITTED、REPEATABLE READ两个级别下可以工作，其他不兼容。</p>
+<h2 id="事务操作语句">事务操作语句</h2><ol>
+<li><p>START TRANSACTION：</p>
+<p>开始事务，autocommit设为0，如果已经有一个事务在运行，则会触发一个隐藏的COMMIT  </p>
+</li>
+<li><p>COMMIT：</p>
+<p>提交事务，保存更改，释放锁  </p>
+</li>
+<li><p>ROLLBACK：</p>
+<p>回滚本事务对数据库的所有更改，然后结束事务，释放锁  </p>
+</li>
+<li><p>SAVEPOINT savepoint_name：</p>
+<p>创建一个savepoint识别符来ROLLBACK TO SAVEPOINT  </p>
+</li>
+<li><p>ROLLBACK TO SAVEPOINT savepoint_name：</p>
+<p>回滚到从savepoint_name开始对数据库的所有更改，这样就允许回滚事务中的一部分，保证更改的一个子集被提交  </p>
+</li>
+<li><p>SET TRANSACTION：</p>
+<p>允许设置事务的隔离级别  </p>
+</li>
+<li><p>LOCK TABLES：</p>
+<p>允许显式的锁住一个或多个table，会隐式的关闭当前打开的事务，建议在执行LOCK TABLES语句之前显式的commit或rollback。我们一般所以一般在事务代码里不会使用LOCK TABLES</p>
+</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/DB/">DB</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DB/">DB</a><a href="/tags/Mysql/">Mysql</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/10/14/mysql-transaction/" data-title="Mysql（三）-事务 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/10/14/mysql-queryoptimization/" title="Mysql（四）-查询优化">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Mysql（四）-查询优化</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/10/09/mysql-index/"  title="Mysql（二）-索引">
+ <strong>下一篇：</strong><br/> 
+ <span>Mysql（二）-索引
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/10/14/mysql-transaction/" data-title="Mysql（三）-事务" data-url="http://xfhnever.com/2014/10/14/mysql-transaction/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#特性（ACID）"><span class="toc-number">1.</span> <span class="toc-text">特性（ACID）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隔离级别"><span class="toc-number">2.</span> <span class="toc-text">隔离级别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#幻读和不可重复读区别"><span class="toc-number">2.1.</span> <span class="toc-text">幻读和不可重复读区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#死锁"><span class="toc-number">3.</span> <span class="toc-text">死锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务日志"><span class="toc-number">4.</span> <span class="toc-text">事务日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql中的事务"><span class="toc-number">5.</span> <span class="toc-text">Mysql中的事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自动提交"><span class="toc-number">5.1.</span> <span class="toc-text">自动提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务中混合使用存储引擎"><span class="toc-number">6.</span> <span class="toc-text">事务中混合使用存储引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式和显示锁定"><span class="toc-number">7.</span> <span class="toc-text">隐式和显示锁定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多版本并发控制（MVCC）"><span class="toc-number">8.</span> <span class="toc-text">多版本并发控制（MVCC）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务操作语句"><span class="toc-number">9.</span> <span class="toc-text">事务操作语句</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

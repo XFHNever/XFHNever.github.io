@@ -1,0 +1,786 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Guava（二）-Collections | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="Google Guava Collections是 Java Collections Framework 的增强和扩展。每个 Java 开发者都会在工作中使用各种数据结构，很多情况下 Java Collections Framework 可以帮助你完成这类工作。但是在有些场合你使用了 Java Collections Framework 的 API，但还是需要写很多代码来实现一些复杂逻辑，这个时候">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Guava（二）-Collections">
+<meta property="og:url" content="http://xfhnever.com/2014/07/23/guava-collection/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="Google Guava Collections是 Java Collections Framework 的增强和扩展。每个 Java 开发者都会在工作中使用各种数据结构，很多情况下 Java Collections Framework 可以帮助你完成这类工作。但是在有些场合你使用了 Java Collections Framework 的 API，但还是需要写很多代码来实现一些复杂逻辑，这个时候">
+<meta property="og:updated_time" content="2015-10-01T13:48:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Guava（二）-Collections">
+<meta name="twitter:description" content="Google Guava Collections是 Java Collections Framework 的增强和扩展。每个 Java 开发者都会在工作中使用各种数据结构，很多情况下 Java Collections Framework 可以帮助你完成这类工作。但是在有些场合你使用了 Java Collections Framework 的 API，但还是需要写很多代码来实现一些复杂逻辑，这个时候">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/23/guava-collection/" title="Guava（二）-Collections" itemprop="url">Guava（二）-Collections</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-07-22T16:14:35.000Z" itemprop="datePublished"> 发表于 Jul 23 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Immutable_Collections"><span class="toc-number">1.</span> <span class="toc-text">Immutable Collections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#New_collection_types"><span class="toc-number">2.</span> <span class="toc-text">New collection types</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Multiset:把重复的元素放入集合"><span class="toc-number">2.1.</span> <span class="toc-text">Multiset:把重复的元素放入集合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Multiset不是Map"><span class="toc-number">2.1.1.</span> <span class="toc-text">Multiset不是Map</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Multiset的各种实现"><span class="toc-number">2.1.2.</span> <span class="toc-text">Multiset的各种实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Multimap：在Map的value里面放多个元素"><span class="toc-number">2.2.</span> <span class="toc-text">Multimap：在Map的value里面放多个元素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Multimap不是Map"><span class="toc-number">2.2.1.</span> <span class="toc-text">Multimap不是Map</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些实现"><span class="toc-number">2.2.2.</span> <span class="toc-text">一些实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BiMap:双向Map"><span class="toc-number">2.3.</span> <span class="toc-text">BiMap:双向Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Table"><span class="toc-number">2.4.</span> <span class="toc-text">Table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ClassToInstanceMap"><span class="toc-number">2.5.</span> <span class="toc-text">ClassToInstanceMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RangeSet"><span class="toc-number">2.6.</span> <span class="toc-text">RangeSet</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Powerful_collection_utilities"><span class="toc-number">3.</span> <span class="toc-text">Powerful collection utilities</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Extension_utilities"><span class="toc-number">4.</span> <span class="toc-text">Extension utilities</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>Google Guava Collections是 Java Collections Framework 的增强和扩展。每个 Java 开发者都会在工作中使用各种数据结构，很多情况下 Java Collections Framework 可以帮助你完成这类工作。但是在有些场合你使用了 Java Collections Framework 的 API，但还是需要写很多代码来实现一些复杂逻辑，这个时候就可以尝试使用 Guava Collections 来帮助你完成这些工作。这些高质量的 API 使你的代码更短，更易于阅读和修改，工作更加轻松。<br><a id="more"></a><br>下面我们就介绍一下它的功能：</p>
+<h2 id="Immutable_Collections">Immutable Collections</h2><p>例子：</p>
+<pre><code>public <span class="literal">static</span> <span class="keyword">final</span> ImmutableSet&lt;<span class="built_in">String</span>&gt; COLOR_NAMES = ImmutableSet.of(
+  <span class="string">"red"</span>,
+  <span class="string">"orange"</span>,
+  <span class="string">"yellow"</span>,
+  <span class="string">"green"</span>,
+  <span class="string">"blue"</span>,
+  <span class="string">"purple"</span>);
+
+<span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>{
+  <span class="keyword">final</span> ImmutableSet&lt;Bar&gt; bars;
+  Foo(<span class="built_in">Set</span>&lt;Bar&gt; bars) {
+    <span class="keyword">this</span>.bars = ImmutableSet.copyOf(bars); <span class="comment">// defensive copy!</span>
+  }
+}
+</code></pre><h2 id="New_collection_types">New collection types</h2><p>Guava引入了一些JDK没有但是很有用的集合对象。</p>
+<h3 id="Multiset:把重复的元素放入集合">Multiset:把重复的元素放入集合</h3><p>要统计一份文档某个单词出现的次数，传统做法如下：</p>
+<pre><code>Map&lt;String, Integer&gt; counts = new HashMap&lt;String, Integer&gt;();
+<span class="keyword">for</span> (String <span class="property">word</span> : <span class="property">words</span>) {
+  Integer <span class="command">count</span> = counts.<span class="keyword">get</span>(<span class="property">word</span>);
+  <span class="keyword">if</span> (<span class="command">count</span> == null) {
+    counts.<span class="keyword">put</span>(<span class="property">word</span>, <span class="number">1</span>);
+  } <span class="keyword">else</span> {
+    counts.<span class="keyword">put</span>(<span class="property">word</span>, <span class="command">count</span> + <span class="number">1</span>);
+  }
+}
+</code></pre><p>用Guava的话可以：</p>
+<pre><code>HashMultiset&lt;String&gt; multiSet = HashMultiset.create(); 
+multiSet.addAll(words); 
+<span class="comment">//count word “the”</span>
+Integer <span class="keyword">count</span> = multiSet.<span class="keyword">count</span>(“the”);
+</code></pre><h4 id="Multiset不是Map">Multiset不是Map</h4><p>Multiset继承自JDK中的Collection接口，而不是Set接口。其和Map的区别是：</p>
+<ol>
+<li>Multiset中的元素计数只能是正数。任何元素的计数都不能为负，也不能是0。elementSet()和entrySet()视图中也不会有这样的元素。</li>
+<li>multiset.size()返回集合的大小，等同于所有元素计数的总和。对于不重复元素的个数，应使用elementSet().size()方法。（因此，add(E)把multiset.size()增加1）</li>
+<li>multiset.iterator()会迭代重复元素，因此迭代长度等于multiset.size()。</li>
+<li>Multiset支持直接增加、减少或设置元素的计数。setCount(elem, 0)等同于移除所有elem。</li>
+<li>对multiset 中没有的元素，multiset.count(elem)始终返回0。</li>
+</ol>
+<h4 id="Multiset的各种实现">Multiset的各种实现</h4><p>HashMutltiset、TreeMultiset、LinkedHashMultiset、ConcurrentHashMultiset、ImmutableMultiset</p>
+<h3 id="Multimap：在Map的value里面放多个元素">Multimap：在Map的value里面放多个元素</h3><p>举个记名投票的例子。所有选票都放在一个 List<ticket> 里面，List 的每个元素包括投票人和选举人的名字。我们可以这样写 :</ticket></p>
+<pre><code><span class="comment">//Key is candidate name, its value is his voters </span>
+ <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, HashSet&lt;<span class="keyword">String</span>&gt;&gt; hMap = <span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, HashSet&lt;<span class="keyword">String</span>&gt;&gt;(); 
+ <span class="keyword">for</span>(Ticket ticket: tickets){ 
+    HashSet&lt;<span class="keyword">String</span>&gt; <span class="built_in">set</span> = hMap.<span class="built_in">get</span>(ticket.getCandidate()); 
+    <span class="keyword">if</span>(<span class="built_in">set</span> == <span class="keyword">null</span>){ 
+        <span class="built_in">set</span> = <span class="keyword">new</span> HashSet&lt;<span class="keyword">String</span>&gt;(); 
+        hMap.put(ticket.getCandidate(), <span class="built_in">set</span>); 
+    } 
+    <span class="built_in">set</span>.<span class="built_in">add</span>(ticket.getVoter()); 
+ }
+</code></pre><p>而使用Guava的话就可以：</p>
+<pre><code>HashMultimap&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; <span class="built_in">map</span> = HashMultimap.create(); 
+<span class="keyword">for</span>(Ticket ticket: tickets){ 
+    <span class="built_in">map</span>.put(ticket.getCandidate(), ticket.getVoter()); 
+}
+</code></pre><h4 id="Multimap不是Map">Multimap不是Map</h4><h4 id="一些实现">一些实现</h4><ol>
+<li>HashMultimap: key 放在 HashMap，而 value 放在 HashSet，即一个 key 对应的 value 不可重复</li>
+<li>ArrayListMultimap: key 放在 HashMap，而 value 放在 ArrayList，即一个 key 对应的 value 有顺序可重复</li>
+<li>LinkedHashMultimap: key 放在 LinkedHashMap，而 value 放在 LinkedHashSet，即一个 key 对应的 value 有顺序不可重复</li>
+<li>TreeMultimap: key 放在 TreeMap，而 value 放在 TreeSet，即一个 key 对应的 value 有排列顺序</li>
+<li>ImmutableMultimap: 不可修改的 Multimap</li>
+</ol>
+<h3 id="BiMap:双向Map">BiMap:双向Map</h3><h3 id="Table">Table</h3><h3 id="ClassToInstanceMap">ClassToInstanceMap</h3><h3 id="RangeSet">RangeSet</h3><h2 id="Powerful_collection_utilities">Powerful collection utilities</h2><h2 id="Extension_utilities">Extension utilities</h2><h2 id="参考">参考</h2><ol>
+<li><a href="https://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained" target="_blank" rel="external">Collections</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Guava/">Guava</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Collections/">Collections</a><a href="/tags/Guava/">Guava</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/07/23/guava-collection/" data-title="Guava（二）-Collections | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/07/24/css-introduction/" title="CSS（一）-一些属性介绍">
+  <strong>上一篇：</strong><br/>
+  <span>
+  CSS（一）-一些属性介绍</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/07/23/guava-introduction/"  title="Guava（一）-简单介绍">
+ <strong>下一篇：</strong><br/> 
+ <span>Guava（一）-简单介绍
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/07/23/guava-collection/" data-title="Guava（二）-Collections" data-url="http://xfhnever.com/2014/07/23/guava-collection/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Immutable_Collections"><span class="toc-number">1.</span> <span class="toc-text">Immutable Collections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#New_collection_types"><span class="toc-number">2.</span> <span class="toc-text">New collection types</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Multiset:把重复的元素放入集合"><span class="toc-number">2.1.</span> <span class="toc-text">Multiset:把重复的元素放入集合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Multiset不是Map"><span class="toc-number">2.1.1.</span> <span class="toc-text">Multiset不是Map</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Multiset的各种实现"><span class="toc-number">2.1.2.</span> <span class="toc-text">Multiset的各种实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Multimap：在Map的value里面放多个元素"><span class="toc-number">2.2.</span> <span class="toc-text">Multimap：在Map的value里面放多个元素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Multimap不是Map"><span class="toc-number">2.2.1.</span> <span class="toc-text">Multimap不是Map</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些实现"><span class="toc-number">2.2.2.</span> <span class="toc-text">一些实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BiMap:双向Map"><span class="toc-number">2.3.</span> <span class="toc-text">BiMap:双向Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Table"><span class="toc-number">2.4.</span> <span class="toc-text">Table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ClassToInstanceMap"><span class="toc-number">2.5.</span> <span class="toc-text">ClassToInstanceMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RangeSet"><span class="toc-number">2.6.</span> <span class="toc-text">RangeSet</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Powerful_collection_utilities"><span class="toc-number">3.</span> <span class="toc-text">Powerful collection utilities</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Extension_utilities"><span class="toc-number">4.</span> <span class="toc-text">Extension utilities</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

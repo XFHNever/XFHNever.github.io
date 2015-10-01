@@ -1,0 +1,1017 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JavaScript(一)--基本语法 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="JavaScript是一种基于对象和事件驱动并具有相对安全性的客户端脚本语言。同时也是一种广泛用于客户端Web开发的脚本语言，常用来给HTML（标准通用标记语言的子集）网页添加动态功能，比如响应用户的各种操作。它最初由网景公司（Netscape）的Brendan Eich设计，是一种动态、弱类型、基于原型的语言，内置支持类。JavaScript也可以用于其他场合，如服务器端编程。完整的JavaSc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript(一)--基本语法">
+<meta property="og:url" content="http://xfhnever.com/2014/05/07/js-basicsyntax/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="JavaScript是一种基于对象和事件驱动并具有相对安全性的客户端脚本语言。同时也是一种广泛用于客户端Web开发的脚本语言，常用来给HTML（标准通用标记语言的子集）网页添加动态功能，比如响应用户的各种操作。它最初由网景公司（Netscape）的Brendan Eich设计，是一种动态、弱类型、基于原型的语言，内置支持类。JavaScript也可以用于其他场合，如服务器端编程。完整的JavaSc">
+<meta property="og:updated_time" content="2015-10-01T13:34:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript(一)--基本语法">
+<meta name="twitter:description" content="JavaScript是一种基于对象和事件驱动并具有相对安全性的客户端脚本语言。同时也是一种广泛用于客户端Web开发的脚本语言，常用来给HTML（标准通用标记语言的子集）网页添加动态功能，比如响应用户的各种操作。它最初由网景公司（Netscape）的Brendan Eich设计，是一种动态、弱类型、基于原型的语言，内置支持类。JavaScript也可以用于其他场合，如服务器端编程。完整的JavaSc">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/05/07/js-basicsyntax/" title="JavaScript(一)--基本语法" itemprop="url">JavaScript(一)--基本语法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-05-07T12:16:37.000Z" itemprop="datePublished"> 发表于 May 7 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用途"><span class="toc-number">1.</span> <span class="toc-text">基本用途</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语句"><span class="toc-number">2.</span> <span class="toc-text">语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注释"><span class="toc-number">3.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量"><span class="toc-number">4.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用类型"><span class="toc-number">4.1.</span> <span class="toc-text">常用类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重新定义JavaScript变量"><span class="toc-number">4.2.</span> <span class="toc-text">重新定义JavaScript变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#作用域"><span class="toc-number">5.</span> <span class="toc-text">作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#局部"><span class="toc-number">5.1.</span> <span class="toc-text">局部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全局"><span class="toc-number">5.2.</span> <span class="toc-text">全局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#向未声明的_JavaScript_变量来分配值"><span class="toc-number">5.3.</span> <span class="toc-text">向未声明的 JavaScript 变量来分配值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">6.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">6.1.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数字"><span class="toc-number">6.2.</span> <span class="toc-text">数字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#布尔"><span class="toc-number">6.3.</span> <span class="toc-text">布尔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组"><span class="toc-number">6.4.</span> <span class="toc-text">数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象"><span class="toc-number">6.5.</span> <span class="toc-text">对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Undefined和Null"><span class="toc-number">6.6.</span> <span class="toc-text">Undefined和Null</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#声明变量类型"><span class="toc-number">6.7.</span> <span class="toc-text">声明变量类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象-1"><span class="toc-number">7.</span> <span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建对象"><span class="toc-number">7.1.</span> <span class="toc-text">创建对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Math对象"><span class="toc-number">7.2.</span> <span class="toc-text">Math对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式"><span class="toc-number">7.3.</span> <span class="toc-text">正则表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">8.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算符"><span class="toc-number">9.</span> <span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#==="><span class="toc-number">9.1.</span> <span class="toc-text">===</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">9.2.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#控制结构"><span class="toc-number">10.</span> <span class="toc-text">控制结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证"><span class="toc-number">11.</span> <span class="toc-text">验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#必填（或必选）项目"><span class="toc-number">11.1.</span> <span class="toc-text">必填（或必选）项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#with语句"><span class="toc-number">11.2.</span> <span class="toc-text">with语句</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>JavaScript是一种基于对象和事件驱动并具有相对安全性的客户端脚本语言。同时也是一种广泛用于客户端Web开发的脚本语言，常用来给HTML（标准通用标记语言的子集）网页添加动态功能，比如响应用户的各种操作。它最初由网景公司（Netscape）的Brendan Eich设计，是一种动态、弱类型、基于原型的语言，内置支持类。JavaScript也可以用于其他场合，如服务器端编程。完整的JavaScript实现包含三个部分：ECMAScript，文档对象模型，浏览器对象模型。<br><a id="more"></a></p>
+<h2 id="基本用途">基本用途</h2><ol>
+<li><p>写入 HTML 输出</p>
+<pre><code>document.<span class="command">write</span>(<span class="string">"&lt;h1&gt;This is a heading&lt;/h1&gt;"</span>);
+</code></pre></li>
+<li><p>对事件作出反应</p>
+<pre><code><span class="tag">&lt;<span class="title">button</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">onclick</span>=<span class="value">"alert('Welcome!')"</span>&gt;</span>点击这里<span class="tag">&lt;/<span class="title">button</span>&gt;</span>
+</code></pre></li>
+<li><p>改变 HTML 内容</p>
+<pre><code>x=<span class="built_in">document</span>.getElementById(<span class="string">"demo"</span>)  <span class="comment">//查找元素</span>
+x.innerHTML=<span class="string">"Hello JavaScript"</span>;    <span class="comment">//改变内容    </span>
+</code></pre></li>
+<li><p>改变 HTML 图像</p>
+<pre><code><span class="tag">&lt;<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+<span class="function"><span class="keyword">function</span> <span class="title">changeImage</span>(<span class="params"></span>)
+</span>{
+element=<span class="built_in">document</span>.getElementById(<span class="string">'myimage'</span>)
+<span class="keyword">if</span> (element.src.match(<span class="string">"bulbon"</span>))
+  {
+  element.src=<span class="string">"/i/eg_bulboff.gif"</span>;
+  }
+<span class="keyword">else</span>
+  {
+  element.src=<span class="string">"/i/eg_bulbon.gif"</span>;
+  }
+}
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">img</span> <span class="attribute">id</span>=<span class="value">"myimage"</span> <span class="attribute">onclick</span>=<span class="value">"changeImage()"</span> <span class="attribute">src</span>=<span class="value">"/i/eg_bulboff.gif"</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">p</span>&gt;</span>点击灯泡来点亮或熄灭这盏灯<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+</code></pre></li>
+<li><p>改变 HTML 样式</p>
+<pre><code>x=<span class="built_in">document</span>.getElementById(<span class="string">"demo"</span>)  <span class="comment">//找到元素</span>
+x.style.color=<span class="string">"#ff0000"</span>;           <span class="comment">//改变样式</span>
+</code></pre></li>
+<li>验证输入</li>
+</ol>
+<pre><code><span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"demo"</span> <span class="attribute">type</span>=<span class="value">"text"</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+<span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>)
+</span>{
+<span class="keyword">var</span> x=<span class="built_in">document</span>.getElementById(<span class="string">"demo"</span>).value;
+<span class="keyword">if</span>(x==<span class="string">""</span>||<span class="built_in">isNaN</span>(x))
+    {
+    alert(<span class="string">"Not Numeric"</span>);
+    }
+}
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">button</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">onclick</span>=<span class="value">"myFunction()"</span>&gt;</span>点击这里<span class="tag">&lt;/<span class="title">button</span>&gt;</span>
+</code></pre><p>JavaScript 是脚本语言。浏览器会在读取代码时，逐行地执行脚本代码。而对于传统编程来说，会在执行前对所有代码进行编译。</p>
+<p>下面就简单介绍一下它的基本语法：</p>
+<h2 id="语句">语句</h2><ol>
+<li>和java中类似，一行写一条语句，结尾加上分号；但是分号是可选的，分号的另一个好处是可以在一行中编写多条语句，虽然不推荐这么做。</li>
+<li>JavaScript代码块：块由左花括号开始，右花括号结束。</li>
+<li>JavaScript对大小写敏感。</li>
+<li><p>可以在文本字符串中使用反斜杠对代码进行折行</p>
+<pre><code>document.write(<span class="string">"Hello \</span>
+World!<span class="string">");</span>
+</code></pre></li>
+</ol>
+<h2 id="注释">注释</h2><ol>
+<li>单行注释： //</li>
+<li>多行注释:  以/<em>开始，以</em>/结束。</li>
+</ol>
+<h2 id="变量">变量</h2><p>JavaScript是一种弱类型语言。</p>
+<p>在js中,变量允许字母,数字,美元符号和下划线字符.变量定义使用var关键字，对大小写敏感。虽然js允许程序员可以直接对变量进行赋值而with无需提前对它们做出声明,但我们强烈建议不要这样做</p>
+<h3 id="常用类型">常用类型</h3><ol>
+<li>object：对象</li>
+<li>array：数组</li>
+<li>number：数</li>
+<li>boolean：布尔值，只有true和false两个值，是所有类型中占用内存最少的</li>
+<li>null：一个空值，唯一的值是null</li>
+<li>undefined：没有定义和赋值的变量，如 var num；此时num = undefined；</li>
+<li>NaN：非数字类型</li>
+<li>String:字符串，双引号或者单引号赋值。</li>
+</ol>
+<h3 id="重新定义JavaScript变量">重新定义JavaScript变量</h3><p>如果重新声明 JavaScript 变量，该变量的值不会丢失：</p>
+<p>在以下两条语句执行后，变量 carname 的值依然是 “Volvo”：</p>
+<pre><code><span class="variable"><span class="keyword">var</span> carname</span>=<span class="string">"Volvo"</span>;
+<span class="variable"><span class="keyword">var</span> carname;</span>
+</code></pre><h2 id="作用域">作用域</h2><h3 id="局部">局部</h3><p>在 JavaScript 函数内部声明的变量（使用 var）是局部变量，所以只能在函数内部访问它。（该变量的作用域是局部的）。</p>
+<p>您可以在不同的函数中使用名称相同的局部变量，因为只有声明过该变量的函数才能识别出该变量。</p>
+<p>只要函数运行完毕，本地变量就会被删除。</p>
+<h3 id="全局">全局</h3><p>在函数外声明的变量，网页上的所有脚本和函数都能访问它。</p>
+<p>全局变量会在页面关闭后被删除</p>
+<h3 id="向未声明的_JavaScript_变量来分配值">向未声明的 JavaScript 变量来分配值</h3><p>如果您把值赋给尚未声明的变量，该变量将被自动作为全局变量声明。</p>
+<pre><code><span class="setting">carname=<span class="value"><span class="string">"Volvo"</span>;</span></span>
+</code></pre><p>将声明一个全局变量 carname，即使它在函数内执行。</p>
+<h2 id="数据类型">数据类型</h2><p>JavaScript拥有动态类型。这意味着相同的变量可用作不同的类型。例如：</p>
+<pre><code><span class="variable"><span class="keyword">var</span> x                // x 为 undefined
+<span class="keyword">var</span> x</span> = <span class="number">6</span>;           <span class="comment">// x 为数字</span>
+<span class="variable"><span class="keyword">var</span> x</span> = <span class="string">"Bill"</span>;      <span class="comment">// x 为字符串</span>
+</code></pre><h3 id="字符串">字符串</h3><p>match（）:找到一个或多个正则表达式的匹配。</p>
+<p>replace()：替换与正则表达式匹配的子串。</p>
+<h3 id="数字">数字</h3><p>Js中并没有int,float,double,long的区别,它允许程序员使用任意位数的小数和整数,实际上js中的数值应该被称为浮点数</p>
+<p>JavaScript 中的所有数字都存储为根为 10 的 64 位（8 比特），浮点数。</p>
+<p>整数（不使用小数点或指数计数法）最多为 15 位。</p>
+<p>小数的最大位数是 17，但是浮点运算并不总是 100% 准确</p>
+<p>如果前缀为 0，则 JavaScript 会把数值常量解释为八进制数，如果前缀为 0 和 “x”，则解释为十六进制数</p>
+<h3 id="布尔">布尔</h3><p>使用关键词 new 来定义 Boolean 对象。下面的代码定义了一个名为 myBoolean 的逻辑对象：</p>
+<pre><code><span class="tag">var</span> myBoolean=new <span class="function"><span class="title">Boolean</span><span class="params">()</span></span>
+</code></pre><p>如果逻辑对象无初始值或者其值为 0、-0、null、””、false、undefined 或者 NaN，那么对象的值为 false。否则，其值为 true（即使当自变量为字符串 “false” 时）！</p>
+<h3 id="数组">数组</h3><p>下面的代码创建名为 cars 的数组：</p>
+<pre><code>var cars=<span class="keyword">new</span> Array();
+cars[<span class="number">0</span>]=<span class="string">"Audi"</span>;
+cars[<span class="number">1</span>]=<span class="string">"BMW"</span>;
+cars[<span class="number">2</span>]=<span class="string">"Volvo"</span>;
+</code></pre><p>或者 (condensed array):</p>
+<pre><code><span class="keyword">var</span> cars=<span class="keyword">new</span> <span class="built_in">Array</span>(<span class="string">"Audi"</span>,<span class="string">"BMW"</span>,<span class="string">"Volvo"</span>);
+</code></pre><p>或者 (literal array):</p>
+<pre><code><span class="variable"><span class="keyword">var</span> cars</span>=[<span class="string">"Audi"</span>,<span class="string">"BMW"</span>,<span class="string">"Volvo"</span>];
+</code></pre><h3 id="对象">对象</h3><p>对象由花括号分隔。在括号内部，对象的属性以名称和值对的形式 (name : value) 来定义。属性由逗号分隔：</p>
+<pre><code>var person={<span class="string">firstname:</span><span class="string">"Bill"</span>, <span class="string">lastname:</span><span class="string">"Gates"</span>, <span class="string">id:</span><span class="number">5566</span>};
+</code></pre><p>对象属性有两种寻址方式：</p>
+<pre><code><span class="property">name</span>=person.lastname;
+<span class="property">name</span>=person[<span class="string">"lastname"</span>];
+</code></pre><h3 id="Undefined和Null">Undefined和Null</h3><p>Undefined 这个值表示变量不含有值。</p>
+<p>可以通过将变量的值设置为 null 来清空变量</p>
+<h3 id="声明变量类型">声明变量类型</h3><p>声明新变量时，可以使用关键词 “new” 来声明其类型：</p>
+<pre><code><span class="keyword">var</span> carname=<span class="keyword">new</span> <span class="built_in">String</span>;
+<span class="keyword">var</span> x=      <span class="keyword">new</span> <span class="built_in">Number</span>;
+</code></pre><h2 id="对象-1">对象</h2><p>一组包含数据的属性和对属性中包含数据进行操作的方法，称为对象。比如要设定网页的背景颜色，所针对的对象就是document，所用的属性名是bgcolor，如document.bgcolor=”blue”，就是表示使背景的颜色为蓝色。</p>
+<p>JavaScript 中的所有事物都是对象：字符串、数字、数组、日期，等等</p>
+<h3 id="创建对象">创建对象</h3><ol>
+<li><p>直接创建名为 “person” 的对象，并为其添加了四个属性：</p>
+<pre><code>person=<span class="keyword">new</span> Object();
+person.firstname=<span class="string">"Bill"</span>;
+person.lastname=<span class="string">"Gates"</span>;
+person.age=<span class="number">56</span>;
+person.eyecolor=<span class="string">"blue"</span>;
+</code></pre></li>
+<li><p>替代语法（使用对象 literals）</p>
+<pre><code>person={<span class="string">firstname:</span><span class="string">"John"</span>,<span class="string">lastname:</span><span class="string">"Doe"</span>,<span class="string">age:</span><span class="number">50</span>,<span class="string">eyecolor:</span><span class="string">"blue"</span>};    
+</code></pre></li>
+<li><p>使用对象构造器</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">person</span><span class="params">(firstname,lastname,age,eyecolor)</span>
+</span>{
+<span class="keyword">this</span>.firstname=firstname;
+<span class="keyword">this</span>.lastname=lastname;
+<span class="keyword">this</span>.age=age;
+<span class="keyword">this</span>.eyecolor=eyecolor;
+
+<span class="keyword">this</span>.changeName=changeName;
+<span class="function"><span class="keyword">function</span> <span class="title">changeName</span><span class="params">(name)</span>
+</span>{
+<span class="keyword">this</span>.lastname=name;
+}
+}
+</code></pre><p> 一旦您有了对象构造器，就可以创建新的对象实例，就像这样：</p>
+<pre><code><span class="keyword">var</span> myFather=<span class="keyword">new</span> person(<span class="string">"Bill"</span>,<span class="string">"Gates"</span>,<span class="number">56</span>,<span class="string">"blue"</span>);
+</code></pre></li>
+</ol>
+<h3 id="Math对象">Math对象</h3><ol>
+<li>round():四舍五入</li>
+<li>random():返回一个介于 0 和 1 之间的随机数</li>
+<li>floor():对数进行下舍入。对应于ceil()</li>
+</ol>
+<h3 id="正则表达式">正则表达式</h3><p>RegExp 对象用于规定在文本中检索的内容.</p>
+<p>通过 new 关键词来定义 RegExp 对象。以下代码定义了名为 patt1 的 RegExp 对象，其模式是 “e”：</p>
+<pre><code><span class="keyword">var</span> patt1=<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"e"</span>);
+</code></pre><p>该对象的方法：</p>
+<ol>
+<li>test()：检索字符串中的指定值。返回值是 true 或 false</li>
+<li>exec()：检索字符串中的指定值。返回值是被找到的值。如果没有发现匹配，则返回 null。</li>
+<li>compile()：用于改变 RegExp。既可以改变检索模式，也可以添加或删除第二个参数</li>
+</ol>
+<h2 id="函数">函数</h2><p>函数就是包裹在花括号中的代码块，使用函数需要注意：</p>
+<ol>
+<li>函数由关键字function定义（也可由Function构造函数构造）</li>
+<li>使用function关键字定义的函数在一个作用域内是可以在任意处调用的（包括定义函数的语句前）；而用var关键字定义的必须定义后才能被调用。</li>
+<li>函数名是调用函数时引用的名称，区分大小写，调用函数时不可写错函数名</li>
+<li>参数表示传递给函数使用或操作的值，它可以是常量，也可以是变量，也可以是函数，在函数内部可以通过arguments对象（arguments对象是一个伪数组，属性callee引用被调用的函数）访问所有参数。</li>
+<li>return语句用于返回表达式的值。</li>
+<li>yield语句扔出一个表达式，并且中断函数执行直到下一次调用next。</li>
+</ol>
+<p>一般函数格式：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span><span class="params">(params)</span></span>{
+<span class="comment">//执行的语句</span>
+}
+</code></pre><p>函数表达式:</p>
+<pre><code><span class="keyword">var</span> myFunction=<span class="function"><span class="keyword">function</span><span class="params">(params)</span></span>{
+    <span class="comment">//执行的语句</span>
+}
+<span class="keyword">var</span> myFunction=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="comment">//执行的语句</span>
+}
+myFunction();<span class="comment">//调用函数</span>
+</code></pre><p>匿名函数，它常作为参数在其他函数间传递:</p>
+<pre><code><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{
+    <span class="comment">//执行的语句</span>
+},<span class="literal">false</span>);
+</code></pre><p>js的解析器对函数声明与函数表达式并不是一视同仁地对待的。对于函数声明，js解析器会优先读取，确保在所有代码执行之前声明已经被解析，而函数表达式，如同定义其它基本类型的变量一样，只在执行到某一句时也会对其进行解析，所以在实际中，它们还是会有差异的，具体表现在，当使用函数声明的形式来定义函数时，可将调用方式在函数声明之q前，而后者，这样做的话会报错。</p>
+<h2 id="运算符">运算符</h2><p>包括：赋值运算符（=,+=,-=,<em>=,/=,%=,&lt;&lt;=,&gt;&gt;=,|=,&amp;=）、算术运算符(+,-,</em>,/,++,–,%)、比较运算符(&gt;,&lt;,&lt;=,&gt;=,==,===,!=,!==)、逻辑运算符(||,&amp;&amp;,!)、条件运算(?:)、位移运算符(|,&amp;,&lt;&lt;,&gt;&gt;,~,^)和字符串运算符(+)。 </p>
+<h3 id="===">===</h3><p>在JavaScript中，“===”是全同运算符，只有当值相等，数据类型也相等时才成立。</p>
+<p>等同运算符“==”的比较规则：当两个运算数的类型不同时：将他们转换成相同的类型。</p>
+<ol>
+<li>一个数字与一个字符串，字符串转换成数字之后，进行比较。</li>
+<li>true转换为1、false转换为0，进行比较</li>
+<li>一个对象、数组、函数与 一个数字或字符串，对象、数组、函数转换为原始类型的值，然后进行比较。(先使用valueOf,如果不行就使用toString)</li>
+<li>其他类型的组合不相等。</li>
+</ol>
+<p>当两个运算数类型相同，或转换成相同类型后：</p>
+<ol>
+<li>2个字符串：同一位置上的字符相等，2个字符串就相同。</li>
+<li>2个数字：2个数字相同，就相同。如果一个是NaN,或两个都是NaN,则不相同。</li>
+<li>2个都是true，或者2个都是false，则相同。</li>
+<li>2个引用的是同一个对象、函数、数组，则他们相等，如果引用的不是同一个对象、函数、数组，则不相同，即使这2个对象、函数、数组可以转换成完全相等的原始值。</li>
+<li>2个null，或者2个都是未定义的，那么他们相等。</li>
+</ol>
+<p>例如：</p>
+<pre><code><span class="literal">null</span>==<span class="literal">undefined</span> 会返回真， 但是<span class="literal">null</span>===<span class="literal">undefined</span> 就会返回假！
+</code></pre><h3 id="其他">其他</h3><ol>
+<li>如果把数字与字符串相加，结果将成为字符串。</li>
+</ol>
+<h2 id="控制结构">控制结构</h2><ol>
+<li>if..else</li>
+<li>switch..case</li>
+<li>for</li>
+<li><p>for..in..</p>
+<pre><code>var person={<span class="string">fname:</span><span class="string">"John"</span>,<span class="string">lname:</span><span class="string">"Doe"</span>,<span class="string">age:</span><span class="number">25</span>};
+
+<span class="keyword">for</span> (x <span class="keyword">in</span> person)
+  {
+      txt=txt + person[x];
+  }
+<span class="comment">//txt = "JohnDoe25"</span>
+</code></pre></li>
+<li>while 和 do…while</li>
+<li><p>break 和 continue</p>
+<p> 可以对 JavaScript 语句进行标记。</p>
+<p> 如需标记 JavaScript 语句，请在语句之前加上冒号：</p>
+<pre><code><span class="tag">label</span>:
+语句
+</code></pre><p> continue 语句（带有或不带标签引用）只能用在循环中。<br> break 语句（不带标签引用），只能用在循环或 switch 中。<br> 通过标签引用，break 语句可用于跳出任何 JavaScript 代码块：</p>
+<pre><code>cars=[<span class="string">"BMW"</span>,<span class="string">"Volvo"</span>,<span class="string">"Saab"</span>,<span class="string">"Ford"</span>];
+<span class="attribute">list</span>:
+{
+<span class="built_in">document</span>.write(cars[<span class="number">0</span>] + <span class="string">"&lt;br&gt;"</span>);
+<span class="built_in">document</span>.write(cars[<span class="number">1</span>] + <span class="string">"&lt;br&gt;"</span>);
+<span class="built_in">document</span>.write(cars[<span class="number">2</span>] + <span class="string">"&lt;br&gt;"</span>);
+<span class="keyword">break</span> list;
+<span class="built_in">document</span>.write(cars[<span class="number">3</span>] + <span class="string">"&lt;br&gt;"</span>);
+<span class="built_in">document</span>.write(cars[<span class="number">4</span>] + <span class="string">"&lt;br&gt;"</span>);
+<span class="built_in">document</span>.write(cars[<span class="number">5</span>] + <span class="string">"&lt;br&gt;"</span>);
+}
+<span class="regexp">//</span>页面只显示<span class="string">"BMW"</span>,<span class="string">"Volvo"</span>,<span class="string">"Saab"</span>。。。
+</code></pre></li>
+<li>try..catch</li>
+<li><p>throw</p>
+<p> throw 语句允许我们创建自定义错误。</p>
+<pre><code><span class="keyword">try</span>
+{
+    <span class="keyword">var</span> x=<span class="built_in">document</span>.getElementById(<span class="string">"demo"</span>).value;
+    <span class="keyword">if</span>(x==<span class="string">""</span>)    <span class="keyword">throw</span> <span class="string">"empty"</span>;
+}
+<span class="keyword">catch</span>(err)
+{
+      <span class="keyword">var</span> y=<span class="built_in">document</span>.getElementById(<span class="string">"mess"</span>);
+      y.innerHTML=<span class="string">"Error: "</span> + err + <span class="string">"."</span>;
+}
+<span class="comment">//err就会显示上面定义的各种错误。</span>
+</code></pre></li>
+</ol>
+<h2 id="验证">验证</h2><h3 id="必填（或必选）项目">必填（或必选）项目</h3><pre><code><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="actionscript">
+
+<span class="function"><span class="keyword">function</span> <span class="title">validate_required</span><span class="params">(field,alerttxt)</span>
+</span>{
+<span class="keyword">with</span> (field)
+  {
+  <span class="keyword">if</span> (value==<span class="literal">null</span>||value==<span class="string">""</span>)
+  {alert(alerttxt);
+        <span class="keyword">return</span> <span class="literal">false</span>
+  }<span class="keyword">else</span> {<span class="keyword">return</span> <span class="literal">true</span>}
+  }
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">validate_form</span><span class="params">(thisform)</span>
+</span>{
+<span class="keyword">with</span> (thisform)
+  {
+  <span class="keyword">if</span> (validate_required(email,<span class="string">"Email must be filled out!"</span>)==<span class="literal">false</span>)
+    {email.focus();<span class="keyword">return</span> <span class="literal">false</span>}
+  }
+}
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+
+<span class="tag">&lt;<span class="title">form</span> <span class="attribute">action</span>=<span class="value">"submitpage.htm"</span> <span class="attribute">onsubmit</span>=<span class="value">"return validate_form(this)"</span> <span class="attribute">method</span>=<span class="value">"post"</span>&gt;</span>
+Email: <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">name</span>=<span class="value">"email"</span> <span class="attribute">size</span>=<span class="value">"30"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span> <span class="attribute">value</span>=<span class="value">"Submit"</span>&gt;</span> 
+<span class="tag">&lt;/<span class="title">form</span>&gt;</span>
+</code></pre><h3 id="with语句">with语句</h3><p>with 语句可以方便地用来引用某个特定对象中已有的属性，但是不能用来给对象添加属性。要给对象创建新的属性，必须明确地引用该对象。</p>
+<p>如上面的例子，我们省去多次写对象的麻烦，就可以获得该对象的属性或是方法，如email。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JS/">JS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/05/07/js-basicsyntax/" data-title="JavaScript(一)--基本语法 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/05/08/js-window/" title="JavaScript(二)--Window">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JavaScript(二)--Window</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/05/06/java-mt-synchronization/"  title="Java多线程编程(四)---同步">
+ <strong>下一篇：</strong><br/> 
+ <span>Java多线程编程(四)---同步
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/05/07/js-basicsyntax/" data-title="JavaScript(一)--基本语法" data-url="http://xfhnever.com/2014/05/07/js-basicsyntax/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用途"><span class="toc-number">1.</span> <span class="toc-text">基本用途</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语句"><span class="toc-number">2.</span> <span class="toc-text">语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注释"><span class="toc-number">3.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量"><span class="toc-number">4.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用类型"><span class="toc-number">4.1.</span> <span class="toc-text">常用类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重新定义JavaScript变量"><span class="toc-number">4.2.</span> <span class="toc-text">重新定义JavaScript变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#作用域"><span class="toc-number">5.</span> <span class="toc-text">作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#局部"><span class="toc-number">5.1.</span> <span class="toc-text">局部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全局"><span class="toc-number">5.2.</span> <span class="toc-text">全局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#向未声明的_JavaScript_变量来分配值"><span class="toc-number">5.3.</span> <span class="toc-text">向未声明的 JavaScript 变量来分配值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">6.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">6.1.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数字"><span class="toc-number">6.2.</span> <span class="toc-text">数字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#布尔"><span class="toc-number">6.3.</span> <span class="toc-text">布尔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组"><span class="toc-number">6.4.</span> <span class="toc-text">数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象"><span class="toc-number">6.5.</span> <span class="toc-text">对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Undefined和Null"><span class="toc-number">6.6.</span> <span class="toc-text">Undefined和Null</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#声明变量类型"><span class="toc-number">6.7.</span> <span class="toc-text">声明变量类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象-1"><span class="toc-number">7.</span> <span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建对象"><span class="toc-number">7.1.</span> <span class="toc-text">创建对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Math对象"><span class="toc-number">7.2.</span> <span class="toc-text">Math对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式"><span class="toc-number">7.3.</span> <span class="toc-text">正则表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">8.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算符"><span class="toc-number">9.</span> <span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#==="><span class="toc-number">9.1.</span> <span class="toc-text">===</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">9.2.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#控制结构"><span class="toc-number">10.</span> <span class="toc-text">控制结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证"><span class="toc-number">11.</span> <span class="toc-text">验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#必填（或必选）项目"><span class="toc-number">11.1.</span> <span class="toc-text">必填（或必选）项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#with语句"><span class="toc-number">11.2.</span> <span class="toc-text">with语句</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

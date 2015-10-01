@@ -1,0 +1,1139 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>CSS（三）-shape | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="最近做web项目的时候，需要做一个加载更多的方向向下的三角箭头，然后网上搜搜之后，发现，使用CSS可以做出很多图形，包括基本的矩形、圆形、 椭圆、三角形、多边形，也包括稍微复杂一点的爱心、钻石、阴阳八卦等。当然有一些需要用到CSS3的属性。感觉做这些酷炫的东西很好玩哎，就决定自己稍微整理一下，以备以后使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS（三）-shape">
+<meta property="og:url" content="http://xfhnever.com/2014/07/24/css-shape/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="最近做web项目的时候，需要做一个加载更多的方向向下的三角箭头，然后网上搜搜之后，发现，使用CSS可以做出很多图形，包括基本的矩形、圆形、 椭圆、三角形、多边形，也包括稍微复杂一点的爱心、钻石、阴阳八卦等。当然有一些需要用到CSS3的属性。感觉做这些酷炫的东西很好玩哎，就决定自己稍微整理一下，以备以后使用。">
+<meta property="og:image" content="http://xfhnever.com/images/post/css3-1.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/css3-2.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/css3-3.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/css3-4.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/css3-5.png">
+<meta property="og:updated_time" content="2015-10-01T13:47:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS（三）-shape">
+<meta name="twitter:description" content="最近做web项目的时候，需要做一个加载更多的方向向下的三角箭头，然后网上搜搜之后，发现，使用CSS可以做出很多图形，包括基本的矩形、圆形、 椭圆、三角形、多边形，也包括稍微复杂一点的爱心、钻石、阴阳八卦等。当然有一些需要用到CSS3的属性。感觉做这些酷炫的东西很好玩哎，就决定自己稍微整理一下，以备以后使用。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/24/css-shape/" title="CSS（三）-shape" itemprop="url">CSS（三）-shape</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-07-24T15:33:47.000Z" itemprop="datePublished"> 发表于 Jul 24 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#圆形"><span class="toc-number">1.</span> <span class="toc-text">圆形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#圆角矩形"><span class="toc-number">2.</span> <span class="toc-text">圆角矩形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#椭圆"><span class="toc-number">3.</span> <span class="toc-text">椭圆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#梯形"><span class="toc-number">4.</span> <span class="toc-text">梯形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#平行四边形"><span class="toc-number">5.</span> <span class="toc-text">平行四边形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下三角形"><span class="toc-number">6.</span> <span class="toc-text">下三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#左上三角"><span class="toc-number">7.</span> <span class="toc-text">左上三角</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方向向下的三角箭头"><span class="toc-number">8.</span> <span class="toc-text">方向向下的三角箭头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五角星"><span class="toc-number">9.</span> <span class="toc-text">五角星</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六角星"><span class="toc-number">10.</span> <span class="toc-text">六角星</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五角大楼"><span class="toc-number">11.</span> <span class="toc-text">五角大楼</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六边形"><span class="toc-number">12.</span> <span class="toc-text">六边形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八角形"><span class="toc-number">13.</span> <span class="toc-text">八角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#爱心"><span class="toc-number">14.</span> <span class="toc-text">爱心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无穷大符号"><span class="toc-number">15.</span> <span class="toc-text">无穷大符号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#鸡蛋"><span class="toc-number">16.</span> <span class="toc-text">鸡蛋</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#食逗人（Pac-Man）"><span class="toc-number">17.</span> <span class="toc-text">食逗人（Pac-Man）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提示对话框"><span class="toc-number">18.</span> <span class="toc-text">提示对话框</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12角星"><span class="toc-number">19.</span> <span class="toc-text">12角星</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8角星"><span class="toc-number">20.</span> <span class="toc-text">8角星</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#钻石"><span class="toc-number">21.</span> <span class="toc-text">钻石</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八卦"><span class="toc-number">22.</span> <span class="toc-text">八卦</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近做web项目的时候，需要做一个加载更多的方向向下的三角箭头，然后网上搜搜之后，发现，使用CSS可以做出很多图形，包括基本的矩形、圆形、 椭圆、三角形、多边形，也包括稍微复杂一点的爱心、钻石、阴阳八卦等。当然有一些需要用到CSS3的属性。感觉做这些酷炫的东西很好玩哎，就决定自己稍微整理一下，以备以后使用。<br><a id="more"></a><br>先给出我们做出的图形的形状，然后下面会给出具体代码。<br><img src="/images/post/css3-1.png"></p>
+<h2 id="圆形">圆形</h2><pre><code><span class="id">#round</span> <span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#33CCFF</span></span></span>;
+    <span class="rule"><span class="attribute">-moz-border-radius</span>:<span class="value"> <span class="number">50px</span></span></span>;     
+    <span class="rule"><span class="attribute">-webkit-border-radius</span>:<span class="value"> <span class="number">50px</span></span></span>;
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">50px</span></span></span>;
+}</span>
+</code></pre><h2 id="圆角矩形">圆角矩形</h2><pre><code><span class="id">#round-rectangle</span><span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">200px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">background</span>:<span class="value"><span class="hexcolor">#33CCFF</span></span></span>;
+    <span class="rule"><span class="attribute">-moz-border-radius</span>:<span class="value"> <span class="number">50px</span></span></span>;     
+    <span class="rule"><span class="attribute">-webkit-border-radius</span>:<span class="value"> <span class="number">50px</span></span></span>;
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">50px</span></span></span>;
+}</span>
+</code></pre><h2 id="椭圆">椭圆</h2><pre><code><span class="id">#oval</span><span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">200px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">background</span>:<span class="value"><span class="hexcolor">#33CCFF</span></span></span>;
+    <span class="rule"><span class="attribute">-moz-border-radius</span>:<span class="value"> <span class="number">100px</span>/<span class="number">50px</span></span></span>;     
+    <span class="rule"><span class="attribute">-webkit-border-radius</span>:<span class="value"> <span class="number">100px</span>/<span class="number">50px</span></span></span>;
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">100px</span>/<span class="number">50px</span></span></span>;
+}</span>
+</code></pre><h2 id="梯形">梯形</h2><pre><code><span class="id">#trapezoid</span> <span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>;
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">100px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;
+}</span>
+</code></pre><h2 id="平行四边形">平行四边形</h2><pre><code><span class="id">#parallelogram</span><span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">150px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">skew</span>(<span class="number">20deg</span>)</span></span>;
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value"> <span class="function">skew</span>(<span class="number">20deg</span>)</span></span>;
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value"> <span class="function">skew</span>(<span class="number">20deg</span>)</span></span>;
+    <span class="rule"><span class="attribute">background</span>:<span class="value"><span class="hexcolor">#33CCFF</span></span></span>;
+}</span>
+</code></pre><img src="/images/post/css3-2.png">
+<h2 id="下三角形">下三角形</h2><pre><code><span class="id">#triangle-down</span><span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">border-top</span>:<span class="value"> <span class="number">100px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;
+}</span>
+</code></pre><h2 id="左上三角">左上三角</h2><pre><code><span class="id">#triangle-topleft</span><span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">border-top</span>:<span class="value"> <span class="number">100px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">100px</span> solid transparent</span></span>;
+}</span>
+</code></pre><h2 id="方向向下的三角箭头">方向向下的三角箭头</h2><pre><code><span class="id">#triangle-arrow</span> <span class="rules">{
+    <span class="rule"><span class="attribute">position</span>:<span class="value">relative</span></span>;
+    <span class="rule"><span class="attribute">text-decoration</span>:<span class="value">none</span></span>;
+}</span>
+<span class="id">#triangle-arrow</span><span class="pseudo">:after</span>,<span class="id">#triangle-arrow</span><span class="pseudo">:before</span><span class="rules">{
+    <span class="rule"><span class="attribute">border</span>:<span class="value"><span class="number">8px</span> solid transparent</span></span>;
+    <span class="rule"><span class="attribute">border-top</span>:<span class="value"><span class="number">8px</span> solid <span class="hexcolor">#FFF</span></span></span>;
+    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">0</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">0</span></span></span>;
+    <span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;
+    <span class="rule"><span class="attribute">top</span>:<span class="value"><span class="number">20px</span></span></span>;
+    <span class="rule"><span class="attribute">left</span>:<span class="value"><span class="number">40px</span></span></span>;
+    <span class="rule"><span class="attribute">content</span>:<span class="value"><span class="string">''</span></span></span>;
+}</span>
+<span class="id">#triangle-arrow</span><span class="pseudo">:before</span><span class="rules">{
+    <span class="rule"><span class="attribute">border-top-color</span>:<span class="value"> <span class="hexcolor">#4FAFA4</span></span></span>;
+    <span class="rule"><span class="attribute">border-top-width</span>:<span class="value"><span class="number">10px</span></span></span>;
+    <span class="rule"><span class="attribute">top</span>:<span class="value"><span class="number">21px</span></span></span>;
+    <span class="rule"><span class="attribute">left</span>:<span class="value"><span class="number">40px</span></span></span>;
+}</span>
+</code></pre><h2 id="五角星">五角星</h2><pre><code><span class="id">#star-five</span><span class="rules">{
+    <span class="rule"><span class="attribute">margin</span>:<span class="value"> <span class="number">50px</span> <span class="number">0</span></span></span>;   
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;    
+    <span class="rule"><span class="attribute">display</span>:<span class="value"> block</span></span>; 
+    <span class="rule"><span class="attribute">color</span>:<span class="value"> red</span></span>;    
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;    
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;   
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value">  <span class="number">100px</span> solid transparent</span></span>;    
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">70px</span>  solid <span class="hexcolor">#4FAFA4</span></span></span>;    
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value">   <span class="number">100px</span> solid transparent</span></span>;    
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value">    <span class="function">rotate</span>(<span class="number">35deg</span>)</span></span>;    
+    <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">35deg</span>)</span></span>;    
+    <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value">     <span class="function">rotate</span>(<span class="number">35deg</span>)</span></span>;  
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value">      <span class="function">rotate</span>(<span class="number">35deg</span>)</span></span>; 
+}</span>
+<span class="id">#star-five</span><span class="pseudo">:before</span> <span class="rules">{    
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">80px</span> solid <span class="hexcolor">#4FAFA4</span></span></span>;    
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">30px</span> solid transparent</span></span>;   
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">30px</span> solid transparent</span></span>;    
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;    
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>;    
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0</span></span></span>;    
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> -<span class="number">45px</span></span></span>;    
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> -<span class="number">65px</span></span></span>;    
+    <span class="rule"><span class="attribute">display</span>:<span class="value"> block</span></span>;    
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">''</span></span></span>;    
+    <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">35deg</span>)</span></span>;    
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value">    <span class="function">rotate</span>(-<span class="number">35deg</span>)</span></span>;   
+     <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value">     <span class="function">rotate</span>(-<span class="number">35deg</span>)</span></span>;    
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value">      <span class="function">rotate</span>(-<span class="number">35deg</span>)</span></span>;      
+}</span>
+<span class="id">#star-five</span><span class="pseudo">:after</span> <span class="rules">{    
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;    
+    <span class="rule"><span class="attribute">display</span>:<span class="value"> block</span></span>;    
+    <span class="rule"><span class="attribute">color</span>:<span class="value"> red</span></span>;    
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">3px</span></span></span>;    
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> -<span class="number">105px</span></span></span>;    
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;    
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;   
+     <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">100px</span> solid transparent</span></span>;    
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">70px</span> solid <span class="hexcolor">#4FAFA4</span></span></span>;    
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">100px</span> solid transparent</span></span>;   
+     <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">70deg</span>)</span></span>;   
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value">    <span class="function">rotate</span>(-<span class="number">70deg</span>)</span></span>;    
+    <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value">     <span class="function">rotate</span>(-<span class="number">70deg</span>)</span></span>;  
+      <span class="rule"><span class="attribute">-o-transform</span>:<span class="value">      <span class="function">rotate</span>(-<span class="number">70deg</span>)</span></span>;    
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">''</span></span></span>; 
+}</span>
+</code></pre><h2 id="六角星">六角星</h2><p>其实就是两个三角形叠加在一起。</p>
+<pre><code><span class="id">#star-six</span><span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">display</span>:<span class="value">block</span></span>;
+    <span class="rule"><span class="attribute">position</span>:<span class="value">relative</span></span>;
+    <span class="rule"><span class="attribute">border-top</span>:<span class="value"> <span class="number">100px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;
+}</span>
+<span class="id">#star-six</span><span class="pseudo">:after</span><span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">content</span>:<span class="value"><span class="string">''</span></span></span>;
+    <span class="rule"><span class="attribute">display</span>:<span class="value">block</span></span>;
+    <span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;
+    <span class="rule"><span class="attribute">top</span>:<span class="value">-<span class="number">125px</span></span></span>;
+    <span class="rule"><span class="attribute">left</span>:<span class="value">-<span class="number">50px</span></span></span>;
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">100px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;
+}</span>
+</code></pre><img src="/images/post/css3-3.png">
+<h2 id="五角大楼">五角大楼</h2><pre><code><span class="id">#pentagon</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">54px</span></span></span>;     
+    <span class="rule"><span class="attribute">border-width</span>:<span class="value"> <span class="number">50px</span> <span class="number">18px</span> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">border-style</span>:<span class="value"> solid</span></span>;     
+    <span class="rule"><span class="attribute">border-color</span>:<span class="value"> <span class="hexcolor">#33CCFF</span> transparent</span></span>; 
+}</span> 
+<span class="id">#pentagon</span><span class="pseudo">:before</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> -<span class="number">85px</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> -<span class="number">18px</span></span></span>;     
+    <span class="rule"><span class="attribute">border-width</span>:<span class="value"> <span class="number">0</span> <span class="number">45px</span> <span class="number">35px</span></span></span>;     
+    <span class="rule"><span class="attribute">border-style</span>:<span class="value"> solid</span></span>;     
+    <span class="rule"><span class="attribute">border-color</span>:<span class="value"> transparent transparent <span class="hexcolor">#33CCFF</span></span></span>; 
+}</span>
+</code></pre><h2 id="六边形">六边形</h2><pre><code><span class="id">#hexagon</span><span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">55px</span></span></span>;
+    <span class="rule"><span class="attribute">position</span>:<span class="value">relative</span></span>;
+    <span class="rule"><span class="attribute">background</span>:<span class="value"><span class="hexcolor">#33CCFF</span></span></span>;
+}</span>
+<span class="id">#hexagon</span><span class="pseudo">:before</span><span class="rules">{
+    <span class="rule"><span class="attribute">content</span>:<span class="value"><span class="string">''</span></span></span>;
+    <span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;
+    <span class="rule"><span class="attribute">top</span>:<span class="value">-<span class="number">25px</span></span></span>;
+    <span class="rule"><span class="attribute">left</span>:<span class="value"><span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;     
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;     
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">25px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;
+}</span>
+<span class="id">#hexagon</span><span class="pseudo">:after</span><span class="rules">{
+    <span class="rule"><span class="attribute">content</span>:<span class="value"><span class="string">''</span></span></span>;
+    <span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;
+    <span class="rule"><span class="attribute">bottom</span>:<span class="value">-<span class="number">25px</span></span></span>;
+    <span class="rule"><span class="attribute">left</span>:<span class="value"><span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">0px</span></span></span>;
+    <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;     
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">50px</span> solid transparent</span></span>;     
+    <span class="rule"><span class="attribute">border-top</span>:<span class="value"> <span class="number">25px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;
+}</span>
+</code></pre><h2 id="八角形">八角形</h2><pre><code><span class="id">#octagon</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100px</span></span></span>;     
+    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#33CCFF</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>; 
+}</span>   
+<span class="id">#octagon</span><span class="pseudo">:before</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;         
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">29px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;    
+     <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">29px</span> solid <span class="hexcolor">#eee</span></span></span>;     
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">29px</span> solid <span class="hexcolor">#eee</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">42px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>; 
+}</span>  
+<span class="id">#octagon</span><span class="pseudo">:after</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;         
+    <span class="rule"><span class="attribute">border-top</span>:<span class="value"> <span class="number">29px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;    
+     <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">29px</span> solid <span class="hexcolor">#eee</span></span></span>;     
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">29px</span> solid <span class="hexcolor">#eee</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">42px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>; 
+}</span>
+</code></pre><h2 id="爱心">爱心</h2><pre><code><span class="id">#heart</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">90px</span></span></span>;
+}</span> 
+<span class="id">#heart</span><span class="pseudo">:before</span>, <span class="id">#heart</span><span class="pseudo">:after</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">50px</span></span></span>;     
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">50px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">80px</span></span></span>;   
+      <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#33CCFF</span></span></span>;     
+    <span class="rule"><span class="attribute">-moz-border-radius</span>:<span class="value"> <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">0</span></span></span>;   
+      <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;        
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;         
+    <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;         
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;             
+    <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;     
+    <span class="rule"><span class="attribute">-webkit-transform-origin</span>:<span class="value"> <span class="number">0</span> <span class="number">100%</span></span></span>;        
+    <span class="rule"><span class="attribute">-moz-transform-origin</span>:<span class="value"> <span class="number">0</span> <span class="number">100%</span></span></span>;         
+    <span class="rule"><span class="attribute">-ms-transform-origin</span>:<span class="value"> <span class="number">0</span> <span class="number">100%</span></span></span>;          
+    <span class="rule"><span class="attribute">-o-transform-origin</span>:<span class="value"> <span class="number">0</span> <span class="number">100%</span></span></span>;           
+      <span class="rule"><span class="attribute">transform-origin</span>:<span class="value"> <span class="number">0</span> <span class="number">100%</span></span></span>; 
+}</span> 
+<span class="id">#heart</span><span class="pseudo">:after</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;        
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;        
+     <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;          
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;             
+    <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;     
+    <span class="rule"><span class="attribute">-webkit-transform-origin</span>:<span class="value"> <span class="number">100%</span> <span class="number">100%</span></span></span>;        
+    <span class="rule"><span class="attribute">-moz-transform-origin</span>:<span class="value"> <span class="number">100%</span> <span class="number">100%</span></span></span>;         
+    <span class="rule"><span class="attribute">-ms-transform-origin</span>:<span class="value"> <span class="number">100%</span> <span class="number">100%</span></span></span>;        
+      <span class="rule"><span class="attribute">-o-transform-origin</span>:<span class="value"> <span class="number">100%</span> <span class="number">100%</span></span></span>;             
+    <span class="rule"><span class="attribute">transform-origin </span>:<span class="value"><span class="number">100%</span> <span class="number">100%</span></span></span>; 
+}</span> 
+</code></pre><h2 id="无穷大符号">无穷大符号</h2><pre><code><span class="id">#infinity</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">212px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100px</span></span></span>; 
+}</span>  
+<span class="id">#infinity</span><span class="pseudo">:before</span>, <span class="id">#infinity</span><span class="pseudo">:after</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">60px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">60px</span></span></span>;   
+    <span class="rule"><span class="attribute">border</span>:<span class="value"> <span class="number">20px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;     
+    <span class="rule"><span class="attribute">-moz-border-radius</span>:<span class="value"> <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">50px</span></span></span>;          
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">50px</span></span></span>;   
+      <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;        
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;         
+    <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;      
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>;             
+    <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">rotate</span>(-<span class="number">45deg</span>)</span></span>; 
+}</span>   
+<span class="id">#infinity</span><span class="pseudo">:after</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> auto</span></span>;     
+    <span class="rule"><span class="attribute">right</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">-moz-border-radius</span>:<span class="value"> <span class="number">50px</span> <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span></span></span>;          
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">50px</span> <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span></span></span>;   
+      <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;        
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;         
+    <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;      
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>;             
+    <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">45deg</span>)</span></span>; 
+}</span>
+</code></pre><img src="/images/post/css3-4.png">
+<h2 id="鸡蛋">鸡蛋</h2><pre><code><span class="preprocessor">#egg {    </span>
+    display:block;    
+    width: <span class="number">126</span>px;     
+    height: <span class="number">180</span>px;    
+    background-color: <span class="preprocessor">#<span class="number">33</span>CCFF;  </span>
+      -webkit-border-radius: <span class="number">63</span>px <span class="number">63</span>px <span class="number">63</span>px <span class="number">63</span>px / <span class="number">108</span>px <span class="number">108</span>px <span class="number">72</span>px <span class="number">72</span>px;  
+      border-radius:        <span class="number">50</span>%   <span class="number">50</span>%  <span class="number">50</span>%  <span class="number">50</span>%  / <span class="number">60</span>%   <span class="number">60</span>%   <span class="number">40</span>%  <span class="number">40</span>%; 
+}
+</code></pre><h2 id="食逗人（Pac-Man）">食逗人（Pac-Man）</h2><pre><code><span class="id">#pacman</span> <span class="rules">{   
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0px</span></span></span>;   
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0px</span></span></span>;   
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">60px</span> solid transparent</span></span>;   
+    <span class="rule"><span class="attribute">border-top</span>:<span class="value"> <span class="number">60px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;  
+     <span class="rule"><span class="attribute">border-left</span>:<span class="value"> <span class="number">60px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;   
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">60px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;   
+    <span class="rule"><span class="attribute">border-top-left-radius</span>:<span class="value"> <span class="number">60px</span></span></span>;   
+    <span class="rule"><span class="attribute">border-top-right-radius</span>:<span class="value"> <span class="number">60px</span></span></span>; 
+      <span class="rule"><span class="attribute">border-bottom-left-radius</span>:<span class="value"> <span class="number">60px</span></span></span>;   
+    <span class="rule"><span class="attribute">border-bottom-right-radius</span>:<span class="value"> <span class="number">60px</span></span></span>; 
+}</span>
+</code></pre><h2 id="提示对话框">提示对话框</h2><pre><code><span class="id">#talkbubble</span> <span class="rules">{ 
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">120px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">80px</span></span></span>;     
+    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#33CCFF</span></span></span>;    
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;    
+    <span class="rule"><span class="attribute">-moz-border-radius</span>:<span class="value">    <span class="number">10px</span></span></span>;   
+      <span class="rule"><span class="attribute">-webkit-border-radius</span>:<span class="value"> <span class="number">10px</span></span></span>;     
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value">         <span class="number">10px</span></span></span>; 
+}</span>
+<span class="id">#talkbubble</span><span class="pseudo">:before</span> <span class="rules">{    
+    <span class="rule"><span class="attribute">content</span>:<span class="value"><span class="string">""</span></span></span>;    
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;    
+    <span class="rule"><span class="attribute">right</span>:<span class="value"> <span class="number">100%</span></span></span>;    
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">26px</span></span></span>;    
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0</span></span></span>;    
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>;  
+      <span class="rule"><span class="attribute">border-top</span>:<span class="value"> <span class="number">13px</span> solid transparent</span></span>;    
+    <span class="rule"><span class="attribute">border-right</span>:<span class="value"> <span class="number">26px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;    
+    <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> <span class="number">13px</span> solid transparent</span></span>; 
+}</span>
+</code></pre><h2 id="12角星">12角星</h2><pre><code><span class="id">#burst-12</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#33CCFF</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">80px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">80px</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;     
+    <span class="rule"><span class="attribute">text-align</span>:<span class="value"> center</span></span>; 
+}</span> 
+<span class="id">#burst-12</span><span class="pseudo">:before</span>, <span class="id">#burst-12</span><span class="pseudo">:after</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">80px</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">80px</span></span></span>;   
+      <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#33CCFF</span></span></span>; 
+}</span> 
+<span class="id">#burst-12</span><span class="pseudo">:before</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">30deg</span>)</span></span>;        
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">30deg</span>)</span></span>;      
+    <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">30deg</span>)</span></span>;          
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">30deg</span>)</span></span>;             
+    <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">30deg</span>)</span></span>; 
+}</span> 
+<span class="id">#burst-12</span><span class="pseudo">:after</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">60deg</span>)</span></span>;        
+    <span class="rule"><span class="attribute">-moz-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">60deg</span>)</span></span>;        
+     <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">60deg</span>)</span></span>;          
+    <span class="rule"><span class="attribute">-o-transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">60deg</span>)</span></span>;             
+    <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">rotate</span>(<span class="number">60deg</span>)</span></span>; 
+}</span>
+</code></pre><h2 id="8角星">8角星</h2><p>同上，只是是两个正方形的叠加。</p>
+<img src="/images/post/css3-5.png">
+<h2 id="钻石">钻石</h2><pre><code><span class="id">#cut-diamond</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">border-style</span>:<span class="value"> solid</span></span>;     
+    <span class="rule"><span class="attribute">border-color</span>:<span class="value"> transparent transparent <span class="hexcolor">#33CCFF</span> transparent</span></span>;   
+      <span class="rule"><span class="attribute">border-width</span>:<span class="value"> <span class="number">0</span> <span class="number">25px</span> <span class="number">25px</span> <span class="number">25px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">50px</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;     
+    <span class="rule"><span class="attribute">margin</span>:<span class="value"> <span class="number">20px</span> <span class="number">0</span> <span class="number">50px</span> <span class="number">0</span></span></span>; 
+}</span>
+<span class="id">#cut-diamond</span><span class="pseudo">:after</span> <span class="rules">{    
+     <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">25px</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> -<span class="number">25px</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>;    
+     <span class="rule"><span class="attribute">border-style</span>:<span class="value"> solid</span></span>;     
+    <span class="rule"><span class="attribute">border-color</span>:<span class="value"> <span class="hexcolor">#33CCFF</span> transparent transparent transparent</span></span>;     
+    <span class="rule"><span class="attribute">border-width</span>:<span class="value"> <span class="number">70px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">50px</span></span></span>; 
+}</span>
+</code></pre><h2 id="八卦">八卦</h2><pre><code><span class="id">#yin-yang</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">96px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">48px</span></span></span>;     
+    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#eee</span></span></span>;     
+    <span class="rule"><span class="attribute">border-color</span>:<span class="value"> <span class="hexcolor">#33CCFF</span></span></span>;     
+    <span class="rule"><span class="attribute">border-style</span>:<span class="value"> solid</span></span>;    
+     <span class="rule"><span class="attribute">border-width</span>:<span class="value"> <span class="number">2px</span> <span class="number">2px</span> <span class="number">50px</span> <span class="number">2px</span></span></span>;     
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">100%</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>; 
+}</span>  
+<span class="id">#yin-yang</span><span class="pseudo">:before</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">50%</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">0</span></span></span>;     
+    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#eee</span></span></span>;    
+     <span class="rule"><span class="attribute">border</span>:<span class="value"> <span class="number">18px</span> solid <span class="hexcolor">#33CCFF</span></span></span>;     
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"> <span class="number">100%</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">12px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">12px</span></span></span>; 
+}</span>   
+<span class="id">#yin-yang</span><span class="pseudo">:after</span> <span class="rules">{     
+    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">""</span></span></span>;     
+    <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;     
+    <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">50%</span></span></span>;     
+    <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">50%</span></span></span>;     
+    <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#33CCFF</span></span></span>;     
+    <span class="rule"><span class="attribute">border</span>:<span class="value"> <span class="number">18px</span> solid <span class="hexcolor">#eee</span></span></span>;     
+    <span class="rule"><span class="attribute">border-radius</span>:<span class="value"><span class="number">100%</span></span></span>;     
+    <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">12px</span></span></span>;     
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">12px</span></span></span>; 
+}</span>
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web/">Web</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/07/24/css-shape/" data-title="CSS（三）-shape | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/07/25/css-reset/" title="CSS（四）-Reseet">
+  <strong>上一篇：</strong><br/>
+  <span>
+  CSS（四）-Reseet</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/07/24/css-usage/"  title="CSS（二）-常用效果实现">
+ <strong>下一篇：</strong><br/> 
+ <span>CSS（二）-常用效果实现
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/07/24/css-shape/" data-title="CSS（三）-shape" data-url="http://xfhnever.com/2014/07/24/css-shape/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#圆形"><span class="toc-number">1.</span> <span class="toc-text">圆形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#圆角矩形"><span class="toc-number">2.</span> <span class="toc-text">圆角矩形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#椭圆"><span class="toc-number">3.</span> <span class="toc-text">椭圆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#梯形"><span class="toc-number">4.</span> <span class="toc-text">梯形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#平行四边形"><span class="toc-number">5.</span> <span class="toc-text">平行四边形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下三角形"><span class="toc-number">6.</span> <span class="toc-text">下三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#左上三角"><span class="toc-number">7.</span> <span class="toc-text">左上三角</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方向向下的三角箭头"><span class="toc-number">8.</span> <span class="toc-text">方向向下的三角箭头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五角星"><span class="toc-number">9.</span> <span class="toc-text">五角星</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六角星"><span class="toc-number">10.</span> <span class="toc-text">六角星</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五角大楼"><span class="toc-number">11.</span> <span class="toc-text">五角大楼</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六边形"><span class="toc-number">12.</span> <span class="toc-text">六边形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八角形"><span class="toc-number">13.</span> <span class="toc-text">八角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#爱心"><span class="toc-number">14.</span> <span class="toc-text">爱心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无穷大符号"><span class="toc-number">15.</span> <span class="toc-text">无穷大符号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#鸡蛋"><span class="toc-number">16.</span> <span class="toc-text">鸡蛋</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#食逗人（Pac-Man）"><span class="toc-number">17.</span> <span class="toc-text">食逗人（Pac-Man）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#提示对话框"><span class="toc-number">18.</span> <span class="toc-text">提示对话框</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12角星"><span class="toc-number">19.</span> <span class="toc-text">12角星</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8角星"><span class="toc-number">20.</span> <span class="toc-text">8角星</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#钻石"><span class="toc-number">21.</span> <span class="toc-text">钻石</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八卦"><span class="toc-number">22.</span> <span class="toc-text">八卦</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

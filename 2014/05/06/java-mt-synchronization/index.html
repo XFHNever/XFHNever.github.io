@@ -1,0 +1,1054 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java多线程编程(四)---同步 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="线程的同步是为了防止多个线程访问一个共享数据对象时，对数据造成的破坏。
+多线程的同步依靠的是对象锁机制。
+Java同步机制有4种实现方式：
+
+synchronized( )
+wait() 与 notify()
+volatile
+ThreadLocal
+Lock
+Atomic
+
+5和6将会在其他blog上再做介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程编程(四)---同步">
+<meta property="og:url" content="http://xfhnever.com/2014/05/06/java-mt-synchronization/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="线程的同步是为了防止多个线程访问一个共享数据对象时，对数据造成的破坏。
+多线程的同步依靠的是对象锁机制。
+Java同步机制有4种实现方式：
+
+synchronized( )
+wait() 与 notify()
+volatile
+ThreadLocal
+Lock
+Atomic
+
+5和6将会在其他blog上再做介绍">
+<meta property="og:updated_time" content="2015-10-01T13:34:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程编程(四)---同步">
+<meta name="twitter:description" content="线程的同步是为了防止多个线程访问一个共享数据对象时，对数据造成的破坏。
+多线程的同步依靠的是对象锁机制。
+Java同步机制有4种实现方式：
+
+synchronized( )
+wait() 与 notify()
+volatile
+ThreadLocal
+Lock
+Atomic
+
+5和6将会在其他blog上再做介绍">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/05/06/java-mt-synchronization/" title="Java多线程编程(四)---同步" itemprop="url">Java多线程编程(四)---同步</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-05-06T13:49:26.000Z" itemprop="datePublished"> 发表于 May 6 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized"><span class="toc-number">1.</span> <span class="toc-text">synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#要点"><span class="toc-number">1.1.</span> <span class="toc-text">要点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#静态方法同步"><span class="toc-number">1.2.</span> <span class="toc-text">静态方法同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized(this)与synchronized(static_XXX)的区别"><span class="toc-number">1.3.</span> <span class="toc-text">synchronized(this)与synchronized(static XXX)的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wait()_与_notify()"><span class="toc-number">2.</span> <span class="toc-text">wait() 与 notify()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#要点-1"><span class="toc-number">2.1.</span> <span class="toc-text">要点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile"><span class="toc-number">3.</span> <span class="toc-text">volatile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile的误用"><span class="toc-number">3.1.</span> <span class="toc-text">volatile的误用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadLocal"><span class="toc-number">4.</span> <span class="toc-text">ThreadLocal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信号量"><span class="toc-number">5.</span> <span class="toc-text">信号量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生产者消费者例子"><span class="toc-number">5.1.</span> <span class="toc-text">生产者消费者例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程安全类"><span class="toc-number">6.</span> <span class="toc-text">线程安全类</span></a></li></ol>
+		
+		</div>
+		
+		<p>线程的同步是为了防止多个线程访问一个共享数据对象时，对数据造成的破坏。</p>
+<p>多线程的同步依靠的是对象锁机制。</p>
+<p>Java同步机制有4种实现方式：</p>
+<ol>
+<li>synchronized( )</li>
+<li>wait() 与 notify()</li>
+<li>volatile</li>
+<li>ThreadLocal</li>
+<li>Lock</li>
+<li>Atomic</li>
+</ol>
+<p>5和6将会在其他blog上再做介绍<br><a id="more"></a></p>
+<h2 id="synchronized">synchronized</h2><p>Java中每个对象都有一个内置锁。当程序运行到非静态的synchronized同步方法上时，自动获得与正在执行代码类的当前实例（this实例）有关的锁。获得一个对象的锁也称为获取锁、锁定对象、在对象上锁定或在对象上同步。</p>
+<p>一个对象只有一个锁。所以，如果一个线程获得该锁，就没有其他线程可以获得锁，直到第一个线程释放（或返回）锁。这也意味着任何其他线程都不能进入该对象上的synchronized方法或代码块，直到该锁被释放。</p>
+<h3 id="要点">要点</h3><ol>
+<li>只能同步方法，而不能同步变量和类</li>
+<li>每个对象只有一个锁</li>
+<li>不必同步类中所有的方法，类可以同时拥有同步和非同步方法；非同步方法可以被多个线程自由访问而不受锁的限制</li>
+<li>线程睡眠时，它所持的任何锁都不会释放</li>
+<li>线程可以获得多个锁。比如，在一个对象的同步方法里面调用另外一个对象的同步方法，则获取了两个对象的同步锁。</li>
+<li>同步损害并发性，应该尽可能缩小同步范围。同步不但可以同步整个方法，还可以同步方法中一部分代码块。</li>
+<li><p>在使用同步代码块时候，应该指定在哪个对象上同步，也就是说要获取哪个对象的锁</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>{
+    <span class="keyword">return</span> (x+y);
+}
+
+<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>{
+    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) {
+        <span class="keyword">return</span> (x+y);
+    }
+}
+两种效果是完全一样的。
+</code></pre></li>
+<li><p>synchronized锁住的是this对象，即当前运行线程对象本身</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Runnable</span>
+</span>{
+    <span class="keyword">private</span> <span class="keyword">int</span> threadId;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(<span class="keyword">int</span> id)</span>
+    </span>{
+        <span class="keyword">this</span>.threadId = id;
+    }
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> 
+    </span>{
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i)
+        {
+            System.out.println(<span class="string">"Thread ID: "</span> + <span class="keyword">this</span>.threadId + <span class="string">" : "</span> + i);
+        }
+    }
+}
+</code></pre><p> 要想实现线程的同步，则这些线程必须去竞争一个唯一的共享的对象锁。</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Runnable</span>
+</span>{
+    <span class="keyword">private</span> <span class="keyword">int</span> threadId;
+    <span class="keyword">private</span> Object lock;
+    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(<span class="keyword">int</span> id, Object obj)</span>
+    </span>{
+        <span class="keyword">this</span>.threadId = id;
+        <span class="keyword">this</span>.lock = obj;
+    }
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> 
+    </span>{
+        <span class="keyword">synchronized</span>(lock)
+        {
+            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i)
+            {
+                System.out.println(<span class="string">"Thread ID: "</span> + <span class="keyword">this</span>.threadId + <span class="string">" : "</span> + i);
+            }
+        }
+    }
+}
+</code></pre><p> 在创建启动线程之前，先创建一个线程之间竞争使用的Object对象，然后将这个Object对象的引用传递给每一个线程对象的lock成员变量。这样一来，每个线程的lock成员都指向同一个Object对象。我们在run方法中，对lock对象使用synchronzied块进行局部封锁，这样就可以让线程去竞争这个唯一的共享的对象锁，从而实现同步。</p>
+<p> 同步的关键是多个线程对象竞争同一个共享资源即可，上面的代码中是通过外部创建共享资源，然后传递到线程中来实现。我们也可以利用类成员变量被所有类的实例所共享这一特性，因此可以将lock用静态成员对象来实现</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Runnable</span>
+</span>{
+    <span class="keyword">private</span> <span class="keyword">int</span> threadId;
+    <span class="keyword">private</span> <span class="keyword">static</span> Object lock = <span class="keyword">new</span> Object();
+    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(<span class="keyword">int</span> id)</span>
+    </span>{
+        <span class="keyword">this</span>.threadId = id;
+    }
+    <span class="annotation">@Override</span>
+    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> 
+    </span>{
+        <span class="keyword">synchronized</span>(lock)
+        {
+            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i)
+            {
+                System.out.println(<span class="string">"Thread ID: "</span> + <span class="keyword">this</span>.threadId + <span class="string">" : "</span> + i);
+            }
+        }
+    }
+}
+</code></pre></li>
+</ol>
+<h3 id="静态方法同步">静态方法同步</h3><p>由于在调用静态方法时，对象实例不一定被创建，因此，就不能使用this来同步静态方法，而必须使用Class对象来同步静态方法。</p>
+<pre><code><span class="keyword">public</span> static <span class="built_in">int</span> setName(String <span class="keyword">name</span>){
+      synchronized(Xxx.<span class="keyword">class</span>){
+            Xxx.<span class="keyword">name</span> = <span class="keyword">name</span>;
+      }
+}
+</code></pre><p>等价于</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="function"><span class="keyword">int</span> <span class="title">setName</span><span class="params">(String name)</span></span>{
+
+      Xxx.name = name;
+
+}
+</code></pre><p>同一个类中所有的同步的静态方法，它们在类范围类是同步的，也就是同一时间只能有一个线程可以访问所有同步静态方法中的一个。</p>
+<h3 id="synchronized(this)与synchronized(static_XXX)的区别">synchronized(this)与synchronized(static XXX)的区别</h3><p>synchronized就是针对内存区块申请内存锁，this关键字代表类的一个对象，所以其内存锁是针对相同对象的互斥操作，而static成员属于类专有，其内存空间为该类所有成员共有，这就导致synchronized()对static成员加锁，相当于对类加锁，也就是在该类的所有成员间实现互斥，在同一时间只有一个线程可访问该类的实例</p>
+<h2 id="wait()_与_notify()">wait() 与 notify()</h2><p>在线程间相互唤醒的话就需要借助Object.wait(), Object.nofity()</p>
+<p>在调用wait的时候，线程自动释放其占有的对象锁，同时不会去申请对象锁。当线程被唤醒的时候，它才再次获得了去获得对象锁的权利。</p>
+<h3 id="要点-1">要点</h3><ol>
+<li>调用obj的wait(), notify()方法前，必须获得obj锁，也就是必须写在synchronized(obj){…} 代码段内</li>
+<li>调用obj.wait()后，线程A就释放了obj的锁，否则线程B无法获得obj锁，也就无法在synchronized(obj){…} 代码段内唤醒A</li>
+<li>当obj.wait()方法返回后，线程A需要再次获得obj锁，才能继续执行</li>
+<li>如果A1,A2,A3都在obj.wait()，则B调用obj.notify()只能唤醒A1,A2,A3中的一个（具体哪一个由JVM决定）</li>
+<li>当B调用obj.notify/notifyAll的时候，B正持有obj锁，因此，A1,A2,A3虽被唤醒，但是仍无法获得obj锁。直到B退出synchronized块，释放obj锁后，A1,A2,A3中的一个才有机会获得锁继续执行</li>
+</ol>
+<h2 id="volatile">volatile</h2><p>synchronized 修饰的方法 或者 代码块</p>
+<p>而volatile用来修饰变量。</p>
+<p>在Java内存模型中，有main memory，每个线程也有自己的memory (例如寄存器)。为了性能，一个线程会在自己的memory中保持要访问的变量的副本。这样就会出现同一个变量在某个瞬间，在一个线程的memory中的值可能与另外一个线程memory中的值，或者main memory中的值不一致的情况。</p>
+<p>Volatile一般情况下不能代替sychronized，因为volatile不能保证操作的原子性，即使只是i++，实际上也是由多个原子操作组成：read i; inc; write i，假如多个线程同时执行i++，volatile只能保证他们操作的i是同一块内存，但依然可能出现写入脏数据的情况。</p>
+<h3 id="volatile的误用">volatile的误用</h3><p>volatile关键字用于声明简单类型变量，如int、float、 boolean等数据类型。如果这些简单数据类型声明为volatile，对它们的操作就会变成原子级别的。但这有一定的限制。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> VolatileTest extends Thread{
+     <span class="keyword">public</span>   <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span>  n  =   <span class="number">0</span> ;  
+        <span class="function"><span class="keyword">public</span>   <span class="keyword">void</span>  <span class="title">run</span><span class="params">()</span>  
+        </span>{  
+             <span class="keyword">for</span>  ( <span class="keyword">int</span>  i  =   <span class="number">0</span> ; i  &lt;   <span class="number">10</span> ; i ++ )  
+                 <span class="keyword">try</span>   
+            {  
+                    n  =  n  +   <span class="number">1</span> ;  
+                    sleep( <span class="number">3</span> );  <span class="comment">//  为了使运行结果更随机，延迟3毫秒   </span>
+
+                }  
+                 <span class="keyword">catch</span>  (Exception e)  
+                {  
+                }  
+        }  
+
+         <span class="function"><span class="keyword">public</span>   <span class="keyword">static</span>   <span class="keyword">void</span>  <span class="title">main</span><span class="params">(String[] args)</span>  throws  Exception  
+        </span>{  
+
+            Thread threads[]  =   <span class="keyword">new</span>  Thread[ <span class="number">100</span> ];  
+             <span class="keyword">for</span>  ( <span class="keyword">int</span>  i  =   <span class="number">0</span> ; i  &lt;  threads.length; i ++ )  
+                 <span class="comment">//  建立100个线程   </span>
+                threads[i]  =   <span class="keyword">new</span>  VolatileTest();  
+             <span class="keyword">for</span>  ( <span class="keyword">int</span>  i  =   <span class="number">0</span> ; i  &lt;  threads.length; i ++ )  
+                 <span class="comment">//  运行刚才建立的100个线程   </span>
+                threads[i].start();  
+             <span class="keyword">for</span>  ( <span class="keyword">int</span>  i  =   <span class="number">0</span> ; i  &lt;  threads.length; i ++ )  
+                 <span class="comment">//  100个线程都执行完后继续   </span>
+                threads[i].join();  
+            System.out.println( <span class="string">" n= "</span>   +  VolatileTest.n);  
+        } 
+} 
+</code></pre><p>最后输出的结果不是n=1000.这说明n=n+1不是原子级别的操作。原因是声明为volatile的简单变量如果当前值由该变量以前的值相关，那么volatile关键字不起作用，也就是说如下的表达式都不是原子操作：</p>
+<pre><code><span class="keyword">n</span>  =  <span class="keyword">n</span>  +   1 ;
+<span class="keyword">n</span> ++ ; 
+</code></pre><p>可以使用synchronized进行修改上述代码：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> VolatileTest extends Thread{
+     <span class="keyword">public</span>   <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span>  n  =   <span class="number">0</span> ;  
+
+     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span>   synchronized   <span class="keyword">void</span>  <span class="title">inc</span><span class="params">()</span>  
+    </span>{  
+        n ++ ;  
+    }  
+    <span class="function"><span class="keyword">public</span>   <span class="keyword">void</span>  <span class="title">run</span><span class="params">()</span>  
+    </span>{  
+         <span class="keyword">for</span>  ( <span class="keyword">int</span>  i  =   <span class="number">0</span> ; i  &lt;   <span class="number">10</span> ; i ++ )  
+             <span class="keyword">try</span>   
+        {  
+                inc();
+                sleep( <span class="number">3</span> );  <span class="comment">//  为了使运行结果更随机，延迟3毫秒   </span>
+
+            }  
+             <span class="keyword">catch</span>  (Exception e)  
+            {  
+            }  
+    }  
+
+     <span class="function"><span class="keyword">public</span>   <span class="keyword">static</span>   <span class="keyword">void</span>  <span class="title">main</span><span class="params">(String[] args)</span>  throws  Exception  
+    </span>{  
+
+        Thread threads[]  =   <span class="keyword">new</span>  Thread[ <span class="number">100</span> ];  
+         <span class="keyword">for</span>  ( <span class="keyword">int</span>  i  =   <span class="number">0</span> ; i  &lt;  threads.length; i ++ )  
+             <span class="comment">//  建立100个线程   </span>
+            threads[i]  =   <span class="keyword">new</span>  VolatileTest();  
+         <span class="keyword">for</span>  ( <span class="keyword">int</span>  i  =   <span class="number">0</span> ; i  &lt;  threads.length; i ++ )  
+             <span class="comment">//  运行刚才建立的100个线程   </span>
+            threads[i].start();  
+         <span class="keyword">for</span>  ( <span class="keyword">int</span>  i  =   <span class="number">0</span> ; i  &lt;  threads.length; i ++ )  
+             <span class="comment">//  100个线程都执行完后继续   </span>
+            threads[i].join();  
+        System.out.println( <span class="string">" n= "</span>   +  VolatileTest.n);  
+    } 
+}
+</code></pre><p>上面的代码将n=n+1改成了inc()，其中inc方法使用了synchronized关键字进行方法同步。因此，在使用volatile关键字时要慎重，并不是只要简单类型变量使用volatile修饰，对这个变量的所有操作都是原来操作，当变量的值由自身的上一个决定时，如n=n+1、n++ 等，volatile关键字将失效，只有当变量的值和自身上一个值无关时对该变量的操作才是原子级别的，如n = m + 1，这个就是原级别的。所以在使用volatile关键时一定要谨慎，如果自己没有把握，可以使用synchronized来代替volatile。 </p>
+<h2 id="ThreadLocal">ThreadLocal</h2><p>线程局部变量(ThreadLocal)其实的功用非常简单，就是为每一个使用该变量的线程都提供一个变量值的副本，是Java中一种较为特殊的线程绑定机制，是每一个线程都可以独立地改变自己的副本，而不会和其它线程的副本冲突。</p>
+<p>同步机制是为了同步多个线程对相同资源的并发访问，是为了多个线程之间进行通信；而 ThreadLocal 是隔离多个线程的数据共享，从根本上就不在多个线程之间共享资源，这样当然不需要多个线程进行同步了。</p>
+<h2 id="信号量">信号量</h2><p>Dijkstra建议设两种操作:Down和Up。对一信号量执行Down操作是检查其值是否大于0;若是则将其值减1(即用掉一个保存的唤醒信号)并继续。若值为0,则进程将睡眠，而且此时Down操作并未结束。检查数值，改变数值以及可能发生的睡眠操作均作为一个单一的、不可分割的原子操作(atomic action)完成。即保证一旦一个信号量操作开始，则在操作完成或阻塞之前别的进程均不允许访问该信号量。这种原子性对于解决同步间题和避免竞争条件是非常重要的。</p>
+<p>Up操作递增信号量的值。如果一个或多个进程在该信号量上睡眠，无法完成一个先前的Down操作、则由系统选择其中的一个(例如，随机挑选)并允许其完成它的Down操作。于是，对一个有进程在其上睡眠的信号量执行一次Up操作之后，该信号量的值仍旧是0.但在其上睡眠的进程却少了一个。递增信号量的值和唤醒一个进程同样也是不可分割的。不会有进程因执行Up而阻塞。</p>
+<p>操作系统的信号量是个很重要的概念，在进程控制方面都有应用。Java 并发库 的Semaphore 可以很轻松完成信号量控制，Semaphore可以控制某个资源可被同时访问的个数，acquire()获取一个许可，如果没有就等待，对应于Down，而release()释放一个许可，对应于Up。</p>
+<h3 id="生产者消费者例子">生产者消费者例子</h3><pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SemaphoreTest</span> </span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{  
+        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Producer()).start();  
+        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Consumer()).start();  
+    } 
+}
+
+<span class="class"><span class="keyword">class</span> <span class="title">Signs</span></span>{  
+    <span class="keyword">static</span> Semaphore empty=<span class="keyword">new</span> Semaphore(<span class="number">10</span>); <span class="comment">//信号量：记录仓库空的位置  </span>
+  <span class="keyword">static</span> Semaphore full=<span class="keyword">new</span> Semaphore(<span class="number">0</span>);   <span class="comment">//信号量：记录仓库满的位置  </span>
+  <span class="keyword">static</span> Semaphore mutex=<span class="keyword">new</span> Semaphore(<span class="number">1</span>);  <span class="comment">//临界区互斥访问信号量(二进制信号量)，相当于互斥锁。  </span>
+}  
+<span class="class"><span class="keyword">class</span> <span class="title">Producer</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>{  
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>{  
+         <span class="keyword">try</span> {  
+             <span class="keyword">while</span>(<span class="keyword">true</span>){  
+                Signs.empty.acquire(); <span class="comment">//递减仓库空信号量  </span>
+                Signs.mutex.acquire(); <span class="comment">//进入临界区  </span>
+                System.out.println(<span class="string">"生成一个产品放入仓库"</span>);  
+                Signs.mutex.release(); <span class="comment">//离开临界区  </span>
+                Signs.full.release();  <span class="comment">//递增仓库满信号量  </span>
+                Thread.currentThread().sleep(<span class="number">100</span>);  
+             }  
+         } <span class="keyword">catch</span> (InterruptedException e) {  
+             e.printStackTrace();  
+         }  
+    }  
+}  
+<span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>{  
+     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>{  
+         <span class="keyword">try</span> {  
+             <span class="keyword">while</span>(<span class="keyword">true</span>){  
+                 Signs.full.acquire(); <span class="comment">//递减仓库满信号量  </span>
+                 Signs.mutex.acquire();  
+                 System.out.println(<span class="string">"从仓库拿出一个产品消费"</span>);  
+                 Signs.mutex.release();  
+                 Signs.empty.release(); <span class="comment">//递增仓库空信号量  </span>
+                 Thread.currentThread().sleep(<span class="number">1000</span>);  
+             }  
+         } <span class="keyword">catch</span> (InterruptedException e) {  
+             e.printStackTrace();  
+         }  
+     }  
+
+}  
+</code></pre><h2 id="线程安全类">线程安全类</h2><p>当一个类已经很好的同步以保护它的数据时，这个类就称为“线程安全的”</p>
+<p>即使是线程安全类，也应该特别小心，因为操作的线程是间仍然不一定安全。</p>
+<p>举个形象的例子，比如一个集合是线程安全的，有两个线程在操作同一个集合对象，当第一个线程查询集合非空后，删除集合中所有元素的时候。第二个线程也来执行与第一个线程相同的操作，也许在第一个线程查询后，第二个线程也查询出集合非空，但是当第一个执行清除后，第二个再执行删除显然是不对的，因为此时集合已经为空了。</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NameList</span> </span>{   
+    <span class="keyword">private</span> List nameList = Collections.synchronizedList(<span class="keyword">new</span> LinkedList());
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String name)</span> </span>{
+        nameList.add(name);
+    }
+
+    <span class="function"><span class="keyword">public</span> String <span class="title">removeFirst</span><span class="params">()</span> </span>{
+        <span class="keyword">if</span> (nameList.size() &gt; <span class="number">0</span>) {
+            <span class="keyword">return</span> (String) nameList.remove(<span class="number">0</span>);
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="keyword">null</span>;
+        }
+    }
+}
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>{     
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{        
+        <span class="keyword">final</span> NameList nl = <span class="keyword">new</span> NameList();         nl.add(<span class="string">"aaa"</span>);        
+
+        <span class="class"><span class="keyword">class</span> <span class="title">NameDropper</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>{            
+            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>{           
+                  String name = nl.removeFirst();                 System.out.println(name);            
+            }
+        }
+
+        Thread t1 = <span class="keyword">new</span> NameDropper();
+        Thread t2 = <span class="keyword">new</span> NameDropper();
+        t1.start();
+        t2.start();
+    }
+}
+</code></pre><p>虽然集合对象private List nameList = Collections.synchronizedList(new LinkedList()); 是同步的，但是程序还不是线程安全的</p>
+<p>解决上面问题的办法是，在操作集合对象的NameList上面做一个同步。改写后的代码如下：</p>
+<pre><code><span class="keyword">public</span> class NameList {    
+    <span class="keyword">private</span> List nameList = Collections.synchronizedList(<span class="keyword">new</span> LinkedList());
+
+    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="built_in">add</span>(<span class="keyword">String</span> name) {      
+       nameList.<span class="built_in">add</span>(name);    
+    }     
+
+    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">String</span> removeFirst() {
+        <span class="keyword">if</span> (nameList.<span class="built_in">size</span>() &gt; <span class="number">0</span>) {          
+           <span class="keyword">return</span> (<span class="keyword">String</span>) nameList.remove(<span class="number">0</span>);         
+        } <span class="keyword">else</span> { 
+           <span class="keyword">return</span> <span class="keyword">null</span>;       
+          }     
+    } 
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/同步/">同步</a><a href="/tags/多线程/">多线程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/05/06/java-mt-synchronization/" data-title="Java多线程编程(四)---同步 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/05/07/js-basicsyntax/" title="JavaScript(一)--基本语法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JavaScript(一)--基本语法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/05/06/java-mt-schedule/"  title="Java多线程编程(三)---作业调度">
+ <strong>下一篇：</strong><br/> 
+ <span>Java多线程编程(三)---作业调度
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/05/06/java-mt-synchronization/" data-title="Java多线程编程(四)---同步" data-url="http://xfhnever.com/2014/05/06/java-mt-synchronization/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized"><span class="toc-number">1.</span> <span class="toc-text">synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#要点"><span class="toc-number">1.1.</span> <span class="toc-text">要点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#静态方法同步"><span class="toc-number">1.2.</span> <span class="toc-text">静态方法同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized(this)与synchronized(static_XXX)的区别"><span class="toc-number">1.3.</span> <span class="toc-text">synchronized(this)与synchronized(static XXX)的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wait()_与_notify()"><span class="toc-number">2.</span> <span class="toc-text">wait() 与 notify()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#要点-1"><span class="toc-number">2.1.</span> <span class="toc-text">要点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile"><span class="toc-number">3.</span> <span class="toc-text">volatile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile的误用"><span class="toc-number">3.1.</span> <span class="toc-text">volatile的误用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadLocal"><span class="toc-number">4.</span> <span class="toc-text">ThreadLocal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信号量"><span class="toc-number">5.</span> <span class="toc-text">信号量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生产者消费者例子"><span class="toc-number">5.1.</span> <span class="toc-text">生产者消费者例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程安全类"><span class="toc-number">6.</span> <span class="toc-text">线程安全类</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

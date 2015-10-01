@@ -1,0 +1,798 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>CSS（十）-盒式模型 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="如果CSS对HTML文档元素生成了一个描述该元素在HTML文档布局中所占空间的矩形元素框（element box），那么我们可以形象地将其看作是一个盒子。CSS围绕这些盒子产生了一种“盒子模型”概念，通过定义一系列与盒子相关的属性（内容、填充、边框、边界），可以控制各个盒子乃至整个HTML文档的表现效果和布局结构。虽然CSS中没有盒子这个单独的属性对象，但它却是CSS中无处不在的一个重要组成部分。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS（十）-盒式模型">
+<meta property="og:url" content="http://xfhnever.com/2014/07/29/css-box/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="如果CSS对HTML文档元素生成了一个描述该元素在HTML文档布局中所占空间的矩形元素框（element box），那么我们可以形象地将其看作是一个盒子。CSS围绕这些盒子产生了一种“盒子模型”概念，通过定义一系列与盒子相关的属性（内容、填充、边框、边界），可以控制各个盒子乃至整个HTML文档的表现效果和布局结构。虽然CSS中没有盒子这个单独的属性对象，但它却是CSS中无处不在的一个重要组成部分。">
+<meta property="og:image" content="http://xfhnever.com/images/post/css10-1.png">
+<meta property="og:updated_time" content="2015-10-01T13:40:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS（十）-盒式模型">
+<meta name="twitter:description" content="如果CSS对HTML文档元素生成了一个描述该元素在HTML文档布局中所占空间的矩形元素框（element box），那么我们可以形象地将其看作是一个盒子。CSS围绕这些盒子产生了一种“盒子模型”概念，通过定义一系列与盒子相关的属性（内容、填充、边框、边界），可以控制各个盒子乃至整个HTML文档的表现效果和布局结构。虽然CSS中没有盒子这个单独的属性对象，但它却是CSS中无处不在的一个重要组成部分。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/29/css-box/" title="CSS（十）-盒式模型" itemprop="url">CSS（十）-盒式模型</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-07-29T12:44:38.000Z" itemprop="datePublished"> 发表于 Jul 29 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#标准和IE盒式模型"><span class="toc-number">1.</span> <span class="toc-text">标准和IE盒式模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#盒式模型兼容性问题解决"><span class="toc-number">2.</span> <span class="toc-text">盒式模型兼容性问题解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3弹性盒模型"><span class="toc-number">3.</span> <span class="toc-text">CSS3弹性盒模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#水平或者垂直布局"><span class="toc-number">3.1.</span> <span class="toc-text">水平或者垂直布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向分布"><span class="toc-number">3.2.</span> <span class="toc-text">反向分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体分布"><span class="toc-number">3.3.</span> <span class="toc-text">具体分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#盒子尺寸"><span class="toc-number">3.4.</span> <span class="toc-text">盒子尺寸</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>如果CSS对HTML文档元素生成了一个描述该元素在HTML文档布局中所占空间的矩形元素框（element box），那么我们可以形象地将其看作是一个盒子。CSS围绕这些盒子产生了一种“盒子模型”概念，通过定义一系列与盒子相关的属性（内容、填充、边框、边界），可以控制各个盒子乃至整个HTML文档的表现效果和布局结构。虽然CSS中没有盒子这个单独的属性对象，但它却是CSS中无处不在的一个重要组成部分。<br><a id="more"></a><br>盒子模型如下：</p>
+<img src="/images/post/css10-1.png">
+<p>一些HTML元素如div、p等块元素，默认情况下就是一个盒子，有些内联元素如span、a等虽然默认不是盒子，但也可以通过CSS中的display属性将其声明成盒子，在HTML文档中，不是盒子的元素各自的宽度为其所呈现的信息内容宽度，它们彼此间互相紧靠从左到右依次排列，直到占满整个浏览器窗口后自动行。对于是盒子的元素，如果没有特殊设置，其默认总是占单独一行，宽度为浏览器窗口的宽度，在其前后的元素不管是不是盒子只能排列在它的上面或者下面，即上下累加着进行排列。每个盒子都可以看成是由从内到外的四个部分构成，即内容、填充、边框和边界，CSS为这四个部分规定了相关的属性，通过对这些属性的控制可以丰富盒子的实际表现效果。</p>
+<h2 id="标准和IE盒式模型">标准和IE盒式模型</h2><p>W3C标准盒式模型和传统IE盒式模型（IE6以下版本）主要区分在于内盒模型和外盒模型上，就是width的计算范围问题。</p>
+<p>W3C标准盒式模型中：</p>
+<pre><code><span class="attribute">width</span> = <span class="attribute">content</span>的<span class="attribute">width</span>；
+</code></pre><p>传统IE盒式模型中：</p>
+<pre><code>width = content + padding + border<span class="comment">;</span>
+</code></pre><p>用内外盒来说的话，W3C标准浏览器的内盒宽度等于IE6以下版本浏览器的外盒宽度。</p>
+<h2 id="盒式模型兼容性问题解决">盒式模型兼容性问题解决</h2><ol>
+<li><p>&lt;!–[if IE]&gt;</p>
+<p> IE浏览器可以解析出&lt;!–[if IE]&gt;&lt;![endif]–&gt;里面包含的代码。而其他浏览器则会将其当作注释。因此你可以在里面加上任何你只想让IE解析到的东西。</p>
+<pre><code><span class="comment">&lt;!--[if IE]&gt; 
+    &lt;link href="ie_styles.css" rel="stylesheet" type="text/css" /&gt;
+&lt;![endif]--&gt;</span>
+</code></pre><p> 然后，我们也可以定义对哪些版本的IE产生影响。</p>
+<p> 比如：&lt;!–[if lt IE 9]&gt; 表示低于IE9的版本，lte则表示低于等于，gt表示高于，gte表示高于等于。</p>
+<p> 此外，对于非IE浏览器，这可以使用</p>
+<pre><code><span class="comment">&lt;!--[if !IE]&gt;&lt;!--&gt;</span> 
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"notie_styles.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">type</span>=<span class="value">"text/css"</span> /&gt;</span> 
+<span class="comment">&lt;!--&lt;![endif]--&gt;</span>
+</code></pre><p> 请注意它与&lt;!–[if IE]&gt;写法的不同，在IE浏览器中，里面包含的内容则会被当作注释，而非IE浏览器，则是当作普通的代码解析。</p>
+</li>
+<li><p>CSS漏洞</p>
+<pre><code><span class="tag">&lt;<span class="title">head</span>&gt;</span> 
+    <span class="tag">&lt;<span class="title">style</span>&gt;</span><span class="css"> 
+        <span class="class">.hack</span><span class="rules">{ 
+            <span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#000000</span></span></span>; <span class="comment">/* FF,OP支持 */</span> 
+            <span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#0000FF</span>\<span class="number">0</span></span></span>; <span class="comment">/* IE8支持*/</span> 
+            *<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#FFFF00</span></span></span>; <span class="comment">/* IE7支持 */</span> 
+            <span class="rule"><span class="attribute">_color</span>:<span class="value"><span class="hexcolor">#FF0000</span></span></span>; <span class="comment">/* IE6支持 */</span> 
+        }</span> 
+        <span class="rule"><span class="attribute">body</span>:<span class="value"><span class="function">nth-of-type</span>(<span class="number">1</span>) .hack{ 
+            color: <span class="hexcolor">#00FF00</span></span></span>;<span class="comment">/*Webkit */</span> 
+        } 
+    </span><span class="tag">&lt;/<span class="title">style</span>&gt;</span> 
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span> 
+<span class="tag">&lt;<span class="title">body</span>&gt;</span> 
+    <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"hack"</span>&gt;</span> CSS Hack ! <span class="tag">&lt;/<span class="title">p</span>&gt;</span> 
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+</code></pre><p> 上面这段代码，在不同浏览器中”CSS Hack”将会显示出不同的颜色出来。</p>
+<p> 其中Firefox和Opera显示黑色(#000000)，IE8显示蓝色(#0000FF)，IE7显示黄色(#FFFF00)，IE6显示红色(#FF0000)，Chrome和Safari则显示绿色(#00FF00)。</p>
+<p> 只要将color改为你需要控制的任何属性，就可以在任何主流浏览器实现对其属性的Hack~</p>
+<p> 尤其需要注意的是，写的时候要严格按照其先后顺序。</p>
+</li>
+<li><p>DOCTYPE声明</p>
+<p> 在网页的顶部加上 DOCTYPE 声明。如果不加 DOCTYPE 声明，那么各个浏览器会根据自己的行为去理解网页，即 IE 浏览器会采用 IE 盒子模型去解释你的盒子，而 FF 会采用标准 W3C 盒子模型解释你的盒子，所以网页在不同的浏览器中就显示的不一样了。反之，如果加上了 DOCTYPE 声明，那么所有浏览器都会采用标准 W3C 盒子模型去解释你的盒子，网页就能在各个浏览器中显示一致了。  </p>
+</li>
+</ol>
+<h2 id="CSS3弹性盒模型">CSS3弹性盒模型</h2><p>Css3引入了新的盒模型——弹性盒模型，该模型决定一个盒子在其他盒子中的分布方式以及如何处理可用的空间。</p>
+<p>传统的盒模型基于HTML流在垂直方向上排列盒子。使用弹性盒模型可以规定特定的顺序，也可以反转之。要开启弹性盒模型，只需设置拥有子盒子的盒子的display的属性值为box（或inline-box）即可。</p>
+<pre><code><span class="rule"><span class="attribute">display</span>:<span class="value">-webkit-box</span></span>;
+<span class="rule"><span class="attribute">display</span>:<span class="value">-moz-box</span></span>;
+<span class="rule"><span class="attribute">display</span>:<span class="value"> box</span></span>;
+</code></pre><h3 id="水平或者垂直布局">水平或者垂直布局</h3><p>“box-orient”定义分布的坐标轴：vertical和horizional。这两个值定义盒子如何显示。</p>
+<pre><code><span class="tag">body</span><span class="rules">{
+    <span class="rule"><span class="attribute">display</span>:<span class="value"> box</span></span>;
+    <span class="rule"><span class="attribute">box-orient</span>:<span class="value"> horizontal</span></span>;
+}</span>
+组件水平排列 
+</code></pre><h3 id="反向分布">反向分布</h3><p>“box-direction”可以设置盒子出现的顺序。默认情况下，只需定义分布坐标轴——box随html流分布。如果为水平坐标轴，则从左到右分布；垂直坐标轴则从上到下分布。定义“box-direction”的属性值为“reverse”，则反转盒子的排列顺序。 </p>
+<pre><code><span class="tag">body</span> <span class="rules">{
+    <span class="rule"><span class="attribute">display</span>:<span class="value"> box</span></span>;
+    <span class="rule"><span class="attribute">box-orient</span>:<span class="value"> vertical</span></span>;
+    <span class="rule"><span class="attribute">box-direction</span>:<span class="value"> reverse</span></span>;
+}</span> 
+</code></pre><h3 id="具体分布">具体分布</h3><p>属性“box-ordinal-group”定义盒子分布的顺序。可以随意的控制其分布顺序。这些组以一个从“1”开始的数字定义，盒模型将首先分布这些组，所有这些盒子将在每个组中。分布将从小到大排列。</p>
+<pre><code><span class="tag">body</span> <span class="rules">{
+<span class="rule"><span class="attribute">display</span>:<span class="value"> box</span></span>;
+<span class="rule"><span class="attribute">box-orient</span>:<span class="value"> vertical</span></span>;
+<span class="rule"><span class="attribute">box-direction </span>:<span class="value"> reverse</span></span>;
+}</span>
+<span class="id">#box1</span> <span class="rules">{<span class="rule"><span class="attribute">box-flex</span>:<span class="value"><span class="number">1</span></span></span>;<span class="rule"><span class="attribute">box-ordinal-group</span>:<span class="value"> <span class="number">2</span></span></span>;}</span>
+<span class="id">#box2</span> <span class="rules">{<span class="rule"><span class="attribute">box-flex</span>:<span class="value"><span class="number">2</span></span></span>;<span class="rule"><span class="attribute">box-ordinal-group</span>:<span class="value"> <span class="number">2</span></span></span>;}</span>
+<span class="id">#box3</span> <span class="rules">{<span class="rule"><span class="attribute">box-flex</span>:<span class="value"><span class="number">2</span></span></span>;<span class="rule"><span class="attribute">box-ordinal-group</span>:<span class="value"> <span class="number">1</span></span></span>;}</span> 
+</code></pre><p>从上到下依次顺序是： 2 1 3；</p>
+<h3 id="盒子尺寸">盒子尺寸</h3><p>默认情况下，盒子并不具有弹性，如果box-flex的属性值至少为1时，则变得富有弹性。box-flex如何对父容器的宽度进行划分，三个子块分别设置了1、2、2,也就是把这个父容器分成5份。</p>
+<p>如果盒子不具有弹性，它将尽可能的宽使其内容可见，且没有任何溢出，其大小由“width”和“height”来决定（或min-height、min-width、max-width、max-height）。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web/">Web</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/07/29/css-box/" data-title="CSS（十）-盒式模型 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/07/29/css-clearfloat/" title="CSS（十一）-清除浮动">
+  <strong>上一篇：</strong><br/>
+  <span>
+  CSS（十一）-清除浮动</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/07/29/less-functions/"  title="Less（三）-内置函数">
+ <strong>下一篇：</strong><br/> 
+ <span>Less（三）-内置函数
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/07/29/css-box/" data-title="CSS（十）-盒式模型" data-url="http://xfhnever.com/2014/07/29/css-box/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#标准和IE盒式模型"><span class="toc-number">1.</span> <span class="toc-text">标准和IE盒式模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#盒式模型兼容性问题解决"><span class="toc-number">2.</span> <span class="toc-text">盒式模型兼容性问题解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3弹性盒模型"><span class="toc-number">3.</span> <span class="toc-text">CSS3弹性盒模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#水平或者垂直布局"><span class="toc-number">3.1.</span> <span class="toc-text">水平或者垂直布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向分布"><span class="toc-number">3.2.</span> <span class="toc-text">反向分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体分布"><span class="toc-number">3.3.</span> <span class="toc-text">具体分布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#盒子尺寸"><span class="toc-number">3.4.</span> <span class="toc-text">盒子尺寸</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

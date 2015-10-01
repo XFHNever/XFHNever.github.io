@@ -1,0 +1,819 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>DSL（八）-语言工作台 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="语言工作台是一种工具，它可以帮助我们打造自己的DSL，并为这种DSL提供现代IDE风格的工具支持。其基本想法是，这类工具不仅要提供一个创建DSL的IDE，还要为编辑这些DSL构建新的IDE。
+语言工作台是一个年轻的领域，本章主要介绍一些不易变的核心原则。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DSL（八）-语言工作台">
+<meta property="og:url" content="http://xfhnever.com/2014/08/10/dsl-languageworkbench/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="语言工作台是一种工具，它可以帮助我们打造自己的DSL，并为这种DSL提供现代IDE风格的工具支持。其基本想法是，这类工具不仅要提供一个创建DSL的IDE，还要为编辑这些DSL构建新的IDE。
+语言工作台是一个年轻的领域，本章主要介绍一些不易变的核心原则。">
+<meta property="og:image" content="http://xfhnever.com/images/post/dsl8-1.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/dsl8-2.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/dsl8-3.jpg">
+<meta property="og:updated_time" content="2015-10-01T14:17:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DSL（八）-语言工作台">
+<meta name="twitter:description" content="语言工作台是一种工具，它可以帮助我们打造自己的DSL，并为这种DSL提供现代IDE风格的工具支持。其基本想法是，这类工具不仅要提供一个创建DSL的IDE，还要为编辑这些DSL构建新的IDE。
+语言工作台是一个年轻的领域，本章主要介绍一些不易变的核心原则。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/10/dsl-languageworkbench/" title="DSL（八）-语言工作台" itemprop="url">DSL（八）-语言工作台</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-10T07:34:42.000Z" itemprop="datePublished"> 发表于 Aug 10 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#语言工作台要素"><span class="toc-number">1.</span> <span class="toc-text">语言工作台要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模式定义语言和元模型"><span class="toc-number">2.</span> <span class="toc-text">模式定义语言和元模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码编辑和投射编辑"><span class="toc-number">3.</span> <span class="toc-text">源码编辑和投射编辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多种表现形式"><span class="toc-number">3.1.</span> <span class="toc-text">多种表现形式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说明性编程"><span class="toc-number">4.</span> <span class="toc-text">说明性编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工具之旅"><span class="toc-number">5.</span> <span class="toc-text">工具之旅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语言工作台和CASE工具"><span class="toc-number">6.</span> <span class="toc-text">语言工作台和CASE工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我们该使用语言工作台么"><span class="toc-number">7.</span> <span class="toc-text">我们该使用语言工作台么</span></a></li></ol>
+		
+		</div>
+		
+		<p>语言工作台是一种工具，它可以帮助我们打造自己的DSL，并为这种DSL提供现代IDE风格的工具支持。其基本想法是，这类工具不仅要提供一个创建DSL的IDE，还要为编辑这些DSL构建新的IDE。</p>
+<p>语言工作台是一个年轻的领域，本章主要介绍一些不易变的核心原则。<br><a id="more"></a></p>
+<h2 id="语言工作台要素">语言工作台要素</h2><ul>
+<li>“语义模型”模式一般用元模型定义出语义模型的数据结构及静态语意；</li>
+<li>DSL编程环境为人们编写DSL脚本定义丰富的编辑体验，可能是直接编辑源码，也可能是进行投射编辑（projectional editing）;</li>
+<li>语义模型行为定义出构建好语义模型后DSL脚本能够做些什么，通常采用的技术是代码生成。</li>
+</ul>
+<p>语言工作台以语义模型为系统核心，提供工具辅助模型定义。语言工作台采用一种特殊的元模型建模结构，这种结构要用运行时工具处理模型。</p>
+<p>这样一来，模式和行为得以分离。语义模型模式本质是一种数据模型，没有任何行为。代码生成是运行语义模型最常用的方式。</p>
+<p>在语言工作台中有两个通用原则：模式定义（schema definition）和投射编辑</p>
+<h2 id="模式定义语言和元模型">模式定义语言和元模型</h2><p>语言工作台提供一个环境，用于定义模型的模式，也就是数据结构，通常会用到一种专用的DSL–模式定义语言。至于行为语义，则是要单独定义的，一般用代码生成来做。</p>
+<p>模式定义语言也有自己的语义模型，其本身也是模型。模型定义语言本身的语义模型就是DSL语义模型的元模型</p>
+<img src="/images/post/dsl8-1.png">
+<p>对于上面的状态图，我们可以用java代码实现：创建三个类State、Event和Transition。</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Transition</span> </span>{
+    State source, target;
+    Event trigger;
+    ......
+}
+</code></pre><p>我们也可以使用类图来实现：</p>
+<img src="/images/post/dsl8-2.png">    
+<p>我们上面例子中的模式是Java类的定义，也可以把模式定义成一组Java对象，而不仅仅是类。这样就可以在运行时操作这个模式。用三个Java类就可以给出这一想法的策略实现：类、字段和对象。</p>
+<pre><code><span class="keyword">class</span> MClass {
+    <span class="keyword">private</span> <span class="built_in">String</span> name;
+    <span class="keyword">private</span> Map&lt;<span class="built_in">String</span>, MField&gt; fields;
+}
+
+<span class="keyword">class</span> MField {
+    <span class="keyword">private</span> <span class="built_in">String</span> name;
+    <span class="keyword">private</span> MClass target;    
+}
+
+<span class="keyword">class</span> MObject {
+    <span class="keyword">private</span> <span class="built_in">String</span> name;
+    <span class="keyword">private</span> MClass mclass;
+    <span class="keyword">private</span> Map&lt;<span class="built_in">String</span>, MObject&gt; fields;
+}
+</code></pre><p>通过这个环境，就可以创建状态和转换的模式了。</p>
+<pre><code>private MClass <span class="keyword">state</span>, event, transition;
+private void buildTwoStateSchema() {
+    <span class="keyword">state</span> = new MClass(<span class="string">"State"</span>);
+    event = new MClass(<span class="string">"Event"</span>);
+
+    transition = new MClass(<span class="string">"Transition"</span>);
+    transition.addField(new MField(<span class="string">"source"</span>, <span class="keyword">state</span>));
+    transition.addField(new MField(<span class="string">"target"</span>, <span class="keyword">state</span>));
+    transition.addField(new MField(<span class="string">"trigger"</span>, event));
+}
+</code></pre><p>接下来，就可以用这个模式定义简单状态模型了。</p>
+<pre><code>private MObject active, waitingForDrawer, transitionInstance, lightOn;
+private void buildTwoStateModel() {
+    active = new MObject(<span class="keyword">state</span>, <span class="string">"active"</span>);
+    waitingForDrawer = new MObject(<span class="keyword">state</span>, <span class="string">"waiting For Drawer"</span>);
+    lightOn = new MObject(event, <span class="string">"light On"</span>);
+    transitionInstance = new MObject(transition);
+    transitionInstance.<span class="built_in">set</span>(<span class="string">"source"</span>, active);
+    transitionInstance.<span class="built_in">set</span>(<span class="string">"target"</span>, lightOn);
+    transitionInstance.<span class="built_in">set</span>(<span class="string">"trigger"</span>, waitingForDrawer);
+}
+</code></pre><p>元模型是一个模型，其实例定义另一个模型的模式。元模型只是另一种语义模型，所以，我们可以很容易定义一个DSL组装这个模型，就像我们为基本模型所做的一样—-这样的DSL，成为模式定义语言。</p>
+<img src="/images/post/dsl8-3.jpg">    
+<p>对元模型的反对声音是，语义模型丧失了成为恰当OO领域模型的能力。</p>
+<p>大多数语言工作台都是用元模型。同其他模型一样，元模型也要有自己的模式定义其结构。前面的例子中描述的MClass、MField和MObject就是模式。模式定义语言本身只不过是语言工作台的有一种DSL而已。</p>
+<p>许多语言工作台采用“自举工作台”方式，即能够定义自己。</p>
+<p>模式定义语言同文法的差别，简单回答就是，文法定义某种（文本）语言的具体语法，而模式定义语言定义语义模型模式的结构。</p>
+<p>当定义模式时，要考虑的是数据结构：类和字段。但是，还有一个元素要考虑：模式的结构性约束。通常，结构性约束是一些校验规则。</p>
+<h2 id="源码编辑和投射编辑">源码编辑和投射编辑</h2><p>基于源码的编辑系统用一种可编辑的表现形式定义程序，通过工具将其代入运行时系统。</p>
+<p>投射编辑系统，程序的核心表现形式则是一种鱼所用工具相关的格式。这个格式就是工具使用的语义模型的一种持久化表现形式。桌面数据库工具（如Microsoft Access）就是一个很好的投射编辑系统的工具。</p>
+<p>相比基于文本的方法，投射编辑可以给我们带来许多好处：</p>
+<ul>
+<li>可以通过不同的表现形式进行编辑；</li>
+<li>可以更好地控制编辑体验，输入正确信息，避免犯错；</li>
+<li>可以使用多个投射，可以同时，可以作为主要投射的备选方案。</li>
+</ul>
+<p>源文件也有一些实用上的优势。发邮件，解释某件事用文本片段会很容易；使用一些文本处理工具，某些转换可以很好自动化。</p>
+<h3 id="多种表现形式">多种表现形式</h3><p>源码扮演两个角色：编辑形式（编辑时程序的表现形式）和存储形式（进行持久化存储时的表现形式）。</p>
+<p>投射性编辑，表现形式可以由不同的安排</p>
+<h2 id="说明性编程">说明性编程</h2><p>投射编辑最引人入胜的一个发展是，它对成为说明性编程的支持。世界上最流行的程序设计环境是电子表格。大多数电子表格程序员都是外行程序员。</p>
+<p>使用电子表格，最常见的东西是，对一组数字的说明性计算。程序隐藏在公式栏之后，一次只能看到一个单元格。电子表格将程序的执行和定义融合一体。</p>
+<p>当试图理清概念时，考虑一下边界条件是一个不错的做法。一种边界情况是，编辑时会用到这样的程序信息投射，比如，在IDE中会给出类的层次结构。从某个方面看，与说明性编程很像，因为层次结构会随着我们的编辑不断地更新，但是二者的区别死，IDE的层次结构是从程序的静态信息中得到的，而说明性编程所需的信息则源自程序实际的运行。</p>
+<p>说明性编程也全是好的，在使用电子表格和GUI设计器时，它们弱化了程序的结构。但是复杂的电子表格和UI面板都非常难以理解和修改。它们毫无节制的使用复制和粘贴在编程中。</p>
+<h2 id="工具之旅">工具之旅</h2><p>介绍一些设计的语言工作台：</p>
+<ul>
+<li>Intentional Software的Intentional WorkBench</li>
+<li>MetaCase</li>
+<li>JetBrain的Meta-Programming System(MPS)</li>
+<li>Xtext</li>
+<li>Microsoft的SQL Server Modeling</li>
+</ul>
+<h2 id="语言工作台和CASE工具">语言工作台和CASE工具</h2><p>CASE（Compter-Aided Software Engineering）工具让我们可以使用各种图形符号表现软件设计，然后生成软件。</p>
+<p>表面上，二者有很多相似之处。以模型为核心、使用元模型定义、图形投射。</p>
+<p>关键技术差异是，CASE工具无法让我们定义自己的语言。或许，最重要的差异还是在文化上，在CASE领域里，许多人认为程序设计无关紧要。而语言工作台只是为程序员创建一个更有效率的环境。</p>
+<h2 id="我们该使用语言工作台么">我们该使用语言工作台么</h2><p>应该谨慎使用，这类工具目前的绑定（lock-in）问题很严重。用一个语言工作台所写的代码，几乎不能导入到另外一个。</p>
+<p>规避风险的一个方法是，把语言工作台当做解析器，而非完整的DSL环境。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/DSL/">DSL</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DSL/">DSL</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/10/dsl-languageworkbench/" data-title="DSL（八）-语言工作台 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/11/json-dif/" title="JSON（二）-数据传输格式">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JSON（二）-数据传输格式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/10/dsl-generatecode/"  title="DSL（七）-代码生成">
+ <strong>下一篇：</strong><br/> 
+ <span>DSL（七）-代码生成
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/10/dsl-languageworkbench/" data-title="DSL（八）-语言工作台" data-url="http://xfhnever.com/2014/08/10/dsl-languageworkbench/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#语言工作台要素"><span class="toc-number">1.</span> <span class="toc-text">语言工作台要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模式定义语言和元模型"><span class="toc-number">2.</span> <span class="toc-text">模式定义语言和元模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码编辑和投射编辑"><span class="toc-number">3.</span> <span class="toc-text">源码编辑和投射编辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多种表现形式"><span class="toc-number">3.1.</span> <span class="toc-text">多种表现形式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说明性编程"><span class="toc-number">4.</span> <span class="toc-text">说明性编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工具之旅"><span class="toc-number">5.</span> <span class="toc-text">工具之旅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语言工作台和CASE工具"><span class="toc-number">6.</span> <span class="toc-text">语言工作台和CASE工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我们该使用语言工作台么"><span class="toc-number">7.</span> <span class="toc-text">我们该使用语言工作台么</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,1078 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Refactoring(四)-Organizing Data | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="本章我们介绍几个让我们更加轻松处理数据的重构手法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Refactoring(四)-Organizing Data">
+<meta property="og:url" content="http://xfhnever.com/2015/01/25/refactoring-organizingdata/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="本章我们介绍几个让我们更加轻松处理数据的重构手法。">
+<meta property="og:image" content="http://xfhnever.com/images/post/refactoring4-1.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/refactoring4-2.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/refactoring4-3.png">
+<meta property="og:image" content="http://xfhnever.com/images/post/refactoring4-4.png">
+<meta property="og:updated_time" content="2015-10-01T15:08:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Refactoring(四)-Organizing Data">
+<meta name="twitter:description" content="本章我们介绍几个让我们更加轻松处理数据的重构手法。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/01/25/refactoring-organizingdata/" title="Refactoring(四)-Organizing Data" itemprop="url">Refactoring(四)-Organizing Data</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2015-01-25T15:08:33.000Z" itemprop="datePublished"> 发表于 Jan 25 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Self_Encapsulate_Field(自封装字段)"><span class="toc-number">1.</span> <span class="toc-text">Self Encapsulate Field(自封装字段)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring"><span class="toc-number">1.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring"><span class="toc-number">1.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Data_Value_with_Object(以对象取代数据值)"><span class="toc-number">2.</span> <span class="toc-text">Replace Data Value with Object(以对象取代数据值)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-1"><span class="toc-number">2.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-1"><span class="toc-number">2.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change_Value_to_Reference(将值对象改为引用对象)"><span class="toc-number">3.</span> <span class="toc-text">Change Value to Reference(将值对象改为引用对象)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-2"><span class="toc-number">3.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-2"><span class="toc-number">3.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change_Reference_to_Value(将引用对象改为值对象)"><span class="toc-number">4.</span> <span class="toc-text">Change Reference to Value(将引用对象改为值对象)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Array_with_Object(以对象取代数组)"><span class="toc-number">5.</span> <span class="toc-text">Replace Array with Object(以对象取代数组)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-3"><span class="toc-number">5.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-3"><span class="toc-number">5.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Duplicate_Observed_Data(复制“被监视数据”)"><span class="toc-number">6.</span> <span class="toc-text">Duplicate Observed Data(复制“被监视数据”)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change_Unidirectional_Association_to_Bidirectional(将单向关联改为双向关联)"><span class="toc-number">7.</span> <span class="toc-text">Change Unidirectional Association to Bidirectional(将单向关联改为双向关联)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-4"><span class="toc-number">7.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-4"><span class="toc-number">7.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change_Bidirectional_Association_to_Unidirectional(将双向关联改为单向关联)"><span class="toc-number">8.</span> <span class="toc-text">Change Bidirectional Association to Unidirectional(将双向关联改为单向关联)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-5"><span class="toc-number">8.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-5"><span class="toc-number">8.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Magic_Number_with_Symbolic_Constant(以字面常量取代魔法数)"><span class="toc-number">9.</span> <span class="toc-text">Replace Magic Number with Symbolic Constant(以字面常量取代魔法数)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-6"><span class="toc-number">9.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-6"><span class="toc-number">9.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encapsulate_Field(封装字段)"><span class="toc-number">10.</span> <span class="toc-text">Encapsulate Field(封装字段)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encapsulate_Collection(封装集合)"><span class="toc-number">11.</span> <span class="toc-text">Encapsulate Collection(封装集合)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-7"><span class="toc-number">11.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-7"><span class="toc-number">11.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Record_with_Data_Class(以数据类取代纪录)"><span class="toc-number">12.</span> <span class="toc-text">Replace Record with Data Class(以数据类取代纪录)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Type_Code_with_Class(以类取代类型码)"><span class="toc-number">13.</span> <span class="toc-text">Replace Type Code with Class(以类取代类型码)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-8"><span class="toc-number">13.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-8"><span class="toc-number">13.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Type_Code_with_Subclasses(以子类取代类型码)"><span class="toc-number">14.</span> <span class="toc-text">Replace Type Code with Subclasses(以子类取代类型码)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-9"><span class="toc-number">14.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-9"><span class="toc-number">14.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Type_Code_with_State/Strategy(以State/Strategy取代类型码)"><span class="toc-number">15.</span> <span class="toc-text">Replace Type Code with State/Strategy(以State/Strategy取代类型码)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-10"><span class="toc-number">15.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-10"><span class="toc-number">15.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Subclass_with_Fields(以字段取代子类)"><span class="toc-number">16.</span> <span class="toc-text">Replace Subclass with Fields(以字段取代子类)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-11"><span class="toc-number">16.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-11"><span class="toc-number">16.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>本章我们介绍几个让我们更加轻松处理数据的重构手法。<br><a id="more"></a></p>
+<h2 id="Self_Encapsulate_Field(自封装字段)">Self Encapsulate Field(自封装字段)</h2><p>程序中直接访问一个字段，但是与字段之间的耦合关系逐渐变得笨拙。</p>
+<p>可以为这个字段建立getter/setter函数，并且只以这些函数来访问字段。</p>
+<h3 id="Before_Refactoring">Before Refactoring</h3><pre><code><span class="keyword">private</span> <span class="keyword">int</span> _low, _high;
+<span class="function"><span class="keyword">boolean</span> <span class="title">includes</span> <span class="params">(<span class="keyword">int</span> arg)</span> </span>{
+    <span class="keyword">return</span> arg &gt;= _low &amp;&amp; arg &lt;= _high;
+}
+</code></pre><h3 id="After_Refactoring">After Refactoring</h3><pre><code><span class="keyword">private</span> <span class="keyword">int</span> _low, _high;
+<span class="function"><span class="keyword">boolean</span> <span class="title">includes</span> <span class="params">(<span class="keyword">int</span> arg)</span> </span>{
+    <span class="keyword">return</span> arg &gt;= getLow() &amp;&amp; arg &lt;= getHigh();
+}
+
+<span class="function"><span class="keyword">int</span> <span class="title">getLow</span><span class="params">()</span> </span>{<span class="keyword">return</span> _low;}
+<span class="function"><span class="keyword">int</span> <span class="title">getHigh</span><span class="params">()</span> </span>{<span class="keyword">return</span> _high;}
+</code></pre><p>间接访问变量的好处是，子类可以通过覆盖一个函数而改变获取数据的途径；还支持更灵活的数据管理，例如延迟初始化等。</p>
+<p>直接访问变量的好处则是：代码比较容易阅读。</p>
+<h2 id="Replace_Data_Value_with_Object(以对象取代数据值)">Replace Data Value with Object(以对象取代数据值)</h2><p>有一个数据项，需要与其他数据和行为一起使用才有意义。</p>
+<p>可以将数据项变成对象。</p>
+<h3 id="Before_Refactoring-1">Before Refactoring</h3><pre><code>class <span class="keyword">Order</span><span class="attribute">...</span>
+    <span class="keyword">private</span> <span class="built_in">String</span> _customer;
+    <span class="keyword">public</span> <span class="keyword">Order</span> (<span class="built_in">String</span> customer) {
+        _customer = customer;
+    }
+    <span class="keyword">public</span> <span class="literal">void</span> setCustomer(<span class="built_in">String</span> arg) {
+        _customer = arg;
+    }
+    <span class="keyword">public</span> <span class="built_in">String</span> getCustomer() {
+        <span class="keyword">return</span> _customer;
+    }
+</code></pre><h3 id="After_Refactoring-1">After Refactoring</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Order</span>...
+    <span class="title">private</span> <span class="title">Customer</span> <span class="title">_customer</span></span>;
+    <span class="function"><span class="keyword">public</span> <span class="title">Order</span> <span class="params">(String customerName)</span> </span>{
+        _customer = <span class="keyword">new</span> Customer(customerName);
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCustomer</span><span class="params">(String arg)</span> </span>{
+        _customer = <span class="keyword">new</span> Customer(arg);
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">getCustomer</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _customer.getName();
+    }
+
+<span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">final</span> String _name;
+    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(String name)</span> </span>{
+        _name = name;
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _name;
+    }
+}
+</code></pre><h2 id="Change_Value_to_Reference(将值对象改为引用对象)">Change Value to Reference(将值对象改为引用对象)</h2><p>从一个类衍生出许多彼此相等的实例，希望将它们替换为同一个对象。</p>
+<p>可以将这个值对象变成引用对象。</p>
+<h3 id="Before_Refactoring-2">Before Refactoring</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Order</span>...
+    <span class="title">private</span> <span class="title">Customer</span> <span class="title">_customer</span></span>;
+    <span class="function"><span class="keyword">public</span> <span class="title">Order</span> <span class="params">(String customerName)</span> </span>{
+        _customer = <span class="keyword">new</span> Customer(customerName);
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCustomer</span><span class="params">(String arg)</span> </span>{
+        _customer = <span class="keyword">new</span> Customer(arg);
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">getCustomer</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _customer.getName();
+    }
+
+<span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">final</span> String _name;
+    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(String name)</span> </span>{
+        _name = name;
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _name;
+    }
+}
+</code></pre><p>目前为止，Customer还是值对象。就算多份订单属于同一客户，但每个Order对象还是拥有各自的Customer对象。</p>
+<h3 id="After_Refactoring-2">After Refactoring</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Order</span>...
+    <span class="title">private</span> <span class="title">Customer</span> <span class="title">_customer</span></span>;
+    <span class="function"><span class="keyword">public</span> <span class="title">Order</span> <span class="params">(String customerName)</span> </span>{
+        _customer = Customer.getNamed(customerName);
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCustomer</span><span class="params">(String arg)</span> </span>{
+        _customer = Customer.getNamed(arg);
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">getCustomer</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _customer.getName();
+    }
+
+<span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> Dictionary _instance = <span class="keyword">new</span> Hashtable();
+
+    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadCustomers</span><span class="params">()</span> </span>{
+        <span class="keyword">new</span> Customer(<span class="string">"Never"</span>).store();
+        <span class="keyword">new</span> Customer(<span class="string">"xfh"</span>).store();
+        <span class="keyword">new</span> Customer(<span class="string">"test"</span>).store();
+    }
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">store</span><span class="params">()</span> </span>{
+        _instance.put(<span class="keyword">this</span>.getName, <span class="keyword">this</span>);
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Customer <span class="title">getNamed</span><span class="params">(Stirng name)</span> </span>{
+        <span class="keyword">return</span> (Customer) _instance.get(name);
+    }
+}
+</code></pre><h2 id="Change_Reference_to_Value(将引用对象改为值对象)">Change Reference to Value(将引用对象改为值对象)</h2><p>程序中有一个引用对象，很小且不可变，而且不易管理。</p>
+<p>应该把它变成一个值对象。</p>
+<p>值对象有一个非常重要的特性：它们应该是不可变的。如果对象是可变的，就不可以使用这项重构手段。</p>
+<h2 id="Replace_Array_with_Object(以对象取代数组)">Replace Array with Object(以对象取代数组)</h2><p>有一个数组，其中的元素各自代表不同的东西。</p>
+<p>可以用对象替换数组。对于数组中的每个元素，以一个字段来表示。</p>
+<h3 id="Before_Refactoring-3">Before Refactoring</h3><pre><code>String<span class="string">[]</span> row = new String<span class="string">[3]</span>;
+row<span class="string">[0]</span> = <span class="string">"Liverpool"</span>;
+row<span class="string">[1]</span> = <span class="string">"15"</span>;
+</code></pre><h3 id="After_Refactoring-3">After Refactoring</h3><pre><code>Performance row = new Performance();
+row.<span class="built_in">set</span>Name(<span class="string">"Liverpool"</span>);
+row.<span class="built_in">set</span>Wins(<span class="string">"15"</span>);
+</code></pre><h2 id="Duplicate_Observed_Data(复制“被监视数据”)">Duplicate Observed Data(复制“被监视数据”)</h2><p>有一些领域数据置身于GUI控件中，而领域函数需要访问这些数据。</p>
+<p>应该将这些数据复制到一个领域对象中。建立一个Observer模式，用以同步领域对象和GUI对象内的重复数据。</p>
+<img src="/images/post/refactoring4-1.png">
+<h2 id="Change_Unidirectional_Association_to_Bidirectional(将单向关联改为双向关联)">Change Unidirectional Association to Bidirectional(将单向关联改为双向关联)</h2><p>两个类都需要使用对方特性，但其间只有一条单向连接。</p>
+<p>需要添加一个反向指针，并使改变函数能够同时更新两条连接。</p>
+<h3 id="Before_Refactoring-4">Before Refactoring</h3><pre><code><span class="keyword">class</span> Order...
+    <span class="keyword">private</span> Customer _customer;
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCustomer</span><span class="params">(Customer arg)</span> </span>{
+        _customer = arg;
+    }
+    <span class="function"><span class="keyword">public</span> String <span class="title">getCustomer</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _customer;
+    }
+</code></pre><h3 id="After_Refactoring-4">After Refactoring</h3><p>由于一个用户拥有多份订单，所以可以在Customer中增加一个字段。</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> ｛</span>
+    <span class="keyword">private</span> Set _orders = <span class="keyword">new</span> HashSet();
+</code></pre><h2 id="Change_Bidirectional_Association_to_Unidirectional(将双向关联改为单向关联)">Change Bidirectional Association to Unidirectional(将双向关联改为单向关联)</h2><p>两个类之间有双向关联，但其中一个类如今不再需要另一个类的特性。</p>
+<p>应该去除不必要的关联。双向关联很有用，但必须为维护双向连接付出代价。</p>
+<h3 id="Before_Refactoring-5">Before Refactoring</h3><h3 id="After_Refactoring-5">After Refactoring</h3><h2 id="Replace_Magic_Number_with_Symbolic_Constant(以字面常量取代魔法数)">Replace Magic Number with Symbolic Constant(以字面常量取代魔法数)</h2><p>有一个字面数值，带有特别含义。</p>
+<p>应该创建一个常量，根据其意义为它命名，并将上述字面数值替换为这个常量。</p>
+<h3 id="Before_Refactoring-6">Before Refactoring</h3><pre><code><span class="function"><span class="keyword">double</span> <span class="title">potentialEnergy</span><span class="params">(<span class="keyword">double</span> mass, <span class="keyword">double</span> height)</span> </span>{
+    <span class="keyword">return</span> mass * <span class="number">9.81</span> * height;
+}
+</code></pre><h3 id="After_Refactoring-6">After Refactoring</h3><pre><code><span class="keyword">double</span> potentialEnergy(<span class="keyword">double</span> mass, <span class="keyword">double</span> <span class="variable">height</span>) {
+    <span class="keyword">return</span> mass*GRAVITATIONAL_CONSTANT*<span class="variable">height</span>;
+}
+<span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> GRAVITATIONAL_CONSTANT = <span class="number">9.81</span>;
+</code></pre><h2 id="Encapsulate_Field(封装字段)">Encapsulate Field(封装字段)</h2><p>类中存在一个public字段。应该把它声明为private，并提供相应的访问函数。</p>
+<h2 id="Encapsulate_Collection(封装集合)">Encapsulate Collection(封装集合)</h2><p>有一个函数返回一个集合。</p>
+<p>应该让这个函数返回集合的一个只读副本，并在这个类中提供添加／移除集合元素的函数。</p>
+<h3 id="Before_Refactoring-7">Before Refactoring</h3><pre><code>class Person<span class="attribute">...</span>
+    <span class="keyword">public</span> <span class="built_in">Set</span> getCourses() {
+        <span class="keyword">return</span> _courses;
+    }
+    <span class="keyword">public</span> <span class="literal">void</span> setCourses(<span class="built_in">Set</span> arg) {
+        _courses = arg;
+    }
+    <span class="keyword">private</span> <span class="built_in">Set</span> _courses;
+</code></pre><h3 id="After_Refactoring-7">After Refactoring</h3><pre><code><span class="keyword">class</span> Person...
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCourse</span><span class="params">(Course arg)</span> </span>{
+        _courses.add(arg);
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeCourse</span><span class="params">(Course arg)</span> </span>{
+        _courses.remove(arg);
+    }
+    <span class="keyword">private</span> Set _courses ＝ <span class="keyword">new</span> HashSet();
+
+    <span class="function"><span class="keyword">public</span> Set <span class="title">getCourses</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> Collections.unmodifiableSet(_courses);
+    }
+</code></pre><h2 id="Replace_Record_with_Data_Class(以数据类取代纪录)">Replace Record with Data Class(以数据类取代纪录)</h2><p>需要面对传统环境中的记录结构。</p>
+<p>为该记录创建一个“哑”数据对象。</p>
+<h2 id="Replace_Type_Code_with_Class(以类取代类型码)">Replace Type Code with Class(以类取代类型码)</h2><p>类之中有一个数值类型码，但它并不影响类的行为。</p>
+<p>可以用一个新的类型替换该数值类型码。</p>
+<h3 id="Before_Refactoring-8">Before Refactoring</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> O = <span class="number">0</span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> A = <span class="number">1</span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> B = <span class="number">2</span>;
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> AB = <span class="number">3</span>;
+
+    <span class="keyword">private</span> <span class="keyword">int</span> _bloodGroup;
+    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(<span class="keyword">int</span> bloodGroup)</span> </span>{
+        _bloodGroup = bloodGroup;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBloodGroup</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>{
+        _bloodGroup = arg;
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBloodGroup</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _bloodGroup;
+    }
+}
+</code></pre><h3 id="After_Refactoring-8">After Refactoring</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>{
+    <span class="keyword">private</span> BloodGroup _bloodGroup;
+    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(<span class="keyword">int</span> bloodGroup)</span> </span>{
+        _bloodGroup = BloodGroup.code(bloodGroup);
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBloodGroup</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>{
+        _bloodGroup = BloodGroup.code(arg);
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBloodGroup</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _bloodGroup.getCode();
+    }
+}
+
+<span class="class"><span class="keyword">class</span> <span class="title">BloodGroup</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup O = <span class="keyword">new</span> BloodGroup(<span class="number">0</span>);
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup A = <span class="keyword">new</span> BloodGroup(<span class="number">1</span>);
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup B = <span class="keyword">new</span> BloodGroup(<span class="number">2</span>);
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup AB = <span class="keyword">new</span> BloodGroup(<span class="number">3</span>);
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup[] _values = {O, A, B, AB};
+
+    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> _code;
+    <span class="function"><span class="keyword">private</span> <span class="title">BloodGroup</span><span class="params">(<span class="keyword">int</span> code)</span> </span>{
+        _code = code;
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCode</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _code;
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BloodGroup <span class="title">code</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>{
+        <span class="keyword">return</span> _values[arg];
+    }
+}
+</code></pre><h2 id="Replace_Type_Code_with_Subclasses(以子类取代类型码)">Replace Type Code with Subclasses(以子类取代类型码)</h2><p>有个不可变的类型码，会影响类到行为。</p>
+<p>应该使用子类取代这个类型码。<br><img src="/images/post/refactoring4-2.png"></p>
+<h3 id="Before_Refactoring-9">Before Refactoring</h3><pre><code><span class="keyword">class</span> Employee...
+    <span class="keyword">private</span> <span class="keyword">int</span> _type;
+    <span class="keyword">static</span> final <span class="keyword">int</span> ENGINEER = <span class="number">0</span>;
+    <span class="keyword">static</span> final <span class="keyword">int</span> SALESMAN = <span class="number">1</span>;
+    <span class="keyword">static</span> final <span class="keyword">int</span> MANAGER = <span class="number">2</span>;
+
+    Employee (<span class="keyword">int</span> type) {
+        _type = type;
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">getType</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> _type;
+    }
+</code></pre><h3 id="After_Refactoring-9">After Refactoring</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Employee</span>...
+</span>    <span class="keyword">private</span> int _type;
+    static <span class="keyword">final</span> int <span class="type">ENGINEER</span> = <span class="number">0</span>;
+    static <span class="keyword">final</span> int <span class="type">SALESMAN</span> = <span class="number">1</span>;
+    static <span class="keyword">final</span> int <span class="type">MANAGER</span> = <span class="number">2</span>;
+
+    <span class="type">Employee</span> (int <span class="class"><span class="keyword">type</span>) {</span>
+        _type = <span class="class"><span class="keyword">type</span>;</span>
+    }
+    <span class="keyword">abstract</span> int getType();
+    static <span class="type">Employee</span> create(int <span class="class"><span class="keyword">type</span>) {</span>
+        switch (<span class="class"><span class="keyword">type</span>) {</span>
+            <span class="keyword">case</span> <span class="type">ENGINEER</span>:
+                <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Engineer</span>();
+            <span class="keyword">case</span> <span class="type">SALESMAN</span>:
+                <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Salesman</span>();
+            <span class="keyword">case</span> <span class="type">MANAGER</span>:
+                <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Manager</span>();
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">IllegalArgumentException</span>(<span class="string">"...."</span>);
+        }
+    }
+<span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Employee</span> {</span>
+    int getType() {
+        <span class="keyword">return</span> <span class="type">Employee</span>.<span class="type">ENGINEER</span>;
+    }
+}
+.......
+</code></pre><h2 id="Replace_Type_Code_with_State/Strategy(以State/Strategy取代类型码)">Replace Type Code with State/Strategy(以State/Strategy取代类型码)</h2><p>有一个状态码，会影响类到行为，但无法通过继承手段（类型码值在对象生命周期中发生变化或其他原因）消除它。</p>
+<p>应该用状态对象取代类型码。</p>
+<img src="/images/post/refactoring4-3.png">
+<h3 id="Before_Refactoring-10">Before Refactoring</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Employee</span>...
+    <span class="title">private</span> <span class="title">int</span> <span class="title">_type</span></span>;
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ENGINEER = <span class="number">0</span>;
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SALESMAN = <span class="number">1</span>;
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MANAGER = <span class="number">2</span>;
+
+    Employee (<span class="keyword">int</span> type) {
+        _type = type;
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">payAmount</span><span class="params">()</span> </span>{
+        <span class="keyword">switch</span> (type) {
+            <span class="keyword">case</span> ENGINEER:
+                <span class="keyword">return</span> _mongthlySalary;
+            <span class="keyword">case</span> SALESMAN:
+                <span class="keyword">return</span> _mongthlySalary + _commission;
+            <span class="keyword">case</span> MANAGER:
+                <span class="keyword">return</span> _mongthlySalary + _bonus;
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+        }
+    }
+    <span class="keyword">static</span> <span class="function">Employee <span class="title">create</span><span class="params">(<span class="keyword">int</span> type)</span> </span>{
+        <span class="keyword">switch</span> (type) {
+            <span class="keyword">case</span> ENGINEER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Engineer();
+            <span class="keyword">case</span> SALESMAN:
+                <span class="keyword">return</span> <span class="keyword">new</span> Salesman();
+            <span class="keyword">case</span> MANAGER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Manager();
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+        }
+    }
+</code></pre><h3 id="After_Refactoring-10">After Refactoring</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">Employee</span>...
+    <span class="title">private</span> <span class="title">EmployeeType</span> <span class="title">_type</span></span>;
+
+    Employee (<span class="keyword">int</span> type) {
+        _type = EmployeeType.newType(arg);
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">payAmount</span><span class="params">()</span> </span>{
+        <span class="keyword">switch</span> (type) {
+            <span class="keyword">case</span> EmployeeType.ENGINEER:
+                <span class="keyword">return</span> _mongthlySalary;
+            <span class="keyword">case</span> EmployeeType.SALESMAN:
+                <span class="keyword">return</span> _mongthlySalary + _commission;
+            <span class="keyword">case</span> EmployeeType.MANAGER:
+                <span class="keyword">return</span> _mongthlySalary + _bonus;
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+        }
+    }
+    <span class="function"><span class="keyword">int</span> <span class="title">getType</span><span class="params">()</span></span>;
+    <span class="keyword">static</span> <span class="function">Employee <span class="title">create</span><span class="params">(<span class="keyword">int</span> type)</span> </span>{
+        <span class="keyword">switch</span> (getType()) {
+            <span class="keyword">case</span> ENGINEER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Engineer();
+            <span class="keyword">case</span> SALESMAN:
+                <span class="keyword">return</span> <span class="keyword">new</span> Salesman();
+            <span class="keyword">case</span> MANAGER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Manager();
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+        }
+    }
+
+<span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">EmployeeType</span> </span>{
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ENGINEER = <span class="number">0</span>;
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SALESMAN = <span class="number">1</span>;
+    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MANAGER = <span class="number">2</span>;
+    <span class="keyword">abstract</span> <span class="function"><span class="keyword">int</span> <span class="title">getTypeCode</span><span class="params">()</span></span>;
+    <span class="keyword">static</span> <span class="function">EmployeeType <span class="title">newType</span><span class="params">(<span class="keyword">int</span> code)</span> </span>{
+        <span class="keyword">switch</span> (code) {
+            <span class="keyword">case</span> ENGINEER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Engineer();
+            <span class="keyword">case</span> SALESMAN:
+                <span class="keyword">return</span> <span class="keyword">new</span> Salesman();
+            <span class="keyword">case</span> MANAGER:
+                <span class="keyword">return</span> <span class="keyword">new</span> Manager();
+            <span class="keyword">default</span>:
+                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"...."</span>);
+        }
+    }
+}
+
+<span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">EmployeeType</span> </span>{
+    <span class="function"><span class="keyword">int</span> <span class="title">getTypeCode</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> EmployeeType.ENGINEER;
+    }    
+}
+</code></pre><p>然后程序就可以使用Replace Conditional with Polymorphism来处理payAmount()函数了。</p>
+<h2 id="Replace_Subclass_with_Fields(以字段取代子类)">Replace Subclass with Fields(以字段取代子类)</h2><p>各个子类的唯一差别只在“返回常量数据”的函数身上。</p>
+<p>应该修改这些函数，使它们返回超类中的某个字段，然后销毁子类。</p>
+<h3 id="Before_Refactoring-11">Before Refactoring</h3><h3 id="After_Refactoring-11">After Refactoring</h3><img src="/images/post/refactoring4-4.png">
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/软件工程/">软件工程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Refactoring/">Refactoring</a><a href="/tags/软件工程/">软件工程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2015/01/25/refactoring-organizingdata/" data-title="Refactoring(四)-Organizing Data | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/01/26/refactoring-simplifyingconditionalexpressions/" title="Refactoring(五)-Simplifying Conditional Expressions">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Refactoring(五)-Simplifying Conditional Expressions</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/01/24/refactoring-movingfeaturesbetweenobjects/"  title="Refactoring(三)-Moving Features Between Objects">
+ <strong>下一篇：</strong><br/> 
+ <span>Refactoring(三)-Moving Features Between Objects
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2015/01/25/refactoring-organizingdata/" data-title="Refactoring(四)-Organizing Data" data-url="http://xfhnever.com/2015/01/25/refactoring-organizingdata/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Self_Encapsulate_Field(自封装字段)"><span class="toc-number">1.</span> <span class="toc-text">Self Encapsulate Field(自封装字段)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring"><span class="toc-number">1.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring"><span class="toc-number">1.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Data_Value_with_Object(以对象取代数据值)"><span class="toc-number">2.</span> <span class="toc-text">Replace Data Value with Object(以对象取代数据值)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-1"><span class="toc-number">2.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-1"><span class="toc-number">2.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change_Value_to_Reference(将值对象改为引用对象)"><span class="toc-number">3.</span> <span class="toc-text">Change Value to Reference(将值对象改为引用对象)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-2"><span class="toc-number">3.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-2"><span class="toc-number">3.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change_Reference_to_Value(将引用对象改为值对象)"><span class="toc-number">4.</span> <span class="toc-text">Change Reference to Value(将引用对象改为值对象)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Array_with_Object(以对象取代数组)"><span class="toc-number">5.</span> <span class="toc-text">Replace Array with Object(以对象取代数组)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-3"><span class="toc-number">5.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-3"><span class="toc-number">5.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Duplicate_Observed_Data(复制“被监视数据”)"><span class="toc-number">6.</span> <span class="toc-text">Duplicate Observed Data(复制“被监视数据”)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change_Unidirectional_Association_to_Bidirectional(将单向关联改为双向关联)"><span class="toc-number">7.</span> <span class="toc-text">Change Unidirectional Association to Bidirectional(将单向关联改为双向关联)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-4"><span class="toc-number">7.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-4"><span class="toc-number">7.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Change_Bidirectional_Association_to_Unidirectional(将双向关联改为单向关联)"><span class="toc-number">8.</span> <span class="toc-text">Change Bidirectional Association to Unidirectional(将双向关联改为单向关联)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-5"><span class="toc-number">8.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-5"><span class="toc-number">8.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Magic_Number_with_Symbolic_Constant(以字面常量取代魔法数)"><span class="toc-number">9.</span> <span class="toc-text">Replace Magic Number with Symbolic Constant(以字面常量取代魔法数)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-6"><span class="toc-number">9.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-6"><span class="toc-number">9.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encapsulate_Field(封装字段)"><span class="toc-number">10.</span> <span class="toc-text">Encapsulate Field(封装字段)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encapsulate_Collection(封装集合)"><span class="toc-number">11.</span> <span class="toc-text">Encapsulate Collection(封装集合)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-7"><span class="toc-number">11.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-7"><span class="toc-number">11.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Record_with_Data_Class(以数据类取代纪录)"><span class="toc-number">12.</span> <span class="toc-text">Replace Record with Data Class(以数据类取代纪录)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Type_Code_with_Class(以类取代类型码)"><span class="toc-number">13.</span> <span class="toc-text">Replace Type Code with Class(以类取代类型码)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-8"><span class="toc-number">13.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-8"><span class="toc-number">13.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Type_Code_with_Subclasses(以子类取代类型码)"><span class="toc-number">14.</span> <span class="toc-text">Replace Type Code with Subclasses(以子类取代类型码)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-9"><span class="toc-number">14.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-9"><span class="toc-number">14.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Type_Code_with_State/Strategy(以State/Strategy取代类型码)"><span class="toc-number">15.</span> <span class="toc-text">Replace Type Code with State/Strategy(以State/Strategy取代类型码)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-10"><span class="toc-number">15.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-10"><span class="toc-number">15.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Replace_Subclass_with_Fields(以字段取代子类)"><span class="toc-number">16.</span> <span class="toc-text">Replace Subclass with Fields(以字段取代子类)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Before_Refactoring-11"><span class="toc-number">16.1.</span> <span class="toc-text">Before Refactoring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#After_Refactoring-11"><span class="toc-number">16.2.</span> <span class="toc-text">After Refactoring</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

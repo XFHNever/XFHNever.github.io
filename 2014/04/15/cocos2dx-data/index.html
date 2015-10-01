@@ -1,0 +1,834 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Cocos2D(十五)-数据持久化 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="下面介绍几种数据持久化的方法
+CCUserDefaultCCUserDefault是Cocos2d-x引擎提供的持久化方案，其作用是存储所有游戏通用的用户配置信息，例如音乐和音效配置等。CCUserDefault可以看做一个永久存储的字典，本质是一个XML文件，将每个键及其对应的值以节点的形式存储到外存中。值只支持int和float等基本类型。使用接口非常简单，只需要一行代码：
+CCUserDef">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocos2D(十五)-数据持久化">
+<meta property="og:url" content="http://xfhnever.com/2014/04/15/cocos2dx-data/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="下面介绍几种数据持久化的方法
+CCUserDefaultCCUserDefault是Cocos2d-x引擎提供的持久化方案，其作用是存储所有游戏通用的用户配置信息，例如音乐和音效配置等。CCUserDefault可以看做一个永久存储的字典，本质是一个XML文件，将每个键及其对应的值以节点的形式存储到外存中。值只支持int和float等基本类型。使用接口非常简单，只需要一行代码：
+CCUserDef">
+<meta property="og:updated_time" content="2015-10-01T12:53:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cocos2D(十五)-数据持久化">
+<meta name="twitter:description" content="下面介绍几种数据持久化的方法
+CCUserDefaultCCUserDefault是Cocos2d-x引擎提供的持久化方案，其作用是存储所有游戏通用的用户配置信息，例如音乐和音效配置等。CCUserDefault可以看做一个永久存储的字典，本质是一个XML文件，将每个键及其对应的值以节点的形式存储到外存中。值只支持int和float等基本类型。使用接口非常简单，只需要一行代码：
+CCUserDef">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/04/15/cocos2dx-data/" title="Cocos2D(十五)-数据持久化" itemprop="url">Cocos2D(十五)-数据持久化</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-04-15T13:57:56.000Z" itemprop="datePublished"> 发表于 Apr 15 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CCUserDefault"><span class="toc-number">1.</span> <span class="toc-text">CCUserDefault</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化存储"><span class="toc-number">2.</span> <span class="toc-text">格式化存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地文件存储"><span class="toc-number">3.</span> <span class="toc-text">本地文件存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XML和JSON"><span class="toc-number">4.</span> <span class="toc-text">XML和JSON</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加密和解密"><span class="toc-number">5.</span> <span class="toc-text">加密和解密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQLite"><span class="toc-number">6.</span> <span class="toc-text">SQLite</span></a></li></ol>
+		
+		</div>
+		
+		<p>下面介绍几种数据持久化的方法</p>
+<h2 id="CCUserDefault">CCUserDefault</h2><p>CCUserDefault是Cocos2d-x引擎提供的持久化方案，其作用是存储所有游戏通用的用户配置信息，例如音乐和音效配置等。CCUserDefault可以看做一个永久存储的字典，本质是一个XML文件，将每个键及其对应的值以节点的形式存储到外存中。值只支持int和float等基本类型。使用接口非常简单，只需要一行代码：</p>
+<pre><code><span class="rule"><span class="attribute">CCUserDefault</span>:<span class="value">:<span class="function">sharedUserDefault</span>()-&gt;<span class="function">setIntegerForKey</span>(<span class="string">"coin"</span>, coin - <span class="number">1</span>)</span></span>;
+</code></pre><p>由于每次设置和读取都会遍历整棵XML树，效率不高，且值类型具有局限性，因此CCUserDefault只适合小规模使用，对于复杂的持久化场景就会显得很无力。<br><a id="more"></a></p>
+<h2 id="格式化存储">格式化存储</h2><p>对于稍微复杂的持久化情景，还是可以借助CCUserDefault来满足我们的需求的。由于CCUserDefault是允许存储字符串值的，所以只要将需要保存的数据类型先转化为字符串，就可以写入外存中。</p>
+<p>我们先将用户记录封装为类，由用户ID标识，在一个ID下存放金币、经验值和音乐3个值，这样游戏中就允许存在多个用户的记录了。我们创建了一个UserRecord类来读写用户记录，其定义如下：</p>
+<pre><code><span class="keyword">class</span> UserRecord : <span class="keyword">public</span> CCObject
+{
+    CC_SYNTHESIZE_PASS_BY_REF(<span class="built_in">string</span>, m_userID, UserID);
+    CC_SYNTHESIZE_PASS_BY_REF(<span class="keyword">int</span>, m_coin, Coin);
+    CC_SYNTHESIZE_PASS_BY_REF(<span class="keyword">int</span>, m_exp, Exp);
+    CC_SYNTHESIZE_PASS_BY_REF(<span class="keyword">bool</span>, m_isMusicOn, IsMusicOn);
+
+<span class="keyword">public</span>:
+    UserRecord(<span class="keyword">const</span> <span class="built_in">string</span>&amp; userID);
+    <span class="function"><span class="keyword">void</span> <span class="title">saveToCCUserDefault</span><span class="params">()</span></span>;
+    <span class="function"><span class="keyword">void</span> <span class="title">readFromCCUserDefault</span><span class="params">()</span></span>;
+};
+</code></pre><p>我们把需要存档的数据通过sprintf函数格式化成一个字符串，并把字符串保存到CCUserDefault之中。注意，这里我们做了一点小小的处理，存储的关键字除了用户ID之外，还添加了一个前缀”UserRecord”，这样可以保证，即使在存储时其他类型对象用了同样的用户ID，也可以被区分开。具体代码如下：</p>
+<pre><code><span class="keyword">void</span> UserRecord::saveToCCUserDefault()
+{
+    <span class="keyword">char</span> buff[<span class="number">100</span>];
+    <span class="built_in">sprintf</span>(buff, <span class="string">"%d %d %d"</span>,
+    <span class="keyword">this</span>-&gt;getCoin(),
+    <span class="keyword">this</span>-&gt;getExp(),
+    <span class="keyword">this</span>-&gt;getIsMusicOn() ? <span class="number">1</span> : <span class="number">0</span>
+);
+<span class="keyword">const</span> <span class="keyword">char</span>* key = (<span class="string">"UserRecord."</span> + <span class="keyword">this</span>-&gt;getUserID()).c_str();
+CCUserDefault::sharedUserDefault()-&gt;setStringForKey(key, buff);
+}
+</code></pre><p>有了写入存档的功能，我们还需要一个逆向的从存档读取的过程。读取过程与此过程刚好相反。我们从CCUserDefault来获取保存的字符串，再使用sscanf函数来得到每个数据的值，相关代码如下：</p>
+<pre><code><span class="keyword">void</span> UserRecord::readFromCCUserDefault()
+{    
+    <span class="built_in">string</span> buff = CCUserDefault::sharedUserDef;    
+    ault()-&gt;getStringForKey((<span class="string">"UserRecord."</span> + <span class="keyword">this</span>-&gt;getUserID()).c_str());
+
+    <span class="keyword">int</span> coin = <span class="number">0</span>;
+    <span class="keyword">int</span> experience = <span class="number">0</span>;
+    <span class="keyword">int</span> music = <span class="number">0</span>;
+
+    <span class="built_in">sscanf</span>(buff.c_str(), <span class="string">"%d %d %d"</span>, &amp;coin, &amp;experience, &amp;music);
+    <span class="keyword">this</span>-&gt;setCoin(coin);
+    <span class="keyword">this</span>-&gt;setExp(experience);
+    <span class="keyword">this</span>-&gt;setIsMusicOn(music!=<span class="number">0</span>);
+}
+</code></pre><p>这一写一读的过程可以称为序列化与反序列化，是立体的内存数据与一维的字符串间的相互转换。实际上，我们只完成了从数据到CCUserDefault的标准化存储间的转换，从标准化存储到实际存储在文件中的字符串间的转换是交由引擎封装完成的。</p>
+<h2 id="本地文件存储">本地文件存储</h2><p>如果将不同类别的数据（例如，NPC的状态和玩家完成的成就）存储到不同的文件中，既可以提高效率，也方便我们查找。</p>
+<p>不同平台间的文件系统不尽相同，为了简化操作、方便开发，Cocos2d-x引擎为我们提供了CCFileUtil类，用于实现获取路径和读取内容等功能，其中两个最重要的接口如下：</p>
+<pre><code><span class="function"><span class="keyword">static</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>* <span class="title">getFileData</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* pszFileName,<span class="keyword">const</span> <span class="keyword">char</span>* pszMode, <span class="keyword">unsigned</span> <span class="keyword">long</span> * pSize)</span></span>;<span class="comment">//装载文件内容</span>
+<span class="keyword">static</span> <span class="built_in">std</span>::<span class="function"><span class="built_in">string</span> <span class="title">getWriteablePath</span><span class="params">()</span></span>; <span class="comment">//获得可读写路径</span>
+</code></pre><p>借助这两个接口，我们可以获得一个路径，然后对文件进行相应的读写。文件读写在实际开发中应用得比较直接，一般是批量集中写入和读出，在此不再赘述。对于稍微灵活的场景，尤其是需要在大量数据中随机读写一小部分的时候，直接的文件存储由于缺少寻址支持，会变得非常麻烦。我们可以借助XML和SQL这两种方式，来更好地解决这个问题。</p>
+<h2 id="XML和JSON">XML和JSON</h2><p>XML和JSON都是当下流行的数据存储格式，它们的共同特点就是数据明文，十分易于阅读。XML源自于SGML，是一种标记性数据描述语言，而JSON则是一种轻量级数据交换格式，比XML更为简洁。鉴于C++对XML的支持更为完善，Cocos2d-x选择了XML作为主要的文件存储格式。</p>
+<p>XML文档的语法非常简洁。文档由节点组成，节点的定义是递归的，节点内可以是一个字符串，也可以是由一组<tag></tag>包围的若干节点，其中tag可以是任意符合命名规则的标识符。这样的递归嵌套结构非常灵活，特别适合以键值对形式存储的数据，比如数组和字典等。对于游戏开发中的大部分情景，XML文档都可以游刃有余地处理它们。</p>
+<p>随Cocos2d-x一起分发的还有一个处理XML的开源库LibXML2，它用纯C语言的接口封装了对XML的创建、寻址、读和写等操作，极大地方便了开发。这里我们可以仿照CCUserDefault的做法，将对象存储到指定的XML文件中。</p>
+<p>和XML语言的规范相对应，LibXML2库同样十分简洁，只有两个核心的概念<br>    xmlDocPtr         指向XML文档的指针               XML文档的创建、保存、文档基本信息存取、根节点存取等。<br>    xmlNodePrt        指向XML文档中一个节点的指针       节点内容存取、子节点的增删改等。</p>
+<p>在UserRecord类中，我们添加如下两个接口，分别负责将对象从XML文件中读出和写入：</p>
+<pre><code><span class="function"><span class="keyword">void</span> <span class="title">saveToXMLFile</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* filename=<span class="string">"default.xml"</span>)</span></span>;
+<span class="function"><span class="keyword">void</span> <span class="title">readFromXMLFile</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* filename=<span class="string">"default.xml"</span>)</span></span>;
+</code></pre><p>在开始之前，我们可以进一步抽象出两个函数，完成对象和字符串间的序列化和反序列化，以便在XML的读写接口和CCUserDefault的读写接口间共享，相关代码如下：</p>
+<pre><code><span class="keyword">void</span> UserRecord::readFromString(<span class="keyword">const</span> <span class="built_in">string</span>&amp; str)
+{
+    <span class="keyword">int</span> coin = <span class="number">0</span>;    
+    <span class="keyword">int</span> experience = <span class="number">0</span>;
+    <span class="keyword">int</span> music = <span class="number">0</span>;
+
+    <span class="built_in">sscanf</span>(str.c_str(), <span class="string">"%d %d %d"</span>, &amp;coin, &amp;experience, &amp;music);
+    <span class="keyword">this</span>-&gt;setCoin(coin);
+    <span class="keyword">this</span>-&gt;setExp(experience);
+    <span class="keyword">this</span>-&gt;setIsMusicOn(music != <span class="number">0</span>);
+}
+<span class="keyword">void</span> UserRecord::writeToString(<span class="built_in">string</span>&amp; str)
+{
+    <span class="keyword">char</span> buff[<span class="number">100</span>] = <span class="string">""</span>;
+    <span class="built_in">sprintf</span>(buff,<span class="string">"%d %d %d"</span>,
+    <span class="keyword">this</span>-&gt;getCoin(),
+    <span class="keyword">this</span>-&gt;getExp(),
+    <span class="keyword">this</span>-&gt;getIsMusicOn() ? <span class="number">1</span> : <span class="number">0</span>
+    );
+    str = buff;
+}
+</code></pre><p>有了对字符的序列化和反序列化，实际上我们只需要关心如何正确地在XML文档中读写键值对。我们暂且将对象都写到文档的根节点下，不考虑存储数组等复合数据结构的情景，尽管这些情景在操作上是类似的。首先，我们在一个指定的文档的根节点下找到一个键值，如果根节点下不存在指定的键值，将根据参数指定来创建。相关代码略。</p>
+<h2 id="加密和解密">加密和解密</h2><p>XML的一个很严重的问题是明文存储，存储在外部的数据一旦被截获，就将直接暴露在攻击者面前，小则篡改用户数据，大则泄露用户隐私信息。因此，对存储在文件中的信息加密不可忽视。</p>
+<p>前面我们已经设计好了序列化和反序列化过程，只要在其中加入合适的加密和解密算法，即可保证我们的数据不会被轻易窃取。这里我们只使用一个简单的编码轮换来加密，相关代码如下：</p>
+<pre><code>void encode(string &amp;<span class="keyword">str</span>)
+{
+    for(<span class="keyword">int</span> i = <span class="number">0</span><span class="comment">; i &lt; str.length(); i++) {</span>
+        <span class="keyword">int</span> <span class="number">ch</span> = <span class="keyword">str</span>[i]<span class="comment">;</span>
+        <span class="number">ch</span> = <span class="number">0xff</span> &amp; (((<span class="number">ch</span> &amp; (<span class="number">1</span> &lt;&lt; <span class="number">7</span>)) &gt;&gt; <span class="number">7</span>) &amp; (<span class="number">ch</span> &lt;&lt; <span class="number">1</span>))<span class="comment">;</span>
+        <span class="keyword">str</span>[i] = <span class="number">ch</span><span class="comment">;</span>
+    }
+}
+void decode(string &amp;<span class="keyword">str</span>)
+{
+    for(<span class="keyword">int</span> i = <span class="number">0</span><span class="comment">; i &lt; str.length(); i++) {</span>
+        <span class="keyword">int</span> <span class="number">ch</span> = <span class="keyword">str</span>[i]<span class="comment">;</span>
+        <span class="number">ch</span> = <span class="number">0xff</span> &amp; (((<span class="number">ch</span> &amp; (<span class="number">1</span>)) &lt;&lt; <span class="number">7</span>) &amp; (<span class="number">ch</span> &gt;&gt; <span class="number">1</span>))<span class="comment">;</span>
+        <span class="keyword">str</span>[i] = <span class="number">ch</span><span class="comment">;</span>
+    }
+}
+</code></pre><h2 id="SQLite">SQLite</h2><p>SQLite是移动设备上常用的一个嵌入式数据库，具有开源、轻量等特点，其源代码只有两个”.c”文件和两个”.h”文件，并且已经包括了充分的注释说明。相比MySQL或者SQL Server这样的专业级数据库，甚至是比起同样轻量级的Access，SQLite的部署都可谓非常简单，只要将这4个文件导入工程中即可，这使得编译之后的SQLite非常小。</p>
+<p>SQLite将数据库的数据存储在磁盘的单一文件中，并通过简单的外部接口提供SQL支持。由于其设计之初即是针对小规模数据的操作，在查询优化、高并发读写等方面做了极简化的处理，可以保证不占用系统额外的资源，因此，在大多数的嵌入式开发中，会比专业数据库有更快速、高效的执行效率。</p>
+<p>SQLite的核心接口函数只有一个，如下所示：</p>
+<pre><code>int sqlite3_exec(
+    sqlite3*, <span class="comment">//一个已打开的数据库</span>
+    <span class="keyword">const</span> char *sql, <span class="comment">//将要执行的SQL语句</span>
+    int <span class="comment">(*callback)(void*, int, char**, char**)</span>, <span class="comment">//回调函数</span>
+    void *, <span class="comment">//回调函数的第一个参数（用于传递自定义数据）</span>
+    char **errmsg <span class="comment">//出错时返回的错误信息</span>
+);
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Cocos2D-x/">Cocos2D-x</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Cocos2D-x/">Cocos2D-x</a><a href="/tags/数据持久化/">数据持久化</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/04/15/cocos2dx-data/" data-title="Cocos2D(十五)-数据持久化 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/04/16/cocos2dx-network/" title="Cocos2D(十六)-网络">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Cocos2D(十六)-网络</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/04/15/cocos2dx-physicsengine/"  title="Cocos2D(十四)-物理引擎">
+ <strong>下一篇：</strong><br/> 
+ <span>Cocos2D(十四)-物理引擎
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/04/15/cocos2dx-data/" data-title="Cocos2D(十五)-数据持久化" data-url="http://xfhnever.com/2014/04/15/cocos2dx-data/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CCUserDefault"><span class="toc-number">1.</span> <span class="toc-text">CCUserDefault</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化存储"><span class="toc-number">2.</span> <span class="toc-text">格式化存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地文件存储"><span class="toc-number">3.</span> <span class="toc-text">本地文件存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XML和JSON"><span class="toc-number">4.</span> <span class="toc-text">XML和JSON</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加密和解密"><span class="toc-number">5.</span> <span class="toc-text">加密和解密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQLite"><span class="toc-number">6.</span> <span class="toc-text">SQLite</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

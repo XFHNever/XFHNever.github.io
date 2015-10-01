@@ -1,0 +1,923 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java集合（一）-ArrayList遍历删除问题 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="周一下午听一个技术分享会，有同事讲到了关于ArrayList遍历删除的问题，会后我就决定稍微整理一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合（一）-ArrayList遍历删除问题">
+<meta property="og:url" content="http://xfhnever.com/2014/07/22/java-collectionremoveproblem/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="周一下午听一个技术分享会，有同事讲到了关于ArrayList遍历删除的问题，会后我就决定稍微整理一下。">
+<meta property="og:updated_time" content="2015-10-01T13:48:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java集合（一）-ArrayList遍历删除问题">
+<meta name="twitter:description" content="周一下午听一个技术分享会，有同事讲到了关于ArrayList遍历删除的问题，会后我就决定稍微整理一下。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/22/java-collectionremoveproblem/" title="Java集合（一）-ArrayList遍历删除问题" itemprop="url">Java集合（一）-ArrayList遍历删除问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-07-21T22:41:51.000Z" itemprop="datePublished"> 发表于 Jul 22 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出"><span class="toc-number">2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ArrayList实现原理"><span class="toc-number">3.</span> <span class="toc-text">ArrayList实现原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for_each遍历原理"><span class="toc-number">4.</span> <span class="toc-text">for each遍历原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更专业的Iterator解释"><span class="toc-number">5.</span> <span class="toc-text">更专业的Iterator解释</span></a></li></ol>
+		
+		</div>
+		
+		<p>周一下午听一个技术分享会，有同事讲到了关于ArrayList遍历删除的问题，会后我就决定稍微整理一下。<br><a id="more"></a><br>废话少说，直接上代码：</p>
+<h2 id="代码">代码</h2><pre><code><span class="keyword">public</span> <span class="keyword">class</span> ListRemoveProblem {
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String arg[])</span> </span>{
+        ListRemoveProblem problem = <span class="keyword">new</span> ListRemoveProblem();
+        problem.testFor();
+        problem.testFor2();
+        problem.testIterator();
+        problem.testForEach();
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">testFor</span><span class="params">()</span> </span>{
+        ArrayList&lt;String&gt; <span class="built_in">list</span> = <span class="keyword">new</span> ArrayList&lt;String&gt;();
+        <span class="built_in">list</span>.add(<span class="string">"one"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"two"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"two"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">list</span>.size(); i++) {
+            <span class="keyword">if</span>(<span class="built_in">list</span>.get(i).equals(<span class="string">"three"</span>)) {
+                <span class="built_in">list</span>.remove(i);
+            }
+        }
+
+        System.out.println(<span class="built_in">list</span>);
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">testFor2</span><span class="params">()</span> </span>{
+        ArrayList&lt;String&gt; <span class="built_in">list</span> = <span class="keyword">new</span> ArrayList&lt;String&gt;();
+        <span class="built_in">list</span>.add(<span class="string">"one"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"two"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"two"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">list</span>.size(); i++) {
+            <span class="keyword">if</span>(<span class="built_in">list</span>.get(i).equals(<span class="string">"three"</span>)) {
+                <span class="built_in">list</span>.remove(i--);
+            }
+        }
+
+        System.out.println(<span class="built_in">list</span>);
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">testForEach</span><span class="params">()</span> </span>{
+        ArrayList&lt;String&gt; <span class="built_in">list</span> = <span class="keyword">new</span> ArrayList&lt;String&gt;();
+        <span class="built_in">list</span>.add(<span class="string">"one"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"two"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"two"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+
+       <span class="keyword">for</span> (String s : <span class="built_in">list</span>) {
+           <span class="keyword">if</span> (s.equals(<span class="string">"three"</span>)) {
+               <span class="built_in">list</span>.remove(s);
+           }
+       }
+
+        System.out.println(<span class="built_in">list</span>);
+    }
+
+    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">testIterator</span><span class="params">()</span> </span>{
+        ArrayList&lt;String&gt; <span class="built_in">list</span> = <span class="keyword">new</span> ArrayList&lt;String&gt;();
+        <span class="built_in">list</span>.add(<span class="string">"one"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"two"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"two"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+        <span class="built_in">list</span>.add(<span class="string">"three"</span>);
+
+        Iterator&lt;String&gt; iter = <span class="built_in">list</span>.iterator();
+        <span class="keyword">while</span> (iter.hasNext()) {
+            String s = iter.next();
+            <span class="keyword">if</span> (s.equals(<span class="string">"three"</span>)) {
+                iter.remove();
+            }
+        }
+
+        System.out.println(<span class="built_in">list</span>);
+    }
+}
+</code></pre><h2 id="输出">输出</h2><pre><code>[one, two, two, three]
+[one, two, two]
+[one, two, two]
+Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java<span class="class">.util</span><span class="class">.ConcurrentModificationException</span>
+    at java<span class="class">.util</span><span class="class">.ArrayList</span><span class="variable">$Itr</span>.<span class="function"><span class="title">checkForComodification</span><span class="params">(ArrayList.java:<span class="number">819</span>)</span></span>
+    at java<span class="class">.util</span><span class="class">.ArrayList</span><span class="variable">$Itr</span>.<span class="function"><span class="title">next</span><span class="params">(ArrayList.java:<span class="number">791</span>)</span></span>
+    at com<span class="class">.nju</span><span class="class">.never</span><span class="class">.listremoveproblem</span><span class="class">.ListRemoveProblem</span><span class="class">.testForEach</span>(ListRemoveProblem<span class="class">.java</span>:<span class="number">63</span>)
+    at com<span class="class">.nju</span><span class="class">.never</span><span class="class">.listremoveproblem</span><span class="class">.ListRemoveProblem</span><span class="class">.main</span>(ListRemoveProblem<span class="class">.java</span>:<span class="number">15</span>)
+    at sun<span class="class">.reflect</span><span class="class">.NativeMethodAccessorImpl</span><span class="class">.invoke0</span>(Native Method)
+    at sun<span class="class">.reflect</span><span class="class">.NativeMethodAccessorImpl</span><span class="class">.invoke</span>(NativeMethodAccessorImpl<span class="class">.java</span>:<span class="number">57</span>)
+    at sun<span class="class">.reflect</span><span class="class">.DelegatingMethodAccessorImpl</span><span class="class">.invoke</span>(DelegatingMethodAccessorImpl<span class="class">.java</span>:<span class="number">43</span>)
+    at java<span class="class">.lang</span><span class="class">.reflect</span><span class="class">.Method</span><span class="class">.invoke</span>(Method<span class="class">.java</span>:<span class="number">601</span>)
+    at com<span class="class">.intellij</span><span class="class">.rt</span><span class="class">.execution</span><span class="class">.application</span><span class="class">.AppMain</span><span class="class">.main</span>(AppMain<span class="class">.java</span>:<span class="number">134</span>)
+</code></pre><p>由输出可以发现，使用迭代器和遍历删除之后索引减一是可以正常删除的，其他两种方式都是有问题的，最后一种甚至是报了ConcurrentModificationException。下面我们就将去探索问题出现的原因，我们首先可以去了解一下ArrayList实现原理。</p>
+<h2 id="ArrayList实现原理">ArrayList实现原理</h2><pre><code><span class="comment">//用数组来实现ArrayList，transient关键字保证该属性不序列化</span>
+<span class="keyword">private</span> transient Object[] elementData;    
+
+<span class="keyword">public</span> E remove(<span class="keyword">int</span> <span class="keyword">index</span>) {    
+    RangeCheck(<span class="keyword">index</span>);    
+    modCount++;    
+    E oldValue = (E) elementData[<span class="keyword">index</span>];    
+    <span class="keyword">int</span> numMoved = size - <span class="keyword">index</span> - <span class="number">1</span>;    
+    <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>)    
+        System.arraycopy(elementData, <span class="keyword">index</span>+<span class="number">1</span>, elementData, <span class="keyword">index</span>,    
+              numMoved);    
+    elementData[--size] = <span class="keyword">null</span>; <span class="comment">// Let gc do its work    </span>
+    <span class="keyword">return</span> oldValue;    
+}  
+
+<span class="keyword">public</span> <span class="keyword">boolean</span> remove(Object o) {
+    <span class="keyword">if</span> (o == <span class="keyword">null</span>) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> <span class="keyword">index</span> = <span class="number">0</span>; <span class="keyword">index</span> &lt; size; <span class="keyword">index</span>++)
+            <span class="keyword">if</span> (elementData[<span class="keyword">index</span>] == <span class="keyword">null</span>) {
+                fastRemove(<span class="keyword">index</span>);
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+    } <span class="keyword">else</span> {
+        <span class="keyword">for</span> (<span class="keyword">int</span> <span class="keyword">index</span> = <span class="number">0</span>; <span class="keyword">index</span> &lt; size; <span class="keyword">index</span>++)
+            <span class="keyword">if</span> (o.equals(elementData[<span class="keyword">index</span>])) {
+                fastRemove(<span class="keyword">index</span>);
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+    }
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+<span class="keyword">private</span> <span class="keyword">void</span> fastRemove(<span class="keyword">int</span> <span class="keyword">index</span>) {
+    modCount++;
+    <span class="keyword">int</span> numMoved = size - <span class="keyword">index</span> - <span class="number">1</span>;
+    <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>)
+        System.arraycopy(elementData, <span class="keyword">index</span>+<span class="number">1</span>, elementData, <span class="keyword">index</span>,
+                         numMoved);
+    elementData[--size] = <span class="keyword">null</span>; <span class="comment">// Let gc do its work</span>
+}
+</code></pre><p>我们可以发现当我们删除一个元素时，其实是elementData数组从删除的下一个位置开始，所有的数据都向前移动一个位置，然后将最后一个元素置空。所以当我们使用第一种方式遍历删除的时候，index索引的元素被删除，index+1位置的元素就会马上填补到index位置，那该元素就没有被遍历，所以会出现第一种方式中three不被删除的情况，所以当删除的同时对索引做index–就可以保证所有的元素都被访问到。其实，使用下表循环遍历的方式还有另外一种解决方案，就是倒序遍历。</p>
+<p>下面我们继续看第三种方式：</p>
+<h2 id="for_each遍历原理">for each遍历原理</h2><p>我们知道for each实际上是用到了集合的Iterator()方法，在Iterator的时候是产生一个List的内部类Itr</p>
+<pre><code>public <span class="type">Iterator</span> <span class="keyword">iterator</span>() {
+　　 <span class="keyword">return</span> new <span class="type">Itr</span>();
+}
+</code></pre><p>然后我们看一下内部类Itr的关键源码：</p>
+<pre><code><span class="keyword">private</span> class Itr implements Iterator&lt;E&gt; {  
+    <span class="comment">/** 
+     * Index of element to be returned by subsequent call to next. 
+     */</span>  
+    <span class="built_in">int</span> <span class="built_in">cursor</span> = <span class="number">0</span>;  
+
+    <span class="comment">/** 
+     * Index of element returned by most recent call to next or 
+     * previous.  Reset to -1 if this element is deleted by a call 
+     * to remove. 
+     */</span>  
+    <span class="built_in">int</span> lastRet = -<span class="number">1</span>;  
+
+    <span class="comment">/** 
+     * The modCount value that the iterator believes that the backing 
+     * List should have.  If this expectation is violated, the iterator 
+     * has detected concurrent modification. 
+     */</span>  
+    <span class="built_in">int</span> expectedModCount = modCount;  
+
+    <span class="keyword">public</span> <span class="built_in">boolean</span> hasNext() {  
+            <span class="keyword">return</span> <span class="built_in">cursor</span> != <span class="built_in">size</span>();  
+    }  
+
+    <span class="keyword">public</span> E next() {  
+            checkForComodification(); <span class="comment">//检测modCount和expectedModCount的值！！  </span>
+        <span class="keyword">try</span> {  
+        E next = <span class="built_in">get</span>(<span class="built_in">cursor</span>);  
+        lastRet = <span class="built_in">cursor</span>++;  
+        <span class="keyword">return</span> next;  
+        } <span class="keyword">catch</span> (IndexOutOfBoundsException e) {  
+        checkForComodification();  
+        <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();  
+        }  
+    }  
+
+    <span class="keyword">public</span> <span class="keyword">void</span> remove() {  
+        <span class="keyword">if</span> (lastRet == -<span class="number">1</span>)  
+        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();  
+            checkForComodification();  
+
+        <span class="keyword">try</span> {  
+        AbstractList.<span class="keyword">this</span>.remove(lastRet); <span class="comment">//执行remove的操作  </span>
+        <span class="keyword">if</span> (lastRet &lt; <span class="built_in">cursor</span>)  
+            <span class="built_in">cursor</span>--;  
+        lastRet = -<span class="number">1</span>;  
+        expectedModCount = modCount; <span class="comment">//保证了modCount和expectedModCount的值的一致性，避免抛出ConcurrentModificationException异常  </span>
+        } <span class="keyword">catch</span> (IndexOutOfBoundsException e) {  
+        <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();  
+        }  
+    }  
+
+    <span class="keyword">final</span> <span class="keyword">void</span> checkForComodification() {  
+        <span class="keyword">if</span> (modCount != expectedModCount) <span class="comment">//当modCount和expectedModCount值不相等时，则抛出ConcurrentModificationException异常  </span>
+        <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();  
+    }  
+}
+</code></pre><p>由上面的源码我们可以发现，当遍历List的时候我们会调用Itr的next（）方法，这个时候我们会调用checkForComodification（）方法，而ArrayList的remove方法只是修改了modCount的值，并没有修改expectedModCount，导致modCount和expectedModCount的值的不一致性，当next()时则抛出ConcurrentModificationException异常，因此使用Iterator遍历集合时，不要改动被迭代的对象，可以使用 Iterator 本身的方法 remove() 来删除对象，Iterator.remove() 方法会在删除当前迭代对象的同时维护modCount和expectedModCount值的一致性。</p>
+<p>所以现在第三种和第四种方式的输出也得到了解答。</p>
+<h2 id="更专业的Iterator解释">更专业的Iterator解释</h2><p>Iterator 是工作在一个独立的线程中，并且拥有一个 mutex 锁。 Iterator 被创建之后会建立一个指向原来对象的单链索引表，当原来的对象数量发生变化时，这个索引表的内容不会同步改变，所以当索引指针往后移动的时候就找不到要迭代的对象，所以按照 fail-fast 原则 Iterator 会马上抛出 java.util.ConcurrentModificationException 异常。<br>所以 Iterator 在工作的时候是不允许被迭代的对象被改变的。但你可以使用 Iterator 本身的方法 remove() 来删除对象， Iterator.remove() 方法会在删除当前迭代对象的同时维护索引的一致性。 </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Collections/">Collections</a><a href="/tags/Java/">Java</a><a href="/tags/Problem/">Problem</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/07/22/java-collectionremoveproblem/" data-title="Java集合（一）-ArrayList遍历删除问题 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/07/23/guava-introduction/" title="Guava（一）-简单介绍">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Guava（一）-简单介绍</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/07/21/dsl-implementation/"  title="DSL（二）-实现">
+ <strong>下一篇：</strong><br/> 
+ <span>DSL（二）-实现
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/07/22/java-collectionremoveproblem/" data-title="Java集合（一）-ArrayList遍历删除问题" data-url="http://xfhnever.com/2014/07/22/java-collectionremoveproblem/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出"><span class="toc-number">2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ArrayList实现原理"><span class="toc-number">3.</span> <span class="toc-text">ArrayList实现原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for_each遍历原理"><span class="toc-number">4.</span> <span class="toc-text">for each遍历原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更专业的Iterator解释"><span class="toc-number">5.</span> <span class="toc-text">更专业的Iterator解释</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

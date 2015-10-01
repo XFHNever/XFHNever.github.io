@@ -1,0 +1,776 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>DSL（七）-代码生成 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="我们已经谈论过DSL实现组装语义模型来解析DSL文本，很多情况下，一旦语义模型组织完毕，工作就结束了。但是有时候我们没办法这么做，比如，DSL的逻辑只能在很大差异的环境中执行，在那种环境里，语义模型或解析器都极难构建，甚至无法构建。这种时候，就需要代码生成啦。通过代码生成，几乎可以在任何环境下运行DSL指定的行为。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DSL（七）-代码生成">
+<meta property="og:url" content="http://xfhnever.com/2014/08/10/dsl-generatecode/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="我们已经谈论过DSL实现组装语义模型来解析DSL文本，很多情况下，一旦语义模型组织完毕，工作就结束了。但是有时候我们没办法这么做，比如，DSL的逻辑只能在很大差异的环境中执行，在那种环境里，语义模型或解析器都极难构建，甚至无法构建。这种时候，就需要代码生成啦。通过代码生成，几乎可以在任何环境下运行DSL指定的行为。">
+<meta property="og:image" content="http://xfhnever.com/images/post/dsl7-1.png">
+<meta property="og:updated_time" content="2015-10-01T14:17:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DSL（七）-代码生成">
+<meta name="twitter:description" content="我们已经谈论过DSL实现组装语义模型来解析DSL文本，很多情况下，一旦语义模型组织完毕，工作就结束了。但是有时候我们没办法这么做，比如，DSL的逻辑只能在很大差异的环境中执行，在那种环境里，语义模型或解析器都极难构建，甚至无法构建。这种时候，就需要代码生成啦。通过代码生成，几乎可以在任何环境下运行DSL指定的行为。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/10/dsl-generatecode/" title="DSL（七）-代码生成" itemprop="url">DSL（七）-代码生成</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-10T06:43:43.000Z" itemprop="datePublished"> 发表于 Aug 10 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#选择生成什么"><span class="toc-number">1.</span> <span class="toc-text">选择生成什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套条件"><span class="toc-number">1.1.</span> <span class="toc-text">嵌套条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#状态表"><span class="toc-number">1.2.</span> <span class="toc-text">状态表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何生成"><span class="toc-number">2.</span> <span class="toc-text">如何生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#混合生成代码和手写代码"><span class="toc-number">3.</span> <span class="toc-text">混合生成代码和手写代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成可读的代码"><span class="toc-number">4.</span> <span class="toc-text">生成可读的代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解析之前的代码生成"><span class="toc-number">5.</span> <span class="toc-text">解析之前的代码生成</span></a></li></ol>
+		
+		</div>
+		
+		<p>我们已经谈论过DSL实现组装语义模型来解析DSL文本，很多情况下，一旦语义模型组织完毕，工作就结束了。但是有时候我们没办法这么做，比如，DSL的逻辑只能在很大差异的环境中执行，在那种环境里，语义模型或解析器都极难构建，甚至无法构建。这种时候，就需要代码生成啦。通过代码生成，几乎可以在任何环境下运行DSL指定的行为。<br><a id="more"></a></p>
+<p>使用代码生成，需要考虑两种不同的环境：DSL处理器和目标环境。DSL处理器是解析器、语义模型和代码生成器之所在，它应该是便于开发的。目标环境则是为生成代码及其周边准备的。使用代码生成的意义在于，将目标环境同DSL处理器分离开来，因为在目标环境下，可能无法构建DSL处理器。</p>
+<p>目标环境的限制并不是生成代码的唯一原因。另一个可能的原因是对目标平台缺乏了解。用熟悉的语言指定行为，然后生成不那么熟悉的代码，这样做会容易一些。生成代码还有一个原因,可以更好地强制实施静态检查。用DSL可以描述一些系统的接口，但是系统的其它部分希望用C#与这个接口通信。这种情况下，生成C# API，这样就可以获得编译时检查和IDE支持。</p>
+<h2 id="选择生成什么">选择生成什么</h2><p>生成代码时要决定的第一件事是，生成何种代码。可用的代码生成的风格有：“基于模型的代码生成”和“无视模型的代码生成”。二者的差别在于，在目标环境中，“语义模型”是否显式地表现出来。</p>
+<p>我们以状态机为例，实现状态机有两种经典方案，分别是嵌套条件和状态表。</p>
+<img src="/images/post/dsl7-1.png">
+<h3 id="嵌套条件">嵌套条件</h3><pre><code><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span>(<span class="params">Event <span class="keyword">event</span></span>) </span>{
+    <span class="keyword">switch</span>(currentState) {
+        <span class="keyword">case</span> ON: <span class="keyword">switch</span> (<span class="keyword">event</span>) {
+                    <span class="keyword">case</span> DOWN:
+                        currentState = OFF;
+                    }
+        <span class="keyword">case</span> DOWN: <span class="keyword">switch</span> (<span class="keyword">event</span>) {
+                    <span class="keyword">case</span> UP:
+                        currentState = ON;
+                    }
+    }
+}
+</code></pre><p>这是无视模型的代码生成，因为状态机的逻辑嵌套在语言的控制流中—语义模型没有显示地表现出来。</p>
+<h3 id="状态表">状态表</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="title">ModelMachine</span>..
+    <span class="title">private</span> <span class="title">State</span> <span class="title">currentState</span></span>;
+    <span class="keyword">private</span> Map&lt;State, Map&lt;Event, State&gt;&gt; states = <span class="keyword">new</span> HashMap&lt;State, Map&lt;Event, State&gt;&gt;();
+
+    <span class="function"><span class="keyword">public</span> <span class="title">ModelMachine</span><span class="params">(State currentSate)</span> </span>{
+        <span class="keyword">this</span>.currentState = currentState;
+    }
+    <span class="function"><span class="keyword">void</span> <span class="title">defineTransition</span><span class="params">(State source, Event trigger, State <span class="keyword">target</span>)</span> </span>{
+        <span class="keyword">if</span>(!state.containsKey(source)) states.put(source, <span class="keyword">new</span> HashMap&lt;Event, State&gt;);
+        states.get(source).put(trigger, <span class="keyword">target</span>);
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">handle</span><span class="params">(Event event)</span> </span>{
+        Map&lt;Event, State&gt; currentTransitions = states.get(currentState);
+        <span class="keyword">if</span>(<span class="keyword">null</span> == currentTransitions) <span class="keyword">return</span>;
+        State <span class="keyword">target</span> = currentTransitions.get(event);
+        <span class="keyword">if</span>(<span class="keyword">null</span> != <span class="keyword">target</span>) currentState = <span class="keyword">target</span>;
+    }
+}
+</code></pre><p>这是基于模型的代码生成。代码完全通用，需要使用专用的代码进行配置才能运作起来。</p>
+<pre><code>modelMachine = <span class="keyword">new</span> ModelMachine(<span class="keyword">OFF</span>);
+modelMachine.defineTransition(<span class="keyword">OFF</span>, UP, <span class="keyword">ON</span>);
+modelMachine.defineTransition(<span class="keyword">ON</span>, DOWN, <span class="keyword">OFF</span>);
+</code></pre><p>通过将语义模型表现在生成代码中，通用代码框架代码和专用配置代码分离开来。基于模型的代码生成保留了通用/专用的区分，而无视模型的代码生成则把语义模型放入控制流中，将二者混在一起。</p>
+<h2 id="如何生成">如何生成</h2><p>一旦想好了生成何种代码，接下来就要考虑生成过程了。如果生成文本输出的话，有两种主要的风格可以遵循：“基于转换器的代码生成”和“模板化的生成器”。</p>
+<p>基于转换器的代码生成例子，要编写代码，读取语义模型，生成目标源码的语句。</p>
+<p>模板化的生成器，会写一个实例的输出文件。输出文件会有特定状态机专有的一些东西，在这样的地方，会放置一些特殊模版标记，这样就可以调用语义模型生成相应的代码。</p>
+<p>模板化的生成器是由输出的结构驱动的，而基于转换器的代码生成则是由输入、输出或者二者共同驱动的。</p>
+<p>二者用起来都不错，模板化的生成器适用于输出里有大量静态代码的情况。否则，更倾向于使用基于转换器的代码生成。</p>
+<p>使用模版化的生成器最大的问题是生成可变输出会用到宿主代码，情况不妙，就会淹没静态模版的代码。</p>
+<h2 id="混合生成代码和手写代码">混合生成代码和手写代码</h2><p>有时，在目标环境下执行的所有代码都可以生成，但更常见的是，需要混合生成代码和手写代码。这时需要遵守一些规则：</p>
+<ul>
+<li>不要修改生成代码</li>
+<li>将生成代码和手写代码严格分开</li>
+</ul>
+<h2 id="生成可读的代码">生成可读的代码</h2><p>虽然生成的代码无法手动修改，但是我们仍然尽量要生成可读性良好的代码，除非要花额外时间才能得到一个正确的结构。</p>
+<h2 id="解析之前的代码生成">解析之前的代码生成</h2><p>在某些情况下，DSL、脚本要集成一些外部信息。可以用代码生成生成脚本编写所需的信息。这样在组装语义模型时，就可以利用这些信息进行检测。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/DSL/">DSL</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DSL/">DSL</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/10/dsl-generatecode/" data-title="DSL（七）-代码生成 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/10/dsl-languageworkbench/" title="DSL（八）-语言工作台">
+  <strong>上一篇：</strong><br/>
+  <span>
+  DSL（八）-语言工作台</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/10/dsl-othermodel/"  title="DSL（六）-其他计算模型概述">
+ <strong>下一篇：</strong><br/> 
+ <span>DSL（六）-其他计算模型概述
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/10/dsl-generatecode/" data-title="DSL（七）-代码生成" data-url="http://xfhnever.com/2014/08/10/dsl-generatecode/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#选择生成什么"><span class="toc-number">1.</span> <span class="toc-text">选择生成什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套条件"><span class="toc-number">1.1.</span> <span class="toc-text">嵌套条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#状态表"><span class="toc-number">1.2.</span> <span class="toc-text">状态表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何生成"><span class="toc-number">2.</span> <span class="toc-text">如何生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#混合生成代码和手写代码"><span class="toc-number">3.</span> <span class="toc-text">混合生成代码和手写代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成可读的代码"><span class="toc-number">4.</span> <span class="toc-text">生成可读的代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解析之前的代码生成"><span class="toc-number">5.</span> <span class="toc-text">解析之前的代码生成</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

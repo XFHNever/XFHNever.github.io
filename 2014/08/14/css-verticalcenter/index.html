@@ -1,0 +1,917 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>CSS（十五）-垂直居中 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="本来想直接在CSS（二）-常用效果实现中简单介绍一下垂直居中的实现方式的，但是晚上搜了搜资料之后发现，实现垂直居中的方式有很多，就决定专门在这篇文章中记录一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS（十五）-垂直居中">
+<meta property="og:url" content="http://xfhnever.com/2014/08/14/css-verticalcenter/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="本来想直接在CSS（二）-常用效果实现中简单介绍一下垂直居中的实现方式的，但是晚上搜了搜资料之后发现，实现垂直居中的方式有很多，就决定专门在这篇文章中记录一下。">
+<meta property="og:updated_time" content="2015-10-01T14:13:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS（十五）-垂直居中">
+<meta name="twitter:description" content="本来想直接在CSS（二）-常用效果实现中简单介绍一下垂直居中的实现方式的，但是晚上搜了搜资料之后发现，实现垂直居中的方式有很多，就决定专门在这篇文章中记录一下。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/14/css-verticalcenter/" title="CSS（十五）-垂直居中" itemprop="url">CSS（十五）-垂直居中</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-13T22:32:36.000Z" itemprop="datePublished"> 发表于 Aug 14 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单行内容"><span class="toc-number">1.</span> <span class="toc-text">单行内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绝对定位居中"><span class="toc-number">2.</span> <span class="toc-text">绝对定位居中</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点"><span class="toc-number">2.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点"><span class="toc-number">2.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负外边距"><span class="toc-number">3.</span> <span class="toc-text">负外边距</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点-1"><span class="toc-number">3.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点-1"><span class="toc-number">3.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变形"><span class="toc-number">4.</span> <span class="toc-text">变形</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点-2"><span class="toc-number">4.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点-2"><span class="toc-number">4.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表格单元格"><span class="toc-number">5.</span> <span class="toc-text">表格单元格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点-3"><span class="toc-number">5.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点-3"><span class="toc-number">5.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#行内块元素"><span class="toc-number">6.</span> <span class="toc-text">行内块元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点-4"><span class="toc-number">6.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点-4"><span class="toc-number">6.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flexbox"><span class="toc-number">7.</span> <span class="toc-text">Flexbox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">8.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>本来想直接在<a href="http://xfhnever.github.io/blog/2014/07/24/css-usage/" target="_blank" rel="external">CSS（二）-常用效果实现</a>中简单介绍一下垂直居中的实现方式的，但是晚上搜了搜资料之后发现，实现垂直居中的方式有很多，就决定专门在这篇文章中记录一下。<br><a id="more"></a></p>
+<h2 id="单行内容">单行内容</h2><pre><code><span class="tag">DIV</span><span class="rules">{  
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">25px</span></span></span>;  
+    <span class="rule"><span class="attribute">line-height</span>:<span class="value"><span class="number">25px</span></span></span>;  
+    <span class="rule"><span class="attribute">overflow</span>:<span class="value">hidden</span></span>;  
+}</span>  
+</code></pre><p>只适用于只有一行文字的情况。</p>
+<h2 id="绝对定位居中">绝对定位居中</h2><pre><code><span class="class">.Absolute-Center</span> {  
+  <span class="attribute">height</span>: <span class="number">200px</span>;
+  <span class="attribute">margin</span>: auto;  
+  <span class="attribute">position</span>: absolute;  
+  <span class="attribute">top</span>: <span class="number">0</span>; <span class="attribute">left</span>: <span class="number">0</span>; <span class="attribute">bottom</span>: <span class="number">0</span>; <span class="attribute">right</span>: <span class="number">0</span>;  <span class="comment">//垂直居中于通过top,left,bottom和right属性定义的边界框内</span>
+}
+</code></pre><p>同时：必须声明子组件高度，且父组件要加上</p>
+<pre><code><span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;
+</code></pre><p>这样可以让子组件是相对父组件居中，而不是浏览器。</p>
+<h3 id="优点">优点</h3><ol>
+<li><p>支持跨浏览器，包括IE8-IE10.</p>
+</li>
+<li><p>无需其他特殊标记，CSS代码量少</p>
+</li>
+<li><p>支持百分比%属性值和min-/max-属性</p>
+</li>
+<li><p>只用这一个类可实现任何内容块居中</p>
+</li>
+<li><p>不论是否设置padding都可居中（在不使用box-sizing属性的前提下）</p>
+</li>
+<li><p>内容块可以被重绘。</p>
+</li>
+<li><p>完美支持图片居中。</p>
+</li>
+</ol>
+<h3 id="缺点">缺点</h3><ol>
+<li><p>必须声明高度（查看可变高度Variable Height）。</p>
+</li>
+<li><p>建议设置overflow:auto来防止内容越界溢出。</p>
+</li>
+<li><p>在Windows Phone设备上不起作用。</p>
+</li>
+</ol>
+<h2 id="负外边距">负外边距</h2><p>如果块元素尺寸已知，可以通过以下方式让内容块居中于容器显示：外边距margin取负数，大小为width/height（不使用box-sizing: border-box时包括padding，）的一半，再加上top: 50%; left: 50%；如下：</p>
+<pre><code><span class="class">.is-Negative</span> <span class="rules">{
+        <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">300px</span></span></span>;
+        <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">200px</span></span></span>;
+        <span class="rule"><span class="attribute">padding</span>:<span class="value"> <span class="number">20px</span></span></span>;
+        <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;
+        <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">50%</span></span></span>; <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">50%</span></span></span>;
+        <span class="rule"><span class="attribute">margin-left</span>:<span class="value"> -<span class="number">170px</span></span></span>; <span class="comment">/* (width + padding)/2 */</span>
+        <span class="rule"><span class="attribute">margin-top</span>:<span class="value"> -<span class="number">120px</span></span></span>; <span class="comment">/* (height + padding)/2 */</span>
+}</span>
+</code></pre><h3 id="优点-1">优点</h3><ol>
+<li><p>良好的跨浏览器特性，兼容IE6-IE7。</p>
+</li>
+<li><p>代码量少。</p>
+</li>
+</ol>
+<h3 id="缺点-1">缺点</h3><ol>
+<li><p>不能自适应。不支持百分比尺寸和min-/max-属性设置。</p>
+</li>
+<li><p>内容可能溢出容器。</p>
+</li>
+<li><p>边距大小与padding,和是否定义box-sizing: border-box有关，计算需要根据不同情况。</p>
+</li>
+</ol>
+<h2 id="变形">变形</h2><p>这是最简单的方法，不仅能实现绝对居中同样的效果，也支持联合可变高度方式使用。内容块定义transform: translate(-50%,-50%)必须带上浏览器厂商的前缀，还要加上top: 50%; left: 50%;</p>
+<pre><code><span class="class">.is-Transformed</span> <span class="rules">{   
+  <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">50%</span></span></span>;  
+  <span class="rule"><span class="attribute">margin</span>:<span class="value"> auto</span></span>;  
+  <span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;  
+  <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">50%</span></span></span>; <span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">50%</span></span></span>;  
+  <span class="rule"><span class="attribute">-webkit-transform</span>:<span class="value"> <span class="function">translate</span>(-<span class="number">50%</span>,-<span class="number">50%</span>)</span></span>;  
+      <span class="rule"><span class="attribute">-ms-transform</span>:<span class="value"> <span class="function">translate</span>(-<span class="number">50%</span>,-<span class="number">50%</span>)</span></span>;  
+          <span class="rule"><span class="attribute">transform</span>:<span class="value"> <span class="function">translate</span>(-<span class="number">50%</span>,-<span class="number">50%</span>)</span></span>;  
+}</span> 
+</code></pre><h3 id="优点-2">优点</h3><ol>
+<li><p>内容可变高度</p>
+</li>
+<li><p>代码量少</p>
+</li>
+</ol>
+<h3 id="缺点-2">缺点</h3><ol>
+<li><p>IE8不支持</p>
+</li>
+<li><p>属性需要写浏览器厂商前缀</p>
+</li>
+<li><p>可能干扰其他transform效果</p>
+</li>
+<li><p>某些情形下会出现文本或元素边界渲染模糊的现象</p>
+</li>
+</ol>
+<h2 id="表格单元格">表格单元格</h2><p>总的说来这可能是最好的居中实现方法，因为内容块高度会随着实际内容的高度变化，浏览器对此的兼容性也好。最大的缺点是需要大量额外的标记，需要三层元素让最内层的元素居中。</p>
+<p>HTML：</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"Center-Container is-Table"</span>&gt;</span>  
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"Table-Cell"</span>&gt;</span>  
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"Center-Block"</span>&gt;</span>  
+    <span class="comment">&lt;!-- CONTENT --&gt;</span>  
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>  
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>  
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span> 
+</code></pre><p>CSS：</p>
+<pre><code><span class="class">.Center-Container</span><span class="class">.is-Table</span> <span class="rules">{ <span class="rule"><span class="attribute">display</span>:<span class="value"> table</span></span>; }</span>  
+<span class="class">.is-Table</span> <span class="class">.Table-Cell</span> <span class="rules">{  
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> table-cell</span></span>;  
+  <span class="rule"><span class="attribute">vertical-align</span>:<span class="value"> middle</span></span>;  
+}</span>  
+<span class="class">.is-Table</span> <span class="class">.Center-Block</span> <span class="rules">{  
+  <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">50%</span></span></span>;  
+  <span class="rule"><span class="attribute">margin</span>:<span class="value"> <span class="number">0</span> auto</span></span>;  
+}</span> 
+</code></pre><p>CSS中的vertical-align属性，只对HTML元素中拥有valign特性的元素才生效，例如表格元素中的&lt;td&gt;、&lt;th&gt;、&lt;caption&gt;等，而像&lt;DIV&gt;、&lt;span&gt;这样的元素是没有valign特性的。</p>
+<h3 id="优点-3">优点</h3><ol>
+<li><p>高度可变</p>
+</li>
+<li><p>内容溢出会将父元素撑开。</p>
+</li>
+<li><p>跨浏览器兼容性好。</p>
+</li>
+</ol>
+<h3 id="缺点-3">缺点</h3><ol>
+<li>需要额外html标记</li>
+</ol>
+<h2 id="行内块元素">行内块元素</h2><p>基本思想是使用display: inline-block, vertical-align: middle和一个伪元素让内容块处于容器中央。</p>
+<p>如果内容块宽度大于容器宽度，比如放了一个很长的文本，但内容块宽度设置最大不能超过容器的100%减去0.25em，否则使用伪元素:after内容块会被挤到容器顶部，使用:before内容块会向下偏移100%。</p>
+<p>如果内容块需要占据尽可能多的水平空间，可以使用max-width: 99%;（针对较大的容器）或max-width: calc(100% -0.25em)（取决于支持的浏览器和容器宽度）。</p>
+<p>HTML：</p>
+<pre><code><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"Center-Container is-Inline"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"Center-Block"</span>&gt;</span>
+    <span class="comment">&lt;!-- CONTENT --&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</code></pre><p>CSS：</p>
+<pre><code><span class="class">.Center-Container</span><span class="class">.is-Inline</span> <span class="rules">{ 
+  <span class="rule"><span class="attribute">text-align</span>:<span class="value"> center</span></span>;
+  <span class="rule"><span class="attribute">overflow</span>:<span class="value"> auto</span></span>;
+}</span>
+
+<span class="rule"><span class="attribute">.Center-Container.is-Inline</span>:<span class="value">after,
+.is-Inline .Center-Block {
+  display: inline-block</span></span>;
+  <span class="rule"><span class="attribute">vertical-align</span>:<span class="value"> middle</span></span>;
+}
+
+<span class="rule"><span class="attribute">.Center-Container.is-Inline</span>:<span class="value">after {
+  content: <span class="string">''</span></span></span>;
+  <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100%</span></span></span>;
+  <span class="rule"><span class="attribute">margin-left</span>:<span class="value"> -<span class="number">0.25em</span></span></span>; <span class="comment">/* To offset spacing. May vary by font */</span>
+}
+
+<span class="class">.is-Inline</span> <span class="class">.Center-Block</span> <span class="rules">{
+  <span class="rule"><span class="attribute">max-width</span>:<span class="value"> <span class="number">99%</span></span></span>; <span class="comment">/* Prevents issues with long content causes the content block to be pushed to the top */</span>
+  <span class="comment">/* max-width: calc(100% - 0.25em) <span class="comment">/* Only for IE9+ */</span> 
+}</span></span>
+</code></pre><h3 id="优点-4">优点</h3><ol>
+<li><p>高度可变</p>
+</li>
+<li><p>内容溢出会将父元素撑开。</p>
+</li>
+<li><p>支持跨浏览器，也适应于IE7。</p>
+</li>
+</ol>
+<h3 id="缺点-4">缺点</h3><ol>
+<li><p>需要一个容器</p>
+</li>
+<li><p>水平居中依赖于margin-left: -0.25em;该尺寸对于不同的字体/字号需要调整。</p>
+</li>
+<li><p>内容块宽度不能超过容器的100% - 0.25em。</p>
+</li>
+</ol>
+<h2 id="Flexbox">Flexbox</h2><p>Flexbox是CSS3新增属性，设计初衷是为了解决像垂直居中这样的常见布局问题。</p>
+<pre><code><span class="tag">div</span>
+<span class="rules">{
+    <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">350px</span></span></span>;
+    <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100px</span></span></span>;
+    <span class="rule"><span class="attribute">border</span>:<span class="value"><span class="number">1px</span> solid black</span></span>;
+
+    <span class="comment">/* Internet Explorer 10 */</span>
+    <span class="rule"><span class="attribute">display</span>:<span class="value">-ms-flexbox</span></span>;
+    <span class="rule"><span class="attribute">-ms-flex-pack</span>:<span class="value">center</span></span>;
+    <span class="rule"><span class="attribute">-ms-flex-align</span>:<span class="value">center</span></span>;
+
+    <span class="comment">/* Firefox */</span>
+    <span class="rule"><span class="attribute">display</span>:<span class="value">-moz-box</span></span>;
+    <span class="rule"><span class="attribute">-moz-box-pack</span>:<span class="value">center</span></span>;
+    <span class="rule"><span class="attribute">-moz-box-align</span>:<span class="value">center</span></span>;
+
+    <span class="comment">/* Safari, Opera, and Chrome */</span>
+    <span class="rule"><span class="attribute">display</span>:<span class="value">-webkit-box</span></span>;
+    <span class="rule"><span class="attribute">-webkit-box-pack</span>:<span class="value">center</span></span>;
+    <span class="rule"><span class="attribute">-webkit-box-align</span>:<span class="value">center</span></span>;
+
+    <span class="comment">/* W3C */</span>
+    <span class="rule"><span class="attribute">display</span>:<span class="value">box</span></span>;
+    <span class="rule"><span class="attribute">box-pack</span>:<span class="value">center</span></span>;
+    <span class="rule"><span class="attribute">box-align</span>:<span class="value">center</span></span>;
+}</span>
+</code></pre><h2 id="参考">参考</h2><ol>
+<li><a href="http://www.smashingmagazine.com/2013/08/09/absolute-horizontal-vertical-centering-css/" target="_blank" rel="external">http://www.smashingmagazine.com/2013/08/09/absolute-horizontal-vertical-centering-css/</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web/">Web</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/Web/">Web</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/14/css-verticalcenter/" data-title="CSS（十五）-垂直居中 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/14/nodejs-crossdomainaccess/" title="Nodejs（七）-跨域访问">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Nodejs（七）-跨域访问</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/12/js-eventbubble/"  title="JavaScript(十一)-事件冒泡和事件捕获">
+ <strong>下一篇：</strong><br/> 
+ <span>JavaScript(十一)-事件冒泡和事件捕获
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/14/css-verticalcenter/" data-title="CSS（十五）-垂直居中" data-url="http://xfhnever.com/2014/08/14/css-verticalcenter/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单行内容"><span class="toc-number">1.</span> <span class="toc-text">单行内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绝对定位居中"><span class="toc-number">2.</span> <span class="toc-text">绝对定位居中</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点"><span class="toc-number">2.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点"><span class="toc-number">2.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负外边距"><span class="toc-number">3.</span> <span class="toc-text">负外边距</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点-1"><span class="toc-number">3.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点-1"><span class="toc-number">3.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变形"><span class="toc-number">4.</span> <span class="toc-text">变形</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点-2"><span class="toc-number">4.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点-2"><span class="toc-number">4.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表格单元格"><span class="toc-number">5.</span> <span class="toc-text">表格单元格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点-3"><span class="toc-number">5.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点-3"><span class="toc-number">5.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#行内块元素"><span class="toc-number">6.</span> <span class="toc-text">行内块元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点-4"><span class="toc-number">6.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点-4"><span class="toc-number">6.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flexbox"><span class="toc-number">7.</span> <span class="toc-text">Flexbox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">8.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

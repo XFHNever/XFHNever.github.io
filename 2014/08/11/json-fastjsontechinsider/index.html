@@ -1,0 +1,883 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JSON(四)-Fastjson技术内幕 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="看了FastJson的介绍及基本用法，大家可以发现一直强调的一个优点是速度很快，所以我决定稍微了解一下它的实现原理，恰好FastJson的负责人wenshao恰好曾经写过一篇文章介绍过，今天就直接copy过来啦，原文地址Fastjson内幕.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSON(四)-Fastjson技术内幕">
+<meta property="og:url" content="http://xfhnever.com/2014/08/11/json-fastjsontechinsider/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="看了FastJson的介绍及基本用法，大家可以发现一直强调的一个优点是速度很快，所以我决定稍微了解一下它的实现原理，恰好FastJson的负责人wenshao恰好曾经写过一篇文章介绍过，今天就直接copy过来啦，原文地址Fastjson内幕.">
+<meta property="og:image" content="http://xfhnever.com/images/post/json4-1.png">
+<meta property="og:updated_time" content="2015-10-01T14:15:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSON(四)-Fastjson技术内幕">
+<meta name="twitter:description" content="看了FastJson的介绍及基本用法，大家可以发现一直强调的一个优点是速度很快，所以我决定稍微了解一下它的实现原理，恰好FastJson的负责人wenshao恰好曾经写过一篇文章介绍过，今天就直接copy过来啦，原文地址Fastjson内幕.">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/11/json-fastjsontechinsider/" title="JSON(四)-Fastjson技术内幕" itemprop="url">JSON(四)-Fastjson技术内幕</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-11T13:25:27.000Z" itemprop="datePublished"> 发表于 Aug 11 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#究竟多块"><span class="toc-number">1.</span> <span class="toc-text">究竟多块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么能够做到这么快？"><span class="toc-number">2.</span> <span class="toc-text">为什么能够做到这么快？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Fastjson中Serialzie的优化实现"><span class="toc-number">2.1.</span> <span class="toc-text">Fastjson中Serialzie的优化实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fastjson的deserializer的主要优化算法"><span class="toc-number">2.2.</span> <span class="toc-text">Fastjson的deserializer的主要优化算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#能用Fastjson来做什么！"><span class="toc-number">3.</span> <span class="toc-text">能用Fastjson来做什么！</span></a></li></ol>
+		
+		</div>
+		
+		<p>看了FastJson的介绍及基本用法，大家可以发现一直强调的一个优点是速度很快，所以我决定稍微了解一下它的实现原理，恰好FastJson的负责人<a href="https://github.com/wenshao" target="_blank" rel="external">wenshao</a>恰好曾经写过一篇文章介绍过，今天就直接copy过来啦，原文地址<a href="http://wenshao.iteye.com/blog/1142031/" target="_blank" rel="external">Fastjson内幕</a>.<br><a id="more"></a><br>JSON协议使用方便，越来越流行。JSON的处理器有很多，为什么需要再写一个呢？因为我们需要一个性能很好的JSON Parser，希望JSON Parser的性能有二进制协议一样好，比如和protobuf一样，这可不容易，但确实做到了。有人认为这从原理上就是不可能的，但是计算机乃实践科学，看实际的结果比原理推导更重要。 </p>
+<p>这篇文章告诉大家： </p>
+<ul>
+<li>Fastjson究竟有多快 </li>
+<li>为什么Fastjson这么快 </li>
+<li>你能用Fastjson来做什么！  </li>
+</ul>
+<h2 id="究竟多块">究竟多块</h2><p>我们看一下使用<a href="https://github.com/eishay/jvm-serializers/提供的程序进行测试得到的结果：" target="_blank" rel="external">https://github.com/eishay/jvm-serializers/提供的程序进行测试得到的结果：</a> </p>
+<img src="/images/post/json4-1.png">
+<p>这是一个468bytes的JSON Bytes测试，从测试结果来看，无论序列化和反序列化，Fastjson超越了protobuf，可以当之无愧fast! 它比java deserialize快超过30多倍，比json-lib快100倍。由于Fastjson的存在，你可以放心使用json统一协议，达到文本协议的可维护性，二进制协议的性能。 </p>
+<p>JSON处理主要包括两个部分，serialize和deserialize。serialize就是把Java对象变成JSON String或者JSON Bytes。Deserialize是把JSON String或者Json Bytes变成java对象。其实这个过程有些JSON库是分三部分的，json string &lt;－-&gt; json tree &lt;－-&gt; java object。Fastjson也支持这种转换方式，但是这种转换方式因为有多余的步骤，性能不好，不推荐使用。 </p>
+<h2 id="为什么能够做到这么快？">为什么能够做到这么快？</h2><h3 id="Fastjson中Serialzie的优化实现">Fastjson中Serialzie的优化实现</h3><ol>
+<li><p><strong>自行编写类似StringBuilder的工具类SerializeWriter。</strong></p>
+<p> 把java对象序列化成json文本，是不可能使用字符串直接拼接的，因为这样性能很差。比字符串拼接更好的办法是使用java.lang.StringBuilder。StringBuilder虽然速度很好了，但还能够进一步提升性能的，fastjson中提供了一个类似StringBuilder的类com.alibaba.fastjson.serializer.SerializeWriter。 </p>
+<p> SerializeWriter提供一些针对性的方法减少数组越界检查。例如public void writeIntAndChar(int i, char c) {}，这样的方法一次性把两个值写到buf中去，能够减少一次越界检查。目前SerializeWriter还有一些关键的方法能够减少越界检查的，我还没实现。也就是说，如果实现了，能够进一步提升serialize的性能。  </p>
+</li>
+<li><p><strong>使用ThreadLocal来缓存buf</strong></p>
+<p> 这个办法能够减少对象分配和gc，从而提升性能。SerializeWriter中包含了一个char[] buf，每序列化一次，都要做一次分配，使用ThreadLocal优化，能够提升性能。 </p>
+</li>
+<li><p><strong>使用asm避免反射 </strong></p>
+<p> 获取java bean的属性值，需要调用反射，fastjson引入了asm的来避免反射导致的开销。fastjson内置的asm是基于objectweb asm 3.3.1改造的，只保留必要的部分，fastjson asm部分不到1000行代码，引入了asm的同时不导致大小变大太多。 </p>
+</li>
+<li><p><strong>使用一个特殊的IdentityHashMap优化性能</strong></p>
+<p> fastjson对每种类型使用一种serializer，于是就存在class -&gt; JavaBeanSerizlier的映射。fastjson使用IdentityHashMap而不是HashMap，避免equals操作。我们知道HashMap的算法的transfer操作，并发时可能导致死循环，但是ConcurrentHashMap比HashMap系列会慢，因为其使用volatile和lock。fastjson自己实现了一个特别的IdentityHashMap，去掉transfer操作的IdentityHashMap，能够在并发时工作，但是不会导致死循环。</p>
+</li>
+<li><p><strong>缺省启用sort field输出</strong></p>
+<p> json的object是一种key/value结构，正常的hashmap是无序的，fastjson缺省是排序输出的，这是为deserialize优化做准备。</p>
+</li>
+<li><p><strong>集成jdk实现的一些优化算法 </strong></p>
+<p> 在优化fastjson的过程中，参考了jdk内部实现的算法，比如int to char[]算法等等。</p>
+</li>
+</ol>
+<h3 id="Fastjson的deserializer的主要优化算法">Fastjson的deserializer的主要优化算法</h3><p>deserializer也称为parser或者decoder，fastjson在这方面投入的优化精力最多。</p>
+<ol>
+<li><p><strong>读取token基于预测</strong></p>
+<p> 所有的parser基本上都需要做词法处理，json也不例外。fastjson词法处理的时候，使用了基于预测的优化算法。比如key之后，最大的可能是冒号”:”，value之后，可能是有两个逗号”,”或者右括号”}”。在com.alibaba.fastjson.parser.JSONScanner中提供了这样的方法：</p>
+<pre><code><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">nextToken</span><span class="params">(<span class="keyword">int</span> expect)</span> </span>{
+    <span class="keyword">for</span> (;;) {
+        <span class="keyword">switch</span> (expect) {
+            <span class="keyword">case</span> JSONToken.COMMA: <span class="comment">// </span>
+                <span class="keyword">if</span> (ch == <span class="string">','</span>) {
+                    token = JSONToken.COMMA;
+                    ch = buf[++bp];
+                    <span class="keyword">return</span>;
+                }
+
+                <span class="keyword">if</span> (ch == <span class="string">'}'</span>) {
+                    token = JSONToken.RBRACE;
+                    ch = buf[++bp];
+                    <span class="keyword">return</span>;
+                }
+
+                <span class="keyword">if</span> (ch == <span class="string">']'</span>) {
+                    token = JSONToken.RBRACKET;
+                    ch = buf[++bp];
+                    <span class="keyword">return</span>;
+                }
+
+                <span class="keyword">if</span> (ch == EOI) {
+                    token = JSONToken.EOF;
+                    <span class="keyword">return</span>;
+                }
+                <span class="keyword">break</span>;
+        <span class="comment">// ... ...</span>
+    }
+}
+</code></pre><p> 从上面摘抄下来的代码看，基于预测能够做更少的处理就能够读取到token。 </p>
+</li>
+<li><p><strong>sort field fast match算法</strong></p>
+<p> fastjson的serialize是按照key的顺序进行的，于是fastjson做deserializer时候，采用一种优化算法，就是假设key/value的内容是有序的，读取的时候只需要做key的匹配，而不需要把key从输入中读取出来。通过这个优化，使得fastjson在处理json文本的时候，少读取超过50%的token，这个是一个十分关键的优化算法。基于这个算法，使用asm实现，性能提升十分明显，超过300％的性能提升。 </p>
+<pre><code>{ <span class="string">"id"</span> : <span class="number">123</span>, <span class="string">"name"</span> : <span class="string">"魏加流"</span>, <span class="string">"salary"</span> : <span class="number">56789.79</span>}
+  ------      --------          ----------  
+</code></pre><p> 在上面例子看，虚线标注的三个部分是key，如果key_id、key_name、key_salary这三个key是顺序的，就可以做优化处理，这三个key不需要被读取出来，只需要比较就可以了。 </p>
+<p> 这种算法分两种模式，一种是快速模式，一种是常规模式。快速模式是假定key是顺序的，能快速处理，如果发现不能够快速处理，则退回常规模式。保证性能的同时，不会影响功能。 </p>
+<p> 在这个例子中，常规模式需要处理13个token，快速模式只需要处理6个token。 </p>
+<p> 实现sort field fast match算法的代码在这个类com.alibaba.fastjson.parser.deserializer.ASMDeserializerFactory,是使用asm针对每种类型的VO动态创建一个类实现的。</p>
+<p> 这里是有一个用于演示sort field fast match算法的代码： <a href="http://code.alibabatech.com/svn/fastjson/trunk/fastjson/src/test/java/data/media/ImageDeserializer.java" target="_blank" rel="external">http://code.alibabatech.com/svn/fastjson/trunk/fastjson/src/test/java/data/media/ImageDeserializer.java</a></p>
+<pre><code><span class="comment">// 用于快速匹配的每个字段的前缀</span>
+<span class="built_in">char</span>[] size_   = <span class="string">"\"size\":"</span>.toCharArray();
+<span class="built_in">char</span>[] uri_    = <span class="string">"\"uri\":"</span>.toCharArray();
+<span class="built_in">char</span>[] titile_ = <span class="string">"\"title\":"</span>.toCharArray();
+<span class="built_in">char</span>[] width_  = <span class="string">"\"width\":"</span>.toCharArray();
+<span class="built_in">char</span>[] height_ = <span class="string">"\"height\":"</span>.toCharArray();
+
+<span class="comment">// 保存parse开始时的lexer状态信息</span>
+<span class="built_in">int</span> mark = lexer.getBufferPosition();
+<span class="built_in">char</span> mark_ch = lexer.getCurrent();
+<span class="built_in">int</span> mark_token = lexer.token();
+
+<span class="built_in">int</span> <span class="variable">height</span> = lexer.scanFieldInt(height_);
+<span class="keyword">if</span> (lexer.matchStat == JSONScanner.NOT_MATCH) {
+    <span class="comment">// 退出快速模式, 进入常规模式</span>
+    lexer.reset(mark, mark_ch, mark_token);
+    <span class="keyword">return</span> (T) <span class="keyword">super</span>.deserialze(parser, clazz);
+}
+
+<span class="keyword">String</span> value = lexer.scanFieldString(size_);
+<span class="keyword">if</span> (lexer.matchStat == JSONScanner.NOT_MATCH) {
+    <span class="comment">// 退出快速模式, 进入常规模式</span>
+    lexer.reset(mark, mark_ch, mark_token);
+    <span class="keyword">return</span> (T) <span class="keyword">super</span>.deserialze(parser, clazz);
+}
+Size <span class="built_in">size</span> = Size.valueOf(value);
+
+<span class="comment">// ... ...</span>
+
+<span class="comment">// batch set</span>
+Image <span class="built_in">image</span> = <span class="keyword">new</span> Image();
+<span class="built_in">image</span>.setSize(<span class="built_in">size</span>);
+<span class="built_in">image</span>.setUri(uri);
+<span class="built_in">image</span>.setTitle(title);
+<span class="built_in">image</span>.setWidth(<span class="variable">width</span>);
+<span class="built_in">image</span>.setHeight(<span class="variable">height</span>);
+
+<span class="keyword">return</span> (T) <span class="built_in">image</span>;
+</code></pre></li>
+<li><p><strong>使用asm避免反射</strong></p>
+<p> deserialize的时候，会使用asm来构造对象，并且做batch set，也就是说合并连续调用多个setter方法，而不是分散调用，这个能够提升性能。</p>
+</li>
+<li><p><strong>对utf-8的json bytes，针对性使用优化的版本来转换编码</strong></p>
+<p> 这个类是com.alibaba.fastjson.util.UTF8Decoder，来源于JDK中的UTF8Decoder，但是它使用ThreadLocal Cache Buffer，避免转换时分配char[]的开销。<br> ThreadLocal Cache的实现是这个类com.alibaba.fastjson.util.ThreadLocalCache。第一次1k，如果不够，会增长，最多增长到128k。</p>
+<pre><code><span class="comment">//代码摘抄自com.alibaba.fastjson.JSON</span>
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> &lt;T&gt; <span class="function">T <span class="title">parseObject</span><span class="params">(<span class="keyword">byte</span>[] input, <span class="keyword">int</span> off, <span class="keyword">int</span> len, CharsetDecoder charsetDecoder, Type clazz,
+                                      Feature... features)</span> </span>{
+    charsetDecoder.reset();
+
+    <span class="keyword">int</span> scaleLength = (<span class="keyword">int</span>) (len * (<span class="keyword">double</span>) charsetDecoder.maxCharsPerByte());
+    <span class="keyword">char</span>[] chars = ThreadLocalCache.getChars(scaleLength); <span class="comment">// 使用ThreadLocalCache，避免频繁分配内存</span>
+
+    ByteBuffer byteBuf = ByteBuffer.wrap(input, off, len);
+    CharBuffer charByte = CharBuffer.wrap(chars);
+    IOUtils.decode(charsetDecoder, byteBuf, charByte);
+
+    <span class="keyword">int</span> position = charByte.position();
+
+    <span class="keyword">return</span> (T) parseObject(chars, position, clazz, features);
+}
+</code></pre></li>
+<li><p><strong>symbolTable算法</strong></p>
+<p> 我们看xml或者javac的parser实现，经常会看到有一个这样的东西symbol table，它就是把一些经常使用的关键字缓存起来，在遍历char[]的时候，同时把hash计算好，通过这个hash值在hashtable中来获取缓存好的symbol，避免创建新的字符串对象。这种优化在fastjson里面用在key的读取，以及enum value的读取。这是也是parse性能优化的关键算法之一。 </p>
+<p> 以下是摘抄自JSONScanner类中的代码，这段代码用于读取类型为enum的value。</p>
+<pre><code><span class="keyword">int</span> hash = <span class="number">0</span>;
+<span class="keyword">for</span> (;;) {
+    ch = buf[<span class="keyword">index</span>++];
+    <span class="keyword">if</span> (ch == <span class="string">'\"'</span>) {
+        bp = <span class="keyword">index</span>;
+        <span class="keyword">this</span>.ch = ch = buf[bp];
+        strVal = symbolTable.addSymbol(buf, start, <span class="keyword">index</span> - start - <span class="number">1</span>, hash); <span class="comment">// 通过symbolTable来获得缓存好的symbol，包括fieldName、enumValue</span>
+        <span class="keyword">break</span>;
+    }
+
+    hash = <span class="number">31</span> * hash + ch; <span class="comment">// 在token scan的过程中计算好hash</span>
+
+    <span class="comment">// ... ...</span>
+}
+</code></pre></li>
+</ol>
+<h2 id="能用Fastjson来做什么！">能用Fastjson来做什么！</h2><ol>
+<li>替换其他所有的json库，java世界里没有其他的json库能够和fastjson可相比了。 </li>
+<li>使用fastjson的序列化和反序列化替换java serialize，java serialize不单性能慢，而且体制大。 </li>
+<li>使用fastjson替换hessian，json协议和hessian协议大小差不多一样，而且fastjson性能优越，10倍于hessian </li>
+<li>把fastjson用于memached缓存对象数据。</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JSON/">JSON</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Fastjson/">Fastjson</a><a href="/tags/JSON/">JSON</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/11/json-fastjsontechinsider/" data-title="JSON(四)-Fastjson技术内幕 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/11/xml-introduction/" title="XML(一)-简介">
+  <strong>上一篇：</strong><br/>
+  <span>
+  XML(一)-简介</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/11/json-fastjsonintroduction/"  title="JSON（三）-Fastjson介绍">
+ <strong>下一篇：</strong><br/> 
+ <span>JSON（三）-Fastjson介绍
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/11/json-fastjsontechinsider/" data-title="JSON(四)-Fastjson技术内幕" data-url="http://xfhnever.com/2014/08/11/json-fastjsontechinsider/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#究竟多块"><span class="toc-number">1.</span> <span class="toc-text">究竟多块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么能够做到这么快？"><span class="toc-number">2.</span> <span class="toc-text">为什么能够做到这么快？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Fastjson中Serialzie的优化实现"><span class="toc-number">2.1.</span> <span class="toc-text">Fastjson中Serialzie的优化实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fastjson的deserializer的主要优化算法"><span class="toc-number">2.2.</span> <span class="toc-text">Fastjson的deserializer的主要优化算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#能用Fastjson来做什么！"><span class="toc-number">3.</span> <span class="toc-text">能用Fastjson来做什么！</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

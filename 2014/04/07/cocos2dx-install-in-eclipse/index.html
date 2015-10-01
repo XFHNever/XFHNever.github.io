@@ -1,0 +1,792 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Cocos2D(一)-Win7和eclipse中配置开发环境 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="cocos2d介绍cocos2d是一个基于MIT协议的开源框架，用于构建游戏、应用程序和其他图形界面交互应用。可以让你在创建自己的多平台游戏时节省很多的时间。从本质上来说，Cocos2d是一个图形引擎，封装了复杂的图形接口，通过抽象出精灵。动作等概念，降低了游戏开发难度，简化了开发过程。Cocos2d-x为保证游戏能方便的移植到不同平台上，又在此基础上做了很多扩展，包括一套Objective-C风">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocos2D(一)-Win7和eclipse中配置开发环境">
+<meta property="og:url" content="http://xfhnever.com/2014/04/07/cocos2dx-install-in-eclipse/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="cocos2d介绍cocos2d是一个基于MIT协议的开源框架，用于构建游戏、应用程序和其他图形界面交互应用。可以让你在创建自己的多平台游戏时节省很多的时间。从本质上来说，Cocos2d是一个图形引擎，封装了复杂的图形接口，通过抽象出精灵。动作等概念，降低了游戏开发难度，简化了开发过程。Cocos2d-x为保证游戏能方便的移植到不同平台上，又在此基础上做了很多扩展，包括一套Objective-C风">
+<meta property="og:image" content="http://xfhnever.com/images/post/cocos2dx1-1.jpg">
+<meta property="og:updated_time" content="2015-10-01T13:06:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cocos2D(一)-Win7和eclipse中配置开发环境">
+<meta name="twitter:description" content="cocos2d介绍cocos2d是一个基于MIT协议的开源框架，用于构建游戏、应用程序和其他图形界面交互应用。可以让你在创建自己的多平台游戏时节省很多的时间。从本质上来说，Cocos2d是一个图形引擎，封装了复杂的图形接口，通过抽象出精灵。动作等概念，降低了游戏开发难度，简化了开发过程。Cocos2d-x为保证游戏能方便的移植到不同平台上，又在此基础上做了很多扩展，包括一套Objective-C风">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/04/07/cocos2dx-install-in-eclipse/" title="Cocos2D(一)-Win7和eclipse中配置开发环境" itemprop="url">Cocos2D(一)-Win7和eclipse中配置开发环境</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-04-06T18:33:58.000Z" itemprop="datePublished"> 发表于 Apr 7 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cocos2d介绍"><span class="toc-number">1.</span> <span class="toc-text">cocos2d介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cocos2d特点"><span class="toc-number">2.</span> <span class="toc-text">cocos2d特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要功能"><span class="toc-number">3.</span> <span class="toc-text">主要功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Win7_eclipse下配置开发环境"><span class="toc-number">4.</span> <span class="toc-text">Win7 eclipse下配置开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件目录"><span class="toc-number">5.</span> <span class="toc-text">文件目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置过程中出现的一些问题"><span class="toc-number">6.</span> <span class="toc-text">配置过程中出现的一些问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="cocos2d介绍">cocos2d介绍</h2><p>cocos2d是一个基于MIT协议的开源框架，用于构建游戏、应用程序和其他图形界面交互应用。可以让你在创建自己的多平台游戏时节省很多的时间。<br>从本质上来说，Cocos2d是一个图形引擎，封装了复杂的图形接口，通过抽象出精灵。动作等概念，降低了游戏开发难度，简化了开发过程。Cocos2d-x为保证游戏能方便的移植到不同平台上，又在此基础上做了很多扩展，包括一套Objective-C风格的基础类系、平台无关的多点触碰协议、重力感应和音频系统等。<br><a id="more"></a><br>Cocos2D也拥有几个主要版本。包括Cocos2D-iPhone、Cocos2D-X，以及被社区普遍看好的Cocos2D-HTML5和JavaScript bindings for Cocos2D-X。同时也拥有了非常优秀的编辑器（独立编辑器），例如SpriteSheet Editors、Particle Editors 、Font Editors 、 Tilemap Editors。</p>
+<img src="/images/post/cocos2dx1-1.jpg">
+<h2 id="cocos2d特点">cocos2d特点</h2><ol>
+<li>易于使用:游戏开发者可以把关注焦点放在游戏设置本身，而不必消耗大量时间学习晦涩难懂的OpenGL ES，此外，Cocos2D还提供了大量的规范。</li>
+<li>高效：Cocos2D基于OpenGL ES进行图形渲染，从而让移动设备的GPU性能发挥到极致。</li>
+<li>灵活：方便扩展，易于集成第三方库。</li>
+<li>免费：基于MIT协议的免费开源框架，用户可以放心使用，不用担心商业授权的问题。</li>
+<li>社区支持：关心Cocos2D的开发者自发建立了多个社区组织，可以方便的查阅各类技术资料。</li>
+</ol>
+<h2 id="主要功能">主要功能</h2><ol>
+<li>流程控制（Flow control）：非常容易地管理不同场景（scenes）之间的流程控制</li>
+<li>精灵（Sprites）：快速而方便的精灵</li>
+<li>动作（Actions）：告诉精灵们该做什么。可组合的动作如移动（move）、旋转（rotate）和缩放（scale）等更多</li>
+<li>特效（Effects）：特效包括波浪（waves）、旋转（twirl）和透镜（lens）等更多</li>
+<li>平面地图（Tiled Maps）：支持包括矩形和六边形平面地图</li>
+<li>转换（Transitions）：从一个场景移动到另外一个不同风格的场景</li>
+<li>菜单（Menus）：创建内部菜单</li>
+<li>文本渲染（Text Rendering）：支持标签和HTML标签动作</li>
+<li>文档（Documents）：编程指南 + API参考 + 视频教学 + 很多教你如何使用的简单测试例子</li>
+<li>BSD许可：尽管用就是了</li>
+<li>基于Pyglet：没有外部的依赖</li>
+<li>基于OpenGL：支持硬件加速</li>
+</ol>
+<h2 id="Win7_eclipse下配置开发环境">Win7 eclipse下配置开发环境</h2><p>最近开始学习cocos2d，选择cocos2d-x版本，想要在eclipse中配置开发环境。下面就开始我们的配置之旅。</p>
+<ol>
+<li>首先我之前已经配置好eclipse的android的开发环境。</li>
+<li>安装NDK。</li>
+<li>下载安装python，然后配置环境变量，添加python的路径到path。</li>
+<li>解压缩cocos2d-x-2.2.3。</li>
+<li>复制python.bat（另外下载）到cocos2dx解压缩的根目录下\tools\project-creator下，然后双击运行，输入项目名称级包标识名，创建项目。然后可以到\project目录下看到刚刚创建的项目。</li>
+<li>将刚刚创建的cocos2dx项目导入到eclipse中，选择创建的android版本（后缀名proj.android）。</li>
+<li>将刚刚创建的项目Resource目录下的资源文件全部复制到导入的android项目assets文件夹下，同时将\cocos2dx\platform\android\java\src目录下的org文件复制到当前项目的src文件夹中。然后refresh</li>
+<li>右键选择项目属性（Properties），选择C/C++ builder，填入NDK的ndk.build.cmd路径；然后选择Environment填入一些环境：添加COCOS2DX（cocos2dx解压缩的目录）、NDK_ROOT（NDK解压缩的根目录）、NDK_MODULE_PATH（解压缩根目录，类似于D:/cocos2d-x-2.2.3/cocos2dx/platform/third_party/android/prebuilt）</li>
+<li>设置资源的环境变量。选择Resource，添加COCOS2DX，也就是cocos2dx的解压缩的根目录。</li>
+<li>右键bulid project</li>
+<li>运行项目</li>
+</ol>
+<h2 id="文件目录">文件目录</h2><ol>
+<li>assets：资源文件。</li>
+<li>AppDelegate:程序入口类。<ol>
+<li>bool applicationDidFinishLaunching（）：应用程序启动之后调用这个方法。</li>
+<li>void applicationDidEnterBackground():程序将要进入后台时调用。</li>
+<li>void applicationWillEnterForeground():程序回到前台时调用。</li>
+</ol>
+</li>
+<li>HelloWorldScene：程序主要绘制类。<ol>
+<li>static CCScene* scene():静态方法创建场景，因为改场景中只有一个层。</li>
+<li>bool init()：初始化话HelloWorld类</li>
+</ol>
+</li>
+</ol>
+<h2 id="配置过程中出现的一些问题">配置过程中出现的一些问题</h2><ol>
+<li><p>Android NDK: WARNING: Ignoring unknown import directory: C:\cocos2d-2.0-x-2.0.3 Android NDK: jni/Android.mk: Cannot find module with tag ‘cocos2dx’ in import path jni/Android.mk:19: <em>*</em> Android NDK: Aborting.    .  Stop.</p>
+<p> 在andorid.mk文件中添加</p>
+<pre><code><span class="variable">$(</span>call import-add-path, <span class="constant">D</span><span class="symbol">:/cocos2d-x-</span><span class="number">2.2</span>.<span class="number">3</span>)
+<span class="variable">$(</span>call import-add-path, <span class="constant">D</span><span class="symbol">:/cocos2d-x-</span><span class="number">2.2</span>.<span class="number">3</span>/cocos2dx/platform/third_party/android/prebuilt)
+</code></pre><p> 注意路径是使用的”/“而不是”\”</p>
+</li>
+<li><p>Error: Program “bash” is not found in PATH</p>
+<p> 如果是用cygwin+NDK+eclipse环境生成的工程，工程已经添加了native super。</p>
+<pre><code><span class="number">1</span>、把cygwin/<span class="keyword">bin加入系统环境变量Path下
+</span>
+<span class="number">2</span>、右击工程--&gt;properties--&gt;C/C++ <span class="keyword">Build </span> 确认右边视图选项<span class="keyword">Build </span>command：ndk-<span class="keyword">build
+</span>
+<span class="number">3</span>、右击工程--&gt;properties--&gt;C/C++ <span class="keyword">Build </span>--&gt;ToolChain Edit
+  确认右边视图的选项：Current toolchain：No Toolchain
+                  Current <span class="keyword">Builder：Android </span><span class="keyword">Builder </span>   (如果还是不行，可以换成Gnu Make <span class="keyword">Builder试试) </span>
+</code></pre></li>
+</ol>
+<h2 id="参考">参考</h2><ol>
+<li><a href="http://wenku.baidu.com/link?url=Fjt8F2-hATIAzY3lvj8aMYkRdFDvyMYoLa1S40gyv6p4qrmRQEGbGnClI-ofxiaUMflts6wOAmj-zJ40drQXs64eFFTTrpqIVSmmJI0u-PK" target="_blank" rel="external">搭建Android平台cocos2dx开发环境</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Cocos2D-x/">Cocos2D-x</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Cocos2D-x/">Cocos2D-x</a><a href="/tags/Eclipse/">Eclipse</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/04/07/cocos2dx-install-in-eclipse/" data-title="Cocos2D(一)-Win7和eclipse中配置开发环境 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/04/10/cocos2dx-tipsinstudy/" title=" Cocos2D(二)-tips in study">
+  <strong>上一篇：</strong><br/>
+  <span>
+   Cocos2D(二)-tips in study</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/04/06/designpattern-mediator/"  title="设计模式（十）-Mediator Pattern">
+ <strong>下一篇：</strong><br/> 
+ <span>设计模式（十）-Mediator Pattern
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/04/07/cocos2dx-install-in-eclipse/" data-title="Cocos2D(一)-Win7和eclipse中配置开发环境" data-url="http://xfhnever.com/2014/04/07/cocos2dx-install-in-eclipse/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cocos2d介绍"><span class="toc-number">1.</span> <span class="toc-text">cocos2d介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cocos2d特点"><span class="toc-number">2.</span> <span class="toc-text">cocos2d特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要功能"><span class="toc-number">3.</span> <span class="toc-text">主要功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Win7_eclipse下配置开发环境"><span class="toc-number">4.</span> <span class="toc-text">Win7 eclipse下配置开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件目录"><span class="toc-number">5.</span> <span class="toc-text">文件目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置过程中出现的一些问题"><span class="toc-number">6.</span> <span class="toc-text">配置过程中出现的一些问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

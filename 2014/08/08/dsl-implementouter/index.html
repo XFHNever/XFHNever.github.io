@@ -1,0 +1,815 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>DSL（四）-外部DSL实现 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="内部DSL最终还是会受限于宿主语言的语法结构，外部DSL则提供了更大的语法自由度—我们可以使用自己喜欢的任何语法。
+相比于内部DSL，实现外部DSL的不同之处在于解析过程，我们要解析纯文本输入，这些输入不受任何现有语言的约束。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DSL（四）-外部DSL实现">
+<meta property="og:url" content="http://xfhnever.com/2014/08/08/dsl-implementouter/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="内部DSL最终还是会受限于宿主语言的语法结构，外部DSL则提供了更大的语法自由度—我们可以使用自己喜欢的任何语法。
+相比于内部DSL，实现外部DSL的不同之处在于解析过程，我们要解析纯文本输入，这些输入不受任何现有语言的约束。">
+<meta property="og:updated_time" content="2015-10-01T14:18:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DSL（四）-外部DSL实现">
+<meta name="twitter:description" content="内部DSL最终还是会受限于宿主语言的语法结构，外部DSL则提供了更大的语法自由度—我们可以使用自己喜欢的任何语法。
+相比于内部DSL，实现外部DSL的不同之处在于解析过程，我们要解析纯文本输入，这些输入不受任何现有语言的约束。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/08/dsl-implementouter/" title="DSL（四）-外部DSL实现" itemprop="url">DSL（四）-外部DSL实现</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-08T15:07:31.000Z" itemprop="datePublished"> 发表于 Aug 8 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法分析策略"><span class="toc-number">1.</span> <span class="toc-text">语法分析策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何从文法得到解析器"><span class="toc-number">1.1.</span> <span class="toc-text">如何从文法得到解析器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#递归下降法语法解析器"><span class="toc-number">1.1.1.</span> <span class="toc-text">递归下降法语法解析器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解析器组合子"><span class="toc-number">1.1.2.</span> <span class="toc-text">解析器组合子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解析器生成器"><span class="toc-number">1.1.3.</span> <span class="toc-text">解析器生成器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出生成策略"><span class="toc-number">2.</span> <span class="toc-text">输出生成策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌入式语法翻译"><span class="toc-number">2.1.</span> <span class="toc-text">嵌入式语法翻译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#树的构建和遍历"><span class="toc-number">2.2.</span> <span class="toc-text">树的构建和遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内嵌解释器"><span class="toc-number">2.3.</span> <span class="toc-text">内嵌解释器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#取舍"><span class="toc-number">3.</span> <span class="toc-text">取舍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解析中的概念"><span class="toc-number">4.</span> <span class="toc-text">解析中的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单独的词法分析"><span class="toc-number">4.1.</span> <span class="toc-text">单独的词法分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文法和语言"><span class="toc-number">4.2.</span> <span class="toc-text">文法和语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则文法、上下文无关文法和上下文相关文法"><span class="toc-number">4.3.</span> <span class="toc-text">正则文法、上下文无关文法和上下文相关文法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自顶向下解析和自底向上解析"><span class="toc-number">4.4.</span> <span class="toc-text">自顶向下解析和自底向上解析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#混入另一种语言"><span class="toc-number">5.</span> <span class="toc-text">混入另一种语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XML_DSL"><span class="toc-number">6.</span> <span class="toc-text">XML DSL</span></a></li></ol>
+		
+		</div>
+		
+		<p>内部DSL最终还是会受限于宿主语言的语法结构，外部DSL则提供了更大的语法自由度—我们可以使用自己喜欢的任何语法。</p>
+<p>相比于内部DSL，实现外部DSL的不同之处在于解析过程，我们要解析纯文本输入，这些输入不受任何现有语言的约束。<br><a id="more"></a></p>
+<h2 id="语法分析策略">语法分析策略</h2><p>在解析外部DSL时，要将一串文本分解成某种结构，通过这种结构来理解文本的含义。这个“结构化”的过程称为语法分析（syntactic analysis）。如下面的代码：</p>
+<pre><code>event doorClosed D1CL
+event drawerOpened D2OP
+<span class="command"><span class="keyword">command</span> <span class="title">unlockPanel</span> <span class="title">PNUL</span></span>
+<span class="command"><span class="keyword">command</span> <span class="title">lockPanel</span> <span class="title">PNLK</span></span>
+</code></pre><p>语法分析要做的就是识别出event doorClosed D1CL这一行是一个事件的定义，并将其与命令定义区分开。</p>
+<p>哪怕从未涉足过任何严肃的语法分析，我们应该也试过最简单的解决方法—<strong>分隔符指导翻译</strong>，其基本思路是，首先找出能把输入分解成语句的分隔符（通常是换行符），根据这些分隔符把输入语句拆分成语句，然后逐个语句进行处理，找出其中的含义。</p>
+<p>但是分隔符指导翻译不适用于处理层次结构的输入上下文。比如：</p>
+<pre><code>events
+    doorClosed D1CL
+    drawerOpened D2OP
+<span class="function"><span class="keyword">end</span>
+
+<span class="title">commands</span></span>
+    。。。。
+</code></pre><p>更适合的方法是“<strong>语法指导翻译</strong>”。首先为输入语言定义一个形式化的文法，就像这样：</p>
+<pre><code><span class="attribute">list</span>: eventList commandList;
+<span class="attribute">eventList</span>: <span class="string">'events'</span> eventDec* <span class="string">'end'</span>;   <span class="comment">//*表示后继元素可以出现多次</span>
+<span class="attribute">eventDec</span>: identifier identifier;
+<span class="attribute">commandList</span>: <span class="string">'commands'</span> commandDec* <span class="string">'end'</span>;
+<span class="attribute">commandDec</span>: identifier identifier;
+</code></pre><p>文法用于定义程序设计语言的合法语法。绝大多数文法都是以某种形式的“BNF”编写，其中每行代表一条规则：首先是规则名称，然后是满足该规则的合法元素。</p>
+<h3 id="如何从文法得到解析器">如何从文法得到解析器</h3><h4 id="递归下降法语法解析器">递归下降法语法解析器</h4><p>经典、易于理解的解析方法：用函数内部的控制流来展现文法规则。每条文法规则会转换为解析器中的一个函数，每个BNF运算符到控制流的转换过程都有清晰的模式可循。</p>
+<p>该方法的问题在于：文法会隐藏于控制流之下，因此代码可读性就大大降低。</p>
+<h4 id="解析器组合子">解析器组合子</h4><p>更时尚方式：将每条规则转换成一个对象，再把对象组合成一个与文法对应的结构。我们仍需要递归下降法语法解析器的元素，但这些元素会包装成组合子对象，只要将它们组合起来就行了。这样，我们甚至不需要理解递归下降法语法解析器算法的细节，也可以实现一个文法。</p>
+<h4 id="解析器生成器">解析器生成器</h4><p>可以把BNF当做DSL来操作：用这种DSL来编写文法，解析器生成器负责生成解析器。</p>
+<p>解析器生成器（如ANTLR）是最精密的途径：这些工具都非常成熟，并且能以极高的效率处理负责的语言。以BNF作为DSL，会让语言更容易理解和维护，因为其语法已经清晰地定义出来，并且能够自动地绑定到解析器上。不过这些工具需要一定的学习成本。</p>
+<h2 id="输出生成策略">输出生成策略</h2><p>大部分时候，当解析输入时，解析过程的输出结果应该是一个“语义模型”，随后我们就可以直接解释它或者将其作为代码生成的输入。</p>
+<p>输出语义模型的方式有三种：</p>
+<h3 id="嵌入式语法翻译">嵌入式语法翻译</h3><p>直接把方法调用放进解析器，从而在解析过程中生成语义模型。</p>
+<p>采用这种方法可以在解析的同时逐步构建语义模型。只要得到了足够的输入，能识别出语义模型的一个组成部分，就立即创建这个部分。在真正创建语义模型中的对象之前，经常会需要一些中间解析数据–这是可能需要把信息存入“符号表”。</p>
+<h3 id="树的构建和遍历">树的构建和遍历</h3><p>需要两步—树的构建：首先输入文本，构建出一棵包含文本结构的语法树，同时用符号表处理语法树各个部分之间的交叉引用；然后，执行第二阶段，遍历语法树，生成语义模型。</p>
+<p>使用树的构建的一个好处：把整个解析任务分解成两个更简单的任务。类比XML处理，嵌入式语法翻译类似于SAX，树的构建类似于DOM。</p>
+<h3 id="内嵌解释器">内嵌解释器</h3><p>在解析过程中执行解释，并直接输出最终结果。参考计算器。</p>
+<p>内嵌解释器并不生成语义模型。很少用到。</p>
+<h2 id="取舍">取舍</h2><p>内嵌解释器很少使用；树构建时，语法树内存开销较大，同时，当复杂度较小时，构建和遍历语法树显得过于麻烦，但是，翻译的复杂度越大，树的构建就越适合。</p>
+<h2 id="解析中的概念">解析中的概念</h2><h3 id="单独的词法分析">单独的词法分析</h3><p>语法指导翻译通常分为两个阶段：词法分析（也叫做扫描或标记解释）和语法分析（也叫做解释迷惑人的称谓）。词法分析阶段将输入文本转化为一串标记（token），这是一种数据类型，包含两个主要属性： 类型和内容。 例如，在状态机语言中，</p>
+<pre><code><span class="keyword">state</span> idle
+</code></pre><p>就会转化为两个标记：</p>
+<pre><code>[content: <span class="string">"state"</span>, type: state-keyword]
+[content: <span class="string">"idle"</span>, type: identifier]
+</code></pre><p>语法分析器随后会根据文法规则把这串标记组织成一棵语法树。</p>
+<p>但是先做词法分析同时会产生很多影响：首先我们要谨慎使用文本，如：</p>
+<pre><code><span class="keyword">state</span> initial <span class="keyword">state</span>
+</code></pre><p>表示一个initial state的状态，但是第二个state默认情况下会被词法分析器识别为state关键字而不是一个标识符（使用可变分词方式解决）。</p>
+<p>其次，先做词法分析意味着空白字符通常会去掉，解析器根本不会看见它们，这就使得处理有语法意义的空白字符变得困难。</p>
+<p>之所以像这样把词法分析器分离出来，是因为这使得词法分析器和语法分析器变得简单，而且还能提升性能，尤其是在资源有限的硬件上。</p>
+<h3 id="文法和语言">文法和语言</h3><p>一种文法形式化地定义一种语言的语法，但是多种文法能够识别同一语言的的情况也很常见。比如，对于下面输入文本：</p>
+<pre><code><span class="keyword">events</span>
+    doorClosed D1CL
+    drawerOpened D2OP
+<span class="keyword">end</span>
+</code></pre><p>可以写出如下文法：</p>
+<pre><code><span class="rule"><span class="attribute">eventBlock</span>:<span class="value"> Event-keyword eventDec* End-keyword</span></span>;  
+<span class="rule"><span class="attribute">eventDec</span>:<span class="value"> Identifier identifier</span></span>;    
+</code></pre><p>当然，也可以写成如下文法：</p>
+<pre><code><span class="rule"><span class="attribute">eventBlock</span>:<span class="value"> Event-keyword eventList End-keyword</span></span>; 
+<span class="tag">eventList</span>： <span class="tag">eventDec</span>*； 
+<span class="rule"><span class="attribute">eventDec</span>:<span class="value"> Identifier identifier</span></span>;
+</code></pre><p>有多种原因会让我们得到不同的文法。首先，不同的解析器生成器使用不同的文法，这些文法的语法和语义都不同；即便是同一个解析器生成器，当采用不同的方式构建文法规则时，也会得到不同的文法。和其他任何代码一样，我们也重构文法，使其更易理解。        </p>
+<h3 id="正则文法、上下文无关文法和上下文相关文法">正则文法、上下文无关文法和上下文相关文法</h3><p>编程社区用乔姆斯基谱系对文法分类，而我们主要关注三类文法：正则文法、上下文无关文法和上下文相关文法。它们共同构成一个层级谱系：所有正则文法都是上下文无关的，所有上下文无关文法都是上下文相关的。（具体解释这里不做说明）</p>
+<p>正则文法对我们很重要，因为它可以用一个有限状态机来处理—这点很重要，因为正则表达式就是有限状态机，所以正则语言可以用正则表达式来解析。</p>
+<p>就计算机语言，正则文法有一个大问题：不能处理嵌套元素（不能“计数”）。显然，这对于计算机语言，不是一个好消息，起码任何通用语言都应该能够进行数学计算，而且这也会影响到有块结构的程序，如：</p>
+<pre><code><span class="keyword">for</span>(<span class="built_in">int</span> i <span class="keyword">in</span> numbers) {
+    <span class="keyword">if</span>(isInteresting(i)) {
+        doSomething(i)<span class="comment">;</span>
+    }
+}
+</code></pre><p>这段程序需要嵌套快，因此不是正则的。</p>
+<p>要处理这种嵌套块，就得网上走一步：上下文无关文法。上下文无关文法可以使用下推机（push-down machine）—带有栈的有限状态机来实现。大部分编程语言的解析器都使用上下文无关文法，大部分解析器生成器也使用它，“递归下降法语法分析器”和“解析器组合子”都会生成下推机。于是，大部分现代编程语言都是用上下文无关文法来解析的。</p>
+<p>但是上下文无关文法不能处理我们想要的所有语法规则，其一个常见异常情况是这样一条规则：变量务必先声明后使用。问题在于，当使用变量时，变量声明常出现在当前所在程序分支所在层次结构之外。尽管上下文无关文法可以保存层级结构上下文，但也没有足够的上下文来处理这种情况–因此还需要“符号表”。</p>
+<p>在上一级是上下文相关文法。它可以处理嵌套元素。</p>
+<p>这些语言的分类可以告诉我们为什么会有一个独立的词法分析阶段，词法分析通常是用正则表达式来完成，语法分析则会使用下推机。因此词法分析器的用途有限，但速度一般可以更快。</p>
+<p>正则文法和上下文无关文法食物名最可能使用的两种文法，不过还有一种新的文法也值得关注—解析表达式文法（Parsing Expression Grammar， PEG）。PEG是一种新的文法格式，可以处理大部分上下文无关 的情景和一些上下文相关的情景。</p>
+<h3 id="自顶向下解析和自底向上解析">自顶向下解析和自底向上解析</h3><p>编写解析器的方法有多种，一个最大的区别是：解析器是自顶向下还是自底向上。这不仅会影响解析器工作的方式，而且会影响解析器所能处理的文法类型。</p>
+<p>自顶向下解析器首先处理文法中最高级别的规则，根据它确定如何尝试及匹配。自顶向下解析器将规则视为某种目标，用于指导自己接下来需要查找的元素。</p>
+<p>自底向上解析器完成的操作与上面恰好相反。读入关键字，查看当前输入是否匹配某个规则，如果匹配不成功，解析器就把已经读入的内容暂时放到一旁（或叫做移进（shifting）），并读入写一个标记（一个标识符），这样直到匹配，然后将上面的标识符规约成一个块。所以也称为“移进-规约解析”</p>
+<p>很多时候，自顶向下解析器也称为LL解析器，自底向上称为LR解析器：第一个字母表示“从哪个方向开始扫描输入”，第二个字母则表示“如何识别规则”（L是从左向右，R是从右向左）。</p>
+<p>递归下降算法是一个自顶向下的解析算法，自顶向下的一大缺点是：无法处理左递归。例如：</p>
+<pre><code><span class="rule"><span class="attribute">expr</span>:<span class="value"> expr <span class="string">'+'</span> expr</span></span>;
+</code></pre><p>类似这样的规则会导致解析器在尝试匹配expr时陷入无穷递归。</p>
+<h2 id="混入另一种语言">混入另一种语言</h2><p>面对一种外部DSL，一个最大的风险是：它可能不经意间演变成一种通用语言。</p>
+<p>DSL中可以外加代码。外加代码是指嵌入DSL中的一小段通用语言代码。DSL解析器不会解析这段代码，它只是作为一段代码放入“语义模型”，留待后续处理。如：</p>
+<pre><code>scoot handles floor_wax in MA RI CT when <span class="list">(<span class="keyword">/</span>^Baker/.test<span class="list">(<span class="keyword">lead</span>.name)</span>)</span>
+</code></pre><p>除了通用语言代码，也可以混入另一种DSL。</p>
+<p>使用外加代码的一个问题是：需要用不同的方式对外加代码进行标记划分，因此需要某种“可变分词方式”。最简单的可变分词方式方法是，用某种清晰的分隔符将嵌入代码引用起来，使其能够识别为单个标记，从而以单一字符串的形式经过解析。如上面的例子，是使用了一对大括号，但是这样同时增加了一些噪音。</p>
+<h2 id="XML_DSL">XML DSL</h2><p>很多常见的XML配置文件实际上就是DSL，但不是所有的配置文件都是DSL。比如“属性列表”和DSL是不同的，那只是一份简单的“键-值对”列表，可能再加上分类。</p>
+<p>XML不是编程语言，是一种没有语义的语法结构。XML是DSL的承载语法，但是它又引入了太多语法噪音—太多的尖括号、引号和斜线，每个嵌套元素都必须有开始标签和结束标签。</p>
+<p>自定义的外部DSL也带来了一个烦恼：它们处理引用、字符转义之类事情的方式总是难以统一。但在这方面，XML提供了一个统一可靠的方案。</p>
+<p>XML在错误处理和诊断方面很出色。</p>
+<p>XML的另一个优势：只要将XML文档与一份结构定义比较，不需要执行其中的内容就可以知道其格式是否正确。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/DSL/">DSL</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DSL/">DSL</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/08/dsl-implementouter/" data-title="DSL（四）-外部DSL实现 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/09/dsl-internalvsouter/" title="DSL（五）-内部DSL vs 外部DSL">
+  <strong>上一篇：</strong><br/>
+  <span>
+  DSL（五）-内部DSL vs 外部DSL</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/08/dsl-implementinternal/"  title="DSL（三）-内部DSL实现">
+ <strong>下一篇：</strong><br/> 
+ <span>DSL（三）-内部DSL实现
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/08/dsl-implementouter/" data-title="DSL（四）-外部DSL实现" data-url="http://xfhnever.com/2014/08/08/dsl-implementouter/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法分析策略"><span class="toc-number">1.</span> <span class="toc-text">语法分析策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何从文法得到解析器"><span class="toc-number">1.1.</span> <span class="toc-text">如何从文法得到解析器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#递归下降法语法解析器"><span class="toc-number">1.1.1.</span> <span class="toc-text">递归下降法语法解析器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解析器组合子"><span class="toc-number">1.1.2.</span> <span class="toc-text">解析器组合子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解析器生成器"><span class="toc-number">1.1.3.</span> <span class="toc-text">解析器生成器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输出生成策略"><span class="toc-number">2.</span> <span class="toc-text">输出生成策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌入式语法翻译"><span class="toc-number">2.1.</span> <span class="toc-text">嵌入式语法翻译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#树的构建和遍历"><span class="toc-number">2.2.</span> <span class="toc-text">树的构建和遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内嵌解释器"><span class="toc-number">2.3.</span> <span class="toc-text">内嵌解释器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#取舍"><span class="toc-number">3.</span> <span class="toc-text">取舍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解析中的概念"><span class="toc-number">4.</span> <span class="toc-text">解析中的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单独的词法分析"><span class="toc-number">4.1.</span> <span class="toc-text">单独的词法分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文法和语言"><span class="toc-number">4.2.</span> <span class="toc-text">文法和语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则文法、上下文无关文法和上下文相关文法"><span class="toc-number">4.3.</span> <span class="toc-text">正则文法、上下文无关文法和上下文相关文法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自顶向下解析和自底向上解析"><span class="toc-number">4.4.</span> <span class="toc-text">自顶向下解析和自底向上解析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#混入另一种语言"><span class="toc-number">5.</span> <span class="toc-text">混入另一种语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XML_DSL"><span class="toc-number">6.</span> <span class="toc-text">XML DSL</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

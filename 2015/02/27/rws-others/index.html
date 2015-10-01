@@ -1,0 +1,763 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>RESTful Web Service(十一)- 其他内容 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="本章我们继续介绍一些更具挑战性的问题，或许也已经超出了REST统一接口约束的领域。本章的内容主要涉及创建副本，创建快照，移动和合并，批量处理请求以及对事务的支持。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RESTful Web Service(十一)- 其他内容">
+<meta property="og:url" content="http://xfhnever.com/2015/02/27/rws-others/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="本章我们继续介绍一些更具挑战性的问题，或许也已经超出了REST统一接口约束的领域。本章的内容主要涉及创建副本，创建快照，移动和合并，批量处理请求以及对事务的支持。">
+<meta property="og:updated_time" content="2015-10-01T15:15:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RESTful Web Service(十一)- 其他内容">
+<meta name="twitter:description" content="本章我们继续介绍一些更具挑战性的问题，或许也已经超出了REST统一接口约束的领域。本章的内容主要涉及创建副本，创建快照，移动和合并，批量处理请求以及对事务的支持。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/02/27/rws-others/" title="RESTful Web Service(十一)- 其他内容" itemprop="url">RESTful Web Service(十一)- 其他内容</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2015-02-26T23:31:01.000Z" itemprop="datePublished"> 发表于 Feb 27 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何复制资源"><span class="toc-number">1.</span> <span class="toc-text">如何复制资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何合并资源"><span class="toc-number">2.</span> <span class="toc-text">如何合并资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何移动资源"><span class="toc-number">3.</span> <span class="toc-text">如何移动资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#何时使用WebDAV"><span class="toc-number">4.</span> <span class="toc-text">何时使用WebDAV</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何支持跨域服务器的操作"><span class="toc-number">5.</span> <span class="toc-text">如何支持跨域服务器的操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何获取资源的快照"><span class="toc-number">6.</span> <span class="toc-text">如何获取资源的快照</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何撤销资源更新"><span class="toc-number">7.</span> <span class="toc-text">如何撤销资源更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何为部分更新提炼资源"><span class="toc-number">8.</span> <span class="toc-text">如何为部分更新提炼资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用PATCH方法"><span class="toc-number">9.</span> <span class="toc-text">如何使用PATCH方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何批量处理相似的资源"><span class="toc-number">10.</span> <span class="toc-text">如何批量处理相似的资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何触发批量操作"><span class="toc-number">11.</span> <span class="toc-text">如何触发批量操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#何时使用POST来合并多个请求"><span class="toc-number">12.</span> <span class="toc-text">何时使用POST来合并多个请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何支持批量请求"><span class="toc-number">13.</span> <span class="toc-text">如何支持批量请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何支持事务"><span class="toc-number">14.</span> <span class="toc-text">如何支持事务</span></a></li></ol>
+		
+		</div>
+		
+		<p>本章我们继续介绍一些更具挑战性的问题，或许也已经超出了REST统一接口约束的领域。本章的内容主要涉及创建副本，创建快照，移动和合并，批量处理请求以及对事务的支持。<br><a id="more"></a></p>
+<h2 id="如何复制资源">如何复制资源</h2><p>为了复制资源而不泄漏服务器实现细节，可以设计一个用于复制的控制器资源。客户端向控制器发送POST请求复制资源。为了实现条件POST，可以提供一次性URI。控制器创建副本后，返回状态码201 (Created)及Location头带有副本URI。</p>
+<h2 id="如何合并资源">如何合并资源</h2><p>为了合并两个或多个资源，可以设计一个用于合并的应用程序特定控制器资源。客户端想控制器发送GET请求，其查询参数包含待合并资源的URI或标识符。服务器返回Last-Modified、ETag头和包含待合并资源摘要的表述体。ETag由时戳和随机数连接串构成。为了验证摘要，客户端向同一地址发送带有If-Unmodified-Since和If-Match头的POST请求发起合并。服务器合并后在事务日志中保留If-Match头的值并返回状态码201 (Created)及含有合并后资源URI的Location头。如果客户端再发送相同If-Match头的POST请求，服务器返回状态码412 (Preconditon Failed)。</p>
+<h2 id="如何移动资源">如何移动资源</h2><p>为了移动资源，服务器会提供负责移动资源控制器的链接或链接模板以使客户端可以发送POST请求，并在完成请求后根据输出返回状态码201 (Created)或303 (See Other)。</p>
+<h2 id="何时使用WebDAV">何时使用WebDAV</h2><p>WebDAV （RFC 4918）是用于资源分布式创作和版本管理的HTTP扩展，它扩展了一些HTTP方法和头用于管理文件和文档。当Web服务是内容创作应用且服务器支持WebDAV时使用WebDAV特定方法，避免对其他类型应用使用WebDAV。</p>
+<pre><code>方法                介绍
+PROPFIND        WebDAV中的文档具有属性，客户端可用此方法获得属性
+PROPPATCH        客户端用此方法设置、添加或修改资源属性
+MKCOL        WebDAV可以将文档放入集合（文件夹），客户端可用此方法创建集合
+<span class="built_in">COPY</span>        <span class="bash">客户端可用此方法复制资源
+</span>MOVE        客户端可用此方法移动资源
+LOCK        客户端可用此方法对给定文档加锁，以支持悲观并发控制
+UNLOCK        客户端可用此方法对给定文档去锁
+</code></pre><h2 id="如何支持跨域服务器的操作">如何支持跨域服务器的操作</h2><p>为了支持跨服务器边界的操作（例如，将用户配置从一个应用移植到另一个应用，将文档从草稿服务器发布到生产服务器），需要服务器之间彼此就数据格式、后台接口、并发控制、数据加载、范式化和存储等方面协作、设计和实现设计跨服务器操作。</p>
+<h2 id="如何获取资源的快照">如何获取资源的快照</h2><p>wiki的网页都会维护当前和过去的修订历史，以便客户可以获取、比较和评估页面改变。为了支持资源以往历史快照，服务器在收到客户端PUT请求更新资源时，在更新资源之前会默认创建快照（资源副本），并在更新后的资源表述中包含快照链接，快照表述中包含更新后资源链接。当用户发送DELETE请求，删除资源及所有快照。</p>
+<h2 id="如何撤销资源更新">如何撤销资源更新</h2><p>提供用于撤销操作的控制器资源。当客户端发送POST请求进行撤销操作，在事务日志中记录资源当前状态以用于审计。服务器将资源状态恢复到上一快照并将客户端重定向到资源URI。</p>
+<h2 id="如何为部分更新提炼资源">如何为部分更新提炼资源</h2><p>当资源很大而改动很小时，发送GET请求获取整个表述、进行小的修改、发送PUT请求将整个表述传回服务器进行更新很费时费带宽。为了支持对资源进行部分更新，可以将可修改的资源部分封装为一个新资源。客户端通过PUT请求更新该新资源，等效于部分更新原来的资源。</p>
+<h2 id="如何使用PATCH方法">如何使用PATCH方法</h2><p>HTTP PUT方法用于对资源的整个更新或替换，PATCH方法（RFC 5789）用于支持部分更新。PATCH方法不是安全和幂等的，请求体是一系列对资源进行改变的表述。当收到请求，服务器将整个补丁原子性地施加于资源，并返回响应码 200 (OK)或204 (No Content)。如果服务器无法将整体补丁施加于资源，就不会做任何局部修改。可以通过请求中包含If-Unmodified-Since和/或If-Match头支持条件PATCH请求，如果不匹配则返回状态码412 (Precondition Failed)。建议在OPTIONS响应的Allow头支持PATCH，并在PTACH方法包含Accept-Patch头，其值为支持的媒体类型。</p>
+<h2 id="如何批量处理相似的资源">如何批量处理相似的资源</h2><p>当客户端需要为不同资源提交若干类似请求时，只要对每个资源的操作是相同的且资源是类似的，可以将这些操作组合成一个针对集合资源的单个操作。使用POST请求和集合资源一次性批量创建若干资源。服务器为集合资源分配一个URI，并使用状态码303 (See Other)重定向到该集合资源，集合资源表述包含所有新创建资源的链接。使用PUT请求更新或DELETE请求删除若干资源与创建过程类似，以上操作必须是原子化的。</p>
+<h2 id="如何触发批量操作">如何触发批量操作</h2><p>服务器需要设计一个控制器资源用于执行批量操作。如果客户端需要跟踪操作或客户端需要提交大量用于操作的数据，返回状态码202 (Accepted)以进行异步操作，否则返回200 (OK)或204 (No Content)。</p>
+<h2 id="何时使用POST来合并多个请求">何时使用POST来合并多个请求</h2><p>将几个HTTP组合成一个HTTP请求以支持批量处理的用例不是少数。下面列举了一些通常使用的技术实现：</p>
+<ol>
+<li>客户端将几个HTTP请求序列化到一个JSON对象、或一个XML文档、或multipart/mixed消息的一部分。</li>
+<li>客户端创建一个信封跟是将多个请求组合进入一个消息。</li>
+<li>客户端向服务器的分批终点（batch end point）资源发送POST请求。</li>
+<li>服务器接收到消息，打开信封，重构多个HTTP请求并分发到服务器的相关URI。或者服务器绕过HTTP将请求直接派发到能处理这种请求的代码。</li>
+<li>服务器收集每个请求的响应并序列化为一个消息返回到客户端。</li>
+<li>客户端打开信封并处理每个响应消息</li>
+</ol>
+<p>避免这种将多个HTTP请求封装入一个POST请求隧道的做法。因为通常隧道方案有以下不利之处：</p>
+<ol>
+<li><strong>并发</strong>：    HTTP通过Last-Modified和ETag头来实现乐观并发检查。将多个HTTP请求封装进一个HTTP请求隧道的批量操作使并发检查变得困难，因为服务器需要为批量操作中每一个任务进行并发检查。</li>
+<li><strong>原子性</strong>：    HTTP请求是原子性的。每个请求执行单个任务，服务器在错误发生时确保数据的原子性和一致性。将多个任务混入一个请求、尤其是某些操作依赖于同一请求的前一操作是否成功的批量操作使Web服务很难确保原子性和进行错误恢复。</li>
+<li><strong>可见性</strong>：    将多个操作封装到一个HTTP请求隧道使中间节点无法对批量处理内的操作响应可见。此外检测请求防止拒绝攻击的典型安全方法几乎不可能捕捉到批量操作中的可疑请求，因此可能导致拒绝服务攻击。</li>
+<li><strong>错误处理</strong>：    用于批量操作的错误处理和报告更为复杂。单个批量请求的结构可能混杂成功和失败响应。</li>
+<li><strong>可扩展性</strong>：    一般用于批量操作的理由依赖批量处理比执行每个单个请求更可扩展这样的假设。当单个服务器收到非常多的批量处理，请求会降低服务器的响应能力。发送很多批量客户端处理到单个服务器的应用比不支持批量处理的相同应用性能可能更低。</li>
+</ol>
+<h2 id="如何支持批量请求">如何支持批量请求</h2><p>分析导致促成使用隧道技术的用例，设计应用特有的控制器资源支持相同需求。由于请求使用的是处理请求资源的单个URI，所以请求可见。由于仅返回一个状态码，所以响应可见。</p>
+<h2 id="如何支持事务">如何支持事务</h2><p>RESTful web服务在下列场景可能会需要处理事务：</p>
+<ol>
+<li>客户端执行操作流的一些列步骤。客户端在取消操作流时要撤销所有已完成的数据变动。</li>
+<li>客户端同若干服务器顺序交互以实现应用操作流，客户端可能希望恢复任何状态改变或持久化存储状态。</li>
+</ol>
+<p>可以提供对数据进行原子化操作的资源。将未提交状态视为应用状态（并将其加入URI中）。如果服务器需要允许客户端撤销操作，使用适当的PUT、DELETE或POST抵消已有的改变。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/RESTful/">RESTful</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/REST/">REST</a><a href="/tags/RESTful/">RESTful</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2015/02/27/rws-others/" data-title="RESTful Web Service(十一)- 其他内容 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/02/27/rws-safety/" title="RESTful Web Service(十二)- 安全">
+  <strong>上一篇：</strong><br/>
+  <span>
+  RESTful Web Service(十二)- 安全</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/02/27/rws-conditionalrequest/"  title="RESTful Web Service(十)- 条件请求">
+ <strong>下一篇：</strong><br/> 
+ <span>RESTful Web Service(十)- 条件请求
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2015/02/27/rws-others/" data-title="RESTful Web Service(十一)- 其他内容" data-url="http://xfhnever.com/2015/02/27/rws-others/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何复制资源"><span class="toc-number">1.</span> <span class="toc-text">如何复制资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何合并资源"><span class="toc-number">2.</span> <span class="toc-text">如何合并资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何移动资源"><span class="toc-number">3.</span> <span class="toc-text">如何移动资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#何时使用WebDAV"><span class="toc-number">4.</span> <span class="toc-text">何时使用WebDAV</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何支持跨域服务器的操作"><span class="toc-number">5.</span> <span class="toc-text">如何支持跨域服务器的操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何获取资源的快照"><span class="toc-number">6.</span> <span class="toc-text">如何获取资源的快照</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何撤销资源更新"><span class="toc-number">7.</span> <span class="toc-text">如何撤销资源更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何为部分更新提炼资源"><span class="toc-number">8.</span> <span class="toc-text">如何为部分更新提炼资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用PATCH方法"><span class="toc-number">9.</span> <span class="toc-text">如何使用PATCH方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何批量处理相似的资源"><span class="toc-number">10.</span> <span class="toc-text">如何批量处理相似的资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何触发批量操作"><span class="toc-number">11.</span> <span class="toc-text">如何触发批量操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#何时使用POST来合并多个请求"><span class="toc-number">12.</span> <span class="toc-text">何时使用POST来合并多个请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何支持批量请求"><span class="toc-number">13.</span> <span class="toc-text">如何支持批量请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何支持事务"><span class="toc-number">14.</span> <span class="toc-text">如何支持事务</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

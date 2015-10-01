@@ -1,0 +1,842 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Guava(三)-Cache | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="上一篇Blog我们讲了如何在spring项目启动时将数据加载到缓存中，其中缓存我们是自己使用map来实现的，后来老大推荐使用guava中的缓存来实现本地缓存。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Guava(三)-Cache">
+<meta property="og:url" content="http://xfhnever.com/2014/12/20/guava-cache/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="上一篇Blog我们讲了如何在spring项目启动时将数据加载到缓存中，其中缓存我们是自己使用map来实现的，后来老大推荐使用guava中的缓存来实现本地缓存。">
+<meta property="og:updated_time" content="2015-10-01T15:00:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Guava(三)-Cache">
+<meta name="twitter:description" content="上一篇Blog我们讲了如何在spring项目启动时将数据加载到缓存中，其中缓存我们是自己使用map来实现的，后来老大推荐使用guava中的缓存来实现本地缓存。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/20/guava-cache/" title="Guava(三)-Cache" itemprop="url">Guava(三)-Cache</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-12-20T01:02:02.000Z" itemprop="datePublished"> 发表于 Dec 20 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存的使用"><span class="toc-number">1.</span> <span class="toc-text">缓存的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与ConcurrentMap区别"><span class="toc-number">2.</span> <span class="toc-text">与ConcurrentMap区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#两种实现方式"><span class="toc-number">3.</span> <span class="toc-text">两种实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CacheLoader"><span class="toc-number">3.1.</span> <span class="toc-text">CacheLoader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Callable"><span class="toc-number">3.2.</span> <span class="toc-text">Callable</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存回收"><span class="toc-number">4.</span> <span class="toc-text">缓存回收</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于容量回收"><span class="toc-number">4.1.</span> <span class="toc-text">基于容量回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定时回收"><span class="toc-number">4.2.</span> <span class="toc-text">定时回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于引用回收"><span class="toc-number">4.3.</span> <span class="toc-text">基于引用回收</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式清除"><span class="toc-number">5.</span> <span class="toc-text">显式清除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监听器"><span class="toc-number">6.</span> <span class="toc-text">监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷新"><span class="toc-number">7.</span> <span class="toc-text">刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最新的本地缓存实现"><span class="toc-number">8.</span> <span class="toc-text">最新的本地缓存实现</span></a></li></ol>
+		
+		</div>
+		
+		<p>上一篇Blog我们讲了如何在spring项目启动时将数据加载到缓存中，其中缓存我们是自己使用map来实现的，后来老大推荐使用guava中的缓存来实现本地缓存。<br><a id="more"></a></p>
+<h2 id="缓存的使用">缓存的使用</h2><p>缓存的主要作用是暂时在内存中保存业务系统的数据处理结果，并且等待下次访问使用。在日常开发的很多场合，由于受限于硬盘IO的性能或者我们自身业务系统的数据处理和获取可能非常费时，当我们发现我们的系统这个数据请求量很大的时候，频繁的IO和频繁的逻辑处理会导致硬盘和CPU资源的瓶颈出现。缓存的作用就是将这些来自不易的数据保存在内存中，当有其他线程或者客户端需要查询相同的数据资源时，直接从缓存的内存块中返回数据，这样不但可以提高系统的响应时间，同时也可以节省对这些数据的处理流程的资源消耗，整体上来说，系统性能会有大大的提升。</p>
+<p>缓存在很多场景下都是相当有用的。例如：</p>
+<ol>
+<li>CPU缓存</li>
+<li>操作系统缓存</li>
+<li>本地缓存</li>
+<li>分布式缓存</li>
+<li>HTTP缓存</li>
+<li>数据库缓存</li>
+</ol>
+<h2 id="与ConcurrentMap区别">与ConcurrentMap区别</h2><p>很相似，但也不完全一样。最基本的区别是ConcurrentMap会一直保存所有添加的元素，直到显式地移除。相对地，Guava Cache为了限制内存占用，通常都设定为自动回收元素。在某些场景下，尽管LoadingCache 不回收元素，它也是很有用的，因为它会自动加载缓存。</p>
+<h2 id="两种实现方式">两种实现方式</h2><ol>
+<li>cacheLoader</li>
+<li>callable callback</li>
+</ol>
+<p>两种方法都实现了一种逻辑——从缓存中取key X的值，如果该值已经缓存过了，则返回缓存中的值，如果没有缓存过，可以通过某个方法来获取这个值。但不同的在于cacheloader的定义比较宽泛，是针对整个cache定义的，可以认为是统一的根据key值load value的方法。而callable的方式较为灵活，允许你在get的时候指定。</p>
+<h3 id="CacheLoader">CacheLoader</h3><pre><code>LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.newBuilder()
+       .maximumSize(<span class="number">1000</span>)
+       .build(
+           <span class="keyword">new</span> CacheLoader&lt;Key, Graph&gt;() {
+             <span class="keyword">public</span> Graph load(Key <span class="variable">key</span>) <span class="keyword">throws</span> AnyException {
+               <span class="keyword">return</span> createExpensiveGraph(<span class="variable">key</span>);
+             }
+           });
+
+...
+<span class="keyword">try</span> {
+  <span class="keyword">return</span> graphs.<span class="built_in">get</span>(<span class="variable">key</span>);
+} <span class="keyword">catch</span> (ExecutionException e) {
+  <span class="keyword">throw</span> <span class="keyword">new</span> OtherException(e.getCause());
+}
+</code></pre><h3 id="Callable">Callable</h3><pre><code>Cache&lt;Key, Value&gt; cache = CacheBuilder.newBuilder()
+    .maximumSize(<span class="number">1000</span>)
+    .build(); <span class="comment">// look Ma, no CacheLoader</span>
+...
+<span class="keyword">try</span> {
+  <span class="comment">// If the key wasn't in the "easy to compute" group, we need to</span>
+  <span class="comment">// do things the hard way.</span>
+  cache.get(key, <span class="keyword">new</span> Callable&lt;Value&gt;() {
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function">Value <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> AnyException </span>{
+      <span class="function"><span class="keyword">return</span> <span class="title">doThingsTheHardWay</span><span class="params">(key)</span></span>;
+    }
+  });
+} <span class="keyword">catch</span> (ExecutionException e) {
+  <span class="keyword">throw</span> <span class="keyword">new</span> OtherException(e.getCause());
+}
+</code></pre><p>所有类型的Guava Cache，不管有没有自动加载功能，都支持get(K, Callable<v>)方法。这个方法返回缓存中相应的值，或者用给定的Callable运算并把结果加入到缓存中。在整个加载方法完成前，缓存项相关的可观察状态都不会更改。这个方法简便地实现了模式”如果有缓存则返回；否则运算、缓存、然后返回”。</v></p>
+<h2 id="缓存回收">缓存回收</h2><p>Guava Cache提供了三种基本的缓存回收方式：基于容量回收、定时回收和基于引用回收。</p>
+<h3 id="基于容量回收">基于容量回收</h3><p>如果要规定缓存项的数目不超过固定值，只需使用</p>
+<pre><code>CacheBuilder.<span class="function"><span class="title">maximumSize</span><span class="params">(long)</span></span>。
+</code></pre><p>在缓存项的数目达到限定值之前，缓存就可能进行回收操作——通常来说，这种情况发生在缓存项的数目逼近限定值时。</p>
+<p>另外，不同的缓存项有不同的“权重”（weights）——例如，如果你的缓存值，占据完全不同的内存空间，你可以使用</p>
+<pre><code>CacheBuilder.<span class="function"><span class="title">weigher</span><span class="params">(Weigher)</span></span>
+</code></pre><p>指定一个权重函数，并且用</p>
+<pre><code>CacheBuilder.<span class="function"><span class="title">maximumWeight</span><span class="params">(long)</span></span>
+</code></pre><p>指定最大总重。</p>
+<h3 id="定时回收">定时回收</h3><p>CacheBuilder提供两种定时回收的方法：</p>
+<ol>
+<li>expireAfterAccess(long, TimeUnit)：缓存项在给定时间内没有被读/写访问，则回收。请注意这种缓存的回收顺序和基于大小回收一样。</li>
+<li>expireAfterWrite(long, TimeUnit)：缓存项在给定时间内没有被写访问（创建或覆盖），则回收。如果认为缓存数据总是在固定时候后变得陈旧不可用，这种回收方式是可取的。</li>
+</ol>
+<p>定时回收周期性地在写操作中执行，偶尔在读操作中执行。</p>
+<h3 id="基于引用回收">基于引用回收</h3><p>通过使用弱引用的键、或弱引用的值、或软引用的值，Guava Cache可以把缓存设置为允许垃圾回收：</p>
+<ol>
+<li>CacheBuilder.weakKeys()：使用弱引用存储键。当键没有其它（强或软）引用时，缓存项可以被垃圾回收。因为垃圾回收仅依赖恒等式（==），使用弱引用键的缓存用==而不是equals比较键。</li>
+<li>CacheBuilder.weakValues()：使用弱引用存储值。当值没有其它（强或软）引用时，缓存项可以被垃圾回收。因为垃圾回收仅依赖恒等式（==），使用弱引用值的缓存用==而不是equals比较值。</li>
+<li>CacheBuilder.softValues()：使用软引用存储值。软引用只有在响应内存需要时，才按照全局最近最少使用的顺序回收。考虑到使用软引用的性能影响，我们通常建议使用更有性能预测性的缓存大小限定（见上文，基于容量回收）。使用软引用值的缓存同样用==而不是equals比较值。</li>
+</ol>
+<h2 id="显式清除">显式清除</h2><p>任何时候，你都可以显式地清除缓存项，而不是等到它被回收：</p>
+<ol>
+<li>个别清除：Cache.invalidate(key)</li>
+<li>批量清除：Cache.invalidateAll(keys)</li>
+<li>清除所有缓存项：Cache.invalidateAll()</li>
+</ol>
+<h2 id="监听器">监听器</h2><p>通过CacheBuilder.removalListener(RemovalListener)，你可以声明一个监听器，以便缓存项被移除时做一些额外操作。缓存项被移除时，RemovalListener会获取移除通知[RemovalNotification]，其中包含移除原因[RemovalCause]、键和值。</p>
+<h2 id="刷新">刷新</h2><p>刷新和回收不太一样。正如LoadingCache.refresh(K)所声明，刷新表示为键加载新值，这个过程可以是异步的。在刷新操作进行时，缓存仍然可以向其他线程返回旧值，而不像回收操作，读缓存的线程必须等待新值加载完成。</p>
+<p>CacheBuilder.refreshAfterWrite(long, TimeUnit)可以为缓存增加自动定时刷新功能。和expireAfterWrite相反，refreshAfterWrite通过定时刷新可以让缓存项保持可用，但请注意：缓存项只有在被检索时才会真正刷新（如果CacheLoader.refresh实现为异步，那么检索不会被刷新拖慢）。因此，如果你在缓存上同时声明expireAfterWrite和refreshAfterWrite，缓存并不会因为刷新盲目地定时重置，如果缓存项没有被检索，那刷新就不会真的发生，缓存项在过期时间后也变得可以回收。</p>
+<h2 id="最新的本地缓存实现">最新的本地缓存实现</h2><pre><code><span class="annotation">@Component</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppCache</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(AppCache.class);
+
+    <span class="annotation">@Autowired</span>
+    <span class="keyword">private</span> AppDao appDao;
+    <span class="keyword">private</span> LoadingCache&lt;Long, App&gt; cacheBuilder;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">AppCache</span><span class="params">()</span> </span>{
+        init();
+    }
+
+    <span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>{
+        cacheBuilder = CacheBuilder
+                .newBuilder()
+                .maximumSize(<span class="number">1000</span>)
+                .softValues()
+                .refreshAfterWrite(<span class="number">120</span>, TimeUnit.SECONDS)
+                .expireAfterWrite(<span class="number">10</span>, TimeUnit.MINUTES)
+                .removalListener(<span class="keyword">new</span> RemovalListener&lt;Long, App&gt;() {
+                    <span class="annotation">@Override</span>
+                    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onRemoval</span><span class="params">(RemovalNotification&lt;Long, App&gt; rn)</span> </span>{
+                        logger.info(<span class="string">"campaign {} is removed from cache"</span>, rn.getKey());
+                    }
+                })
+                .build(<span class="keyword">new</span> CacheLoader&lt;Long, App&gt;() {
+                    <span class="annotation">@Override</span>
+                    <span class="keyword">public</span> <span class="function">App <span class="title">load</span><span class="params">(Long key)</span> <span class="keyword">throws</span> Exception </span>{
+                        <span class="function"><span class="keyword">return</span> appDao.<span class="title">getAppById</span><span class="params">(key)</span></span>;
+                    }
+
+                });
+    }
+
+    <span class="keyword">public</span> <span class="function">App <span class="title">getApp</span><span class="params">(Long id)</span> </span>{
+        <span class="keyword">try</span> {
+            App app = cacheBuilder.get(id);
+            <span class="keyword">return</span> app;
+        } <span class="keyword">catch</span> (ExecutionException e) {
+            e.printStackTrace();
+            <span class="keyword">return</span> <span class="keyword">null</span>;
+        }
+    }
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Guava/">Guava</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Cache/">Cache</a><a href="/tags/Guava/">Guava</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/12/20/guava-cache/" data-title="Guava(三)-Cache | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/20/encodingformat/" title="编码格式">
+  <strong>上一篇：</strong><br/>
+  <span>
+  编码格式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/18/spring-loaddatawhenstart/"  title="Spring(三)-程序启动时加载数据到缓存">
+ <strong>下一篇：</strong><br/> 
+ <span>Spring(三)-程序启动时加载数据到缓存
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/12/20/guava-cache/" data-title="Guava(三)-Cache" data-url="http://xfhnever.com/2014/12/20/guava-cache/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存的使用"><span class="toc-number">1.</span> <span class="toc-text">缓存的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与ConcurrentMap区别"><span class="toc-number">2.</span> <span class="toc-text">与ConcurrentMap区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#两种实现方式"><span class="toc-number">3.</span> <span class="toc-text">两种实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CacheLoader"><span class="toc-number">3.1.</span> <span class="toc-text">CacheLoader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Callable"><span class="toc-number">3.2.</span> <span class="toc-text">Callable</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存回收"><span class="toc-number">4.</span> <span class="toc-text">缓存回收</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于容量回收"><span class="toc-number">4.1.</span> <span class="toc-text">基于容量回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定时回收"><span class="toc-number">4.2.</span> <span class="toc-text">定时回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于引用回收"><span class="toc-number">4.3.</span> <span class="toc-text">基于引用回收</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显式清除"><span class="toc-number">5.</span> <span class="toc-text">显式清除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监听器"><span class="toc-number">6.</span> <span class="toc-text">监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷新"><span class="toc-number">7.</span> <span class="toc-text">刷新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最新的本地缓存实现"><span class="toc-number">8.</span> <span class="toc-text">最新的本地缓存实现</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

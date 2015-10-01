@@ -1,0 +1,834 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>GruntJS（三）-创建任务 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="任务是 Grunt 的基本需要，是你经常要做的事，比如 JS 验证或单元测试。每当运行 Grunt 时，你可以指定一个或多个任务，这些任务用于告诉 Grunt 你想要它做什么事情。
+如果你没有指定任务，但是已经定义了一个名为 “default” 的任务，则默认运行此任务。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GruntJS（三）-创建任务">
+<meta property="og:url" content="http://xfhnever.com/2014/08/05/grunt-createtask/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="任务是 Grunt 的基本需要，是你经常要做的事，比如 JS 验证或单元测试。每当运行 Grunt 时，你可以指定一个或多个任务，这些任务用于告诉 Grunt 你想要它做什么事情。
+如果你没有指定任务，但是已经定义了一个名为 “default” 的任务，则默认运行此任务。">
+<meta property="og:updated_time" content="2015-10-01T14:23:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GruntJS（三）-创建任务">
+<meta name="twitter:description" content="任务是 Grunt 的基本需要，是你经常要做的事，比如 JS 验证或单元测试。每当运行 Grunt 时，你可以指定一个或多个任务，这些任务用于告诉 Grunt 你想要它做什么事情。
+如果你没有指定任务，但是已经定义了一个名为 “default” 的任务，则默认运行此任务。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/05/grunt-createtask/" title="GruntJS（三）-创建任务" itemprop="url">GruntJS（三）-创建任务</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-05T14:57:24.000Z" itemprop="datePublished"> 发表于 Aug 5 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#别名任务"><span class="toc-number">1.</span> <span class="toc-text">别名任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多重任务"><span class="toc-number">2.</span> <span class="toc-text">多重任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本任务"><span class="toc-number">3.</span> <span class="toc-text">基本任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义任务"><span class="toc-number">4.</span> <span class="toc-text">自定义任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步任务"><span class="toc-number">5.</span> <span class="toc-text">异步任务</span></a></li></ol>
+		
+		</div>
+		
+		<p>任务是 Grunt 的基本需要，是你经常要做的事，比如 JS 验证或单元测试。每当运行 Grunt 时，你可以指定一个或多个任务，这些任务用于告诉 Grunt 你想要它做什么事情。</p>
+<p>如果你没有指定任务，但是已经定义了一个名为 “default” 的任务，则默认运行此任务。<br><a id="more"></a><br>之前已经介绍过了任务配置，这里就继续介绍一下创建任务。</p>
+<h2 id="别名任务">别名任务</h2><p>如果指定了任务列表，则新任务是这一个或多个指定任务的别名。当运行这个别名任务时，taskList 中指定的每个任务都会依次执行。taskList 参数必须是任务数组。</p>
+<pre><code>grunt.<span class="function"><span class="title">registerTask</span><span class="params">(taskName, [description, ] taskList)</span></span>
+</code></pre><p>可以给任务指定参数。下面的例子中，别名任务 “dist” 会运行 “concat” 和 “uglify” 两个任务，并且它们都带有 “dist” 参数</p>
+<pre><code>grunt.registerTask(<span class="symbol">'dist'</span>, [<span class="symbol">'concat</span>:dist', <span class="symbol">'uglify</span>:dist']);
+</code></pre><h2 id="多重任务">多重任务</h2><p>当运行多重任务时，Grunt 会从项目的配置对象中查找同名属性。多重任务可以有多个配置，并且可以使用任意命名的目标。</p>
+<pre><code>grunt.<span class="function"><span class="title">registerMultiTask</span><span class="params">(taskName, [description, ] taskFunction)</span></span>
+</code></pre><p>例子，如果运行 grunt log:foo，则输出 foo: 1,2,3；如果运行 grunt log:bar，则输出 bar: hello world；如果运行 grunt log, 则先输出 foo: 1,2,3，然后 bar: hello world，最后 baz: false。</p>
+<pre><code>grunt.initConfig({
+  log: {
+    foo: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+    bar: <span class="string">'hello world'</span>,
+    baz: <span class="literal">false</span>
+  }
+});
+
+grunt.registerMultiTask(<span class="string">'log'</span>, <span class="string">'Log stuff.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+  grunt.log.writeln(<span class="keyword">this</span>.target + <span class="string">': '</span> + <span class="keyword">this</span>.data);
+});
+</code></pre><h2 id="基本任务">基本任务</h2><p>当运行基本任务时，Grunt 不会检查配置和环境 – 它仅仅执行指定的任务函数，并传递任何使用冒号分割的参数。</p>
+<pre><code>grunt.<span class="function"><span class="title">registerTask</span><span class="params">(taskName, [description, ] taskFunction)</span></span>
+</code></pre><p>例子，如果运行 grunt foo:testing:123，则输出 foo, testing 123；如果运行 grunt foo，则输出 foo, no args。</p>
+<pre><code>grunt.registerTask(<span class="string">'foo'</span>, <span class="string">'A sample task that logs stuff.'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">arg1, arg2</span>) </span>{
+  <span class="keyword">if</span> (<span class="built_in">arguments</span>.length === <span class="number">0</span>) {
+    grunt.log.writeln(<span class="keyword">this</span>.name + <span class="string">", no args"</span>);
+  } <span class="keyword">else</span> {
+    grunt.log.writeln(<span class="keyword">this</span>.name + <span class="string">", "</span> + arg1 + <span class="string">" "</span> + arg2);
+  }
+});
+</code></pre><h2 id="自定义任务">自定义任务</h2><pre><code><span class="transposed_variable">grunt.</span>registerTask(<span class="string">'default'</span>, <span class="string">'My "</span>default<span class="string">" task description.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="transposed_variable">grunt.</span><span class="transposed_variable">log.</span>writeln(<span class="string">'Currently running the "</span>default<span class="string">" task.'</span>);
+});
+</code></pre><p>在任务内部，可以运行其他任务。</p>
+<pre><code>grunt.registerTask(<span class="string">'foo'</span>, <span class="string">'My "foo" task.'</span>, function() {
+  // Enqueue <span class="string">"bar"</span> <span class="literal">and</span> <span class="string">"baz"</span> tasks, <span class="keyword">to</span> <span class="built_in">run</span> after <span class="string">"foo"</span> finishes, <span class="keyword">in</span>-order.
+  grunt.task.<span class="built_in">run</span>(<span class="string">'bar'</span>, <span class="string">'baz'</span>)<span class="comment">;</span>
+  // <span class="literal">Or</span>:
+  grunt.task.<span class="built_in">run</span>([<span class="string">'bar'</span>, <span class="string">'baz'</span>])<span class="comment">;</span>
+})<span class="comment">;</span>
+</code></pre><p>任务可以是异步的。</p>
+<pre><code>grunt.registerTask(<span class="string">'asyncfoo'</span>, <span class="string">'My "asyncfoo" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+  <span class="comment">// Force task into async mode and grab a handle to the "done" function.</span>
+  <span class="keyword">var</span> done = <span class="keyword">this</span>.async();
+  <span class="comment">// Run some sync stuff.</span>
+  grunt.log.writeln(<span class="string">'Processing task...'</span>);
+  <span class="comment">// And some async stuff.</span>
+  setTimeout(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+    grunt.log.writeln(<span class="string">'All done!'</span>);
+    done();
+  }, <span class="number">1000</span>);
+});
+</code></pre><p>任务可以访问自身名称和参数。</p>
+<pre><code>grunt.registerTask(<span class="string">'foo'</span>, <span class="string">'My "foo" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">(a, b)</span> </span>{
+  grunt.log.writeln(<span class="keyword">this</span>.name, a, b);
+});
+</code></pre><p>如果遇到错误，任务会中止</p>
+<pre><code>grunt.registerTask(<span class="string">'foo'</span>, <span class="string">'My "foo" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> {
+  <span class="keyword">if</span> (failureOfSomeKind) {
+    grunt.log.<span class="built_in">error</span>(<span class="string">'This is an error message.'</span>);
+  }
+
+  // Fail by returning <span class="keyword">false</span> <span class="keyword">if</span> this task had errors
+  <span class="keyword">if</span> (ifErrors) { <span class="keyword">return</span> <span class="keyword">false</span>; }
+
+  grunt.log.writeln(<span class="string">'This is the success message'</span>);
+});
+</code></pre><p>当任务中止时，所有后续任务都将终止，除非指定 –force</p>
+<pre><code>grunt.registerTask(<span class="string">'foo'</span>, <span class="string">'My "foo" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+  <span class="comment">// Fail synchronously.</span>
+  <span class="keyword">return</span> <span class="literal">false</span>;
+});
+
+grunt.registerTask(<span class="string">'bar'</span>, <span class="string">'My "bar" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+  <span class="keyword">var</span> done = <span class="keyword">this</span>.async();
+  setTimeout(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+    <span class="comment">// Fail asynchronously.</span>
+    done(<span class="literal">false</span>);
+  }, <span class="number">1000</span>);
+});
+</code></pre><p>任务可以依赖于其他任务的成功执行。grunt.task.requires 并不会真正的运行其他任务，它仅仅检查其它任务是否已经成功执行。</p>
+<pre><code>grunt.registerTask(<span class="string">'foo'</span>, <span class="string">'My "foo" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> {
+  <span class="keyword">return</span> <span class="keyword">false</span>;
+});
+
+grunt.registerTask(<span class="string">'bar'</span>, <span class="string">'My "bar" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> {
+  // Fail task <span class="keyword">if</span> <span class="string">"foo"</span> task failed <span class="keyword">or</span> never ran.
+  grunt.task.requires(<span class="string">'foo'</span>);
+  // This code executes <span class="keyword">if</span> the <span class="string">"foo"</span> task ran successfully.
+  grunt.log.writeln(<span class="string">'Hello, world.'</span>);
+});
+</code></pre><p>如果任务需要的配置属性不存在，则任务中止</p>
+<pre><code>grunt.registerTask(<span class="string">'foo'</span>, <span class="string">'My "foo" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  // Fail task <span class="keyword">if</span> <span class="string">"meta.name"</span> config prop <span class="keyword">is</span> missing.
+  grunt.config.requires(<span class="string">'meta.name'</span>);
+  // Also fails <span class="keyword">if</span> <span class="string">"meta.name"</span> config prop <span class="keyword">is</span> missing.
+  grunt.config.requires([<span class="string">'meta'</span>, <span class="string">'name'</span>]);
+  // Log... conditionally.
+  grunt.<span class="built_in">log</span>.writeln(<span class="string">'This will only log if meta.name is defined in the config.'</span>);
+});
+</code></pre><p>任务可以访问配置属性</p>
+<pre><code><span class="transposed_variable">grunt.</span>registerTask(<span class="string">'foo'</span>, <span class="string">'My "</span>foo<span class="string">" task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  <span class="comment">// Log the property value. Returns null if the property is undefined.</span>
+  <span class="transposed_variable">grunt.</span><span class="transposed_variable">log.</span>writeln(<span class="string">'The meta.name property is: '</span> + <span class="transposed_variable">grunt.</span>config(<span class="string">'meta.name'</span>));
+  <span class="comment">// Also logs the property value. Returns null if the property is undefined.</span>
+  <span class="transposed_variable">grunt.</span><span class="transposed_variable">log.</span>writeln(<span class="string">'The meta.name property is: '</span> + <span class="transposed_variable">grunt.</span>config(<span class="matrix">[<span class="string">'meta'</span>, <span class="string">'name'</span>]</span>));
+});
+</code></pre><h2 id="异步任务">异步任务</h2><p>Grunt 使用同步的编码风格，可以在任务中调用 this.async 将其转换为异步的。例如：</p>
+<pre><code>grunt.registerTask(<span class="string">'asyncme'</span>, <span class="string">'My asynchronous task.'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+  <span class="keyword">var</span> done = <span class="keyword">this</span>.async();
+  doSomethingAsync(done);
+});
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/GruntJS/">GruntJS</a><a href="/tags/JS/">JS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/05/grunt-createtask/" data-title="GruntJS（三）-创建任务 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/06/jquery-function-dot/" title="JQuery（六）-function(window, $, undefined)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JQuery（六）-function(window, $, undefined)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/05/grunt-configtask/"  title="GruntJS（二）-配置任务">
+ <strong>下一篇：</strong><br/> 
+ <span>GruntJS（二）-配置任务
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/05/grunt-createtask/" data-title="GruntJS（三）-创建任务" data-url="http://xfhnever.com/2014/08/05/grunt-createtask/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#别名任务"><span class="toc-number">1.</span> <span class="toc-text">别名任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多重任务"><span class="toc-number">2.</span> <span class="toc-text">多重任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本任务"><span class="toc-number">3.</span> <span class="toc-text">基本任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义任务"><span class="toc-number">4.</span> <span class="toc-text">自定义任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步任务"><span class="toc-number">5.</span> <span class="toc-text">异步任务</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

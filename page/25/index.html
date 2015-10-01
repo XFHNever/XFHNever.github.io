@@ -82,7 +82,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/15/2014-04-15-cocos2dx-data/" title="Cocos2D(十五)-数据持久化" itemprop="url">Cocos2D(十五)-数据持久化</a>
+      <a href="/2014/04/15/cocos2dx-data/" title="Cocos2D(十五)-数据持久化" itemprop="url">Cocos2D(十五)-数据持久化</a>
   </h1>
   <p class="article-author">By
        
@@ -96,14 +96,14 @@
     <div class="article-content">
         
         <p>下面介绍几种数据持久化的方法</p>
-<p>##CCUserDefault##<br>CCUserDefault是Cocos2d-x引擎提供的持久化方案，其作用是存储所有游戏通用的用户配置信息，例如音乐和音效配置等。CCUserDefault可以看做一个永久存储的字典，本质是一个XML文件，将每个键及其对应的值以节点的形式存储到外存中。值只支持int和float等基本类型。使用接口非常简单，只需要一行代码：</p>
+<h2 id="CCUserDefault">CCUserDefault</h2><p>CCUserDefault是Cocos2d-x引擎提供的持久化方案，其作用是存储所有游戏通用的用户配置信息，例如音乐和音效配置等。CCUserDefault可以看做一个永久存储的字典，本质是一个XML文件，将每个键及其对应的值以节点的形式存储到外存中。值只支持int和float等基本类型。使用接口非常简单，只需要一行代码：</p>
 <pre><code><span class="rule"><span class="attribute">CCUserDefault</span>:<span class="value">:<span class="function">sharedUserDefault</span>()-&gt;<span class="function">setIntegerForKey</span>(<span class="string">"coin"</span>, coin - <span class="number">1</span>)</span></span>;
 </code></pre><p>由于每次设置和读取都会遍历整棵XML树，效率不高，且值类型具有局限性，因此CCUserDefault只适合小规模使用，对于复杂的持久化场景就会显得很无力。<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2014/04/15/2014-04-15-cocos2dx-data/#more">Read More</a>
+            <a href="/2014/04/15/cocos2dx-data/#more">Read More</a>
           
        </p>
     </div>
@@ -129,7 +129,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/15/2014-04-15-cocos2dx-data/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/15/2014-04-15-cocos2dx-data/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/15/cocos2dx-data/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/15/cocos2dx-data/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -149,7 +149,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/15/2014-04-15-cocos2dx-physicsengine/" title="Cocos2D(十四)-物理引擎" itemprop="url">Cocos2D(十四)-物理引擎</a>
+      <a href="/2014/04/15/cocos2dx-physicsengine/" title="Cocos2D(十四)-物理引擎" itemprop="url">Cocos2D(十四)-物理引擎</a>
   </h1>
   <p class="article-author">By
        
@@ -162,7 +162,7 @@
 </header>
     <div class="article-content">
         
-        <p>##Box2D引擎简介##<br>Box2D是一套基于刚体模拟的物理引擎，它的核心概念为世界、物体、形状、约束和关节，这些概念具体实现为Box2D的各个组件，他们的描述如下：</p>
+        <h2 id="Box2D引擎简介">Box2D引擎简介</h2><p>Box2D是一套基于刚体模拟的物理引擎，它的核心概念为世界、物体、形状、约束和关节，这些概念具体实现为Box2D的各个组件，他们的描述如下：</p>
 <pre><code>  组件                 描述
 世界（<span class="keyword">b2World） </span>   一个物理世界。物理世界就是物体、形状和约束相互作用的集合。<span class="keyword">Box2D允许在同一程序中创建多个世界，但通常这是不必要的
 </span>物体（<span class="keyword">b2Body） </span>    物体引擎
@@ -175,7 +175,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2014/04/15/2014-04-15-cocos2dx-physicsengine/#more">Read More</a>
+            <a href="/2014/04/15/cocos2dx-physicsengine/#more">Read More</a>
           
        </p>
     </div>
@@ -201,7 +201,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/15/2014-04-15-cocos2dx-physicsengine/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/15/2014-04-15-cocos2dx-physicsengine/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/15/cocos2dx-physicsengine/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/15/cocos2dx-physicsengine/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -221,7 +221,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/15/2014-04-15-cocos2dx-drawingskills/" title="Cocos2D(十三)-OpenGL绘图技巧" itemprop="url">Cocos2D(十三)-OpenGL绘图技巧</a>
+      <a href="/2014/04/15/cocos2dx-drawingskills/" title="Cocos2D(十三)-OpenGL绘图技巧" itemprop="url">Cocos2D(十三)-OpenGL绘图技巧</a>
   </h1>
   <p class="article-author">By
        
@@ -234,7 +234,7 @@
 </header>
     <div class="article-content">
         
-        <p>##自定义绘图##<br>引擎在CCNode类中为我们预留了自定义绘图的接口，具体如下所示：</p>
+        <h2 id="自定义绘图">自定义绘图</h2><p>引擎在CCNode类中为我们预留了自定义绘图的接口，具体如下所示：</p>
 <pre><code><span class="tag">void</span> <span class="tag">CCNode</span><span class="pseudo">::draw</span>(){
 }
 </code></pre><p>cocos2dx提供了一些简单的快捷绘制接口实现最简单的功能，这些接口由CCDrawingPrimitives.h和对应的cpp文件提供。<br>
@@ -242,7 +242,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2014/04/15/2014-04-15-cocos2dx-drawingskills/#more">Read More</a>
+            <a href="/2014/04/15/cocos2dx-drawingskills/#more">Read More</a>
           
        </p>
     </div>
@@ -268,7 +268,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/15/2014-04-15-cocos2dx-drawingskills/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/15/2014-04-15-cocos2dx-drawingskills/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/15/cocos2dx-drawingskills/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/15/cocos2dx-drawingskills/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -288,7 +288,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/15/2014-04-15-cocos2dx-drawing/" title="Cocos2D(十二)-绘图原理及优化" itemprop="url">Cocos2D(十二)-绘图原理及优化</a>
+      <a href="/2014/04/15/cocos2dx-drawing/" title="Cocos2D(十二)-绘图原理及优化" itemprop="url">Cocos2D(十二)-绘图原理及优化</a>
   </h1>
   <p class="article-author">By
        
@@ -302,12 +302,12 @@
     <div class="article-content">
         
         <p>游戏引擎是对底层绘图接口的包装，cocos2dx也一样，是对OpenGL的包装。</p>
-<p>##OpenGL基础##<br>OpenGL全称Open Graphics Library，是一个开放的、跨平台的高性能图形接口。OpenGL ES则是OpenGL在移动设备上的衍生版本。<br>
+<h2 id="OpenGL基础">OpenGL基础</h2><p>OpenGL全称Open Graphics Library，是一个开放的、跨平台的高性能图形接口。OpenGL ES则是OpenGL在移动设备上的衍生版本。<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2014/04/15/2014-04-15-cocos2dx-drawing/#more">Read More</a>
+            <a href="/2014/04/15/cocos2dx-drawing/#more">Read More</a>
           
        </p>
     </div>
@@ -333,7 +333,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/15/2014-04-15-cocos2dx-drawing/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/15/2014-04-15-cocos2dx-drawing/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/15/cocos2dx-drawing/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/15/cocos2dx-drawing/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -353,7 +353,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/14/2014-04-14-cocos2dx-bigmap/" title="Cocos2D(十一)-大型地图" itemprop="url">Cocos2D(十一)-大型地图</a>
+      <a href="/2014/04/14/cocos2dx-bigmap/" title="Cocos2D(十一)-大型地图" itemprop="url">Cocos2D(十一)-大型地图</a>
   </h1>
   <p class="article-author">By
        
@@ -377,7 +377,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2014/04/14/2014-04-14-cocos2dx-bigmap/#more">Read More</a>
+            <a href="/2014/04/14/cocos2dx-bigmap/#more">Read More</a>
           
        </p>
     </div>
@@ -403,7 +403,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/14/2014-04-14-cocos2dx-bigmap/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/2014-04-14-cocos2dx-bigmap/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/14/cocos2dx-bigmap/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/cocos2dx-bigmap/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -423,7 +423,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/14/2014-04-14-cocos2dx-particlesystem/" title="Cocos2D（十）-粒子效果" itemprop="url">Cocos2D（十）-粒子效果</a>
+      <a href="/2014/04/14/cocos2dx-particlesystem/" title="Cocos2D（十）-粒子效果" itemprop="url">Cocos2D（十）-粒子效果</a>
   </h1>
   <p class="article-author">By
        
@@ -445,7 +445,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2014/04/14/2014-04-14-cocos2dx-particlesystem/#more">Read More</a>
+            <a href="/2014/04/14/cocos2dx-particlesystem/#more">Read More</a>
           
        </p>
     </div>
@@ -471,7 +471,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/14/2014-04-14-cocos2dx-particlesystem/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/2014-04-14-cocos2dx-particlesystem/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/14/cocos2dx-particlesystem/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/cocos2dx-particlesystem/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -491,7 +491,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/14/2014-04-14-cocos2dx-userinput/" title="Cocos2D(九)-用户输入" itemprop="url">Cocos2D(九)-用户输入</a>
+      <a href="/2014/04/14/cocos2dx-userinput/" title="Cocos2D(九)-用户输入" itemprop="url">Cocos2D(九)-用户输入</a>
   </h1>
   <p class="article-author">By
        
@@ -510,7 +510,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2014/04/14/2014-04-14-cocos2dx-userinput/#more">Read More</a>
+            <a href="/2014/04/14/cocos2dx-userinput/#more">Read More</a>
           
        </p>
     </div>
@@ -536,7 +536,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/14/2014-04-14-cocos2dx-userinput/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/2014-04-14-cocos2dx-userinput/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/14/cocos2dx-userinput/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/cocos2dx-userinput/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -556,7 +556,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/14/2014-04-14-cocos2dx-audio/" title="Cocos2D(八)-音乐和音效" itemprop="url">Cocos2D(八)-音乐和音效</a>
+      <a href="/2014/04/14/cocos2dx-audio/" title="Cocos2D(八)-音乐和音效" itemprop="url">Cocos2D(八)-音乐和音效</a>
   </h1>
   <p class="article-author">By
        
@@ -579,7 +579,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2014/04/14/2014-04-14-cocos2dx-audio/#more">Read More</a>
+            <a href="/2014/04/14/cocos2dx-audio/#more">Read More</a>
           
        </p>
     </div>
@@ -605,7 +605,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/14/2014-04-14-cocos2dx-audio/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/2014-04-14-cocos2dx-audio/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/14/cocos2dx-audio/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/cocos2dx-audio/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -625,7 +625,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/14/2014-04-14-cocos2dx-animate/" title="Cocos2D(七)-动画与场景特效" itemprop="url">Cocos2D(七)-动画与场景特效</a>
+      <a href="/2014/04/14/cocos2dx-animate/" title="Cocos2D(七)-动画与场景特效" itemprop="url">Cocos2D(七)-动画与场景特效</a>
   </h1>
   <p class="article-author">By
        
@@ -638,14 +638,14 @@
 </header>
     <div class="article-content">
         
-        <p>##动画##<br>纹理间切换是一个巨大的开销，由于精灵可以显示部分纹理，所以通常高效的做法是把动画用到的多个纹理按照一定的顺序排列起来，放置在同一个纹理中。</p>
-<p>###CCAnimation####<br>由动画帧组成，表示一个动画的内容。</p>
-<p>###CCAnimate####<br>动画的播放器，使用动画对象创建，只能作用于精灵。<br>
+        <h2 id="动画">动画</h2><p>纹理间切换是一个巨大的开销，由于精灵可以显示部分纹理，所以通常高效的做法是把动画用到的多个纹理按照一定的顺序排列起来，放置在同一个纹理中。</p>
+<h3 id="CCAnimation">CCAnimation</h3><p>由动画帧组成，表示一个动画的内容。</p>
+<h3 id="CCAnimate">CCAnimate</h3><p>动画的播放器，使用动画对象创建，只能作用于精灵。<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2014/04/14/2014-04-14-cocos2dx-animate/#more">Read More</a>
+            <a href="/2014/04/14/cocos2dx-animate/#more">Read More</a>
           
        </p>
     </div>
@@ -671,7 +671,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/14/2014-04-14-cocos2dx-animate/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/2014-04-14-cocos2dx-animate/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/14/cocos2dx-animate/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/14/cocos2dx-animate/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -691,7 +691,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/04/13/2014-04-13-cocos2dx-action/" title="Cocos2D(六)-动作" itemprop="url">Cocos2D(六)-动作</a>
+      <a href="/2014/04/13/cocos2dx-action/" title="Cocos2D(六)-动作" itemprop="url">Cocos2D(六)-动作</a>
   </h1>
   <p class="article-author">By
        
@@ -709,7 +709,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2014/04/13/2014-04-13-cocos2dx-action/#more">Read More</a>
+            <a href="/2014/04/13/cocos2dx-action/#more">Read More</a>
           
        </p>
     </div>
@@ -735,7 +735,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2014/04/13/2014-04-13-cocos2dx-action/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/13/2014-04-13-cocos2dx-action/" data-count-type="comments">&nbsp;</a>
+		<a href="/2014/04/13/cocos2dx-action/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/04/13/cocos2dx-action/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1138,7 +1138,7 @@ $(document).ready(function(){
 
 
 <script type="text/javascript">
-  var duoshuoQuery = {short_name:"never&#39;s blog"};
+  var duoshuoQuery = {short_name:"xfhnever"};
   (function() {
     var ds = document.createElement('script');
     ds.type = 'text/javascript';ds.async = true;

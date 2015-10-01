@@ -1,0 +1,783 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>J2EE（一）-标签&lt;s:url&gt; | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="在没有使用Struts2的时候可以使用el来进行url传参。而在Struts2中不推荐使用el（其实在Struts2.0.0.11之后就不再支持el）而推荐使用功能更为强大的ognl表达式语言。那么怎么使用ognl实现url传参?
+就是解决这一问题的标签">
+<meta property="og:type" content="article">
+<meta property="og:title" content="J2EE（一）-标签<s:url>">
+<meta property="og:url" content="http://xfhnever.com/2014/03/15/j2ee/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="在没有使用Struts2的时候可以使用el来进行url传参。而在Struts2中不推荐使用el（其实在Struts2.0.0.11之后就不再支持el）而推荐使用功能更为强大的ognl表达式语言。那么怎么使用ognl实现url传参?
+就是解决这一问题的标签">
+<meta property="og:updated_time" content="2015-10-01T12:47:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="J2EE（一）-标签<s:url>">
+<meta name="twitter:description" content="在没有使用Struts2的时候可以使用el来进行url传参。而在Struts2中不推荐使用el（其实在Struts2.0.0.11之后就不再支持el）而推荐使用功能更为强大的ognl表达式语言。那么怎么使用ognl实现url传参?
+就是解决这一问题的标签">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/03/15/j2ee/" title="J2EE（一）-标签&lt;s:url&gt;" itemprop="url">J2EE（一）-标签&lt;s:url&gt;</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-03-15T00:49:02.000Z" itemprop="datePublished"> 发表于 Mar 15 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#用法"><span class="toc-number">1.</span> <span class="toc-text">用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子"><span class="toc-number">2.</span> <span class="toc-text">例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#includeParams属性"><span class="toc-number">3.</span> <span class="toc-text">includeParams属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#includeContext属性"><span class="toc-number">4.</span> <span class="toc-text">includeContext属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method属性"><span class="toc-number">5.</span> <span class="toc-text">Method属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#namespace属性"><span class="toc-number">6.</span> <span class="toc-text">namespace属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从中传值"><span class="toc-number">7.</span> <span class="toc-text">从中传值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注"><span class="toc-number">8.</span> <span class="toc-text">注</span></a></li></ol>
+		
+		</div>
+		
+		<p>在没有使用Struts2的时候可以使用el来进行url传参。而在Struts2中不推荐使用el（其实在Struts2.0.0.11之后就不再支持el）而推荐使用功能更为强大的ognl表达式语言。那么怎么使用ognl实现url传参?</p>
+<p><s:url>就是解决这一问题的标签<br><a id="more"></a></s:url></p>
+<h2 id="用法">用法</h2><ol>
+<li><p><s:url>标签一般和超链接&lt; a&gt;一起使用，用于带多个参数。 ##</s:url></p>
+<pre><code>&lt;<span class="keyword">a</span> href=<span class="string">"  
+</span>  &lt;<span class="variable">s:url</span> action=<span class="string">""</span>&gt;  
+   &lt;<span class="variable">s:param</span> name=<span class="string">" "</span> value=<span class="string">""</span>&gt;&lt;/<span class="variable">s:param</span>&gt;   
+   &lt;<span class="variable">s:param</span> name=<span class="string">" "</span> value=<span class="string">""</span>&gt;&lt;/<span class="variable">s:param</span>&gt;   
+   &lt;<span class="variable">s:param</span> name=<span class="string">" "</span> value=<span class="string">""</span>&gt;&lt;/<span class="variable">s:param</span>&gt;   
+   &lt;/<span class="variable">s:url</span>&gt;<span class="string">"&gt;测试连接
+</span>&lt;/<span class="keyword">a</span>&gt;  
+</code></pre></li>
+<li><p><s:url>生成一个url地址,可以通过url标签制定的<s:param>子元素向URL地址发送请求参数##</s:param></s:url></p>
+<pre><code><span class="tag">&lt;<span class="title">s:url</span> <span class="attribute">action</span>=<span class="value">""</span>&gt;</span> 指定请求地址  
+<span class="tag">&lt;<span class="title">s:param</span> <span class="attribute">name</span>=<span class="value">""</span> <span class="attribute">value</span>=<span class="value">""</span>&gt;</span><span class="tag">&lt;/<span class="title">s:param</span>&gt;</span> 指定参数<span class="tag">&lt;/<span class="title">s:url</span>&gt;</span>  
+</code></pre></li>
+</ol>
+<h2 id="例子">例子</h2><pre><code><span class="comment">&lt;!--action是action的名字，为url添加参数使用param标签--&gt;</span>  
+
+      <span class="tag">&lt;<span class="title">s:url</span> <span class="attribute">var</span>=<span class="value">"url"</span> <span class="attribute">action</span>=<span class="value">"mainPage"</span>&gt;</span>   
+          <span class="tag">&lt;<span class="title">s:param</span> <span class="attribute">name</span>=<span class="value">"id"</span> <span class="attribute">value</span>=<span class="value">"123"</span>/&gt;</span>   
+      <span class="tag">&lt;/<span class="title">s:url</span>&gt;</span>   
+
+      <span class="comment">&lt;!--使用上面定义的url--&gt;</span>   
+      <span class="tag">&lt;<span class="title">s:a</span> <span class="attribute">href</span>=<span class="value">"%{url}"</span>&gt;</span>测试连接<span class="tag">&lt;/<span class="title">s:a</span>&gt;</span>   
+
+  该方法在生成的页面源码中生成如下代码   
+  <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"/NetBookShop_081029/mainPage?id=123"</span>&gt;</span>测试连接<span class="tag">&lt;/<span class="title">a</span>&gt;</span>   
+</code></pre><h2 id="includeParams属性">includeParams属性</h2><pre><code><span class="comment">&lt;!--最重要的属性includeParams，该属性有三个值：none get all，默认值为get--&gt;</span>   
+        <span class="comment">&lt;!--属性值为get时，该url会将访问其所在jsp的的请求的所有get方法的参数添加到自身来--&gt;</span>   
+        <span class="comment">&lt;!--属性值为all时更是将get和post的的参数值全部添加到自身来--&gt;</span>   
+        <span class="comment">&lt;!--一般我们并不需要额外的参数，所以定义为none--&gt;</span>   
+    <span class="tag">&lt;<span class="title">s:url</span> <span class="attribute">var</span>=<span class="value">"url"</span> <span class="attribute">action</span>=<span class="value">"mainPage"</span> <span class="attribute">includeParams</span>=<span class="value">"none"</span>&gt;</span>   
+            <span class="tag">&lt;<span class="title">s:param</span> <span class="attribute">name</span>=<span class="value">"id"</span> <span class="attribute">value</span>=<span class="value">"123"</span>/&gt;</span>   
+        <span class="tag">&lt;/<span class="title">s:url</span>&gt;</span>   
+</code></pre><h2 id="includeContext属性">includeContext属性</h2><pre><code> <span class="comment">&lt;!--includeContext:有true和false两个值。url中是否包含上下文，也就是在url中的项目名--&gt;</span>   
+        <span class="comment">&lt;!--这个一般不用改，让它自动包含，否则会定位到服务器的根目录下--&gt;</span>   
+        <span class="tag">&lt;<span class="title">s:url</span> <span class="attribute">var</span>=<span class="value">"url"</span> <span class="attribute">action</span>=<span class="value">"mainPage"</span> <span class="attribute">includeContext</span>=<span class="value">"false"</span>&gt;</span>   
+            <span class="tag">&lt;<span class="title">s:param</span> <span class="attribute">name</span>=<span class="value">"id"</span> <span class="attribute">value</span>=<span class="value">"123"</span>/&gt;</span>   
+        <span class="tag">&lt;/<span class="title">s:url</span>&gt;</span>   
+    生成的url就下面的样子了，注意在普通的html中使用/会定位到服务器的根目录，而在struts的标签里使用/会自动添加上下文，所以不用麻烦的指定项目名   
+<span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"/mainPage?id=123"</span>&gt;</span>url<span class="tag">&lt;/<span class="title">a</span>&gt;</span>   
+</code></pre><h2 id="Method属性">Method属性</h2><pre><code>&lt;!--<span class="keyword">method</span>用于指定执行action的方法 这个等同于action=<span class="string">"mainPage!ok"</span>--&gt;   
+       &lt;s:url <span class="keyword">var</span>=<span class="string">"url"</span> action=<span class="string">"mainPage"</span> <span class="keyword">method</span>=<span class="string">"ok"</span>&gt;   
+           &lt;s:param name=<span class="string">"id"</span> value=<span class="string">"123"</span>/&gt;   
+       &lt;/s:url&gt;   
+</code></pre><h2 id="namespace属性">namespace属性</h2><pre><code><span class="comment">&lt;!--指定命名空间后，生成的url会使用相对路径，具体的看我的结果--&gt;</span>   
+       <span class="tag">&lt;<span class="title">s:url</span> <span class="attribute">var</span>=<span class="value">"url"</span> <span class="attribute">action</span>=<span class="value">"mainPage"</span> <span class="attribute">namespace</span>=<span class="value">"user"</span>&gt;</span>   
+           <span class="tag">&lt;<span class="title">s:param</span> <span class="attribute">name</span>=<span class="value">"id"</span> <span class="attribute">value</span>=<span class="value">"123"</span>/&gt;</span>   
+       <span class="tag">&lt;/<span class="title">s:url</span>&gt;</span>   
+   结果如下   
+lt;a href="user/mainPage?id=123"&gt;url<span class="tag">&lt;/<span class="title">a</span>&gt;</span>  
+</code></pre><h2 id="从中传值">从<s:iterator>中传值</s:iterator></h2><pre><code><span class="tag">&lt;<span class="title">s:iterator</span> <span class="attribute">value</span>=<span class="value">"activities"</span> <span class="attribute">id</span>=<span class="value">"a"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">tr</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">td</span>&gt;</span><span class="tag">&lt;<span class="title">s:property</span> <span class="attribute">value</span>=<span class="value">"id"</span>/&gt;</span><span class="tag">&lt;/<span class="title">td</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">td</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"&lt;s:url action="</span>/<span class="attribute">activityinfo</span>"&gt;</span>
+            <span class="tag">&lt;<span class="title">s:param</span> <span class="attribute">name</span>=<span class="value">"activityid"</span> <span class="attribute">value</span>=<span class="value">"#a.id"</span>&gt;</span><span class="tag">&lt;/<span class="title">s:param</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">s:url</span>&gt;</span>"&gt;More<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">td</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">tr</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">s:iterator</span>&gt;</span>
+</code></pre><h2 id="注">注</h2><p>本文转载于<a href="http://blog.csdn.net/yanwushu/article/details/7618723" target="_blank" rel="external">http://blog.csdn.net/yanwushu/article/details/7618723</a>,原文出处不详！</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/J2EE/">J2EE</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/s-url/"><s:url></a><a href="/tags/J2EE/">J2EE</a><a href="/tags/标签/">标签</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/03/15/j2ee/" data-title="J2EE（一）-标签&lt;s:url&gt; | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/03/19/j2ee-spring-quartz/" title="J2EE（二）-Spring中使用Quartz进行任务自动调度">
+  <strong>上一篇：</strong><br/>
+  <span>
+  J2EE（二）-Spring中使用Quartz进行任务自动调度</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/03/05/telephone-interview-question/"  title="【面试试题】那些年我遇到的面试">
+ <strong>下一篇：</strong><br/> 
+ <span>【面试试题】那些年我遇到的面试
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/03/15/j2ee/" data-title="J2EE（一）-标签&lt;s:url&gt;" data-url="http://xfhnever.com/2014/03/15/j2ee/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#用法"><span class="toc-number">1.</span> <span class="toc-text">用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子"><span class="toc-number">2.</span> <span class="toc-text">例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#includeParams属性"><span class="toc-number">3.</span> <span class="toc-text">includeParams属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#includeContext属性"><span class="toc-number">4.</span> <span class="toc-text">includeContext属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method属性"><span class="toc-number">5.</span> <span class="toc-text">Method属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#namespace属性"><span class="toc-number">6.</span> <span class="toc-text">namespace属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从中传值"><span class="toc-number">7.</span> <span class="toc-text">从中传值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注"><span class="toc-number">8.</span> <span class="toc-text">注</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

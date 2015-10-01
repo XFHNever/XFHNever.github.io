@@ -1,0 +1,919 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Spring（一）-和MongoDB集成 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="最近在实习公司做的项目中需要使用Spring和mongoDB，然后就决定在使用之后将两者的集成简单整理一下，以备以后使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring（一）-和MongoDB集成">
+<meta property="og:url" content="http://xfhnever.com/2014/07/15/spring-mongodb/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="最近在实习公司做的项目中需要使用Spring和mongoDB，然后就决定在使用之后将两者的集成简单整理一下，以备以后使用。">
+<meta property="og:updated_time" content="2015-10-01T13:53:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring（一）-和MongoDB集成">
+<meta name="twitter:description" content="最近在实习公司做的项目中需要使用Spring和mongoDB，然后就决定在使用之后将两者的集成简单整理一下，以备以后使用。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/15/spring-mongodb/" title="Spring（一）-和MongoDB集成" itemprop="url">Spring（一）-和MongoDB集成</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-07-15T00:09:26.000Z" itemprop="datePublished"> 发表于 Jul 15 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Accessing_Data_with_MongoDB"><span class="toc-number">1.</span> <span class="toc-text">Accessing Data with MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pom-xml"><span class="toc-number">1.1.</span> <span class="toc-text">pom.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单实体类Customer-java"><span class="toc-number">1.2.</span> <span class="toc-text">简单实体类Customer.java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CustomerRepository-java"><span class="toc-number">1.3.</span> <span class="toc-text">CustomerRepository.java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Application-java"><span class="toc-number">1.4.</span> <span class="toc-text">Application.java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建和运行"><span class="toc-number">1.5.</span> <span class="toc-text">构建和运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring_Boot"><span class="toc-number">1.6.</span> <span class="toc-text">Spring Boot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更加一般的配置"><span class="toc-number">2.</span> <span class="toc-text">更加一般的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#applicationContext-xml"><span class="toc-number">2.1.</span> <span class="toc-text">applicationContext.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mongo-properties"><span class="toc-number">2.2.</span> <span class="toc-text">mongo.properties</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>最近在实习公司做的项目中需要使用Spring和mongoDB，然后就决定在使用之后将两者的集成简单整理一下，以备以后使用。<br><a id="more"></a></p>
+<h2 id="Accessing_Data_with_MongoDB">Accessing Data with MongoDB</h2><p>首先和大家介绍一下<a href="http://spring.io/guides/gs/accessing-data-mongodb/" target="_blank" rel="external">Spring官网</a>上使用Spring访问MongoDB的小例子。我是使用的maven进行项目构建，下面就直接上代码。</p>
+<h3 id="pom-xml">pom.xml</h3><pre><code><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="tag">&lt;<span class="title">project</span> <span class="attribute">xmlns</span>=<span class="value">"http://maven.apache.org/POM/4.0.0"</span> <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="title">modelVersion</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>gs-accessing-data-mongodb<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.1.0<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">parent</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.1.4.RELEASE<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">parent</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">dependencies</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-data-mongodb<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">dependencies</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">properties</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">start-class</span>&gt;</span>hello.Application<span class="tag">&lt;/<span class="title">start-class</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">properties</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">build</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">plugins</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">plugin</span>&gt;</span>
+                <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+            <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">plugin</span>&gt;</span>
+                <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+                <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+            <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">plugins</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">build</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">repositories</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">repository</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">id</span>&gt;</span>spring-releases<span class="tag">&lt;/<span class="title">id</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">name</span>&gt;</span>Spring Releases<span class="tag">&lt;/<span class="title">name</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">url</span>&gt;</span>http://repo.spring.io/libs-release<span class="tag">&lt;/<span class="title">url</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">repository</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">repositories</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">pluginRepositories</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">pluginRepository</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">id</span>&gt;</span>spring-releases<span class="tag">&lt;/<span class="title">id</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">name</span>&gt;</span>Spring Releases<span class="tag">&lt;/<span class="title">name</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">url</span>&gt;</span>http://repo.spring.io/libs-release<span class="tag">&lt;/<span class="title">url</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">pluginRepository</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">pluginRepositories</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">project</span>&gt;</span>
+</code></pre><h3 id="简单实体类Customer-java">简单实体类Customer.java</h3><pre><code><span class="keyword">package</span> hello;
+
+<span class="keyword">import</span> org.springframework.data.annotation.Id;
+
+<span class="comment">//这里可以使用@Document制定该实体类映射到MongDB中的哪个类，</span>
+<span class="comment">//如果不指定，就默认映射MongoDB中的Customer集合。</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>{
+
+    <span class="comment">//对应于MongoDB中内部使用的id。</span>
+    <span class="annotation">@Id</span>
+    <span class="keyword">private</span> String id;
+
+    <span class="keyword">private</span> String firstName;
+    <span class="keyword">private</span> String lastName;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">()</span> </span>{}
+
+    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(String firstName, String lastName)</span> </span>{
+        <span class="keyword">this</span>.firstName = firstName;
+        <span class="keyword">this</span>.lastName = lastName;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="function">String <span class="title">toString</span><span class="params">()</span> </span>{
+        <span class="function"><span class="keyword">return</span> String.<span class="title">format</span><span class="params">(
+                <span class="string">"Customer[id=%s, firstName='%s', lastName='%s']"</span>,
+                id, firstName, lastName)</span></span>;
+    }
+
+}
+</code></pre><h3 id="CustomerRepository-java">CustomerRepository.java</h3><pre><code><span class="keyword">package</span> hello;
+
+<span class="keyword">import</span> java.util.List;
+
+<span class="keyword">import</span> org.springframework.data.mongodb.repository.MongoRepository;
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CustomerRepository</span> <span class="keyword">extends</span> <span class="title">MongoRepository</span>&lt;<span class="title">Customer</span>, <span class="title">String</span>&gt; </span>{
+
+    <span class="function"><span class="keyword">public</span> Customer <span class="title">findByFirstName</span><span class="params">(String firstName)</span></span>;
+    <span class="function"><span class="keyword">public</span> List&lt;Customer&gt; <span class="title">findByLastName</span><span class="params">(String lastName)</span></span>;
+
+}
+</code></pre><p>一般应用中，你需要实现该接口，但是在spring中不需要这个实现，Spring Data MongoDB会在应用运行的时候实现他。</p>
+<h3 id="Application-java">Application.java</h3><pre><code><span class="keyword">package</span> hello;
+
+<span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="keyword">import</span> org.springframework.boot.CommandLineRunner;
+<span class="keyword">import</span> org.springframework.boot.SpringApplication;
+<span class="keyword">import</span> org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
+<span class="keyword">@EnableAutoConfiguration</span>
+<span class="keyword">public</span> <span class="keyword">class</span> Application implements CommandLineRunner {
+
+    <span class="keyword">@Autowired</span>
+    <span class="keyword">private</span> CustomerRepository repository;
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) {
+        SpringApplication.run(Application.<span class="keyword">class</span>, args);
+    }
+
+    <span class="keyword">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> run(String... args) throws Exception {
+
+        repository.deleteAll();
+
+        <span class="comment">// save a couple of customers</span>
+        repository.save(<span class="keyword">new</span> Customer(<span class="string">"Alice"</span>, <span class="string">"Smith"</span>));
+        repository.save(<span class="keyword">new</span> Customer(<span class="string">"Bob"</span>, <span class="string">"Smith"</span>));
+
+        <span class="comment">// fetch all customers</span>
+        System.<span class="keyword">out</span>.println(<span class="string">"Customers found with findAll():"</span>);
+        System.<span class="keyword">out</span>.println(<span class="string">"-------------------------------"</span>);
+        <span class="keyword">for</span> (Customer customer : repository.findAll()) {
+            System.<span class="keyword">out</span>.println(customer);
+        }
+        System.<span class="keyword">out</span>.println();
+
+        <span class="comment">// fetch an individual customer</span>
+        System.<span class="keyword">out</span>.println(<span class="string">"Customer found with findByFirstName('Alice'):"</span>);
+        System.<span class="keyword">out</span>.println(<span class="string">"--------------------------------"</span>);
+        System.<span class="keyword">out</span>.println(repository.findByFirstName(<span class="string">"Alice"</span>));
+
+        System.<span class="keyword">out</span>.println(<span class="string">"Customers found with findByLastName('Smith'):"</span>);
+        System.<span class="keyword">out</span>.println(<span class="string">"--------------------------------"</span>);
+        <span class="keyword">for</span> (Customer customer : repository.findByLastName(<span class="string">"Smith"</span>)) {
+            System.<span class="keyword">out</span>.println(customer);
+        }
+
+    }
+
+}
+</code></pre><p>Spring Data MongoDB使用MongoTemplate去运行数据库的各项操作，我们可以主动使用他进行更多操作（下面就会给出介绍）。</p>
+<h3 id="构建和运行">构建和运行</h3><pre><code>mvn clean <span class="package"><span class="keyword">package</span></span>
+</code></pre><p>then 在命令行执行这个jar文件</p>
+<pre><code><span class="tag">java</span> <span class="tag">-jar</span> <span class="tag">xx</span><span class="class">.jar</span>
+</code></pre><p>这样运行之后数据会保存在Database：test，Collection：customer中（如果没有将会创建）。</p>
+<h3 id="Spring_Boot">Spring Boot</h3><p>Spring Boot项目旨在帮助开发者更容易地创建基于Spring的应用程序和服务，使得现有的和新的Spring开发者能够最快速地获得所需要的Spring功能。 </p>
+<p>主要目标：</p>
+<ol>
+<li>为所有的Spring开发工作提供一个更快、更广泛的入门经验</li>
+<li>开箱即用，你也可以通过修改默认值来快速满足你的项目的需求</li>
+<li>提供了一系列大型项目中常见的非功能性特性，如嵌入式服务器、安全、指标，健康检测、外部配置等</li>
+</ol>
+<p>Spring Boot充分利用了JavaConfig的配置模式以及“约定优于配置”的理念，不生成代码，且完全不需要XML配置。</p>
+<h2 id="更加一般的配置">更加一般的配置</h2><p>下面将给大家介绍一下更加一般的配置，我们将会自己定义使用的MongoDB，并使用MongoTemplate进行更多操作。</p>
+<h3 id="applicationContext-xml">applicationContext.xml</h3><pre><code><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="tag">&lt;<span class="title">beans</span> <span class="attribute">xmlns</span>=<span class="value">"http://www.springframework.org/schema/beans"</span>
+       <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attribute">xmlns:context</span>=<span class="value">"http://www.springframework.org/schema/context"</span>
+       <span class="attribute">xmlns:mongo</span>=<span class="value">"http://www.springframework.org/schema/data/mongo"</span>
+       <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="title">context:annotation-config</span> /&gt;</span>
+    <span class="tag">&lt;<span class="title">context:component-scan</span> <span class="attribute">base-package</span>=<span class="value">"com.nju.never.*"</span> /&gt;</span>
+    <span class="tag">&lt;<span class="title">context:property-placeholder</span> <span class="attribute">location</span>=<span class="value">"classpath:/mongo.properties"</span> /&gt;</span>
+    <span class="tag">&lt;<span class="title">mongo:mongo</span> <span class="attribute">host</span>=<span class="value">"${mongo.host}"</span> <span class="attribute">port</span>=<span class="value">"${mongo.port}"</span> <span class="attribute">id</span>=<span class="value">"mongo"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">mongo:options</span> <span class="attribute">connections-per-host</span>=<span class="value">"${mongo.connectionsPerHost}"</span>
+                       <span class="attribute">threads-allowed-to-block-for-connection-multiplier</span>=<span class="value">"${mongo.threadsAllowedToBlockForConnectionMultiplier}"</span>
+                       <span class="attribute">connect-timeout</span>=<span class="value">"${mongo.connectTimeout}"</span> <span class="attribute">max-wait-time</span>=<span class="value">"${mongo.maxWaitTime}"</span>
+                       <span class="attribute">auto-connect-retry</span>=<span class="value">"${mongo.autoConnectRetry}"</span> <span class="attribute">socket-keep-alive</span>=<span class="value">"${mongo.socketKeepAlive}"</span>
+                       <span class="attribute">socket-timeout</span>=<span class="value">"${mongo.socketTimeout}"</span> <span class="attribute">slave-ok</span>=<span class="value">"${mongo.slaveOk}"</span>
+                       <span class="attribute">write-number</span>=<span class="value">"1"</span> <span class="attribute">write-timeout</span>=<span class="value">"0"</span> <span class="attribute">write-fsync</span>=<span class="value">"true"</span> /&gt;</span>
+    <span class="tag">&lt;/<span class="title">mongo:mongo</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">mongo:db-factory</span> <span class="attribute">id</span>=<span class="value">"MongoFactory"</span> <span class="attribute">dbname</span>=<span class="value">"test"</span> <span class="attribute">mongo-ref</span>=<span class="value">"mongo"</span>/&gt;</span>
+    <span class="tag">&lt;<span class="title">bean</span> <span class="attribute">id</span>=<span class="value">"mongoTemplate"</span> <span class="attribute">class</span>=<span class="value">"org.springframework.data.mongodb.core.MongoTemplate"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">constructor-arg</span> <span class="attribute">ref</span>=<span class="value">"MongoFactory"</span> /&gt;</span>
+    <span class="tag">&lt;/<span class="title">bean</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">beans</span>&gt;</span>
+</code></pre><p>把对mongoDB的配置独立出来，放在mongo.properties中</p>
+<h3 id="mongo-properties">mongo.properties</h3><pre><code>mongo.host=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>
+mongo.port=<span class="number">27017</span>
+mongo.connectionsPerHost=<span class="number">8</span>
+mongo.connectTimeout=<span class="number">1000</span>
+mongo.maxWaitTime=<span class="number">1500</span>
+mongo.autoConnectRetry=<span class="literal">true</span>
+mongo.socketTimeout=<span class="number">2000</span>
+mongo.threadsAllowedToBlockForConnectionMultiplier=<span class="number">4</span>
+mongo.socketKeepAlive=<span class="literal">true</span>
+mongo.fsync=<span class="literal">true</span>
+mongo.slaveOk=<span class="literal">true</span>
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Spring/">Spring</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/MongoDB/">MongoDB</a><a href="/tags/Spring/">Spring</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/07/15/spring-mongodb/" data-title="Spring（一）-和MongoDB集成 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/07/17/git-introduction/" title="Git（一）-介绍">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Git（一）-介绍</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/07/10/log-java/"  title="Log(一) - Java中的log的使用">
+ <strong>下一篇：</strong><br/> 
+ <span>Log(一) - Java中的log的使用
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/07/15/spring-mongodb/" data-title="Spring（一）-和MongoDB集成" data-url="http://xfhnever.com/2014/07/15/spring-mongodb/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Accessing_Data_with_MongoDB"><span class="toc-number">1.</span> <span class="toc-text">Accessing Data with MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pom-xml"><span class="toc-number">1.1.</span> <span class="toc-text">pom.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单实体类Customer-java"><span class="toc-number">1.2.</span> <span class="toc-text">简单实体类Customer.java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CustomerRepository-java"><span class="toc-number">1.3.</span> <span class="toc-text">CustomerRepository.java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Application-java"><span class="toc-number">1.4.</span> <span class="toc-text">Application.java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建和运行"><span class="toc-number">1.5.</span> <span class="toc-text">构建和运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring_Boot"><span class="toc-number">1.6.</span> <span class="toc-text">Spring Boot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更加一般的配置"><span class="toc-number">2.</span> <span class="toc-text">更加一般的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#applicationContext-xml"><span class="toc-number">2.1.</span> <span class="toc-text">applicationContext.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mongo-properties"><span class="toc-number">2.2.</span> <span class="toc-text">mongo.properties</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,873 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Markdown-基本语法 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="最近才使用github+octopress搭建了自己的个人blog,新建日志的时候会生成MD文件，而编辑MD文件需要使用markdown语法。就决定简单学习一下它的基本语法。可能本文更多的记录，讲解就会比较少，只是为了方便自己以后编辑MD文件。
+简介Markdown 的目标是实现「易读易写」，成为一种适用于网络的书写语言。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Markdown-基本语法">
+<meta property="og:url" content="http://xfhnever.com/2014/03/02/markdown-basic-syntax/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="最近才使用github+octopress搭建了自己的个人blog,新建日志的时候会生成MD文件，而编辑MD文件需要使用markdown语法。就决定简单学习一下它的基本语法。可能本文更多的记录，讲解就会比较少，只是为了方便自己以后编辑MD文件。
+简介Markdown 的目标是实现「易读易写」，成为一种适用于网络的书写语言。">
+<meta property="og:updated_time" content="2015-10-01T12:49:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Markdown-基本语法">
+<meta name="twitter:description" content="最近才使用github+octopress搭建了自己的个人blog,新建日志的时候会生成MD文件，而编辑MD文件需要使用markdown语法。就决定简单学习一下它的基本语法。可能本文更多的记录，讲解就会比较少，只是为了方便自己以后编辑MD文件。
+简介Markdown 的目标是实现「易读易写」，成为一种适用于网络的书写语言。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/03/02/markdown-basic-syntax/" title="Markdown-基本语法" itemprop="url">Markdown-基本语法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-03-02T13:12:05.000Z" itemprop="datePublished"> 发表于 Mar 2 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区块元素"><span class="toc-number">2.</span> <span class="toc-text">区块元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区段元素"><span class="toc-number">3.</span> <span class="toc-text">区段元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Markdown_免费编辑器"><span class="toc-number">5.</span> <span class="toc-text">Markdown 免费编辑器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近才使用github+octopress搭建了自己的个人blog,新建日志的时候会生成MD文件，而编辑MD文件需要使用markdown语法。就决定简单学习一下它的基本语法。可能本文更多的记录，讲解就会比较少，只是为了方便自己以后编辑MD文件。</p>
+<h2 id="简介">简介</h2><p>Markdown 的目标是实现「易读易写」，成为一种适用于网络的书写语言。<br><a id="more"></a><br>兼容HTML。不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。不需要额外标注这是 HTML 或是 Markdown；只要直接加标签就可以了。但是在 HTML 区块标签间的 Markdown 格式语法将不会被处理。</p>
+<p>HTML 的区段（行内）标签如 &lt;span&gt;、&lt;cite&gt;、&lt;del&gt; 可以在 Markdown 的段落、列表或是标题里随意使用。</p>
+<h2 id="区块元素">区块元素</h2><ol>
+<li><p>段落和换行</p>
+<p>  一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进。</p>
+</li>
+<li><p>标题</p>
+<blockquote>
+<p>类 Setext：用底线的形式，利用 = （最高阶标题）和 - （第二阶标题），任何数量的 = 和 - 都可以有效果</p>
+</blockquote>
+<pre><code><span class="header">This is an H1
+=============</span>
+
+<span class="header">This is an H2
+-------------</span>
+</code></pre><blockquote>
+<p>类 Atx 形式：在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶</p>
+</blockquote>
+<pre><code><span class="preprocessor"># 这是 H1</span>
+
+<span class="preprocessor">## 这是 H2</span>
+
+<span class="preprocessor">###### 这是 H6     </span>
+</code></pre></li>
+<li><p>区块引用 Blockquotes</p>
+<pre><code>每行的最前面加上 &gt;
+区块引用可以嵌套（例如：引用内的引用），只要根据层次加上不同数量的 &gt;
+
+&gt; This <span class="keyword">is</span> <span class="keyword">the</span> <span class="keyword">first</span> level <span class="keyword">of</span> quoting.
+&gt;
+&gt; &gt; This <span class="keyword">is</span> nested blockquote.
+&gt;
+&gt; Back <span class="keyword">to</span> <span class="keyword">the</span> <span class="keyword">first</span> level.
+</code></pre></li>
+<li><p>列表</p>
+<blockquote>
+<p>无序列表：使用星号、加号或是减号作为列表标记</p>
+</blockquote>
+<pre><code><span class="bullet">*   </span>Red
+<span class="bullet">*   </span>Green
+<span class="bullet">*   </span>Blue
+</code></pre><blockquote>
+<p>有序列表：使用数字接着一个英文句点</p>
+</blockquote>
+<pre><code><span class="number">1.</span>  Bird
+<span class="number">2.</span>  McHale
+<span class="number">3.</span>  Parish
+</code></pre></li>
+<li><p>代码区块</p>
+<pre><code>用 <span class="tag">&lt;<span class="title">pre</span>&gt;</span> 和 <span class="tag">&lt;<span class="title">code</span>&gt;</span> 标签来把代码区块包起来
+
+建立代码区块很简单，只要简单地缩进 4 个空格或是 1 个制表符就可以
+</code></pre></li>
+<li><p>分隔线</p>
+<pre><code>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。
+</code></pre></li>
+</ol>
+<h2 id="区段元素">区段元素</h2><ol>
+<li><p>链接</p>
+<p> 链接文字都是用 [方括号] 来标记</p>
+<blockquote>
+<p>行内式:在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可</p>
+</blockquote>
+<pre><code>This is [<span class="link_label">an example</span>](<span class="link_url">http://example.com/ "Title"</span>) inline link.
+
+[<span class="link_label">This link</span>](<span class="link_url">http://example.net/</span>) has no title attribute.
+</code></pre><blockquote>
+<p>参考式:在链接文字的括号后面再接上另一个方括号，而在第二个方括号里面要填入用以辨识链接的标记</p>
+</blockquote>
+<pre><code>This is [<span class="link_label">an example</span>][<span class="link_reference">id</span>] reference-style link.
+</code></pre></li>
+<li><p>强调</p>
+<p> 使用星号（<em>）和底线（_）作为标记强调字词的符号，被 </em> 或 <em> 包围的字词会被转成用 <em> 标签包围，用两个 * 或 </em> 包起来的话，则会被转成 <strong></strong></em></p>
+<pre><code><span class="keyword">*</span>single asterisks<span class="keyword">*</span>
+
+_single underscores_
+
+<span class="keyword">*</span><span class="keyword">*</span>double asterisks<span class="keyword">*</span><span class="keyword">*</span>
+
+__double underscores__
+</code></pre><p> <em>如果 </em> 和 _ 两边都有空白的话，它们就只会被当成普通的符号。*</p>
+</li>
+<li><p>代码</p>
+<blockquote>
+<p>如果要标记一小段行内代码，你可以用反引号把它包起来（`）</p>
+</blockquote>
+<pre><code><span class="keyword">Use</span> the `printf()` <span class="function"><span class="keyword">function</span>.</span>
+</code></pre><blockquote>
+<p>如果要在代码区段内插入反引号，你可以用多个反引号来开启和结束代码区段</p>
+</blockquote>
+<pre><code><span class="escape">``</span>There is <span class="literal">a</span> literal backtick (<span class="escape">`)</span> here.<span class="escape">``</span>
+</code></pre></li>
+<li><p>图片</p>
+<pre><code>&gt;行内式：
+
+ ![<span class="link_label">Alt text</span>](<span class="link_url">/path/to/img.jpg</span>)
+
+ ![<span class="link_label">Alt text</span>](<span class="link_url">/path/to/img.jpg "Optional title"</span>)
+&gt;参考式：
+
+ ![<span class="link_label">Alt text</span>][<span class="link_reference">id</span>]
+</code></pre></li>
+</ol>
+<h2 id="其他">其他</h2><ol>
+<li><p>自动链接</p>
+<p> 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用方括号包起来， Markdown 就会自动把它转成链接。</p>
+<pre><code>&lt;<span class="string">http:</span><span class="comment">//example.com/&gt;</span>
+</code></pre></li>
+<li><p>反斜杠</p>
+<p> 利用反斜杠来插入一些在语法中有其它意义的符号。例如：如果你想要用星号加在文字旁边的方式来做出强调效果（但不用 <em> 标签），你可以在星号的前面加上反斜杠：</em></p>
+<pre><code>\<span class="keyword">*</span>literal asterisks\<span class="keyword">*</span>
+</code></pre><p> Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号</p>
+<pre><code>\   反斜线
+`   反引号
+<span class="bullet">*   </span>星号
+_   底线
+{}  花括号
+[]  方括号
+()  括弧
+<span class="header">#   井字号</span>
+<span class="bullet">+   </span>加号
+<span class="bullet">-   </span>减号
+.   英文句点
+!   惊叹号
+</code></pre></li>
+<li><p>表格</p>
+<pre><code>|<span class="string"> Tables        </span>|<span class="string"> Are           </span>|<span class="string"> Cool  </span>|
+|<span class="string"> ------------- </span>|<span class="string">:-------------:</span>|<span class="string"> -----:</span>|
+|<span class="string"> col 3 is      </span>|<span class="string"> right-aligned </span>|<span class="string"> $1600 </span>|
+|<span class="string"> col 2 is      </span>|<span class="string"> centered      </span>|<span class="string">   $12 </span>|
+|<span class="string"> zebra stripes </span>|<span class="string"> are neat      </span>|<span class="string">    $1 </span>|
+</code></pre><p> 效果如下：</p>
+<p> | Tables        | Are           | Cool  |<br> | ————- |:————-:| —–:|<br> | col 3 is      | right-aligned | $1600 |<br> | col 2 is      | centered      |   $12 |<br> | zebra stripes | are neat      |    $1 |</p>
+</li>
+</ol>
+<h2 id="Markdown_免费编辑器">Markdown 免费编辑器</h2><p>Windows 平台</p>
+<pre><code><span class="keyword">MarkdownPad
+</span><span class="keyword">MarkPad</span>
+</code></pre><p>Linux 平台</p>
+<pre><code>ReText
+</code></pre><p>Mac 平台</p>
+<pre><code>Mou
+</code></pre><p>在线编辑器</p>
+<pre><code><span class="tag">Markable</span><span class="class">.in</span>
+<span class="tag">Dillinger</span><span class="class">.io</span>
+</code></pre><p>浏览器插件</p>
+<pre><code>MaDe <span class="list">(<span class="keyword">Chrome</span>)</span>
+</code></pre><p>高级应用</p>
+<pre><code><span class="keyword">Sublime </span>Text <span class="number">2</span> + <span class="keyword">MarkdownEditing </span>/ 教程
+</code></pre><h2 id="参考">参考</h2><p><a href="http://wowubuntu.com/markdown/" target="_blank" rel="external">Markdown 语法说明</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Blog/">Blog</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Markdown/">Markdown</a><a href="/tags/syntax/">syntax</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/03/02/markdown-basic-syntax/" data-title="Markdown-基本语法 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/03/04/weixin-simple-configuration/" title="微信公众账号开发（一）-入门简介">
+  <strong>上一篇：</strong><br/>
+  <span>
+  微信公众账号开发（一）-入门简介</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/03/02/mongodb-sharding/"  title="Mongodb（七）-分片">
+ <strong>下一篇：</strong><br/> 
+ <span>Mongodb（七）-分片
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/03/02/markdown-basic-syntax/" data-title="Markdown-基本语法" data-url="http://xfhnever.com/2014/03/02/markdown-basic-syntax/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区块元素"><span class="toc-number">2.</span> <span class="toc-text">区块元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区段元素"><span class="toc-number">3.</span> <span class="toc-text">区段元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">4.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Markdown_免费编辑器"><span class="toc-number">5.</span> <span class="toc-text">Markdown 免费编辑器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

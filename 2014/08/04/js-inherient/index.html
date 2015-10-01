@@ -1,0 +1,828 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JavaScript（七）-继承 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="之前的Blog介绍了JavaScript的面向对象编程，本篇我们就介绍一下JavaScript中的对象继承。
+本篇Blog主要参考阮一峰大神的Blog，可以认为是转载吧~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript（七）-继承">
+<meta property="og:url" content="http://xfhnever.com/2014/08/04/js-inherient/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="之前的Blog介绍了JavaScript的面向对象编程，本篇我们就介绍一下JavaScript中的对象继承。
+本篇Blog主要参考阮一峰大神的Blog，可以认为是转载吧~">
+<meta property="og:updated_time" content="2015-10-01T14:26:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript（七）-继承">
+<meta name="twitter:description" content="之前的Blog介绍了JavaScript的面向对象编程，本篇我们就介绍一下JavaScript中的对象继承。
+本篇Blog主要参考阮一峰大神的Blog，可以认为是转载吧~">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/04/js-inherient/" title="JavaScript（七）-继承" itemprop="url">JavaScript（七）-继承</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-03T23:29:19.000Z" itemprop="datePublished"> 发表于 Aug 4 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#构造函数的继承"><span class="toc-number">1.</span> <span class="toc-text">构造函数的继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数绑定"><span class="toc-number">1.1.</span> <span class="toc-text">构造函数绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#prototype模式"><span class="toc-number">1.2.</span> <span class="toc-text">prototype模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接继承prototype"><span class="toc-number">1.3.</span> <span class="toc-text">直接继承prototype</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用空对象作为中介"><span class="toc-number">1.4.</span> <span class="toc-text">利用空对象作为中介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拷贝继承"><span class="toc-number">1.5.</span> <span class="toc-text">拷贝继承</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#非构造函数的继承"><span class="toc-number">2.</span> <span class="toc-text">非构造函数的继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#object()方法"><span class="toc-number">2.1.</span> <span class="toc-text">object()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浅拷贝"><span class="toc-number">2.2.</span> <span class="toc-text">浅拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深拷贝"><span class="toc-number">2.3.</span> <span class="toc-text">深拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">2.4.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>之前的Blog介绍了JavaScript的面向对象编程，本篇我们就介绍一下JavaScript中的对象继承。</p>
+<p>本篇Blog主要参考阮一峰大神的Blog，可以认为是转载吧~<br><a id="more"></a></p>
+<h1 id="构造函数的继承">构造函数的继承</h1><p>动物对象：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Animal</span><span class="params">()</span></span>{
+    <span class="keyword">this</span>.species = <span class="string">"动物"</span>;
+}
+</code></pre><p>猫对象：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Cat</span><span class="params">(name,color)</span></span>{
+    <span class="keyword">this</span>.name = name;
+    <span class="keyword">this</span>.color = color;    
+}
+</code></pre><p>如何让猫继承动物呢？</p>
+<h2 id="构造函数绑定">构造函数绑定</h2><p>最简单的方法，使用call或apply方法，将父对象的构造函数绑定在子对象上，即在子对象构造函数中加一行：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Cat</span>(<span class="params">name,color</span>)</span>{
+    Animal.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);
+    <span class="keyword">this</span>.name = name;
+    <span class="keyword">this</span>.color = color;    
+}
+</code></pre><h2 id="prototype模式">prototype模式</h2><pre><code><span class="keyword">Cat</span>.prototype = new Animal();    
+<span class="comment">//相当于完全删除了prototype 对象原先的值,然后赋予一个新值</span>
+<span class="keyword">Cat</span>.prototype.constructor = <span class="keyword">Cat</span>;
+</code></pre><p>那第二行是用来干什么呢？</p>
+<p>任何一个prototype对象都有一个constructor属性，指向它的构造函数。如果没有”Cat.prototype = new Animal();”这一行，Cat.prototype.constructor是指向Cat的；加了这一行以后，Cat.prototype.constructor指向Animal。    </p>
+<pre><code>alert(Cat.prototype.<span class="keyword">constructor</span> == Animal); <span class="comment">//true</span>
+</code></pre><p>更重要的是，每一个实例也有一个constructor属性，默认调用prototype对象的constructor属性。</p>
+<pre><code>alert(cat1.<span class="keyword">constructor</span> == Cat.prototype.<span class="keyword">constructor</span>); <span class="comment">// true</span>
+</code></pre><p>因此，在运行”Cat.prototype = new Animal();”这一行之后，cat1.constructor也指向Animal！这显然会导致继承链的紊乱（cat1明明是用构造函数Cat生成的），因此我们必须手动纠正，将Cat.prototype对象的constructor值改为Cat。这就是第二行的意思。</p>
+<h2 id="直接继承prototype">直接继承prototype</h2><p>第三种方法是对第二种方法的改进。由于Animal对象中，不变的属性都可以直接写入Animal.prototype。所以，我们也可以让Cat()跳过 Animal()，直接继承Animal.prototype。</p>
+<p>先改写Animal对象：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Animal</span><span class="params">()</span></span>{ }
+Animal.prototype.species = <span class="string">"动物"</span>;
+</code></pre><p>然后，将Cat的prototype对象，然后指向Animal的prototype对象，这样就完成了继承。</p>
+<pre><code>Cat.<span class="keyword">prototype</span> = Animal.<span class="keyword">prototype</span>;
+Cat.<span class="keyword">prototype</span>.constructor = Cat;
+</code></pre><p>与前一种方法相比，这样做的优点是效率比较高（不用执行和建立Animal的实例了），比较省内存。缺点是 Cat.prototype和Animal.prototype现在指向了同一个对象，那么任何对Cat.prototype的修改，都会反映到Animal.prototype。</p>
+<pre><code>alert(Animal.prototype.<span class="keyword">constructor</span>); <span class="comment">// Cat</span>
+</code></pre><h2 id="利用空对象作为中介">利用空对象作为中介</h2><p>由于”直接继承prototype”存在上述的缺点，所以就有第四种方法，利用一个空对象作为中介。</p>
+<pre><code><span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span><span class="params">()</span><span class="comment">{}</span>;</span>
+F.prototype = Animal.prototype;
+Cat.prototype = <span class="keyword">new</span> F();
+Cat.prototype.<span class="keyword">constructor</span> = Cat;
+</code></pre><p>F是空对象，所以几乎不占内存。这时，修改Cat的prototype对象，就不会影响到Animal的prototype对象。</p>
+<p>可以对上面的方法封装一下：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">extend</span><span class="params">(Child, Parent)</span> </span>{
+
+    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{};
+    F.prototype = <span class="keyword">Parent</span>.prototype;
+    Child.prototype = <span class="keyword">new</span> F();
+    Child.prototype.constructor = Child;
+    Child.uber = <span class="keyword">Parent</span>.prototype;
+}
+</code></pre><p>最后一行是为子对象设一个uber属性，这个属性直接指向父对象的prototype属性。（uber是一个德语词，意思是”向上”、”上一层”。）这等于在子对象上打开一条通道，可以直接调用父对象的方法。这一行放在这里，只是为了实现继承的完备性，纯属备用性质。</p>
+<h2 id="拷贝继承">拷贝继承</h2><p>换一种思路，纯粹采用”拷贝”方法实现继承。简单说，如果把父对象的所有属性和方法，拷贝进子对象。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">extend2</span><span class="params">(Child, Parent)</span> </span>{
+    <span class="keyword">var</span> p = Parent.prototype;
+    <span class="keyword">var</span> c = Child.prototype;
+    <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> p) {
+        c[i] = p[i];
+    }
+    c.uber = p;
+}
+</code></pre><h1 id="非构造函数的继承">非构造函数的继承</h1><p>中国人对象：</p>
+<pre><code><span class="keyword">var</span> Chinese = {
+    nation:<span class="string">'中国'</span>
+};
+</code></pre><p>医生对象：</p>
+<pre><code><span class="keyword">var</span> Doctor ={
+    career:<span class="string">'医生'</span>
+}
+</code></pre><p>这两个对象都是普通对象，不是构造函数，无法使用构造函数方法实现”继承”。</p>
+<h2 id="object()方法">object()方法</h2><pre><code><span class="function"><span class="keyword">function</span> <span class="title">object</span><span class="params">(o)</span> </span>{
+    <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}
+    F.prototype = o;
+    <span class="keyword">return</span> <span class="keyword">new</span> F();
+}
+</code></pre><p>这个object()函数，其实只做一件事，就是把子对象的prototype属性，指向父对象，从而使得子对象与父对象连在一起。</p>
+<pre><code><span class="keyword">var</span> Doctor = <span class="keyword">object</span>(Chinese);
+Doctor.career = <span class="string">'医生'</span>;
+</code></pre><h2 id="浅拷贝">浅拷贝</h2><p>除了使用”prototype链”以外，还有另一种思路：把父对象的属性，全部拷贝给子对象，也能实现继承。</p>
+<pre><code>function extendCopy(p) {
+    <span class="keyword">var</span> <span class="built_in">c</span> = {};
+    <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> p) { 
+        <span class="built_in">c</span>[i] = p[i];
+    }
+    <span class="built_in">c</span>.uber = p;
+    <span class="keyword">return</span> <span class="built_in">c</span>;
+}
+</code></pre><p>但是，这样的拷贝有一个问题。那就是，如果父对象的属性等于数组或另一个对象，那么实际上，子对象获得的只是一个内存地址，而不是真正拷贝，因此存在父对象被篡改的可能。</p>
+<p>所以，extendCopy()只是拷贝基本类型的数据，我们把这种拷贝叫做”浅拷贝”。这是早期jQuery实现继承的方式。</p>
+<h2 id="深拷贝">深拷贝</h2><p>所谓”深拷贝”，就是能够实现真正意义上的数组和对象的拷贝。它的实现并不难，只要递归调用”浅拷贝”就行了。</p>
+<pre><code>function deepCopy(p, <span class="built_in">c</span>) {
+    <span class="keyword">var</span> <span class="built_in">c</span> = <span class="built_in">c</span> || {};
+    <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> p) {
+        <span class="keyword">if</span> (typeof p[i] === 'object') {
+            <span class="built_in">c</span>[i] = (p[i].constructor === <span class="type">Array</span>) ? [] : {};
+            deepCopy(p[i], <span class="built_in">c</span>[i]);
+        } <span class="keyword">else</span> {
+            <span class="built_in">c</span>[i] = p[i];
+        }
+    }
+    <span class="keyword">return</span> <span class="built_in">c</span>;
+}
+</code></pre><p>目前，jQuery库使用的就是这种继承方法。</p>
+<h2 id="参考">参考</h2><ol>
+<li><a =="" href="http://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_inheritance.html" target="_blank" rel="external">Javascript面向对象编程–阮一峰</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JS/">JS</a><a href="/tags/OO/">OO</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/04/js-inherient/" data-title="JavaScript（七）-继承 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/04/js-apply-and-call/" title="JavaScript（八）-apply（）和call（）">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JavaScript（八）-apply（）和call（）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/03/js-createobject/"  title="JavaScript（六）-创建对象">
+ <strong>下一篇：</strong><br/> 
+ <span>JavaScript（六）-创建对象
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/04/js-inherient/" data-title="JavaScript（七）-继承" data-url="http://xfhnever.com/2014/08/04/js-inherient/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#构造函数的继承"><span class="toc-number">1.</span> <span class="toc-text">构造函数的继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数绑定"><span class="toc-number">1.1.</span> <span class="toc-text">构造函数绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#prototype模式"><span class="toc-number">1.2.</span> <span class="toc-text">prototype模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接继承prototype"><span class="toc-number">1.3.</span> <span class="toc-text">直接继承prototype</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用空对象作为中介"><span class="toc-number">1.4.</span> <span class="toc-text">利用空对象作为中介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拷贝继承"><span class="toc-number">1.5.</span> <span class="toc-text">拷贝继承</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#非构造函数的继承"><span class="toc-number">2.</span> <span class="toc-text">非构造函数的继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#object()方法"><span class="toc-number">2.1.</span> <span class="toc-text">object()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浅拷贝"><span class="toc-number">2.2.</span> <span class="toc-text">浅拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深拷贝"><span class="toc-number">2.3.</span> <span class="toc-text">深拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">2.4.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

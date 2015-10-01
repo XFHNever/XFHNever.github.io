@@ -1,0 +1,822 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Mysql（二）-索引 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="索引（mysql中也叫做“键（key）”）是存储引擎用于快速找到记录的一种数据结构。索引对于良好的性能非常关键，本文我们就详细介绍一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql（二）-索引">
+<meta property="og:url" content="http://xfhnever.com/2014/10/09/mysql-index/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="索引（mysql中也叫做“键（key）”）是存储引擎用于快速找到记录的一种数据结构。索引对于良好的性能非常关键，本文我们就详细介绍一下。">
+<meta property="og:image" content="http://xfhnever.com/images/post/mysql2-1.jpg">
+<meta property="og:updated_time" content="2015-10-01T14:34:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql（二）-索引">
+<meta name="twitter:description" content="索引（mysql中也叫做“键（key）”）是存储引擎用于快速找到记录的一种数据结构。索引对于良好的性能非常关键，本文我们就详细介绍一下。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/10/09/mysql-index/" title="Mysql（二）-索引" itemprop="url">Mysql（二）-索引</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-10-09T15:46:42.000Z" itemprop="datePublished"> 发表于 Oct 9 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#索引类型"><span class="toc-number">1.</span> <span class="toc-text">索引类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Tree索引"><span class="toc-number">1.1.</span> <span class="toc-text">B-Tree索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希索引"><span class="toc-number">1.2.</span> <span class="toc-text">哈希索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空间数据索引（R-Tree）"><span class="toc-number">1.3.</span> <span class="toc-text">空间数据索引（R-Tree）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全文索引"><span class="toc-number">1.4.</span> <span class="toc-text">全文索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引优点"><span class="toc-number">2.</span> <span class="toc-text">索引优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高效能的索引策略"><span class="toc-number">3.</span> <span class="toc-text">高效能的索引策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#独立的列"><span class="toc-number">3.1.</span> <span class="toc-text">独立的列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前缀索引和索引选择性"><span class="toc-number">3.2.</span> <span class="toc-text">前缀索引和索引选择性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多列索引"><span class="toc-number">3.3.</span> <span class="toc-text">多列索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选择合适的索引列顺序"><span class="toc-number">3.4.</span> <span class="toc-text">选择合适的索引列顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#聚簇索引"><span class="toc-number">3.5.</span> <span class="toc-text">聚簇索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在InnoDB中按主键顺序插入行"><span class="toc-number">3.6.</span> <span class="toc-text">在InnoDB中按主键顺序插入行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#覆盖索引"><span class="toc-number">3.7.</span> <span class="toc-text">覆盖索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用索引进行排序"><span class="toc-number">3.8.</span> <span class="toc-text">利用索引进行排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#压缩索引"><span class="toc-number">3.9.</span> <span class="toc-text">压缩索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#冗余和重复索引"><span class="toc-number">3.10.</span> <span class="toc-text">冗余和重复索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#未使用的索引"><span class="toc-number">3.11.</span> <span class="toc-text">未使用的索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引和锁"><span class="toc-number">3.12.</span> <span class="toc-text">索引和锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三个原则"><span class="toc-number">4.</span> <span class="toc-text">三个原则</span></a></li></ol>
+		
+		</div>
+		
+		<p>索引（mysql中也叫做“键（key）”）是存储引擎用于快速找到记录的一种数据结构。索引对于良好的性能非常关键，本文我们就详细介绍一下。<br><a id="more"></a><br>MySQL只能高效地使用索引的最左前缀列。</p>
+<h2 id="索引类型">索引类型</h2><p>mysql中，索引是在存储引擎层而非服务器层实现的，没有统一的标准，不同存储引擎的索引工作方式并不一样。</p>
+<h3 id="B-Tree索引">B-Tree索引</h3><p>大多数mysql引擎支持此类索引，Archive是例外。</p>
+<p>存储引擎以不同的方式使用B-Tree索引，性能也各有不同，各有优劣。例如：MyISAM使用前缀压缩技术使得索引更小，但InnoDB按照原数据格式进行存储。再如MyISAM索引通过数据的物理位置引用被索引的行，而InnoDB则根据主键引用被索引的行。</p>
+<p>B-Tree通常意味着所有的值都是按顺序存储的，并且每一个叶子页到根的距离相同。如下图：</p>
+<img src="/images/post/mysql2-1.jpg">
+<p>B-Tree索引能够加快访问数据的速度，意味存储引擎不再需要进行全表扫描来获取需要的数据，取而代之的是从索引的根节点开始进行搜索。</p>
+<p>B-Tree对索引是顺序组织存储的，所以很适合查找范围数据。</p>
+<p>B-Tree索引适用于全关键字、关键字范围和关键字前缀查询。其中键前缀查找只适用于根据最左前缀的查找。可以使用B-Tree索引的查询类型。</p>
+<ol>
+<li>匹配全值(Match the full value)：对索引中的所有列都指定具体的值。</li>
+<li>匹配最左前缀(Match a leftmost prefix)：你可以利用索引查找last name为Allen的人，仅仅使用索引中的第1列。</li>
+<li>匹配列前缀(Match a column prefix)：例如，你可以利用索引查找last name以J开始的人，这仅仅使用索引中的第1列。</li>
+<li>匹配值的范围查询(Match a range of values)：可以利用索引查找last name在Allen和Barrymore之间的人，仅仅使用索引中第1列。</li>
+<li>匹配部分精确而其它部分进行范围匹配(Match one part exactly and match a range on another part)：可以利用索引查找last name为Allen，而first name以字母K开始的人。</li>
+<li>仅对索引进行查询(Index-only queries)：如果查询的列都位于索引中，则不需要读取元组的值。</li>
+</ol>
+<p>由于B-树中的节点都是顺序存储的，所以可以利用索引进行查找(找某些值)，也可以对查询结果进行ORDER BY。</p>
+<p>当然B-Tree也存在一些限制：</p>
+<ol>
+<li>查询必须从索引的最左边的列开始。</li>
+<li>不能跳过某一索引列。 </li>
+<li>如果查询中有某个列的范围查询，则其右边所有列都无法使用索引优化查询。例如，如果你的查询语句为WHERE last_name=”Smith” AND first_name LIKE ‘J%’ AND dob=’1976-12-23’，则该查询只会使用索引中的前两列，因为LIKE是范围查询。</li>
+</ol>
+<h3 id="哈希索引">哈希索引</h3><p>MySQL中，只有Memory存储引擎显示支持hash索引，是Memory表的默认索引类型，尽管Memory表也可以使用B-Tree索引。Memory存储引擎支持非唯一hash索引，这在数据库领域是罕见的，如果多个值有相同的hash code，索引把它们的行指针用链表保存到同一个hash表项中。</p>
+<p>索引自身只需存储对应的哈希值，所以索引的结构十分紧凑，这也让哈希表查询速度非常快。但是也有一些限制：</p>
+<ol>
+<li>由于索引仅包含hash code和记录指针，而不存储字段值，所以，MySQL不能通过使用索引避免读取行。但是访问内存中的记录是非常迅速的，不会对性能造成太大的影响。</li>
+<li>不能使用hash索引排序。</li>
+<li>Hash索引不支持键的部分匹配，因为是通过整个索引值来计算hash值的。</li>
+<li>Hash索引只支持等值比较，不支持范围查询。例如使用=，IN( )和&lt;=&gt;。对于WHERE price&gt;100并不能加速查询。</li>
+<li>访问哈希索引非常快，除非出现很多哈希冲突。</li>
+<li>如果哈希冲突很多，一些索引的维护操作的代价也会很高。</li>
+</ol>
+<p>InnoDB存在一个“自适应哈希索引”，当InnoDB注意到某些索引值被使用得非常频繁时，就会在内存中基于B-Tree索引之上再创建一个哈希索引。</p>
+<p>如果出错引擎不支持哈希索引，可以自己定义哈希索引，但是需要手动维护。不用使用MD5（）和SHA1()作为hash函数，因为这两个函数计算出来的哈希值是非常长的字符串，会浪费很大的空间，比较时也比较慢。</p>
+<h3 id="空间数据索引（R-Tree）">空间数据索引（R-Tree）</h3><p>MyISAM支持空间索引，主要用于地理空间数据类型，例如GEOMETRY。</p>
+<h3 id="全文索引">全文索引</h3><p>全文索引是MyISAM的一个特殊索引类型，主要用于全文检索。它查找的是文本中的关键字，而不是直接比较索引中的值。</p>
+<h2 id="索引优点">索引优点</h2><ol>
+<li>大大减少服务器需要扫描的数据量</li>
+<li>帮助服务器避免排序和临时表</li>
+<li>可以将随机I/O变成顺序I/O</li>
+</ol>
+<h2 id="高效能的索引策略">高效能的索引策略</h2><h3 id="独立的列">独立的列</h3><p>是指索引不能是表达式的一部分，也不能是函数的参数。eg，</p>
+<pre><code>where actor_id+<span class="number">1</span>=<span class="number">5</span>
+</code></pre><p>要修改成actor_id = 4;</p>
+<h3 id="前缀索引和索引选择性">前缀索引和索引选择性</h3><p>有时候需要索引很长的字符列，这会让索引变得大且慢。可以索引开始的部分字符，但是这样会降低选择性。</p>
+<p>选择前缀的合适长度，需要找到最常见的值的列表，然后和最常见的前缀列表进行比较。</p>
+<p>另一个方法是计算完整列的选择性使其前缀的选择性接近于完整列的选择性。</p>
+<p>Mysql无法使用前缀索引做ORDER BY和GROUP BY，也无法使用前缀索引做覆盖扫描。</p>
+<h3 id="多列索引">多列索引</h3><p>在多个列上建立独立的单列索引大部分情况下不能提高Mysql的查询性能。Mysql5.0采用索引合并策略，一定程度上可以使用表上的多个单列索引来定位指定的行，但是之前版本不支持。</p>
+<p>索引合并有时候是一种优化策略，但实际上更多时候说明了表上的索引建立的很糟糕。</p>
+<h3 id="选择合适的索引列顺序">选择合适的索引列顺序</h3><p>当不需要考虑分组和排序时，将选择性最高的列放到索引最前列。</p>
+<p>避免随机I/O和排序更重要。一定不要忘记where子句中的排序、分组和范围条件等其他因素。 </p>
+<h3 id="聚簇索引">聚簇索引</h3><p>并不是一种单独索引类型，而是一种数据存储方式。InnoDB（通过主键聚集数据）的聚簇索引实际上是在同一个结构中保存了B-Tree索引和数据行。数据行存储在索引的叶子页中，节点页值包含了索引列。</p>
+<p>优点：</p>
+<ol>
+<li>把相关数据保存在一起</li>
+<li>数据访问更快</li>
+<li>使用覆盖索引扫描的查询可以直接使用页节点中的主键值。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>最大限度提高I/O密集型应用性能，但是如果数据全部放在内存中，就没什么必要了</li>
+<li>插入速度严重依赖于插入速度</li>
+<li>更新聚簇索引代价高</li>
+<li>插入新行或者主键被更新面临“页分裂”问题</li>
+<li>可能导致全表扫描变慢</li>
+<li>二级索引（非聚簇索引）可能比较大，需要两次查找。</li>
+</ol>
+<h3 id="在InnoDB中按主键顺序插入行">在InnoDB中按主键顺序插入行</h3><p>如果你用InnoDB，而且不需要特殊的聚簇索引，一个好的做法就是使用代理主键(surrogate key)——独立于你的应用中的数据。最简单的做法就是使用一个AUTO_INCREMENT的列，这会保证记录按照顺序插入，而且能提高使用primary key进行连接的查询的性能。应该尽量避免随机的聚簇主键，例如，字符串主键就是一个不好的选择，它使得插入操作变得随机。</p>
+<h3 id="覆盖索引">覆盖索引</h3><p>果索引包含满足查询的所有数据，就称为覆盖索引。覆盖索引是一种非常强大的工具，能大大提高查询性能。只需要读取索引而不用读取数据。有如下优点：</p>
+<ol>
+<li>索引项通常比记录要小，所以MySQL访问更少的数据；</li>
+<li>索引都按值的大小顺序存储，相对于随机访问记录，需要更少的I/O；</li>
+<li>大多数据引擎能更好的缓存索引。比如MyISAM只缓存索引。</li>
+<li>覆盖索引对于InnoDB表尤其有用，因为InnoDB使用聚集索引组织数据，如果二级索引中包含查询所需的数据，就不再需要在聚集索引中查找了</li>
+</ol>
+<p>覆盖索引不能是任何索引，只有B-TREE索引存储相应的值。而且不同的存储引擎实现覆盖索引的方式都不同，并不是所有存储引擎都支持覆盖索引(Memory和Falcon就不支持)。</p>
+<h3 id="利用索引进行排序">利用索引进行排序</h3><p>MySQL中，有两种方式生成有序结果集：一是使用filesort，二是按索引顺序扫描。利用索引进行排序操作是非常快的，而且可以利用同一索引同时进行查找和排序操作。当索引的顺序与ORDER BY中的列顺序相同且所有的列是同一方向(全部升序或者全部降序)时，可以使用索引来排序。如果查询是连接多个表，仅当ORDER BY中的所有列都是第一个表的列时才会使用索引。其它情况都会使用filesort。</p>
+<p>当MySQL不能使用索引进行排序时，就会利用自己的排序算法(快速排序算法)在内存(sort buffer)中对数据进行排序，如果内存装载不下，它会将磁盘上的数据进行分块，再对各个数据块进行排序，然后将各个块合并成有序的结果集（实际上就是外排序）。对于filesort，MySQL有两种排序算法。</p>
+<ol>
+<li><p>两遍扫描算法(Two passes)</p>
+<p> 实现方式是先将须要排序的字段和可以直接定位到相关行数据的指针信息取出，然后在设定的内存（通过参数sort_buffer_size设定）中进行排序，完成排序之后再次通过行指针信息取出所需的Columns。</p>
+<p> 注：该算法是4.1之前采用的算法，它需要两次访问数据，尤其是第二次读取操作会导致大量的随机I/O操作。另一方面，内存开销较小。</p>
+</li>
+<li><p>一次扫描算法(single pass)</p>
+<p> 该算法一次性将所需的Columns全部取出，在内存中排序后直接将结果输出。</p>
+<p> 注：从 MySQL 4.1 版本开始使用该算法。它减少了I/O的次数，效率较高，但是内存开销也较大。如果我们将并不需要的Columns也取出来，就会极大地浪费排序过程所需要的内存。在 MySQL 4.1 之后的版本中，可以通过设置 max_length_for_sort_data 参数来控制 MySQL 选择第一种排序算法还是第二种。当取出的所有大字段总大小大于 max_length_for_sort_data 的设置时，MySQL 就会选择使用第一种排序算法，反之，则会选择第二种。为了尽可能地提高排序性能，我们自然更希望使用第二种排序算法，所以在 Query 中仅仅取出需要的 Columns 是非常有必要的。</p>
+</li>
+</ol>
+<h3 id="压缩索引">压缩索引</h3><p>MyISAM压缩每个索引的方法：先完全保存索引块中的第一个值，然后将其他值和第一个值进行比较得到相同前缀的字节数和剩余的不同后缀部分，把这部分存储起来即可。</p>
+<p>压缩块使用更少的可见，但是代价是某些操作可能变慢。如查找时不能使用二分查找。</p>
+<h3 id="冗余和重复索引">冗余和重复索引</h3><p>避免重复索引和冗余索引。</p>
+<h3 id="未使用的索引">未使用的索引</h3><p>考虑删除</p>
+<h3 id="索引和锁">索引和锁</h3><p>索引对于InnoDB非常重要，因为它可以让查询锁更少的元组。这点十分重要，因为MySQL 5.0中，InnoDB直到事务提交时才会解锁。有两个方面的原因：首先，即使InnoDB行级锁的开销非常高效，内存开销也较小，但不管怎么样，还是存在开销。其次，对不需要的元组的加锁，会增加锁的开销，降低并发性。</p>
+<p>InnoDB仅对需要访问的元组加锁，而索引能够减少InnoDB访问的元组数。但是，只有在存储引擎层过滤掉那些不需要的数据才能达到这种目的。</p>
+<h2 id="三个原则">三个原则</h2><ol>
+<li>单行访问很慢</li>
+<li>按顺序访问范围数据是很快的。</li>
+<li>索引覆盖查询是很快的。</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/DB/">DB</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DB/">DB</a><a href="/tags/Mysql/">Mysql</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/10/09/mysql-index/" data-title="Mysql（二）-索引 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/10/14/mysql-transaction/" title="Mysql（三）-事务">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Mysql（三）-事务</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/10/08/http-webcache/"  title="Http（五）-深入理解一些概念">
+ <strong>下一篇：</strong><br/> 
+ <span>Http（五）-深入理解一些概念
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/10/09/mysql-index/" data-title="Mysql（二）-索引" data-url="http://xfhnever.com/2014/10/09/mysql-index/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#索引类型"><span class="toc-number">1.</span> <span class="toc-text">索引类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Tree索引"><span class="toc-number">1.1.</span> <span class="toc-text">B-Tree索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哈希索引"><span class="toc-number">1.2.</span> <span class="toc-text">哈希索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空间数据索引（R-Tree）"><span class="toc-number">1.3.</span> <span class="toc-text">空间数据索引（R-Tree）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全文索引"><span class="toc-number">1.4.</span> <span class="toc-text">全文索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引优点"><span class="toc-number">2.</span> <span class="toc-text">索引优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高效能的索引策略"><span class="toc-number">3.</span> <span class="toc-text">高效能的索引策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#独立的列"><span class="toc-number">3.1.</span> <span class="toc-text">独立的列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前缀索引和索引选择性"><span class="toc-number">3.2.</span> <span class="toc-text">前缀索引和索引选择性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多列索引"><span class="toc-number">3.3.</span> <span class="toc-text">多列索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选择合适的索引列顺序"><span class="toc-number">3.4.</span> <span class="toc-text">选择合适的索引列顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#聚簇索引"><span class="toc-number">3.5.</span> <span class="toc-text">聚簇索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在InnoDB中按主键顺序插入行"><span class="toc-number">3.6.</span> <span class="toc-text">在InnoDB中按主键顺序插入行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#覆盖索引"><span class="toc-number">3.7.</span> <span class="toc-text">覆盖索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用索引进行排序"><span class="toc-number">3.8.</span> <span class="toc-text">利用索引进行排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#压缩索引"><span class="toc-number">3.9.</span> <span class="toc-text">压缩索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#冗余和重复索引"><span class="toc-number">3.10.</span> <span class="toc-text">冗余和重复索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#未使用的索引"><span class="toc-number">3.11.</span> <span class="toc-text">未使用的索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引和锁"><span class="toc-number">3.12.</span> <span class="toc-text">索引和锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三个原则"><span class="toc-number">4.</span> <span class="toc-text">三个原则</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,747 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>DSL（五）-内部DSL vs 外部DSL | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="根据之前的Blog，我们已经了解了内部DSL和外部DSL实现的细节，那下面我们就应该去仔细理解二者的优劣。这有助于在这两种技术之间做出更好的选择。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DSL（五）-内部DSL vs 外部DSL">
+<meta property="og:url" content="http://xfhnever.com/2014/08/09/dsl-internalvsouter/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="根据之前的Blog，我们已经了解了内部DSL和外部DSL实现的细节，那下面我们就应该去仔细理解二者的优劣。这有助于在这两种技术之间做出更好的选择。">
+<meta property="og:updated_time" content="2015-10-01T14:18:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DSL（五）-内部DSL vs 外部DSL">
+<meta name="twitter:description" content="根据之前的Blog，我们已经了解了内部DSL和外部DSL实现的细节，那下面我们就应该去仔细理解二者的优劣。这有助于在这两种技术之间做出更好的选择。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/09/dsl-internalvsouter/" title="DSL（五）-内部DSL vs 外部DSL" itemprop="url">DSL（五）-内部DSL vs 外部DSL</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-09T09:05:51.000Z" itemprop="datePublished"> 发表于 Aug 9 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#学习曲线"><span class="toc-number">1.</span> <span class="toc-text">学习曲线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建成本"><span class="toc-number">2.</span> <span class="toc-text">创建成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序员的熟悉度"><span class="toc-number">3.</span> <span class="toc-text">程序员的熟悉度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与领域专家沟通"><span class="toc-number">4.</span> <span class="toc-text">与领域专家沟通</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与宿主语言混合"><span class="toc-number">5.</span> <span class="toc-text">与宿主语言混合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#强边界"><span class="toc-number">6.</span> <span class="toc-text">强边界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时配置"><span class="toc-number">7.</span> <span class="toc-text">运行时配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#趋于平庸"><span class="toc-number">8.</span> <span class="toc-text">趋于平庸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组合多种DSL"><span class="toc-number">9.</span> <span class="toc-text">组合多种DSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">10.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<p>根据之前的Blog，我们已经了解了内部DSL和外部DSL实现的细节，那下面我们就应该去仔细理解二者的优劣。这有助于在这两种技术之间做出更好的选择。<br><a id="more"></a></p>
+<h2 id="学习曲线">学习曲线</h2><p>初看起来，内部DSL学习成本更小一些，而学习外部DSL，则需要学习解析器，文法和解析器生成器。同时大多数解析器生成器工具缺乏足够文档。</p>
+<p>另一方面，内部DSL并不总如我们所想的那般容易。内部DSL常有赖于宿主语言中的一些晦涩技巧生成连贯接口，所以就算我们对语言熟悉，也需要花一定时间找到和学习这些技巧。</p>
+<p>总体来说，内部DSL更容易学习。</p>
+<h2 id="创建成本">创建成本</h2><p>当谈及构建成本时，重要的是区分模型构建的成本和基于模型构建DSL层的成本。</p>
+<p>就内部DSL而言，于模型之上构建一层“表达式生成器”就需要额外的付出。编写表达式生成器相对容易，但主要的工作并不只是让它们工作起来，而是润色语言，这样用起来才会比较舒服。</p>
+<p>外部DSL，相应的成本在于解析器的创建。一旦掌握了“语法指导翻译”，编写文法和编译代码实际上是相当快的。</p>
+<p>一旦熟悉了这些技术，构建成本相差无几。</p>
+<h2 id="程序员的熟悉度">程序员的熟悉度</h2><p>使用内部DSL实在使用程序员熟悉的语言，使用起来更加容易。但是实际差别没有这么显著。诡异的连贯接口也需要花时间适应。</p>
+<p>除了语法因素外，二者最大的区别在于工具。如果宿主语言本省有一个强大的IDE，那么通过内部DSL，依然可以使用这个IDE。外部DSL除了最基本的文本编辑功能外，可能一无所有。</p>
+<h2 id="与领域专家沟通">与领域专家沟通</h2><p>内部DSL通常和宿主语言的语法绑定在一起，导致其在表达自由度上有些受限，并且会有一些语法噪音。对于程序员这不是考虑的主要因素，但是对于领域专家却不是这样。</p>
+<p>就算是最好的内部DSL，也无法提供和外部DSL一样的语法灵活度。</p>
+<h2 id="与宿主语言混合">与宿主语言混合</h2><p>内部DSL本质上只是一些连贯方法的使用约定，谁也无力阻止人们将DSL代码命令同命令式代码混合使用。DSL与宿主语言之间很薄的边界，可能有好处，也可能是问题，这取决于如何使用。</p>
+<p>好处在于，当内部DSL缺乏某种构造时，我们可以很方便地使用宿主语言。</p>
+<p>外部DSL无法和宿主语言混合使用，但我们可以把宿主语言作为“外加代码”嵌入DSL脚本。同样，DSL也可以作为字符串嵌入通用语言，类似于正则表达式和SQL一样。</p>
+<p>总体来看，要混合使用宿主语言和DSL代码，内部DSL几乎总是最好的选择。</p>
+<h2 id="强边界">强边界</h2><p>宿主语言代码和DSL代码混合并不总是带来好处，只有当DSL的用户非常熟悉宿主语言时，才会行得通。所以，有领域专家要阅读DSL时，这种混合就不合适啦。</p>
+<p>如果DSL需要另一组程序员编写，这种混合也无益。DSL的好处就是其能力范围是有限制的，这种限制使其易于理解，屏蔽Bug。如果DSL有很强的边界，就会限制要测试的东西。如果用通用语言，万事皆有可能，我们就不得不通过约定和评审，盯紧边界。外部DSL的限制减少了我们需要关注的内容。</p>
+<h2 id="运行时配置">运行时配置</h2><p>XML DSL之所以流行，很大一个原因是，改变代码执行上下文的时间从编译时到运行时。</p>
+<p>一种方式是将解释型语言和编译型语言结合使用，然后，用解释型语言编写内部DSL。这种场景下，内部DSL的许多常见优势都虚弱了。除非项目组的大多数成员都熟悉动态语言。所以，在多数情况下，外部DSL结合静态宿主语言更合适。</p>
+<h2 id="趋于平庸">趋于平庸</h2><p>当代最成功的一种DSL是Ant，在巨大成功背后，隐藏这最大的问题是：随着时间的推移，其功能逐步增强，以致它不在拥有DSL的所需的受限表达性了。</p>
+<p>对外部DSL，这种风险总是存在的–这个问题没有简单答案，需要持续关注以及决心，确保事情不会过于复杂。有一种替代方案是： 用其他语言解决复杂情况，引入另一种语言处理特殊以及复杂的情况。</p>
+<p>内部DSL可以很好的和宿主语言融合，所以，没有这个问题。但可能有一个类似的问题，当与宿主语言交织在一起时，DSL就可能失去意义。</p>
+<h2 id="组合多种DSL">组合多种DSL</h2><p>DSL应该是小巧、能力受限的。所以，要完成实际工作，就要将DSL同一种或多通用语言集成起来。也可以将多种DSL组合起来。</p>
+<p>内部DSL同宿主语言混合很容易。</p>
+<p>外部DSL，困难一些。用“外加代码”，但会显得笨拙。</p>
+<h2 id="总结">总结</h2><p>我们的结论就是没有结论。二者都有明显而通用的优势。可以考虑同时在两个方向尝试。</p>
+<p>Glenn Vanderburg 发现有个方法很管用，当我们依然在试图理解DSL做什么的时候，先用内部DSL。一旦事情尘埃落定，当需要用到外部DSL的某些优势时，再构建一个也不迟。语义模型会让这个过程很简单。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/DSL/">DSL</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DSL/">DSL</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/09/dsl-internalvsouter/" data-title="DSL（五）-内部DSL vs 外部DSL | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/10/dsl-othermodel/" title="DSL（六）-其他计算模型概述">
+  <strong>上一篇：</strong><br/>
+  <span>
+  DSL（六）-其他计算模型概述</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/08/dsl-implementouter/"  title="DSL（四）-外部DSL实现">
+ <strong>下一篇：</strong><br/> 
+ <span>DSL（四）-外部DSL实现
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/09/dsl-internalvsouter/" data-title="DSL（五）-内部DSL vs 外部DSL" data-url="http://xfhnever.com/2014/08/09/dsl-internalvsouter/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#学习曲线"><span class="toc-number">1.</span> <span class="toc-text">学习曲线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建成本"><span class="toc-number">2.</span> <span class="toc-text">创建成本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序员的熟悉度"><span class="toc-number">3.</span> <span class="toc-text">程序员的熟悉度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与领域专家沟通"><span class="toc-number">4.</span> <span class="toc-text">与领域专家沟通</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与宿主语言混合"><span class="toc-number">5.</span> <span class="toc-text">与宿主语言混合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#强边界"><span class="toc-number">6.</span> <span class="toc-text">强边界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时配置"><span class="toc-number">7.</span> <span class="toc-text">运行时配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#趋于平庸"><span class="toc-number">8.</span> <span class="toc-text">趋于平庸</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组合多种DSL"><span class="toc-number">9.</span> <span class="toc-text">组合多种DSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">10.</span> <span class="toc-text">总结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

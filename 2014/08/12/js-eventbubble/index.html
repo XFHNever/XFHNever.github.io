@@ -1,0 +1,819 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JavaScript(十一)-事件冒泡和事件捕获 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="在前端开发过程中我们经常会遇到给页面元素添加事件的问题，不同的浏览器的事件监听机制也不尽相同，大家可能听过事件冒泡和事件捕获这些概念，今天就简单介绍一下JS事件的监听机制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript(十一)-事件冒泡和事件捕获">
+<meta property="og:url" content="http://xfhnever.com/2014/08/12/js-eventbubble/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="在前端开发过程中我们经常会遇到给页面元素添加事件的问题，不同的浏览器的事件监听机制也不尽相同，大家可能听过事件冒泡和事件捕获这些概念，今天就简单介绍一下JS事件的监听机制。">
+<meta property="og:updated_time" content="2015-10-01T14:13:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript(十一)-事件冒泡和事件捕获">
+<meta name="twitter:description" content="在前端开发过程中我们经常会遇到给页面元素添加事件的问题，不同的浏览器的事件监听机制也不尽相同，大家可能听过事件冒泡和事件捕获这些概念，今天就简单介绍一下JS事件的监听机制。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/08/12/js-eventbubble/" title="JavaScript(十一)-事件冒泡和事件捕获" itemprop="url">JavaScript(十一)-事件冒泡和事件捕获</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-08-12T15:52:57.000Z" itemprop="datePublished"> 发表于 Aug 12 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#事件冒泡"><span class="toc-number">1.</span> <span class="toc-text">事件冒泡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">1.1.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件捕获"><span class="toc-number">2.</span> <span class="toc-text">事件捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#W3C_DOM事件流"><span class="toc-number">3.</span> <span class="toc-text">W3C DOM事件流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#独特性质"><span class="toc-number">3.1.</span> <span class="toc-text">独特性质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件参数"><span class="toc-number">4.</span> <span class="toc-text">事件参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件绑定、移除"><span class="toc-number">5.</span> <span class="toc-text">事件绑定、移除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整合通用版"><span class="toc-number">5.1.</span> <span class="toc-text">整合通用版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件冒泡优点"><span class="toc-number">6.</span> <span class="toc-text">事件冒泡优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件冒泡缺点"><span class="toc-number">7.</span> <span class="toc-text">事件冒泡缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阻止事件冒泡"><span class="toc-number">8.</span> <span class="toc-text">阻止事件冒泡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用版"><span class="toc-number">8.1.</span> <span class="toc-text">通用版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JQuery阻止事件冒泡"><span class="toc-number">9.</span> <span class="toc-text">JQuery阻止事件冒泡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#preventDefault()"><span class="toc-number">9.1.</span> <span class="toc-text">preventDefault()</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>在前端开发过程中我们经常会遇到给页面元素添加事件的问题，不同的浏览器的事件监听机制也不尽相同，大家可能听过事件冒泡和事件捕获这些概念，今天就简单介绍一下JS事件的监听机制。<br><a id="more"></a></p>
+<h2 id="事件冒泡">事件冒泡</h2><p>当一个元素上的事件被触发的时候，比如说鼠标点击了一个按钮，同样的事件将会在那个元素的所有祖先元素中被触发。这一过程被称为事件冒泡；这个事件从原始元素开始一直冒泡到DOM树的最上层(一般是window，document)。</p>
+<pre><code>IE <span class="number">5.5</span>: <span class="tag">div</span> -&gt; <span class="tag">body</span> -&gt; document
+
+IE <span class="number">6.0</span>: <span class="tag">div</span> -&gt; <span class="tag">body</span> -&gt; <span class="tag">html</span> -&gt; document
+
+Mozilla <span class="number">1.0</span>: <span class="tag">div</span> -&gt; <span class="tag">body</span> -&gt; <span class="tag">html</span> -&gt; document -&gt; window
+</code></pre><p>我们使用的所有浏览器都支持事件冒泡。</p>
+<p>早期微软IE浏览器使用冒泡事件流。</p>
+<h3 id="注意">注意</h3><ol>
+<li>不是所有的事件都能冒泡。以下事件不冒泡：blur、focus、load、unload</li>
+<li>火狐等标准浏览器（DOM事件流）是在document到body这几层里，从外到里（outside→inside）的捕获型事件的传播；body以内的，是冒泡型传播</li>
+</ol>
+<h2 id="事件捕获">事件捕获</h2><p>捕获阶段是一个和冒泡阶段完全相反的过程，即事件由祖先元素向子元素传播。但是，在IE、opera浏览器中是不存在这个阶段的。</p>
+<p>早期Netscape浏览器使用捕获事件流。</p>
+<h2 id="W3C_DOM事件流">W3C DOM事件流</h2><p>同时支持两种事件模型：捕获型事件和冒泡型事件，但是，捕获型事件先发生。两种事件流会触及DOM中的所有对象，从document对象开始，也在document对象结束。</p>
+<h3 id="独特性质">独特性质</h3><ol>
+<li>文本节点也触发事件(在IE中不会)</li>
+</ol>
+<h2 id="事件参数">事件参数</h2><p>在触发dom上的某个事件时，会产生一个事件对象event，浏览器会将一个event对象传入到事件处理程序中(function)</p>
+<ol>
+<li>新式浏览器：默认为事件方法传入一个事件参数对象，而目标元素放在target或event.relatedTarget；</li>
+<li>老式IE浏览器：则不会！而是使用 window.event获取，目标元素放在srcElemtn属性或event.toElement属性中。</li>
+</ol>
+<p>新式浏览器也兼容 window.event。所以你会看到如下的代码：</p>
+<pre><code><span class="tag">&lt;<span class="title">a</span> <span class="attribute">id</span>=<span class="value">"xc"</span>&gt;</span>点击<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+        <span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params">e</span>)</span>{
+                e=e||<span class="built_in">window</span>.event;
+                <span class="keyword">var</span> _this=e.srcElement||e.target;
+                alert(_this.innerHTML);
+        }
+        <span class="keyword">var</span> object=<span class="built_in">document</span>.getElementById(<span class="string">'xc'</span>);
+        object.attachEvent(<span class="string">'onclick'</span>,handler);
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><h2 id="事件绑定、移除">事件绑定、移除</h2><ol>
+<li><p>IE9之前的IE浏览器（事件名要加on : onclick）：</p>
+<pre><code>obj.<span class="function"><span class="title">attachEvent</span><span class="params">(evtype,fn)</span></span>
+obj.<span class="function"><span class="title">detachEvent</span><span class="params">(evtype,fn,)</span></span>
+<span class="comment">//evtype是事件类型，带on前缀，fn是事件处理函数</span>
+<span class="comment">//在事件处理函数内部，this指向了window，而不是obj</span>
+<span class="comment">//解决方法：apply或者call函数；使用事件源代替this</span>
+</code></pre></li>
+<li><p>新式浏览器</p>
+<pre><code>obj.<span class="function"><span class="title">addEventListener</span><span class="params">(evtype,fn,useCapture)</span></span>
+obj.<span class="function"><span class="title">removeEventListener</span><span class="params">(evtype,fn,useCapture)</span></span>
+<span class="comment">//evtype是事件类型，不带on前缀，fn是事件处理函数，如果useCapture是true，</span>
+<span class="comment">//则事件处理函数在捕获阶段被执行，否则 在冒泡阶段执行。一般使用false</span>
+</code></pre></li>
+</ol>
+<h3 id="整合通用版">整合通用版</h3><pre><code><span class="function"><span class="keyword">function</span> <span class="title">addEvent</span><span class="params">(obj,evtype,fn,useCapture)</span> </span>{  
+    <span class="keyword">if</span> (obj.addEventListener) {  
+        obj.addEventListener(evtype,fn,useCapture);  
+    } <span class="keyword">else</span> {  
+        obj.attachEvent(<span class="string">"on"</span>+evtype,fn);<span class="comment">//IE不支持事件捕获  </span>
+    } <span class="keyword">else</span> {  
+        obj[<span class="string">"on"</span>+evtype]=fn;<span class="comment">//事实上这种情况不会存在  </span>
+    }  
+}  
+<span class="function"><span class="keyword">function</span> <span class="title">delEvent</span><span class="params">(obj,evtype,fn,useCapture)</span> </span>{  
+    <span class="keyword">if</span> (obj.removeEventListener) {  
+        obj.removeEventListener(evtype,fn,useCapture);  
+    } <span class="keyword">else</span> {  
+        obj.detachEvent(<span class="string">"on"</span>+evtype,fn);  
+    } <span class="keyword">else</span> {  
+        obj[<span class="string">"on"</span>+evtype]=<span class="literal">null</span>;  
+    }  
+}  
+</code></pre><h2 id="事件冒泡优点">事件冒泡优点</h2><ol>
+<li>事件冒泡允许多个操作被集中处理（把事件处理器添加到一个父级元素上，避免把事件处理器添加到多个子级元素上），它还可以让你在对象层的不同级别捕获事件。</li>
+<li>让不同的对象同时捕获同一事件，并调用自己的专属处理程序做自己的事情，就像老板一下命令，各自员工做自己岗位上的工作去了</li>
+</ol>
+<p>那些需要创建的以及驻留在内存中的事件处理器少了，这样我们就提高了性能，并降低了崩溃的风险。</p>
+<p>在DOM更新后无须重新绑定事件处理器了。如果你的页面是动态生成的，比如说通过Ajax，你不再需要在元素被载入或者卸载的时候来添加或者删除事件处理器了。</p>
+<h2 id="事件冒泡缺点">事件冒泡缺点</h2><p>通常情况下我们都是一步到位，明确自己的事件触发源，并不希望浏览器自作聪明、漫无目的地去帮我们找合适的事件处理程序，即我们明确最精准目标，这种情况下我们不需要事件冒泡。另外通过对事件冒泡的理解，我们知道程序将做多较多额外的事情，这必然增大程序开销。还有一个重要的问题是：事件冒泡处理可能会激活我们本来不想激活的事件，导致程序错乱，甚至无从下手调试，这常成为对事件冒泡不熟悉程序员的棘手问题。所以必要时，我们要阻止事件冒泡。</p>
+<h2 id="阻止事件冒泡">阻止事件冒泡</h2><ol>
+<li>在W3c中，使用stopPropagation（）方法</li>
+<li>在IE下设置cancelBubble = true；</li>
+</ol>
+<h3 id="通用版">通用版</h3><pre><code><span class="comment">//阻止事件冒泡函数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">stopBubble</span>(<span class="params">e</span>)
+</span>{
+    <span class="keyword">if</span> (e &amp;&amp; e.stopPropagation)
+        e.stopPropagation()
+    <span class="keyword">else</span>
+        <span class="built_in">window</span>.event.cancelBubble=<span class="literal">true</span>
+}
+</code></pre><h2 id="JQuery阻止事件冒泡">JQuery阻止事件冒泡</h2><p>jQuery对DOM的事件触发具有冒泡特性。有时利用这一特性可以减少重复代码，但有时候我们又不希望事件冒泡。这个时候就要阻止 jQuery.Event冒泡。</p>
+<p>在jQuery.Event的文档中的开头得知，jQuery.Event对象是符合W3C标准的一个事件对象，同时jQuery.Event免去了检查兼容IE的步骤。</p>
+<p>jQuery.Event提供了一个非常简单的方法来阻止事件冒泡：event.stopPropagation();</p>
+<pre><code>$(<span class="string">"p"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>{
+     event.stopPropagation();
+     <span class="comment">// do something</span>
+})
+</code></pre><p>但是这个方法对使用live绑定的事件没有作用，需要一个更简单的方法阻止事件冒泡：return false;</p>
+<pre><code>$(<span class="string">"#div1"</span>).mousedown(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>{
+    <span class="keyword">return</span> <span class="literal">false</span>;
+});
+</code></pre><p>但是这两种方式是有区别的。return false 不仅阻止了事件往上冒泡，而且阻止了事件本身。event.stopPropagation() 则只阻止事件往上冒泡，不阻止事件本身。</p>
+<h3 id="preventDefault()">preventDefault()</h3><p>看到网上有人说这个方法也可以，实际上这个是不能阻止冒泡，而是阻止默认行为。比如如果 type 属性是 “submit”，在事件传播的任意阶段可以调用任意的事件句柄，通过调用该方法，可以阻止提交表单。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JS/">JS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/08/12/js-eventbubble/" data-title="JavaScript(十一)-事件冒泡和事件捕获 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/08/14/css-verticalcenter/" title="CSS（十五）-垂直居中">
+  <strong>上一篇：</strong><br/>
+  <span>
+  CSS（十五）-垂直居中</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/08/12/jquery-bindlivedelegateon/"  title="JQuery（七）-事件处理方法bind、live、delegate、on">
+ <strong>下一篇：</strong><br/> 
+ <span>JQuery（七）-事件处理方法bind、live、delegate、on
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/08/12/js-eventbubble/" data-title="JavaScript(十一)-事件冒泡和事件捕获" data-url="http://xfhnever.com/2014/08/12/js-eventbubble/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#事件冒泡"><span class="toc-number">1.</span> <span class="toc-text">事件冒泡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">1.1.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件捕获"><span class="toc-number">2.</span> <span class="toc-text">事件捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#W3C_DOM事件流"><span class="toc-number">3.</span> <span class="toc-text">W3C DOM事件流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#独特性质"><span class="toc-number">3.1.</span> <span class="toc-text">独特性质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件参数"><span class="toc-number">4.</span> <span class="toc-text">事件参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件绑定、移除"><span class="toc-number">5.</span> <span class="toc-text">事件绑定、移除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整合通用版"><span class="toc-number">5.1.</span> <span class="toc-text">整合通用版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件冒泡优点"><span class="toc-number">6.</span> <span class="toc-text">事件冒泡优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件冒泡缺点"><span class="toc-number">7.</span> <span class="toc-text">事件冒泡缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#阻止事件冒泡"><span class="toc-number">8.</span> <span class="toc-text">阻止事件冒泡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用版"><span class="toc-number">8.1.</span> <span class="toc-text">通用版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JQuery阻止事件冒泡"><span class="toc-number">9.</span> <span class="toc-text">JQuery阻止事件冒泡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#preventDefault()"><span class="toc-number">9.1.</span> <span class="toc-text">preventDefault()</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

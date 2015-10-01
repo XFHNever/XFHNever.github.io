@@ -1,0 +1,803 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>CSS（一）-一些属性介绍 | Never&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Never">
+    
+
+    
+    <meta name="description" content="最近在做前端，不用任何任何框架，就是写一些纯粹的HTML+CSS，发现很多效果什么的即使做过，现在也不再记得，所以决定简单整理一下。本篇主要介绍一下比较有用的属性等基础知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS（一）-一些属性介绍">
+<meta property="og:url" content="http://xfhnever.com/2014/07/24/css-introduction/index.html">
+<meta property="og:site_name" content="Never's Blog">
+<meta property="og:description" content="最近在做前端，不用任何任何框架，就是写一些纯粹的HTML+CSS，发现很多效果什么的即使做过，现在也不再记得，所以决定简单整理一下。本篇主要介绍一下比较有用的属性等基础知识。">
+<meta property="og:image" content="http://xfhnever.com/images/post/css1-1.png">
+<meta property="og:updated_time" content="2015-10-01T13:47:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS（一）-一些属性介绍">
+<meta name="twitter:description" content="最近在做前端，不用任何任何框架，就是写一些纯粹的HTML+CSS，发现很多效果什么的即使做过，现在也不再记得，所以决定简单整理一下。本篇主要介绍一下比较有用的属性等基础知识。">
+<link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Never&#39;s Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Never&#39;s Blog" title="Never&#39;s Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Never&#39;s Blog">Never&#39;s Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:xfhnever.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/07/24/css-introduction/" title="CSS（一）-一些属性介绍" itemprop="url">CSS（一）-一些属性介绍</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-07-24T15:33:24.000Z" itemprop="datePublished"> 发表于 Jul 24 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#position"><span class="toc-number">1.</span> <span class="toc-text">position</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fixed兼容"><span class="toc-number">1.1.</span> <span class="toc-text">fixed兼容</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display"><span class="toc-number">2.</span> <span class="toc-text">display</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#inline-block兼容性"><span class="toc-number">2.1.</span> <span class="toc-text">inline-block兼容性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Border-style"><span class="toc-number">3.</span> <span class="toc-text">Border-style</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#overflow"><span class="toc-number">4.</span> <span class="toc-text">overflow</span></a></li></ol>
+		
+		</div>
+		
+		<p>最近在做前端，不用任何任何框架，就是写一些纯粹的HTML+CSS，发现很多效果什么的即使做过，现在也不再记得，所以决定简单整理一下。本篇主要介绍一下比较有用的属性等基础知识。<br><a id="more"></a></p>
+<h2 id="position">position</h2><p>position 属性规定元素的定位类型。可能的值包括：</p>
+<ol>
+<li><strong>Static</strong>： 所有元素的默认定位都是：position:static，这意味着元素没有被定位，而且在文档中出现在它应该在的位置。一般来说，不用指定 position:static，除非想要覆盖之前设置的定位。</li>
+<li><strong>relative</strong>：生成相对定位的元素，相对于其正常位置进行定位（参照系是其本身位置）。可以使用 top,bottom,left 和 right 来相对于元素在文档中应该出现的位置来移动这个元素。【意思是元素实际上依然占据文档中的原有位置，只是视觉上相对于它在文档中的原有位置移动了】。</li>
+<li><strong>absolute</strong>：生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。如果不存在有position属性的父对象，那么那就会以body为定位对象，按照浏览器的窗口进行定位；如果父对象(或曾祖父，只要是父级对象)parent也设置了position属性，按照这个parent来进行定位（从padding左上角进行定位）。当指定 position:absolute 时，元素就脱离了文档【即在文档中已经不占据位置了，但必须设置top、left值之后才真正的脱离】，其他元素将会获得其位置。</li>
+<li><strong>fixed</strong>：生成绝对定位的元素，相对于浏览器窗口进行定位。IE6不支持。</li>
+<li><strong>inherit</strong>：规定应该从父元素继承 position 属性的值</li>
+</ol>
+<h3 id="fixed兼容">fixed兼容</h3><p>IE有一个多步的渲染进程。当你滚动或调整你的浏览器大小的时候，它将重置所有内容并重画页面，这个时候它就会重新处理css表达式。这会引起一个丑陋的“振动”bug，在此处固定位置的元素需要调整以跟上你的(页面的)滚动，于是就会“跳动”。</p>
+<p>解决此问题的技巧就是使用background-attachment:fixed为body或html元素添加一个background-image。这就会强制页面在重画之前先处理CSS。因为是在重画之前处理CSS，它也就会同样在重画之前首先处理你的CSS表达式。这将让你实现完美的平滑的固定位置元素！</p>
+<p>根本无需一个真实的图片！你可以使用一个about:blank替代一个spacer.gif图片，而且它工作的同样出色。</p>
+<pre><code><span class="class">.fixed-top</span> <span class="comment">/* 头部固定 */</span><span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value">fixed</span></span>;<span class="rule"><span class="attribute">bottom</span>:<span class="value">auto</span></span>;<span class="rule"><span class="attribute">top</span>:<span class="value"><span class="number">0px</span></span></span>;}</span>
+<span class="class">.fixed-bottom</span> <span class="comment">/* 底部固定 */</span><span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value">fixed</span></span>;<span class="rule"><span class="attribute">bottom</span>:<span class="value"><span class="number">0px</span></span></span>;<span class="rule"><span class="attribute">top</span>:<span class="value">auto</span></span>;}</span>
+<span class="class">.fixed-left</span> <span class="comment">/* 左侧固定 */</span><span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value">fixed</span></span>;<span class="rule"><span class="attribute">right</span>:<span class="value">auto</span></span>;<span class="rule"><span class="attribute">left</span>:<span class="value"><span class="number">0px</span></span></span>;}</span>
+<span class="class">.fixed-right</span> <span class="comment">/* 右侧固定 */</span><span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value">fixed</span></span>;<span class="rule"><span class="attribute">right</span>:<span class="value"><span class="number">0px</span></span></span>;<span class="rule"><span class="attribute">left</span>:<span class="value">auto</span></span>;}</span>
+<span class="comment">/* 上面的是除了IE6的主流浏览器通用的方法 */</span>
+* <span class="tag">html</span>,* <span class="tag">html</span> <span class="tag">body</span> <span class="comment">/* 修正IE6振动bug */</span><span class="rules">{<span class="rule"><span class="attribute">background-image</span>:<span class="value"><span class="function">url</span>(about:blank)</span></span>;<span class="rule"><span class="attribute">background-attachment</span>:<span class="value">fixed</span></span>;}</span>
+* <span class="tag">html</span> <span class="class">.fixed-top</span> <span class="comment">/* IE6 头部固定 */</span><span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;<span class="rule"><span class="attribute">bottom</span>:<span class="value">auto</span></span>;<span class="rule"><span class="attribute">top</span>:<span class="value"><span class="function">expression</span>(<span class="function">eval</span>(document.documentElement.scrollTop))</span></span>;}</span>
+* <span class="tag">html</span> <span class="class">.fixed-right</span> <span class="comment">/* IE6 右侧固定 */</span> <span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;<span class="rule"><span class="attribute">right</span>:<span class="value">auto</span></span>;<span class="rule"><span class="attribute">left</span>:<span class="value"><span class="function">expression</span>(<span class="function">eval</span>(document.documentElement.scrollLeft+document.documentElement.clientWidth-this.offsetWidth)<span class="function">-</span>(<span class="function">parseInt</span>(this.currentStyle.marginLeft,<span class="number">10</span>)||<span class="number">0</span>)<span class="function">-</span>(<span class="function">parseInt</span>(this.currentStyle.marginRight,<span class="number">10</span>)||<span class="number">0</span>))</span></span>;}</span>
+* <span class="tag">html</span> <span class="class">.fixed-bottom</span> <span class="comment">/* IE6 底部固定  */</span><span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;<span class="rule"><span class="attribute">bottom</span>:<span class="value">auto</span></span>;<span class="rule"><span class="attribute">top</span>:<span class="value"><span class="function">expression</span>(<span class="function">eval</span>(document.documentElement.scrollTop+document.documentElement.clientHeight-this.<span class="function">offsetHeight-</span>(<span class="function">parseInt</span>(this.currentStyle.marginTop,<span class="number">10</span>)||<span class="number">0</span>)<span class="function">-</span>(<span class="function">parseInt</span>(this.currentStyle.marginBottom,<span class="number">10</span>)||<span class="number">0</span>)))</span></span>;}</span>
+* <span class="tag">html</span> <span class="class">.fixed-left</span> <span class="comment">/* IE6 左侧固定 */</span><span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;<span class="rule"><span class="attribute">right</span>:<span class="value">auto</span></span>;<span class="rule"><span class="attribute">left</span>:<span class="value"><span class="function">expression</span>(<span class="function">eval</span>(document.documentElement.scrollLeft))</span></span>;}</span>
+</code></pre><h2 id="display">display</h2><p>这个属性用于定义建立布局时元素生成的显示框类型。对于 HTML 等文档类型，如果使用 display 不谨慎会很危险，因为可能违反 HTML 中已经定义的显示层次结构。</p>
+<p>可能的值：</p>
+<pre><code>none     此元素不会被显示。
+block     此元素将显示为块级元素，此元素前后会带有换行符。
+inline     默认。此元素会被显示为内联元素，元素前后没有换行符。
+inline-block     行内块元素。（CSS2.1 新增的值）
+<span class="keyword">list</span>-item     此元素会作为列表显示。
+<span class="keyword">run</span>-<span class="keyword">in</span>     此元素会根据上下文作为块级元素或内联元素显示。
+compact     CSS 中有值 compact，不过由于缺乏广泛支持，已经从 CSS2.1 中删除。
+marker     CSS 中有值 marker，不过由于缺乏广泛支持，已经从 CSS2.1 中删除。
+<span class="keyword">table</span>     此元素会作为块级表格来显示（类似 &lt;<span class="keyword">table</span>&gt;），表格前后带有换行符。
+inline-<span class="keyword">table</span>     此元素会作为内联表格来显示（类似 &lt;<span class="keyword">table</span>&gt;），表格前后没有换行符。
+<span class="keyword">table</span>-row-group     此元素会作为一个或多个行的分组来显示（类似 &lt;tbody&gt;）。
+<span class="keyword">table</span>-header-group     此元素会作为一个或多个行的分组来显示（类似 &lt;thead&gt;）。
+<span class="keyword">table</span>-footer-group     此元素会作为一个或多个行的分组来显示（类似 &lt;tfoot&gt;）。
+<span class="keyword">table</span>-row     此元素会作为一个表格行显示（类似 &lt;tr&gt;）。
+<span class="keyword">table</span>-column-group     此元素会作为一个或多个列的分组来显示（类似 &lt;colgroup&gt;）。
+<span class="keyword">table</span>-column     此元素会作为一个单元格列显示（类似 &lt;col&gt;）
+<span class="keyword">table</span>-cell     此元素会作为一个表格单元格显示（类似 &lt;td&gt; 和 &lt;th&gt;）
+<span class="keyword">table</span>-caption     此元素会作为一个表格标题显示（类似 &lt;caption&gt;）
+inherit     规定应该从父元素继承 <span class="keyword">display</span> 属性的值。
+</code></pre><h3 id="inline-block兼容性">inline-block兼容性</h3><p>IE6、IE7不识别inline-block但可以触发块元素。其它主流浏览器均支持inline-block。</p>
+<p>解决方法：</p>
+<ol>
+<li>首先设置inline-block触发块元素，具有了layout的特性，然后设置display:inline使块元素呈现内联元素，此时layout的特性不会消失。</li>
+<li>直接设置display:inline，使用zoom:1触发layout。</li>
+</ol>
+<p>兼容所有浏览器的方法是：</p>
+<pre><code><span class="rule"><span class="attribute">display</span>:<span class="value">inline-block</span></span>;
+
+*<span class="rule"><span class="attribute">display</span>:<span class="value">inline</span></span>;
+
+*<span class="rule"><span class="attribute">zoom</span>:<span class="value"><span class="number">1</span></span></span>;
+</code></pre><h2 id="Border-style">Border-style</h2><p>CSS中经常看到</p>
+<pre><code><span class="rule"><span class="attribute">border</span>:<span class="value"><span class="number">5px</span> solid red</span></span>;
+</code></pre><p>的用法，这是定义4个边框的样式；是一种简写的形式，一般按照border-width、border-style、border-color的顺序设置属性。</p>
+<p>其中border-style可以去的值有：</p>
+<ol>
+<li>none     定义无边框。</li>
+<li>hidden     与 “none” 相同。不过应用于表时除外，对于表，hidden 用于解决边框冲突。</li>
+<li>dotted     定义点状边框。在大多数浏览器中呈现为实线。</li>
+<li>dashed     定义虚线。在大多数浏览器中呈现为实线。</li>
+<li>solid     定义实线。</li>
+<li>double     定义双线。双线的宽度等于 border-width 的值。</li>
+<li>groove     定义 3D 凹槽边框。其效果取决于 border-color 的值</li>
+<li>ridge     定义 3D 垄状边框。其效果取决于 border-color 的值</li>
+<li>inset     定义 3D inset 边框。其效果取决于 border-color 的值。</li>
+<li>outset     定义 3D outset 边框。其效果取决于 border-color 的值。</li>
+<li>inherit     规定应该从父元素继承边框样式。</li>
+</ol>
+<p>如果同时定义多个同种属性，表示分别设置4个边框（top、right、bottom、left顺序）。</p>
+<img src="/images/post/css1-1.png">
+<h2 id="overflow">overflow</h2><p>规定当内容溢出元素框时发生的事情.</p>
+<p>可能的值：</p>
+<ol>
+<li>visible     默认值。内容不会被修剪，会呈现在元素框之外。</li>
+<li>hidden     内容会被修剪，并且其余内容是不可见的。</li>
+<li>scroll     内容会被修剪，但是浏览器会显示滚动条以便查看其余的内容。</li>
+<li>auto     如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。</li>
+<li>inherit     规定应该从父元素继承 overflow 属性的值。</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Web/">Web</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://xfhnever.com/2014/07/24/css-introduction/" data-title="CSS（一）-一些属性介绍 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/07/24/css-usage/" title="CSS（二）-常用效果实现">
+  <strong>上一篇：</strong><br/>
+  <span>
+  CSS（二）-常用效果实现</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/07/23/guava-collection/"  title="Guava（二）-Collections">
+ <strong>下一篇：</strong><br/> 
+ <span>Guava（二）-Collections
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+  <section id="comments">
+   <!-- 多说评论框 start -->
+<div id="ds-thread" class="ds-thread" data-thread-key="2014/07/24/css-introduction/" data-title="CSS（一）-一些属性介绍" data-url="http://xfhnever.com/2014/07/24/css-introduction/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"datoublog"};
+true(function() {
+truetruevar ds = document.createElement('script');
+truetrueds.type = 'text/javascript';ds.async = true;
+truetrueds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+truetrueds.charset = 'UTF-8';
+truetrue(document.getElementsByTagName('head')[0] 
+truetrue || document.getElementsByTagName('body')[0]).appendChild(ds);
+true})();
+true</script>
+<!-- 多说公共JS代码 end -->
+  </section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#position"><span class="toc-number">1.</span> <span class="toc-text">position</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fixed兼容"><span class="toc-number">1.1.</span> <span class="toc-text">fixed兼容</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display"><span class="toc-number">2.</span> <span class="toc-text">display</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#inline-block兼容性"><span class="toc-number">2.1.</span> <span class="toc-text">inline-block兼容性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Border-style"><span class="toc-number">3.</span> <span class="toc-text">Border-style</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#overflow"><span class="toc-number">4.</span> <span class="toc-text">overflow</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Android/" title="Android">Android<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Blog/" title="Blog">Blog<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DB/" title="DB">DB<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Docker/" title="Docker">Docker<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Git/" title="Git">Git<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Guava/" title="Guava">Guava<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Http/" title="Http">Http<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/J2EE/" title="J2EE">J2EE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JS/" title="JS">JS<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JSON/" title="JSON">JSON<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>39</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Job/" title="Job">Job<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Life/" title="Life">Life<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Mac/" title="Mac">Mac<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Maven/" title="Maven">Maven<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/MongoDB/" title="MongoDB">MongoDB<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Nodejs/" title="Nodejs">Nodejs<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PHP/" title="PHP">PHP<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Redis/" title="Redis">Redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Spring/" title="Spring">Spring<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>27</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/XML/" title="XML">XML<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/中间件/" title="中间件">中间件<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/微信公众账号/" title="微信公众账号">微信公众账号<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法与数据结构/" title="算法与数据结构">算法与数据结构<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机视觉/" title="计算机视觉">计算机视觉<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件工程/" title="软件工程">软件工程<sup>13</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>39</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/JS/" title="JS">JS<sup>38</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Cocos2D-x/" title="Cocos2D-x">Cocos2D-x<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/REST/" title="REST">REST<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DSL/" title="DSL">DSL<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/RESTful/" title="RESTful">RESTful<sup>14</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/MongoDB/" title="MongoDB">MongoDB<sup>12</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Nodejs/" title="Nodejs">Nodejs<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/软件工程/" title="软件工程">软件工程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Refactoring/" title="Refactoring">Refactoring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Tools/" title="Tools">Tools<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DB/" title="DB">DB<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Spring/" title="Spring">Spring<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Framework/" title="Framework">Framework<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Web/" title="Web">Web<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>6</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://ibeyondy.com/" target="_blank" title="肖总">肖总</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.zhouhaibing.com/" target="_blank" title="海兵">海兵</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://www.mrdanding.com/" target="_blank" title="大帅">大帅</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pegasusxie.github.io/" target="_blank" title="老弟">老弟</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m xiefuheng in Ali Music. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/XFHNever## e.g. wuchong for https://github.com/wuchong" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2902825## e.g. 3222790 for http://stackoverflow.com/users/3222790/jark" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		
+		<a href="http://www.zhihu.com/people/xie-fu-heng-7## e.g. jark  for http://www.zhihu.com/people/jark" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:xfhnever@gmail.com## e.g. imjark@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="Never">Never</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xfhnever"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F44aec948f47dfae8fad66847faefd417' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
