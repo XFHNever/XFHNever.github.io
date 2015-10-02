@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://xfhnever.com/"/>
-  <updated>2015-10-01T16:13:48.000Z</updated>
+  <updated>2015-10-02T03:40:25.000Z</updated>
   <id>http://xfhnever.com/</id>
   
   <author>
@@ -13,6 +13,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[maven(五)-plugins]]></title>
+    <link href="http://xfhnever.com/2015/10/02/maven-plugins/"/>
+    <id>http://xfhnever.com/2015/10/02/maven-plugins/</id>
+    <published>2015-10-02T01:36:20.000Z</published>
+    <updated>2015-10-02T03:40:25.000Z</updated>
+    <content type="html"><![CDATA[<p>使用Maven构建项目，经常会在POM文件build标签中用到各种plugin，这里就整理一下经常使用到的插件的用途。<br><a id="more"></a><br>Maven本质上是一个插件框架，它的核心并不执行任何具体的构建任务，所有这些任务都交给插件来完成，例如编译源代码是由maven- compiler-plugin完成的。进一步说，每个任务对应了一个插件目标（goal），每个插件会有一个或者多个目标，例如maven- compiler-plugin的compile目标用来编译位于src/main/java/目录下的主源码，testCompile目标用来编译位于src/test/java/目录下的测试源码。</p>
+<p>用户可以通过两种方式调用Maven插件目标。第一种方式是将插件目标与生命周期阶段（lifecycle phase）绑定，这样用户在命令行只是输入生命周期阶段而已，例如Maven默认将maven-compiler-plugin的compile目标与 compile生命周期阶段绑定，因此命令mvn compile实际上是先定位到compile这一生命周期阶段，然后再根据绑定关系调用maven-compiler-plugin的compile目标。第二种方式是直接在命令行指定要执行的插件目标，例如mvn archetype:generate 就表示调用maven-archetype-plugin的generate目标，这种带冒号的调用方式与生命周期无关。</p>
+<h2 id="maven-compiler-plugin">maven-compiler-plugin</h2><p>用来编译项目，可以指定编译时的JDK版本、编码方式等。包含两个目标：compile目标用来编译位于src/main/java/目录下的主源码，testCompile目标用来编译位于src/test/java/目录下的测试源码。</p>
+<h2 id="maven-resources-plugin">maven-resources-plugin</h2><p>为了使项目结构更为清晰，Maven区别对待Java代码文件和资源文件，maven-compiler-plugin用来编译Java代码，maven-resources-plugin则用来处理资源文件。默认的主资源文件目录是src/main/resources，很多用户会需要添加额外的资源文件目录，这个时候就可以通过配置maven-resources-plugin来实现。此外，资源文件过滤也是Maven的一大特性，你可以在资源文件中使用${propertyName}形式的Maven属性，然后配置maven-resources-plugin开启对资源文件的过滤，之后就可以针对不同环境通过命令行或者Profile传入属性的值，以实现更为灵活的构建。</p>
+<h2 id="maven-source-plugin">maven-source-plugin</h2><p>生成源码包</p>
+<h2 id="maven-javadoc-plugin">maven-javadoc-plugin</h2><p>生成JavaDoc文档。</p>
+<h2 id="maven-jar-plugin">maven-jar-plugin</h2><p>进行打包,只包含了编译生成的.class文件和项目资源文件，不可以直接运行。</p>
+<h2 id="maven-deploy-plugin">maven-deploy-plugin</h2><p>发布插件</p>
+<h2 id="maven-shade-plugin">maven-shade-plugin</h2><p>除了前面提到了常规JAR包、WAR包，源码包和Javadoc包，另一种常被用到的包是在命令行可直接运行的CLI（Command Line）包。默认Maven生成的JAR包只包含了编译生成的.class文件和项目资源文件，而要得到一个可以直接在命令行通过java命令运行的JAR文件，还要满足两个条件：</p>
+<ol>
+<li>JAR包中的/META-INF/MANIFEST.MF元数据文件必须包含Main-Class信息。</li>
+<li>项目所有的依赖都必须在Classpath中。</li>
+</ol>
+<p>maven-shade-plugin插件能帮助用户完成上述任务,它可以让用户配置Main-Class的值，然后在打包的时候将值填入/META-INF/MANIFEST.MF文件。</p>
+<h2 id="maven-assembly-plugin">maven-assembly-plugin</h2><p>maven-assembly-plugin的用途是制作项目分发包，该分发包可能包含了项目的可执行文件、源代码、readme、平台脚本等等。 maven-assembly-plugin支持各种主流的格式如zip、tar.gz、jar和war等，具体打包哪些文件是高度可控的，例如用户可以 按文件级别的粒度、文件集级别的粒度、模块级别的粒度、以及依赖级别的粒度控制打包，此外，包含和排除配置也是支持的。maven-assembly- plugin要求用户使用一个名为assembly.xml的元数据文件来表述打包，它的single目标可以直接在命令行调用，也可以被绑定至生命周期。</p>
+<h2 id="maven-surefire-plugin">maven-surefire-plugin</h2><p>surefire 插件用来在maven构建生命周期的test phase执行一个应用的单元测试。只要测试类遵循通用的命令约定（以Test结尾、以TestCase结尾、或者以Test开头），就几乎不用知晓该插件的存在。然而在当你想要跳过测试、排除某些 测试类、或者使用一些TestNG特性的时候，了解maven-surefire-plugin的一些配置选项就很有用了。</p>
+<h2 id="exec-maven-plugin">exec-maven-plugin</h2><p>exec-maven-plugin很好理解，顾名思义，它能让你运行任何本地的系统程序，在某些特定情况下，运行一个Maven外部的程序可能就是最简单的问题解决方案，这就是exec:exec的 用途，当然，该插件还允许你配置相关的程序运行参数。除了exec目标之外，exec-maven-plugin还提供了一个java目标，该目标要求你 提供一个mainClass参数，然后它能够利用当前项目的依赖作为classpath，在同一个JVM中运行该mainClass。有时候，为了简单的 演示一个命令行Java程序，你可以在POM中配置好exec-maven-plugin的相关运行参数，然后直接在命令运行 mvn exec:java 以查看运行效果。</p>
+<h2 id="参考">参考</h2><ol>
+<li><a href="http://maven.apache.org/plugins/index.html#" target="_blank" rel="external">Maven-Available Plugins</a></li>
+<li><a href="http://www.mojohaus.org/" target="_blank" rel="external"> MojoHaus Maven Plugins Project</a></li>
+<li><a href="http://www.cnblogs.com/crazy-fox/archive/2012/02/09/2343722.html" target="_blank" rel="external">常用Maven插件介绍</a></li>
+<li><a href="http://www.infoq.com/cn/news/2011/06/xxb-maven-9-package/" target="_blank" rel="external">Maven实战（九）——打包的技巧</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>使用Maven构建项目，经常会在POM文件build标签中用到各种plugin，这里就整理一下经常使用到的插件的用途。<br>]]>
+    
+    </summary>
+    
+      <category term="Maven" scheme="http://xfhnever.com/tags/Maven/"/>
+    
+      <category term="plugins" scheme="http://xfhnever.com/tags/plugins/"/>
+    
+      <category term="Maven" scheme="http://xfhnever.com/categories/Maven/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Blog(四)--Hexo博客的进一步配置]]></title>
@@ -1952,39 +1995,6 @@ server<span class="number">.2</span>=<span class="number">192.168</span><span cl
 ]]></content>
     <summary type="html">
     <![CDATA[<p>当创建RESTful web服务时，需要解决设计时可发现性和运行时可发现性这两类可发现性。设计时可发现性有助于其他设计和创建客户端，它描述了客户端开发组和管理员用于构建和启动客户端的基本信息。运行时可发现性有助于维护客户端和服务器之间的松散耦合并使能即插即用式自动化。运行时可发现性解决了HTTP统一接口、媒体类型、链接和链接关系类型。本章是关于设计时可发现性的。<br>]]>
-    
-    </summary>
-    
-      <category term="REST" scheme="http://xfhnever.com/tags/REST/"/>
-    
-      <category term="RESTful" scheme="http://xfhnever.com/tags/RESTful/"/>
-    
-      <category term="RESTful" scheme="http://xfhnever.com/categories/RESTful/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[RESTful Web Service(十三)- 可扩展性与版本控制]]></title>
-    <link href="http://xfhnever.com/2015/02/27/rws-scalability-and-versioncontrol/"/>
-    <id>http://xfhnever.com/2015/02/27/rws-scalability-and-versioncontrol/</id>
-    <published>2015-02-27T08:11:11.000Z</published>
-    <updated>2015-10-01T15:14:25.000Z</updated>
-    <content type="html"><![CDATA[<p>在任何分布式CS环境管理变化都是困难的。在这些环境中，客户端依赖服务器来遵守契约，RESTful web服务也不例外。对于web服务，契约包含URI、资源、表述的结构和内容、格式及对每个资源所用的HTTP方法。任何对服务器的改变在向后兼容之前似乎都是良性的。<br><a id="more"></a><br>当变化是后向兼容的，当修改服务器时无需升级客户端，客户端除了在服务器升级时宕机之外能够继续按照以往的方式使用服务器。当多个客户端和服务器在不同时刻升级，另一个比较重要的兼容性是前向兼容。在某些情况下，一些新客户端可能会和老服务器交互。前向兼容的目的是确保新客户端即使在老服务器功能缺失时能够继续使用老服务器。应用是否需要考虑后向兼容和前向兼容取决于操作环境，维护兼容性的手段是可扩展性。可扩展性是解决未来变化的设计过程。作为传输协议，HTTP是可扩展的，可以添加新方法或标头来扩展HTTP（须谨慎使用），但不意味着HTTP之上的应用也自动地可扩展。尽管维护兼容性是值得的，但并不总是有可能实现。</p>
-<h2 id="如何维持URI的兼容性">如何维持URI的兼容性</h2><p>为了使URI变化跟现有客户端兼容，必须保持URI持久不变。将相同查询参数但排序不同的请求URI视为相同。客户端必须能够对不同查询参数排序获得相同的结果。当对URI添加新参数，继续使用现有参数并将新参数视为可选。当改变查询参数数据格式，继续使用现有格式。如果行不通，通过新的查询参数或新URI引入格式变化。默认情况下，将URI中的查询参数视为可选，除非这些参数基于并发或安全使用。</p>
-<h2 id="如何维持XML和JSON表述的兼容性">如何维持XML和JSON表述的兼容性</h2><p>为了使XML/JSON表述变化跟现有客户端兼容，设计XML/JSON格式保持子节点无序。当对XML/JSON进行改动，保持现有分层结构以使客户端能够继续使用相同结构提取数据。使请求中新创建的数据节点可选以同现有客户端兼容。如果客户端发送新数据字段，服务器也必须能继续处理。不要删除或重命名响应体中表述的任何数据字段。</p>
-<h2 id="如何扩展Atom">如何扩展Atom</h2><p>Atom格式被设计成支持未来的扩展。Atom格式中的所有元素允许外来的XML元素和属性。可以通过下列方式扩展Atom：</p>
-<ol>
-<li>添加链接关系类型，例如”种子分页和打包”扩展（RFC 5005）引入了fist、last、previous和next链接关系类型。</li>
-<li>在诸如atom:entry、atom:feed和atom:link之类的Atom元素内增加新元素。例如”Atom跟帖扩展”（RFC 4685）引入了in-reply-to和total元素。</li>
-<li>在atom:content元素内嵌套外来的XML或其他文本内容。</li>
-</ol>
-<p>对atom:feed和atom:entry元素添加子元素或属性进行扩展，只要这些扩展不破坏客户端自身的功能且其他软件不了解这些扩展。当在atom:content元素下添加外来内容，在atom:summary元素下添加可读文本或XHTML。</p>
-<h2 id="如何维护链接的兼容性">如何维护链接的兼容性</h2><p>为了使链接变化跟现有客户端兼容，避免删除链接，不要改变链接的rel和href属性值。当引入新资源，使用链接向客户端提供资源的URI。</p>
-<h2 id="如何实现支持可扩展性的客户端">如何实现支持可扩展性的客户端</h2><p>当服务器作出兼容性改变，为了使客户端不操作失败，可让客户端解析表述体，仅寻找已知数据。不要假设从服务器接收到的表述是固定媒体类型、字符编码、内容语言或内容编码。</p>
-<h2 id="何时需要版本化&amp;如何版本化RESTful_Web服务">何时需要版本化&amp;如何版本化RESTful Web服务</h2><p>当服务器无法维持兼容性时或某些客户端需要与其他客户端不同的行为或功能时考虑对某些或所有资源版本化以对客户端隔离改变。当对RESTful web服务版本化时，当资源行为或表述所含信息发生变化时使用新URI添加新资源，在子域名、路径片段或查询参数中使用例如v1或v2这样易于检测的模式分辨URI。避免对同一资源使用不同媒体类型的新表述视为一个版本。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>在任何分布式CS环境管理变化都是困难的。在这些环境中，客户端依赖服务器来遵守契约，RESTful web服务也不例外。对于web服务，契约包含URI、资源、表述的结构和内容、格式及对每个资源所用的HTTP方法。任何对服务器的改变在向后兼容之前似乎都是良性的。<br>]]>
     
     </summary>
     
