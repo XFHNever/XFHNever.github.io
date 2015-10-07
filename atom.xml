@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://xfhnever.com/"/>
-  <updated>2015-10-02T03:40:25.000Z</updated>
+  <updated>2015-10-07T07:50:17.000Z</updated>
   <id>http://xfhnever.com/</id>
   
   <author>
@@ -15,11 +15,162 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Java(十三)-序列化机制]]></title>
+    <link href="http://xfhnever.com/2015/10/02/java-serialize/"/>
+    <id>http://xfhnever.com/2015/10/02/java-serialize/</id>
+    <published>2015-10-02T04:12:34.000Z</published>
+    <updated>2015-10-07T07:50:17.000Z</updated>
+    <content type="html"><![CDATA[<p>Java序列化是经常使用到的技术，大部分情况下，我只是简单的去实现Serializable接口就算了，今天就简单的了解一下序列化的一些原理。<br><a id="more"></a></p>
+<h2 id="概念">概念</h2><p><strong>序列化：</strong> 把Java对象转换为字节序列的过程；</p>
+<p><strong>反序列化：</strong> 把字节序列恢复为对象的过程。</p>
+<p>使用场景：</p>
+<ol>
+<li>把对象的字节序列永久地保存到硬盘上，通常存放在一个文件中；</li>
+<li>在网络上传送对象的字节序列（远程通信）。</li>
+</ol>
+<h2 id="如何序列化一个对象">如何序列化一个对象</h2><p>一个对象如果想实现序列化只需实现java.io.Serializable接口，该接口没有方法，只是一种标记。java.io.ObjectOutputStream类中的writeObject0方法如下：</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">void</span> writeObject0(<span class="keyword">Object</span> obj, <span class="built_in">boolean</span> unshared)
+    <span class="keyword">throws</span> IOException
+{
+    <span class="comment">// remaining cases</span>
+    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> <span class="keyword">String</span>) {
+        writeString((<span class="keyword">String</span>) obj, unshared);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (cl.isArray()) {
+        writeArray(obj, desc, unshared);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Enum) {
+        writeEnum((Enum) obj, desc, unshared);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Serializable) {
+        writeOrdinaryObject(obj, desc, unshared);
+    } <span class="keyword">else</span> {
+        <span class="keyword">if</span> (extendedDebugInfo) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> NotSerializableException(
+                cl.getName() + <span class="string">"\n"</span> + debugInfoStack.toString());
+        } <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="keyword">new</span> NotSerializableException(cl.getName());
+        }
+    }
+} 
+</code></pre><p>由源码可知，如果没有实现java.io.Serializable接口，就会抛出NotSerializableException异常（String、Enum等类也是实现了该接口）。</p>
+<p>下面我们举个具体的小例子。我们定义两个类：Animal和Cat类，代码如下：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Animal</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>{
+    <span class="keyword">private</span> <span class="keyword">int</span> type;
+
+    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span><span class="params">()</span> </span>{
+        <span class="keyword">this</span>.type = <span class="number">1</span>;
+    }
+}
+</code></pre><p>Cat类：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>{
+    <span class="keyword">private</span> String name;
+
+    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>{
+        <span class="keyword">return</span> name;
+    }
+
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>{
+        <span class="keyword">this</span>.name = name;
+    }
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>{
+        FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"out.txt"</span>);
+        ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);
+        Cat cat = <span class="keyword">new</span> Cat();
+        cat.setName(<span class="string">"Test"</span>);
+        oos.writeObject(cat);
+        oos.flush();
+        oos.close();
+
+    }
+}
+</code></pre><p>运行之后，打开out.txt,内容如下：</p>
+<pre><code>aced <span class="number">0005</span> <span class="number">7372</span> <span class="number">0012</span> <span class="number">636f</span> <span class="number">6</span>d2e <span class="number">7474</span> <span class="number">706f</span>
+<span class="number">642</span>e <span class="number">736f</span> <span class="number">6e67</span> <span class="number">2e43</span> <span class="number">6174</span> <span class="number">4</span>d6e <span class="number">97</span>a6 ab6e
+c12e <span class="number">0200</span> <span class="number">014</span>c <span class="number">0004</span> <span class="number">6e61</span> <span class="number">6</span>d65 <span class="number">7400</span> <span class="number">124</span>c
+<span class="number">6</span>a61 <span class="number">7661</span> <span class="number">2f</span>6c <span class="number">616</span>e <span class="number">672f</span> <span class="number">5374</span> <span class="number">7269</span> <span class="number">6e67</span>
+<span class="number">3</span>b78 <span class="number">7200</span> <span class="number">1563</span> <span class="number">6f</span>6d <span class="number">2e74</span> <span class="number">7470</span> <span class="number">6f</span>64 <span class="number">2e73</span>
+<span class="number">6f</span>6e <span class="number">672</span>e <span class="number">416</span>e <span class="number">696</span>d <span class="number">616</span>c a991 <span class="number">5474</span> <span class="number">2068</span>
+e443 <span class="number">0200</span> <span class="number">0149</span> <span class="number">0004</span> <span class="number">7479</span> <span class="number">7065</span> <span class="number">7870</span> <span class="number">0000</span>
+<span class="number">0001</span> <span class="number">70</span>
+</code></pre><p>Java序列化序列化对象的信息包括：类元数据描述、类的属性、父类信息以及属性域的值。Java将这些信息分成3部分：序列化头信息、类的描述部分以及属性域的值部分。现在我们对out.txt加以分析。</p>
+<h3 id="序列化头信息">序列化头信息</h3><ol>
+<li>0xAC 0xED ：STREAM_MAGIC 流的幻数，用于标记序列化协议</li>
+<li>0x00 0x05 ：STREAM_VERSION 标记序列化协议的版本</li>
+</ol>
+<h3 id="类的描述部分">类的描述部分</h3><ol>
+<li>0x73  ： TC_OBJECT. 声明这是一个新的对象</li>
+<li>0x72  ： TC_CLASSDESC 声明这是一个新的类描述</li>
+<li>0x00 0x12 ：类名字的长度,换算成十进制就是18</li>
+<li>0x63 0x6f 0x6d 0x2e 0x74 0x74 0x70 0x6f 0x64 0x2e 0x73 0x6f 0x6e 0x67 0x2e 0x43 0x61 0x74  ： 代表类的名称com.ttpod.song.Cat</li>
+<li>0x4d 0x6e 0x97 0xa6 0xab 0x6e 0xc1 0x2e： 序列化ID的类型为long型因此占用8个字节</li>
+<li><p>0x02 ：标记号，该字节的8位分表代表不同的含义， </p>
+<pre><code><span class="constant">SC_EXTERNALIZABLE</span> <span class="number">0x04</span> <span class="symbol">:</span> 该类实现了java.io.<span class="constant">Externalizable</span>接口 
+<span class="constant">SC_BLOCK_DATA</span> <span class="number">0x08</span> <span class="symbol">:</span> <span class="constant">Externalizable</span>接口的writeExternal方法写入的数据
+<span class="constant">SC_SERIALIZABLE</span> <span class="number">0x02</span> <span class="symbol">:</span> 该类实现了java.io.<span class="constant">Serializable</span>接口
+<span class="constant">SC_WRITE_METHOD</span> <span class="number">0x01</span> <span class="symbol">:</span> 该序列化类实现了writeObject方法 
+<span class="constant">SC_ENUM</span> <span class="number">0x10</span> <span class="symbol">:</span> 该类是枚举（<span class="class"><span class="keyword">enum</span>）类型 </span>
+</code></pre><p> 该标记号通过上述信息进行或运算（|）而获得。 </p>
+</li>
+<li>0x00 0x01 ： 代表类属性域的个数 </li>
+<li>0x4C ： 域类型，0x4C代表L即该域类型为java对象类型 </li>
+<li>0x00 0x04 ： 域名称长度</li>
+<li>0x6E 0x61 0x6D 0x65 ：域名称name </li>
+<li>0x74 : TC_STRING 一个新字符串</li>
+<li>0x00 0x12 ：域类型的长度</li>
+<li>0x4C 0x6A 0x61 0x76 0x61 0x2F 0x6C 0x61 0x6E 0x67 0x2F 0x53 0x74 0x72 0x69 0x6E 0x67 0x3B ：对象类型签名Ljava.lang.String</li>
+<li>0x78 ： TC_ENDBLOCKDATA 对象数据块结束标志<br>下面是父类描述：</li>
+<li>0x72 : TC_CLASSDESC 声明这是一个新的类描述</li>
+<li>0x00 0x15 : 类名长度，换算成十进制就是21  </li>
+<li>0x63 0x6f 0x6d 0x2e 0x74 0x74 0x70 0x6f 0x64 0x2e 0x73 0x6f 0x6e 0x67 0x2e 0x41 0x6e 0x69 0x6d 0x61 0x6c ： 代表类的名称com.ttpod.song.Aniaml</li>
+<li>0xa9 0x91 0x54 0x74 0x20 0x68 0xe4 0x43  ： 序列化ID </li>
+<li>0x02 ： 标记号</li>
+<li>0x00 0x01 ： 域个数 </li>
+<li>0x49 ： 域类型，0x49代表I即int类型</li>
+<li>0x00 0x04 ： 域名称长度</li>
+<li>0x74 0x79 0x70 0x65 ： 域名称type</li>
+<li>0x78 ： TC_ENDBLOCKDATA 对象数据块结束标志</li>
+<li>0x70 ： TC_NULL 再没有父类的标志</li>
+</ol>
+<h3 id="属性域的值部分">属性域的值部分</h3><ol>
+<li>0x00 0x00 0x00 0x01 : 父类域type的值为1</li>
+<li>0x74 ：TC_STRING 一个新字符串</li>
+<li>0x00 0x04 ：域值的长度，十进制为4</li>
+<li>0x54 0x65 0x73 0x74 ： name值为Test</li>
+</ol>
+<p>由上可知，Java序列化的算法的基本步骤如下：</p>
+<ol>
+<li>输出序列化的头部信息，包括标识序列化协议的幻数以及协议的版本； </li>
+<li>按照由子类到父类的顺序，递归的输出类的描述信息，直到不再有父类为止；类描述信息按照类元数据，类属性信息的顺序写入序列化流中； </li>
+<li>按照由父类到子类的顺序，递归的输出对象域的实际数据值；而对象的属性信息是按照基本数据类型到java对象类型的顺序写入序列化流中；其中java对象类型的属性会从步骤a)重新开始递归的输出，直到不再存在java对象类型的属性。</li>
+</ol>
+<h2 id="更多">更多</h2><h3 id="序列化ID的问题">序列化ID的问题</h3><p>序列化ID提供了两种生成策略，一个是固定的 1L，一个是随机生成一个不重复的 long 类型数据（实际上是使用JDK工具生成）。虚拟机是否允许反序列化，不仅取决于类路径和功能代码是否一致，一个非常重要的一点是两个类的序列化 ID 是否一致。所以这里强烈建议在一个可序列化类中显示的定义serialVersionUID，为它赋予明确的值。</p>
+<h3 id="静态变量序列化">静态变量序列化</h3><p>序列化并不保存静态变量。序列化保存的是对象的状态，静态变量属于类的状态。</p>
+<h3 id="父类的序列化与_Transient_关键字">父类的序列化与 Transient 关键字</h3><p>要想将父类对象也序列化，就需要让父类也实现Serializable 接口。如果父类不实现的话的，就 需要有默认的无参的构造函数。在父类没有实现 Serializable 接口时，虚拟机是不会序列化父对象的，而一个 Java 对象的构造必须先有父对象，才有子对象，反序列化也不例外。所以反序列化时，为了构造父对象，只能调用父类的无参构造函数作为默认的父对象。因此当我们取父对象的变量值时，它的值是调用父类无参构造函数后的值。如果你考虑到这种序列化的情况，在父类无参构造函数中对变量进行初始化，否则的话，父类变量值都是默认声明的值，如 int 型的默认是 0，string 型的默认是 null。</p>
+<p>Transient 关键字的作用是控制变量的序列化，在变量声明前加上该关键字，可以阻止该变量被序列化到文件中，在被反序列化后，transient 变量的值被设为初始值，如 int 型的是 0，对象型的是 null。</p>
+<h3 id="序列化存储规则">序列化存储规则</h3><p>Java 序列化机制为了节省磁盘空间，具有特定的存储规则，当写入文件的为同一对象时，并不会再将对象的内容进行存储，而只是再次存储一份引用。</p>
+<h2 id="其他序列化协议">其他序列化协议</h2><p>由上面分析我们发现Java序列化储存了很多我们并不关系的内容，所以占用空间比较大。下面我们再介绍几种其他协议，不过目前暂时还没有实践过，等实践之后再详细介绍，目前只贴几个链接。</p>
+<ol>
+<li><a href="http://code.google.com/p/protobuf/" target="_blank" rel="external">protocol buffers</a></li>
+<li><a href="http://hessian.caucho.com/index.xtp" target="_blank" rel="external">hessian</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Java序列化是经常使用到的技术，大部分情况下，我只是简单的去实现Serializable接口就算了，今天就简单的了解一下序列化的一些原理。<br>]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xfhnever.com/tags/Java/"/>
+    
+      <category term="序列化" scheme="http://xfhnever.com/tags/%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    
+      <category term="Java" scheme="http://xfhnever.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[maven(五)-plugins]]></title>
     <link href="http://xfhnever.com/2015/10/02/maven-plugins/"/>
     <id>http://xfhnever.com/2015/10/02/maven-plugins/</id>
     <published>2015-10-02T01:36:20.000Z</published>
-    <updated>2015-10-02T03:40:25.000Z</updated>
+    <updated>2015-10-02T05:22:36.000Z</updated>
     <content type="html"><![CDATA[<p>使用Maven构建项目，经常会在POM文件build标签中用到各种plugin，这里就整理一下经常使用到的插件的用途。<br><a id="more"></a><br>Maven本质上是一个插件框架，它的核心并不执行任何具体的构建任务，所有这些任务都交给插件来完成，例如编译源代码是由maven- compiler-plugin完成的。进一步说，每个任务对应了一个插件目标（goal），每个插件会有一个或者多个目标，例如maven- compiler-plugin的compile目标用来编译位于src/main/java/目录下的主源码，testCompile目标用来编译位于src/test/java/目录下的测试源码。</p>
 <p>用户可以通过两种方式调用Maven插件目标。第一种方式是将插件目标与生命周期阶段（lifecycle phase）绑定，这样用户在命令行只是输入生命周期阶段而已，例如Maven默认将maven-compiler-plugin的compile目标与 compile生命周期阶段绑定，因此命令mvn compile实际上是先定位到compile这一生命周期阶段，然后再根据绑定关系调用maven-compiler-plugin的compile目标。第二种方式是直接在命令行指定要执行的插件目标，例如mvn archetype:generate 就表示调用maven-archetype-plugin的generate目标，这种带冒号的调用方式与生命周期无关。</p>
 <h2 id="maven-compiler-plugin">maven-compiler-plugin</h2><p>用来编译项目，可以指定编译时的JDK版本、编码方式等。包含两个目标：compile目标用来编译位于src/main/java/目录下的主源码，testCompile目标用来编译位于src/test/java/目录下的测试源码。</p>
@@ -1970,39 +2121,6 @@ server<span class="number">.2</span>=<span class="number">192.168</span><span cl
       <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
     
       <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[RESTful Web Service(十四)- 服务发现]]></title>
-    <link href="http://xfhnever.com/2015/02/27/rws-servicediscoverability/"/>
-    <id>http://xfhnever.com/2015/02/27/rws-servicediscoverability/</id>
-    <published>2015-02-27T09:09:41.000Z</published>
-    <updated>2015-10-01T15:14:14.000Z</updated>
-    <content type="html"><![CDATA[<p>当创建RESTful web服务时，需要解决设计时可发现性和运行时可发现性这两类可发现性。设计时可发现性有助于其他设计和创建客户端，它描述了客户端开发组和管理员用于构建和启动客户端的基本信息。运行时可发现性有助于维护客户端和服务器之间的松散耦合并使能即插即用式自动化。运行时可发现性解决了HTTP统一接口、媒体类型、链接和链接关系类型。本章是关于设计时可发现性的。<br><a id="more"></a><br>设计时发现简单来说就是将web服务用散文描述，不管这些散文诗有工具生成还是设计者手工写作。客户端开发者可以查询散文以理解资源语义、媒体类型、链接类型等信息以实现客户端。</p>
-<h2 id="如何编写RESTful_Web服务的文档">如何编写RESTful Web服务的文档</h2><p>下面这些信息需要在RESTful web服务文档中描述：</p>
-<ol>
-<li>所有资源及每个资源支持的方法</li>
-<li>请求和响应中资源的媒体类型和表述格式</li>
-<li>使用的链接关系、商业意义、所用的HTTP方法及链接标识的资源</li>
-<li>所用不通过链接提供的固定URI</li>
-<li>用于所有固定URI的查询参数</li>
-<li>URI模板和符号替换规则</li>
-<li>访问资源的认证和安全证书</li>
-</ol>
-<p>对于XML表述，如果客户端和服务器支持XML schema，使用schema语言描述用于请求和响应中表述的XML结构。对于其他格式，使用散文描述表述。</p>
-<h2 id="如何使用OPTIONS">如何使用OPTIONS</h2><p>通过支持HTTP OPTIONS方法，有助于工具了解web服务中的资源。在服务器端，实现OPTIONS方法通过Allow头返回支持方法列表。当资源支持PATCH方法，添加Accept-Patch头列举支持PATCH请求的媒体类型。可选择性添加含有资源描述文档的链接的Link头。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>当创建RESTful web服务时，需要解决设计时可发现性和运行时可发现性这两类可发现性。设计时可发现性有助于其他设计和创建客户端，它描述了客户端开发组和管理员用于构建和启动客户端的基本信息。运行时可发现性有助于维护客户端和服务器之间的松散耦合并使能即插即用式自动化。运行时可发现性解决了HTTP统一接口、媒体类型、链接和链接关系类型。本章是关于设计时可发现性的。<br>]]>
-    
-    </summary>
-    
-      <category term="REST" scheme="http://xfhnever.com/tags/REST/"/>
-    
-      <category term="RESTful" scheme="http://xfhnever.com/tags/RESTful/"/>
-    
-      <category term="RESTful" scheme="http://xfhnever.com/categories/RESTful/"/>
     
   </entry>
   
