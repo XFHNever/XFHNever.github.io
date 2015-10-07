@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://xfhnever.com/"/>
-  <updated>2015-10-07T07:50:17.000Z</updated>
+  <updated>2015-10-07T07:55:46.000Z</updated>
   <id>http://xfhnever.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://xfhnever.com/2015/10/02/java-serialize/"/>
     <id>http://xfhnever.com/2015/10/02/java-serialize/</id>
     <published>2015-10-02T04:12:34.000Z</published>
-    <updated>2015-10-07T07:50:17.000Z</updated>
+    <updated>2015-10-07T07:55:46.000Z</updated>
     <content type="html"><![CDATA[<p>Java序列化是经常使用到的技术，大部分情况下，我只是简单的去实现Serializable接口就算了，今天就简单的了解一下序列化的一些原理。<br><a id="more"></a></p>
 <h2 id="概念">概念</h2><p><strong>序列化：</strong> 把Java对象转换为字节序列的过程；</p>
 <p><strong>反序列化：</strong> 把字节序列恢复为对象的过程。</p>
