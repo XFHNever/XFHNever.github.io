@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://xfhnever.com/"/>
-  <updated>2015-10-07T07:55:46.000Z</updated>
+  <updated>2015-10-29T14:57:07.000Z</updated>
   <id>http://xfhnever.com/</id>
   
   <author>
@@ -13,6 +13,107 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java(十四)-hashmap&cpu100%]]></title>
+    <link href="http://xfhnever.com/2015/10/29/java-hashmap-cpu100/"/>
+    <id>http://xfhnever.com/2015/10/29/java-hashmap-cpu100/</id>
+    <published>2015-10-29T14:26:25.000Z</published>
+    <updated>2015-10-29T14:57:07.000Z</updated>
+    <content type="html"></content>
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Java" scheme="http://xfhnever.com/tags/Java/"/>
+    
+      <category term="Java" scheme="http://xfhnever.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Mongodb(十二)- 慢查询]]></title>
+    <link href="http://xfhnever.com/2015/10/28/mongodb-slow-query/"/>
+    <id>http://xfhnever.com/2015/10/28/mongodb-slow-query/</id>
+    <published>2015-10-28T14:01:15.000Z</published>
+    <updated>2015-10-29T13:14:33.000Z</updated>
+    <content type="html"><![CDATA[<p>最近公司曲库接入新曲库上线，昨晚高峰期的时候应用报警，上去发现很多MongoTimeoutException异常，该异常最近一直有遇到，原因更是如出一辙，所以这里就记录一下。</p>
+<a id="more"></a>
+<h2 id="异常日志">异常日志</h2><pre><code>com<span class="class">.mongodb</span><span class="class">.MongoTimeoutException</span>: Timeout waiting <span class="keyword">for</span> <span class="tag">a</span> pooled item after <span class="number">3000</span> MILLISECONDS
+    at com<span class="class">.mongodb</span><span class="class">.ConcurrentPool</span><span class="class">.get</span>(ConcurrentPool<span class="class">.java</span>:<span class="number">113</span>)
+    at com<span class="class">.mongodb</span><span class="class">.PooledConnectionProvider</span><span class="class">.get</span>(PooledConnectionProvider<span class="class">.java</span>:<span class="number">75</span>)
+    at com<span class="class">.mongodb</span><span class="class">.DefaultServer</span><span class="class">.getConnection</span>(DefaultServer<span class="class">.java</span>:<span class="number">60</span>)
+    at com<span class="class">.mongodb</span><span class="class">.BaseCluster</span><span class="variable">$WrappedServer</span>.<span class="function"><span class="title">getConnection</span><span class="params">(BaseCluster.java:<span class="number">216</span>)</span></span>
+    at com<span class="class">.mongodb</span><span class="class">.DBTCPConnector</span><span class="variable">$MyPort</span>.<span class="function"><span class="title">getConnection</span><span class="params">(DBTCPConnector.java:<span class="number">503</span>)</span></span>
+    at com<span class="class">.mongodb</span><span class="class">.DBTCPConnector</span><span class="variable">$MyPort</span>.<span class="function"><span class="title">get</span><span class="params">(DBTCPConnector.java:<span class="number">451</span>)</span></span>
+    at com<span class="class">.mongodb</span><span class="class">.DBTCPConnector</span><span class="class">.innerCall</span>(DBTCPConnector<span class="class">.java</span>:<span class="number">286</span>)
+    at com<span class="class">.mongodb</span><span class="class">.DBTCPConnector</span><span class="class">.call</span>(DBTCPConnector<span class="class">.java</span>:<span class="number">271</span>)
+    at com<span class="class">.mongodb</span><span class="class">.DBCollectionImpl</span><span class="class">.find</span>(DBCollectionImpl<span class="class">.java</span>:<span class="number">84</span>)
+    at com<span class="class">.mongodb</span><span class="class">.DBCollectionImpl</span><span class="class">.find</span>(DBCollectionImpl<span class="class">.java</span>:<span class="number">66</span>)
+    at com<span class="class">.mongodb</span><span class="class">.DBCursor</span>._check(DBCursor<span class="class">.java</span>:<span class="number">458</span>)
+    at com<span class="class">.mongodb</span><span class="class">.DBCursor</span>._hasNext(DBCursor<span class="class">.java</span>:<span class="number">546</span>)
+    at com<span class="class">.mongodb</span><span class="class">.DBCursor</span><span class="class">.hasNext</span>(DBCursor<span class="class">.java</span>:<span class="number">571</span>)
+    at org<span class="class">.jongo</span><span class="class">.MongoCursor</span><span class="class">.hasNext</span>(MongoCursor<span class="class">.java</span>:<span class="number">38</span>)
+    at com<span class="class">.ttpod</span><span class="class">.common</span><span class="class">.mongo</span><span class="class">.CursorListHelper</span><span class="class">.convert</span>(CursorListHelper<span class="class">.java</span>:<span class="number">14</span>)
+</code></pre><p>MongoDB默认的连接超时时间是3s，这里并不能通过简单设置超时时间来解决该问题，而是应该去数据库查看数据库的状态，最后发现是库中存在很多慢查询，一直占用连接不释放，导致其他连接超时。</p>
+<h2 id="MongoDB的慢查询">MongoDB的慢查询</h2><p>慢查询是数据库查询优化的一部分内容，通过查看慢查询日志，可以找到数据库查询问题在哪里。</p>
+<h3 id="开启Profiling功能">开启Profiling功能</h3><ol>
+<li><p>客户端</p>
+<pre><code>db.setProfilingLevel(<span class="number">1</span>);  
+</code></pre><p> Level共有三个等级：</p>
+<pre><code><span class="number">0</span> – 不开启
+<span class="number">1</span> – 记录慢命令 (默认为&gt;<span class="number">100</span>ms)
+<span class="number">2</span> – 记录所有命令
+</code></pre><p> Level 1 的超时时间默认为100ms，可以通过</p>
+<pre><code>db.<span class="function"><span class="title">setProfilingLevel</span><span class="params">( level , slowms )</span></span> 设置
+</code></pre></li>
+<li><p>启动时</p>
+<p> 启动MongoDB时加上–profile 和 –slowms 参数</p>
+<pre><code>         　　　
+</code></pre></li>
+</ol>
+<h3 id="查询Profiling等级">查询Profiling等级</h3><pre><code><span class="tag">db</span><span class="class">.setProfilingLevel</span>();              　　　
+</code></pre><h3 id="查询Profiling记录">查询Profiling记录</h3><p>Mongo Profile 记录是直接存在系统db里的，记录位置 system.profile ，所以，我们只要查询这个Collection的记录就可以获取到我们的 Profile 记录了</p>
+<pre><code>ttrs_quku:SECONDARY&gt; db.system.profile.find()
+
+{ <span class="string">"op"</span> : <span class="string">"getmore"</span>, <span class="string">"ns"</span> : <span class="string">"ttpod_songs.songsFile"</span>, <span class="string">"cursorid"</span> : <span class="number">653122545872</span>, <span class="string">"ntoreturn"</span> : <span class="number">0</span>, <span class="string">"keyUpdates"</span> : <span class="number">0</span>, <span class="string">"numYield"</span> : <span class="number">214</span>, <span class="string">"lockStats"</span> : { <span class="string">"timeLockedMicros"</span> : { <span class="string">"r"</span> : NumberLong(<span class="number">152153</span>), <span class="string">"w"</span> : NumberLong(<span class="number">0</span>) }, <span class="string">"timeAcquiringMicros"</span> : { <span class="string">"r"</span> : NumberLong(<span class="number">328</span>), <span class="string">"w"</span> : NumberLong(<span class="number">3</span>) } }, <span class="string">"nreturned"</span> : <span class="number">22676</span>, <span class="string">"responseLength"</span> : <span class="number">4194310</span>, <span class="string">"millis"</span> : <span class="number">132</span>, <span class="string">"execStats"</span> : {  }, <span class="string">"ts"</span> : ISODate(<span class="string">"2015-10-25T16:23:36.189Z"</span>), <span class="string">"client"</span> : <span class="string">"10.147.238.83"</span>, <span class="string">"allUsers"</span> : [ ], <span class="string">"user"</span> : <span class="string">""</span> }
+{ <span class="string">"op"</span> : <span class="string">"getmore"</span>, <span class="string">"ns"</span> : <span class="string">"ttpod_songs.songsFile"</span>, <span class="string">"cursorid"</span> : <span class="number">653122545872</span>, <span class="string">"ntoreturn"</span> : <span class="number">0</span>, <span class="string">"keyUpdates"</span> : <span class="number">0</span>, <span class="string">"numYield"</span> : <span class="number">156</span>, <span class="string">"lockStats"</span> : { <span class="string">"timeLockedMicros"</span> : { <span class="string">"r"</span> : NumberLong(<span class="number">139827</span>), <span class="string">"w"</span> : NumberLong(<span class="number">0</span>) }, <span class="string">"timeAcquiringMicros"</span> : { <span class="string">"r"</span> : NumberLong(<span class="number">231</span>), <span class="string">"w"</span> : NumberLong(<span class="number">2</span>) } }, <span class="string">"nreturned"</span> : <span class="number">23193</span>, <span class="string">"responseLength"</span> : <span class="number">4194446</span>, <span class="string">"millis"</span> : <span class="number">107</span>, <span class="string">"execStats"</span> : {  }, <span class="string">"ts"</span> : ISODate(<span class="string">"2015-10-25T16:23:37.058Z"</span>), <span class="string">"client"</span> : <span class="string">"10.147.238.83"</span>, <span class="string">"allUsers"</span> : [ ], <span class="string">"user"</span> : <span class="string">""</span> }
+{ <span class="string">"op"</span> : <span class="string">"getmore"</span>, <span class="string">"ns"</span> : <span class="string">"ttpod_songs.songsFile"</span>, <span class="string">"cursorid"</span> : <span class="number">653122545872</span>, <span class="string">"ntoreturn"</span> : <span class="number">0</span>, <span class="string">"keyUpdates"</span> : <span class="number">0</span>, <span class="string">"numYield"</span> : <span class="number">232</span>, <span class="string">"lockStats"</span> : { <span class="string">"timeLockedMicros"</span> : { <span class="string">"r"</span> : NumberLong(<span class="number">146159</span>), <span class="string">"w"</span> : NumberLong(<span class="number">0</span>) }, <span class="string">"timeAcquiringMicros"</span> : { <span class="string">"r"</span> : NumberLong(<span class="number">333</span>), <span class="string">"w"</span> : NumberLong(<span class="number">4</span>) } }, <span class="string">"nreturned"</span> : <span class="number">22450</span>, <span class="string">"responseLength"</span> : <span class="number">4194397</span>, <span class="string">"millis"</span> : <span class="number">120</span>, <span class="string">"execStats"</span> : {  }, <span class="string">"ts"</span> : ISODate(<span class="string">"2015-10-25T16:23:38.820Z"</span>), <span class="string">"client"</span> : <span class="string">"10.147.238.83"</span>, <span class="string">"allUsers"</span> : [ ], <span class="string">"user"</span> : <span class="string">""</span> }
+{ <span class="string">"op"</span> : <span class="string">"getmore"</span>, <span class="string">"ns"</span> : <span class="string">"ttpod_songs.songsFile"</span>, <span class="string">"cursorid"</span> : <span class="number">653122545872</span>, <span class="string">"ntoreturn"</span> : <span class="number">0</span>, <span class="string">"keyUpdates"</span> : <span class="number">0</span>, <span class="string">"numYield"</span> : <span class="number">162</span>, <span class="string">"lockStats"</span> : { <span class="string">"timeLockedMicros"</span> : { <span class="string">"r"</span> : NumberLong(<span class="number">135602</span>), <span class="string">"w"</span> : NumberLong(<span class="number">0</span>) }, <span class="string">"timeAcquiringMicros"</span> : { <span class="string">"r"</span> : NumberLong(<span class="number">253</span>), <span class="string">"w"</span> : NumberLong(<span class="number">4</span>) } }, <span class="string">"nreturned"</span> : <span class="number">23162</span>, <span class="string">"responseLength"</span> : <span class="number">4194302</span>, <span class="string">"millis"</span> : <span class="number">101</span>, <span class="string">"execStats"</span> : {  }, <span class="string">"ts"</span> : ISODate(<span class="string">"2015-10-25T16:23:39.680Z"</span>), <span class="string">"client"</span> : <span class="string">"10.147.238.83"</span>, <span class="string">"allUsers"</span> : [ ], <span class="string">"user"</span> : <span class="string">""</span> }
+</code></pre><p>其中：</p>
+<ol>
+<li>ts-该命令在何时执行.</li>
+<li>millis Time-该命令执行耗时，以毫秒记.</li>
+<li>info-本命令的详细信息.</li>
+<li>query-表明这是一个query查询操作.</li>
+<li>ntoreturn-本次查询客户端要求返回的记录数.比如, findOne()命令执行时 ntoreturn 为 1.有limit(n) 条件时ntoreturn为n.</li>
+<li>query-具体的查询条件(如x&gt;3).</li>
+<li>nscanned-本次查询扫描的记录数.</li>
+<li>reslen-返回结果集的大小.</li>
+<li>nreturned-本次查询实际返回的结果集.</li>
+<li>update-表明这是一个update更新操作.</li>
+<li>fastmod-Indicates a fast modify operation. See Updates. These operations are normally quite fast.</li>
+<li>fastmodinsert – indicates a fast modify operation that performed an upsert.</li>
+<li>upsert-表明update的upsert参数为true.此参数的功能是如果update的记录不存在，则用update的条件insert一条记录.</li>
+<li>moved-表明本次update是否移动了硬盘上的数据，如果新记录比原记录短，通常不会移动当前记录，如果新记录比原记录长，那么可能会移动记录到其它位置，这时候会导致相关索引的更新.磁盘操作更多，加上索引更新，会使得这样的操作比较慢.</li>
+<li>insert-这是一个insert插入操作.</li>
+<li>getmore-这是一个getmore 操作，getmore通常发生在结果集比较大的查询时，第一个query返回了部分结果，后续的结果是通过getmore来获取的。<br>注：查询慢查询需要连接到具体的数据库才能查询出来。</li>
+</ol>
+<h2 id="出现原因及解决方案">出现原因及解决方案</h2><p>最终排查出来慢查询主要出现在一个同事最近才加的一张记录调用服务出错日志的表中，没有预料到数据在短短一天增长到400W，查询时并没有添加索引。</p>
+<p>最终添加索引之后程序恢复正常。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>最近公司曲库接入新曲库上线，昨晚高峰期的时候应用报警，上去发现很多MongoTimeoutException异常，该异常最近一直有遇到，原因更是如出一辙，所以这里就记录一下。</p>]]>
+    
+    </summary>
+    
+      <category term="DB" scheme="http://xfhnever.com/tags/DB/"/>
+    
+      <category term="MongoDB" scheme="http://xfhnever.com/tags/MongoDB/"/>
+    
+      <category term="DB" scheme="http://xfhnever.com/categories/DB/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Java(十三)-序列化机制]]></title>
@@ -1604,7 +1705,7 @@ DEBUG [<span class="number">2010</span>-<span class="number">04</span>-<span cla
     <link href="http://xfhnever.com/2015/03/23/mongodb-operatearrayelement/"/>
     <id>http://xfhnever.com/2015/03/23/mongodb-operatearrayelement/</id>
     <published>2015-03-23T12:22:34.000Z</published>
-    <updated>2015-10-01T15:22:44.000Z</updated>
+    <updated>2015-10-28T14:13:00.000Z</updated>
     <content type="html"><![CDATA[<p>MongoDB中的Document是通过嵌套来描述数据之间的关系。对于嵌套了数组的Document来说，如何操作被嵌套的数组是本章我们将要介绍的内容。<br><a id="more"></a></p>
 <p>首先我们给出一个Document－songlist：</p>
 <pre><code>{
@@ -1706,7 +1807,7 @@ DEBUG [<span class="number">2010</span>-<span class="number">04</span>-<span cla
     
       <category term="DB" scheme="http://xfhnever.com/tags/DB/"/>
     
-      <category term="Mongodb" scheme="http://xfhnever.com/tags/Mongodb/"/>
+      <category term="MongoDB" scheme="http://xfhnever.com/tags/MongoDB/"/>
     
       <category term="DB" scheme="http://xfhnever.com/categories/DB/"/>
     
@@ -1914,209 +2015,6 @@ server<span class="number">.2</span>=<span class="number">192.168</span><span cl
       <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
     
       <category term="Zookeeper" scheme="http://xfhnever.com/tags/Zookeeper/"/>
-    
-      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
-    
-      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Kafka(一)- 介绍]]></title>
-    <link href="http://xfhnever.com/2015/03/12/kafka-intro/"/>
-    <id>http://xfhnever.com/2015/03/12/kafka-intro/</id>
-    <published>2015-03-12T01:38:58.000Z</published>
-    <updated>2015-10-01T15:25:56.000Z</updated>
-    <content type="html"><![CDATA[<p>Kafka是一个分布式的、可分区的、可复制的消息系统。它提供了普通消息系统的功能，但具有自己独特的设计。<br><a id="more"></a></p>
-<h2 id="架构">架构</h2><h3 id="组件">组件</h3><ol>
-<li><strong>话题（Topic）</strong>是特定类型的消息流。消息是字节的有效负载（Payload），话题是消息的分类名或种子（Feed）名。</li>
-<li><strong>生产者（Producer）</strong>是能够发布消息到话题的任何对象。</li>
-<li>已发布的消息保存在一组服务器中，它们被称为<strong>代理（Broker）</strong>或<strong>Kafka集群</strong>。</li>
-<li><strong>消费者</strong>可以订阅一个或多个话题，并从Broker拉数据，从而消费这些已发布的消息。</li>
-</ol>
-<img src="/images/post/kafka1-1.png">
-<p>客户端和服务端通过TCP协议通信。Kafka提供了Java客户端，并且对多种语言都提供了支持。</p>
-<h3 id="整体架构">整体架构</h3><p>Kafka内在就是分布式的，一个Kafka集群通常包括多个代理。为了均衡负载，将话题分成多个分区，每个代理存储一或多个分区。多个生产者和消费者能够同时生产和获取消息。</p>
-<img src="/images/post/kafka1-2.png">
-<h2 id="Kafka存储架构">Kafka存储架构</h2><p>Kafka的存储布局非常简单。话题的每个分区对应一个逻辑日志。物理上，一个日志为相同大小的一组分段文件。每次生产者发布消息到一个分区，代理就将消息追加到最后一个段文件中。当发布的消息数量达到设定值或者经过一定的时间后，段文件真正写入磁盘中。写入完成后，消息公开给消费者。</p>
-<p>在一个可配置的时间段内，Kafka集群保留所有发布的消息，不管这些消息有没有被消费。比如，如果消息的保存策略被设置为2天，那么在一个消息被发布的两天时间内，它都是可以被消费的。之后它将被丢弃以释放空间。Kafka的性能是和数据量无关的常量级的，所以保留太多的数据并不是问</p>
-<p>与传统的消息系统不同，Kafka系统中存储的消息没有明确的消息Id。</p>
-<p>消息通过日志中的逻辑偏移量来公开。这样就避免了维护配套密集寻址，用于映射消息ID到实际消息地址的随机存取索引结构的开销。消息ID是增量的，但不连续。要计算下一消息的ID，可以在其逻辑偏移的基础上加上当前消息的长度。</p>
-<p>消费者始终从特定分区顺序地获取消息，如果消费者知道特定消息的偏移量，也就说明消费者已经消费了之前的所有消息。消费者向代理发出异步拉请求，准备字节缓冲区用于消费。每个异步拉请求都包含要消费的消息偏移量。Kafka利用sendfile API高效地从代理的日志段文件中分发字节给消费者。</p>
-<img src="/images/post/kafka1-3.png">
-<h2 id="Kafka代理">Kafka代理</h2><p>与其它消息系统不同，Kafka代理是无状态的。这意味着消费者必须维护已消费的状态信息。这些信息由消费者自己维护，代理完全不管。这种设计非常微妙，它本身包含了创新。</p>
-<ol>
-<li>从代理删除消息变得很棘手，因为代理并不知道消费者是否已经使用了该消息。Kafka创新性地解决了这个问题，它将一个简单的基于时间的SLA应用于保留策略。当消息在代理中超过一定时间后，将会被自动删除。</li>
-<li>这种创新设计有很大的好处，消费者可以故意倒回到老的偏移量再次消费数据。这违反了队列的常见约定，但被证明是许多消费者的基本特征。</li>
-</ol>
-<h2 id="分布式">分布式</h2><p>每个分区在Kafka集群的若干服务中都有副本，这样这些持有副本的服务可以共同处理数据和请求，副本数量是可以配置的。副本使Kafka具备了容错能力。</p>
-<p>每个分区都由一个服务器作为“leader”，零或若干服务器作为“followers”,leader负责处理消息的读和写，followers则去复制leader.如果leader down了，followers中的一台则会自动成为leader。集群中的每个服务都会同时扮演两个角色：作为它所持有的一部分分区的leader，同时作为其他分区的followers，这样集群就会据有较好的负载均衡。</p>
-<h2 id="Consumers">Consumers</h2><p>发布消息通常有两种模式：队列模式（queuing）和发布-订阅模式(publish-subscribe)。队列模式中，consumers可以同时从服务端读取消息，每个消息只被其中一个consumer读到；发布-订阅模式中消息被广播到所有的consumer中。</p>
-<p>Consumers可以加入一个consumer 组，共同竞争一个topic，topic中的消息将被分发到组中的一个成员中。同一组中的consumer可以在不同的程序中，也可以在不同的机器上。如果所有的consumer都在一个组中，这就成为了传统的队列模式，在各consumer中实现负载均衡。</p>
-<p>如果所有的consumer都不在不同的组中，这就成为了发布-订阅模式，所有的消息都被分发到所有的consumer中。</p>
-<p>更常见的是，每个topic都有若干数量的consumer组，每个组都是一个逻辑上的“订阅者”，为了容错和更好的稳定性，每个组由若干consumer组成。这其实就是一个发布-订阅模式，只不过订阅者是个组而不是单个consumer。</p>
-<p>相比传统的消息系统，Kafka可以很好的保证有序性。</p>
-<p>传统的队列在服务器上保存有序的消息，如果多个consumers同时从这个服务器消费消息，服务器就会以消息存储的顺序向consumer分发消息。虽然服务器按顺序发布消息，但是消息是被异步的分发到各consumer上，所以当消息到达时可能已经失去了原来的顺序，这意味着并发消费将导致顺序错乱。为了避免故障，这样的消息系统通常使用“专用consumer”的概念，其实就是只允许一个消费者消费消息，当然这就意味着失去了并发性。</p>
-<p>在这方面Kafka做的更好，通过分区的概念，Kafka可以在多个consumer组并发的情况下提供较好的有序性和负载均衡。将每个分区分只分发给一个consumer组，这样一个分区就只被这个组的一个consumer消费，就可以顺序的消费这个分区的消息。因为有多个分区，依然可以在多个consumer组之间进行负载均衡。注意consumer组的数量不能多于分区的数量，也就是有多少分区就允许多少并发消费。</p>
-<p>Kafka只能保证一个分区之内消息的有序性，在不同的分区之间是不可以的，这已经可以满足大部分应用的需求。如果需要topic中所有消息的有序性，那就只能让这个topic只有一个分区，当然也就只有一个consumer组消费它。</p>
-<h2 id="ZooKeeper与Kafka">ZooKeeper与Kafka</h2><p>正如ZooKeeper用于分布式系统的协调和促进，Kafka使用ZooKeeper也是基于相同的原因。ZooKeeper用于管理、协调Kafka代理。每个Kafka代理都通过ZooKeeper协调其它Kafka代理。当Kafka系统中新增了代理或者某个代理故障失效时，ZooKeeper服务将通知生产者和消费者。生产者和消费者据此开始与其它代理协调工作。</p>
-<img src="/images/post/kafka1-4.png">
-<h2 id="特性">特性</h2><p>Apache Kafka与传统消息系统相比，有以下不同：</p>
-<ol>
-<li>它被设计为一个分布式系统，易于向外扩展；</li>
-<li>它同时为发布和订阅提供高吞吐量；</li>
-<li>它支持多订阅者，当失败时能自动平衡消费者；</li>
-<li>它将消息持久化到磁盘，因此可用于批量消费，例如ETL，以及实时应用程序。</li>
-</ol>
-<h3 id="生产者性能好的原因">生产者性能好的原因</h3><ol>
-<li>Kafka不等待代理的确认，以代理能处理的最快速度发送消息。</li>
-<li>Kafka有更高效的存储格式。平均而言，Kafka每条消息有9字节的开销，而ActiveMQ有144字节。其原因是JMS所需的沉重消息头，以及维护各种索引结构的开销。LinkedIn注意到ActiveMQ一个最忙的线程大部分时间都在存取B-Tree以维护消息元数据和状态。</li>
-</ol>
-<h3 id="消费者性能好的原因">消费者性能好的原因</h3><ol>
-<li>Kafka有更高效的存储格式；在Kafka中，从代理传输到消费者的字节更少。</li>
-<li>ActiveMQ和RabbitMQ两个容器中的代理必须维护每个消息的传输状态。LinkedIn团队注意到其中一个ActiveMQ线程在测试过程中，一直在将KahaDB页写入磁盘。与此相反，Kafka代理没有磁盘写入动作。最后，Kafka通过使用sendfile API降低了传输开销。</li>
-</ol>
-<h2 id="缺点">缺点</h2><ol>
-<li>不支持事务</li>
-<li>会丢失数据</li>
-</ol>
-<h2 id="更多参考">更多参考</h2><ol>
-<li><a href="http://www.linuxidc.com/Linux/2014-01/94682.htm" target="_blank" rel="external">Apache Kafka 教程笔记</a></li>
-<li><a href="http://kafka.apache.org/documentation.html#introduction" target="_blank" rel="external">Apache Kafka</a></li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Kafka是一个分布式的、可分区的、可复制的消息系统。它提供了普通消息系统的功能，但具有自己独特的设计。<br>]]>
-    
-    </summary>
-    
-      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
-    
-      <category term="Kafka" scheme="http://xfhnever.com/tags/Kafka/"/>
-    
-      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
-    
-      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Dubbo(一)-介绍]]></title>
-    <link href="http://xfhnever.com/2015/03/08/dubbo-introduction/"/>
-    <id>http://xfhnever.com/2015/03/08/dubbo-introduction/</id>
-    <published>2015-03-08T11:13:21.000Z</published>
-    <updated>2015-10-01T15:27:11.000Z</updated>
-    <content type="html"><![CDATA[<p>在天天动听(ttpod)实习也有了一段时间，也接触到了一些项目。所以最近决定开始整理一些公司项目中使用的技术框架，以加深对技术的理解。<br><a id="more"></a><br>Dubbo是Alibaba开源的分布式服务框架，它最大的特点是按照分层的方式来架构，使用这种方式可以使各个层之间解耦合（或者最大限度地松耦合）。目前公司最新版本的服务端接口基本都是基于Dubbo开发的，所以我们第一篇就介绍Dubbo。</p>
-<h2 id="架构">架构</h2><img src="/images/post/dubbo1-1.jpg">
-<h3 id="节点角色说明">节点角色说明</h3><ol>
-<li>Provider: 暴露服务的服务提供方。</li>
-<li>Consumer: 调用远程服务的服务消费方。</li>
-<li>Registry: 服务注册与发现的注册中心。</li>
-<li>Monitor: 统计服务的调用次调和调用时间的监控中心。</li>
-<li>Container: 服务运行容器。</li>
-</ol>
-<h3 id="调用关系说明">调用关系说明</h3><ol>
-<li>服务容器负责启动，加载，运行服务提供者。</li>
-<li>服务提供者在启动时，向注册中心注册自己提供的服务。</li>
-<li>服务消费者在启动时，向注册中心订阅自己所需的服务。</li>
-<li>注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。</li>
-<li>服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</li>
-<li>服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。</li>
-</ol>
-<h2 id="优势">优势</h2><h3 id="连通性">连通性</h3><ol>
-<li>注册中心负责服务地址的注册与查找，相当于目录服务，服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小</li>
-<li>监控中心负责统计各服务调用次数，调用时间等，统计先在内存汇总后每分钟一次发送到监控中心服务器，并以报表展示</li>
-<li>服务提供者向注册中心注册其提供的服务，并汇报调用时间到监控中心，此时间不包含网络开销</li>
-<li>服务消费者向注册中心获取服务提供者地址列表，并根据负载算法直接调用提供者，同时汇报调用时间到监控中心，此时间包含网络开销</li>
-<li>注册中心，服务提供者，服务消费者三者之间均为长连接，监控中心除外<br>注册中心通过长连接感知服务提供者的存在，服务提供者宕机，注册中心将立即推送事件通知消费者</li>
-<li>注册中心和监控中心全部宕机，不影响已运行的提供者和消费者，消费者在本地缓存了提供者列表</li>
-<li>注册中心和监控中心都是可选的，服务消费者可以直连服务提供者</li>
-</ol>
-<h3 id="健状性">健状性</h3><ol>
-<li>监控中心宕掉不影响使用，只是丢失部分采样数据</li>
-<li>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</li>
-<li>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</li>
-<li>注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯</li>
-<li>服务提供者无状态，任意一台宕掉后，不影响使用</li>
-<li>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</li>
-</ol>
-<h3 id="伸缩性">伸缩性</h3><ol>
-<li>注册中心为对等集群，可动态增加机器部署实例，所有客户端将自动发现新的注册中心</li>
-<li>服务提供者无状态，可动态增加机器部署实例，注册中心将推送新的服务提供者信息给消费者</li>
-</ol>
-<h3 id="升级性">升级性</h3><ol>
-<li>当服务集群规模进一步扩大，带动IT治理结构进一步升级，需要实现动态部署，进行流动计算，现有分布式服务架构不会带来阻力</li>
-</ol>
-<h2 id="功能">功能</h2><h3 id="配置">配置</h3><ol>
-<li>配置继承</li>
-<li><p>可配置编程</p>
-<p> 同时支持编程配置和Schema配置</p>
-</li>
-</ol>
-<h3 id="服务匹配">服务匹配</h3><ol>
-<li><p>服务分组，多版本</p>
-<p> 当一个接口有多种实现时,可以用group区分</p>
-<pre><code>&lt;dubbo:service <span class="keyword">group</span>=<span class="string">"feedback"</span> <span class="keyword">interface</span>=<span class="string">"com.xxx.IndexService"</span> /&gt; 
-&lt;dubbo:service <span class="keyword">group</span>=<span class="string">"member"</span> <span class="keyword">interface</span>=<span class="string">"com.xxx.IndexService"</span> /&gt;
-</code></pre><p> 当一个接口实现,出现不兼容升级时,可以用版本号过渡,<br>版本号不同的服务相互间不引用</p>
-<pre><code>&lt;dubbo:service <span class="keyword">interface</span>=<span class="string">"com.foo.BarService"</span> version=<span class="string">"1.0.0"</span> /&gt; 
-&lt;dubbo:service <span class="keyword">interface</span>=<span class="string">"com.foo.BarService"</span> version=<span class="string">"2.0.0"</span> /&gt;
-</code></pre></li>
-<li><p>指定调用</p>
-<p> 点对点直连/指定调用需求 (开发/测试环境)，多种方式实现，比如：</p>
-<pre><code><span class="number">1</span>. &lt;dubbo:reference interface=<span class="string">"com.alibaba.xxx.XxxService"</span> url=<span class="string">"dubbo://localhost:20890"</span> /&gt;
-<span class="number">2</span>. java -Dcom<span class="class">.alibaba</span><span class="class">.xxx</span><span class="class">.XxxService</span>=dubbo:<span class="comment">//localhost:20890</span>
-<span class="number">3</span>. java -Ddubbo<span class="class">.resolve</span><span class="class">.file</span>=xxx<span class="class">.properties</span>
-   com<span class="class">.alibaba</span><span class="class">.xxx</span><span class="class">.XxxService</span>=dubbo:<span class="comment">//localhost:20890</span>
-</code></pre></li>
-<li><p>只订阅</p>
-<p> 共用注册中心,开发人员机器上的服务提供者被误 调,影响其他开发人员(开发、测试环境) &lt;dubbo:registry register=”false” /&gt;</p>
-<h3 id="集群&amp;容错">集群&amp;容错</h3><img src="/images/post/dubbo1-2.jpg">
-</li>
-</ol>
-<h3 id="多协议">多协议</h3><ol>
-<li><p>不同服务不同协议</p>
-<p> 比如:不同服务在性能上适用不同协议进行传输,比如大数据用短连接协议,小数据大并发用长连接协议。</p>
-<pre><code>￼
-
-<span class="comment">&lt;!-- 多协议配置 --&gt;</span>
-<span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">"dubbo"</span> <span class="attribute">port</span>=<span class="value">"20880"</span> /&gt;</span> <span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">"rmi"</span> <span class="attribute">port</span>=<span class="value">"1099"</span> /&gt;</span>
-<span class="comment">&lt;!-- 使用dubbo协议暴露服务 --&gt;</span>
-<span class="tag">&lt;<span class="title">dubbo:service</span> <span class="attribute">interface</span>=<span class="value">"com.alibaba.hello.api.HelloService"</span> <span class="attribute">version</span>=<span class="value">"1.0.0"</span> <span class="attribute">ref</span>=<span class="value">"helloService"</span> <span class="attribute">protocol</span>=<span class="value">"dubbo"</span> /&gt;</span> <span class="comment">&lt;!-- 使用rmi协议暴露服务 --&gt;</span>
-<span class="tag">&lt;<span class="title">dubbo:service</span> <span class="attribute">interface</span>=<span class="value">"com.alibaba.hello.api.DemoService"</span> <span class="attribute">version</span>=<span class="value">"1.0.0"</span> <span class="attribute">ref</span>=<span class="value">"demoService"</span> <span class="attribute">protocol</span>=<span class="value">"rmi"</span> /&gt;</span>
-</code></pre></li>
-<li><p>同一服务多协议</p>
-<pre><code><span class="comment">&lt;!-- 多协议配置 --&gt;</span>
-<span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">"dubbo"</span> <span class="attribute">port</span>=<span class="value">"20880"</span> /&gt;</span> <span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">"hessian"</span> <span class="attribute">port</span>=<span class="value">"8080"</span> /&gt;</span>
-<span class="comment">&lt;!-- 使用多个协议暴露服务 --&gt;</span>
-<span class="tag">&lt;<span class="title">dubbo:reference</span> <span class="attribute">id</span>=<span class="value">"helloService"</span> <span class="attribute">interface</span>=<span class="value">"com.alibaba.hello.api.HelloService"</span> <span class="attribute">version</span>=<span class="value">"1.0.0"</span> <span class="attribute">protocol</span>=<span class="value">"dubbo,hessian"</span> /&gt;</span>
-</code></pre></li>
-<li><p>本地服务调用(InJvm调用)</p>
-<p> 同一个jvm内部的服务调用采用短路的方式 •先本地服务化,再做物理远程调用</p>
-<pre><code><span class="tag">&lt;<span class="title">dubbo:protocol</span> <span class="attribute">name</span>=<span class="value">“injvm”</span> &gt;</span>
-<span class="tag">&lt;<span class="title">dubbo:provider</span> <span class="attribute">interface</span> = “<span class="attribute">HelloService</span>” <span class="attribute">injvm</span>=<span class="value">“true”</span>/&gt;</span> 
-<span class="tag">&lt;<span class="title">dubbo:consumer</span> <span class="attribute">interface</span>=<span class="value">“Helloservice”</span> <span class="attribute">injvm</span>=<span class="value">“true”</span> &gt;</span>
-</code></pre><p>￼</p>
-</li>
-</ol>
-<h3 id="多注册中心">多注册中心</h3><p>解决CRM需同时调用中文站和国际站PC2相同接口相同版本服务的问题</p>
-<pre><code>￼定义多个注册中心:
-&lt;dubbo:registry <span class="property">id</span>=“chinaRegistry” address=<span class="string">"172.29.63.18:9090"</span> /&gt; &lt;dubbo:registry <span class="property">id</span>=“intlRegistry” address=<span class="string">"172.29.61.132:9090"</span> /&gt;
-￼
-不同注册中心使用不同引用:
-&lt;dubbo:<span class="keyword">reference</span> <span class="property">id</span>=“chinaXxxService” interface=<span class="string">"com.alibaba.xxx.XxxService"</span> <span class="property">version</span>=<span class="string">"1.0.0“ registry=“chinaRegistry” /&gt;
-&lt;dubbo:reference id=“intlXxxService” interface="</span>com.alibaba.xxx.XxxService<span class="string">" version="</span><span class="number">1.0</span><span class="number">.0</span>“ registry=“intlRegistry” /&gt;
-</code></pre><h3 id="Graceful_shutdown">Graceful shutdown</h3><img src="/images/post/dubbo1-3.png">
-<p>本章完美简单介绍了一下dubbo的特性和基本功能，鉴于我目前只使用了这些基本功能，就暂时先介绍到这边，后面如有机会，我们会继续研究。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>在天天动听(ttpod)实习也有了一段时间，也接触到了一些项目。所以最近决定开始整理一些公司项目中使用的技术框架，以加深对技术的理解。<br>]]>
-    
-    </summary>
-    
-      <category term="Dubbo" scheme="http://xfhnever.com/tags/Dubbo/"/>
-    
-      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
     
       <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
     
