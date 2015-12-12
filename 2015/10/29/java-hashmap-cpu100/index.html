@@ -11,16 +11,16 @@
     
 
     
-    <meta name="description">
+    <meta name="description" content="问题最近部署的应用监控提示一台机器CPU的load特别高，而部署相同应用的其他机器却没有任何问题。本文就记录下来解决该问题的整个过程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java(十四)-hashmap&cpu100%">
 <meta property="og:url" content="http://xfhnever.com/2015/10/29/java-hashmap-cpu100/index.html">
 <meta property="og:site_name" content="Never's Blog">
-<meta property="og:description">
-<meta property="og:updated_time" content="2015-10-29T14:57:07.000Z">
+<meta property="og:description" content="问题最近部署的应用监控提示一台机器CPU的load特别高，而部署相同应用的其他机器却没有任何问题。本文就记录下来解决该问题的整个过程。">
+<meta property="og:updated_time" content="2015-12-12T08:02:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java(十四)-hashmap&cpu100%">
-<meta name="twitter:description">
+<meta name="twitter:description" content="问题最近部署的应用监控提示一台机器CPU的load特别高，而部署相同应用的其他机器却没有任何问题。本文就记录下来解决该问题的整个过程。">
 <link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
 
     
@@ -97,11 +97,73 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#排查问题"><span class="toc-number">2.</span> <span class="toc-text">排查问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-number">3.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
 		
 		</div>
 		
-		  
+		<h2 id="问题">问题</h2><p>最近部署的应用监控提示一台机器CPU的load特别高，而部署相同应用的其他机器却没有任何问题。本文就记录下来解决该问题的整个过程。</p>
+<a id="more"></a>
+<h2 id="排查问题">排查问题</h2><p>首先是上线之后top命令，发现CPU飙高的正是部署在机器上的Java进程。</p>
+<ol>
+<li><p>jstack打印Java堆栈信息，保留现场</p>
+<pre><code>jstack pid &gt; jstack.<span class="command">log</span>
+</code></pre></li>
+<li>查看堆栈信息，同事提醒说，一般CPU飙高主要查看堆栈Runnale的线程。但是漫无目标去查看，很难定位到问题。</li>
+<li>通过 top -H -p PID命令输出占用cpu过高的线程</li>
+<li><p>将占用CPU过高的线程ID转换为16进制</p>
+<pre><code><span class="keyword">printf</span> <span class="variable">%x</span> pid
+</code></pre></li>
+<li>去原来保存的堆栈文件中查找对应线程，就是出问题的线程。最终我们发现问题线程如下：</li>
+</ol>
+<pre><code><span class="string">"HSFBizProcessor-8-thread-2300"</span> daemon prio=<span class="number">10</span> tid=<span class="number">0</span>x00007fbb4813e000 nid=<span class="number">0</span>x5c94 runnable [<span class="number">0</span>x00007fbb3a8b0000]
+   java<span class="class">.lang</span><span class="class">.Thread</span><span class="class">.State</span>: RUNNABLE
+    at java<span class="class">.util</span><span class="class">.HashMap</span><span class="class">.getEntry</span>(HashMap<span class="class">.java</span>:<span class="number">469</span>)
+    at java<span class="class">.util</span><span class="class">.HashMap</span><span class="class">.containsKey</span>(HashMap<span class="class">.java</span>:<span class="number">453</span>)
+    at java<span class="class">.util</span><span class="class">.HashSet</span><span class="class">.contains</span>(HashSet<span class="class">.java</span>:<span class="number">201</span>)
+    at com<span class="class">.ttpod</span><span class="class">.alimusic</span><span class="class">.BaseClient</span><span class="class">.saveLoseDataLog</span>(BaseClient<span class="class">.java</span>:<span class="number">201</span>)
+    at com<span class="class">.ttpod</span><span class="class">.alimusic</span><span class="class">.client</span><span class="class">.SongClient</span><span class="class">.getAudioForSongs</span>(SongClient<span class="class">.java</span>:<span class="number">103</span>)
+    at com<span class="class">.ttpod</span><span class="class">.alimusic</span><span class="class">.client</span><span class="class">.SongClient</span>$<span class="variable">$FastClassBySpringCGLIB</span>$$<span class="number">4</span>c35f712.<span class="function"><span class="title">invoke</span><span class="params">(&lt;generated&gt;)</span></span>
+    at org<span class="class">.springframework</span><span class="class">.cglib</span><span class="class">.proxy</span><span class="class">.MethodProxy</span><span class="class">.invoke</span>(MethodProxy<span class="class">.java</span>:<span class="number">204</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.framework</span><span class="class">.CglibAopProxy</span><span class="variable">$CglibMethodInvocation</span>.<span class="function"><span class="title">invokeJoinpoint</span><span class="params">(CglibAopProxy.java:<span class="number">708</span>)</span></span>
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.framework</span><span class="class">.ReflectiveMethodInvocation</span><span class="class">.proceed</span>(ReflectiveMethodInvocation<span class="class">.java</span>:<span class="number">157</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.aspectj</span><span class="class">.MethodInvocationProceedingJoinPoint</span><span class="class">.proceed</span>(MethodInvocationProceedingJoinPoint<span class="class">.java</span>:<span class="number">85</span>)
+    at com<span class="class">.ttpod</span><span class="class">.alimusic</span><span class="class">.aspect</span><span class="class">.LogAspect</span><span class="class">.doLog</span>(LogAspect<span class="class">.java</span>:<span class="number">49</span>)
+    at sun<span class="class">.reflect</span><span class="class">.GeneratedMethodAccessor20</span><span class="class">.invoke</span>(Unknown Source)
+    at sun<span class="class">.reflect</span><span class="class">.DelegatingMethodAccessorImpl</span><span class="class">.invoke</span>(DelegatingMethodAccessorImpl<span class="class">.java</span>:<span class="number">43</span>)
+    at java<span class="class">.lang</span><span class="class">.reflect</span><span class="class">.Method</span><span class="class">.invoke</span>(Method<span class="class">.java</span>:<span class="number">606</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.aspectj</span><span class="class">.AbstractAspectJAdvice</span><span class="class">.invokeAdviceMethodWithGivenArgs</span>(AbstractAspectJAdvice<span class="class">.java</span>:<span class="number">621</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.aspectj</span><span class="class">.AbstractAspectJAdvice</span><span class="class">.invokeAdviceMethod</span>(AbstractAspectJAdvice<span class="class">.java</span>:<span class="number">610</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.aspectj</span><span class="class">.AspectJAroundAdvice</span><span class="class">.invoke</span>(AspectJAroundAdvice<span class="class">.java</span>:<span class="number">68</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.framework</span><span class="class">.ReflectiveMethodInvocation</span><span class="class">.proceed</span>(ReflectiveMethodInvocation<span class="class">.java</span>:<span class="number">179</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.interceptor</span><span class="class">.ExposeInvocationInterceptor</span><span class="class">.invoke</span>(ExposeInvocationInterceptor<span class="class">.java</span>:<span class="number">92</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.framework</span><span class="class">.ReflectiveMethodInvocation</span><span class="class">.proceed</span>(ReflectiveMethodInvocation<span class="class">.java</span>:<span class="number">179</span>)
+    at org<span class="class">.springframework</span><span class="class">.aop</span><span class="class">.framework</span><span class="class">.CglibAopProxy</span><span class="variable">$DynamicAdvisedInterceptor</span>.<span class="function"><span class="title">intercept</span><span class="params">(CglibAopProxy.java:<span class="number">644</span>)</span></span>
+    at com<span class="class">.ttpod</span><span class="class">.alimusic</span><span class="class">.client</span><span class="class">.SongClient</span>$<span class="variable">$EnhancerBySpringCGLIB</span>$$<span class="number">931</span>c77b8.<span class="function"><span class="title">getAudioForSongs</span><span class="params">(&lt;generated&gt;)</span></span>
+    at com<span class="class">.ttpod</span><span class="class">.alimusic</span><span class="class">.dao</span><span class="class">.SongFileALiDao</span><span class="class">.getSongFiles</span>(SongFileALiDao<span class="class">.java</span>:<span class="number">31</span>)
+    at com<span class="class">.ttpod</span><span class="class">.cache</span><span class="class">.SongFileListCache</span><span class="class">.lazyLoad</span>(SongFileListCache<span class="class">.java</span>:<span class="number">38</span>)
+    at com<span class="class">.ttpod</span><span class="class">.cache</span><span class="class">.LocalListCache</span><span class="class">.getList</span>(LocalListCache<span class="class">.java</span>:<span class="number">57</span>)
+    at com<span class="class">.ttpod</span><span class="class">.song</span><span class="class">.service</span><span class="class">.SongFileServiceImpl</span><span class="class">.getSongFilesByIds</span>(SongFileServiceImpl<span class="class">.java</span>:<span class="number">86</span>)
+    at com<span class="class">.ttpod</span><span class="class">.song</span><span class="class">.service</span><span class="class">.SongServiceImpl</span><span class="class">.fillUrl</span>(SongServiceImpl<span class="class">.java</span>:<span class="number">424</span>)
+    at com<span class="class">.ttpod</span><span class="class">.song</span><span class="class">.service</span><span class="class">.SongServiceImpl</span><span class="class">.loadSongFiles</span>(SongServiceImpl<span class="class">.java</span>:<span class="number">117</span>)
+    at sun<span class="class">.reflect</span><span class="class">.GeneratedMethodAccessor439</span><span class="class">.invoke</span>(Unknown Source)
+    at sun<span class="class">.reflect</span><span class="class">.DelegatingMethodAccessorImpl</span><span class="class">.invoke</span>(DelegatingMethodAccessorImpl<span class="class">.java</span>:<span class="number">43</span>)
+    at java<span class="class">.lang</span><span class="class">.reflect</span><span class="class">.Method</span><span class="class">.invoke</span>(Method<span class="class">.java</span>:<span class="number">606</span>)
+    at com<span class="class">.taobao</span><span class="class">.hsf</span><span class="class">.remoting</span><span class="class">.provider</span><span class="class">.ProviderProcessor</span><span class="class">.handleRequest0</span>(ProviderProcessor<span class="class">.java</span>:<span class="number">471</span>)
+    at com<span class="class">.taobao</span><span class="class">.hsf</span><span class="class">.remoting</span><span class="class">.provider</span><span class="class">.ProviderProcessor</span><span class="class">.handleRequest</span>(ProviderProcessor<span class="class">.java</span>:<span class="number">152</span>)
+    at com<span class="class">.taobao</span><span class="class">.hsf</span><span class="class">.remoting</span><span class="class">.server</span><span class="class">.RPCServerHandler</span><span class="class">.handleRequest</span>(RPCServerHandler<span class="class">.java</span>:<span class="number">43</span>)
+    at com<span class="class">.taobao</span><span class="class">.hsf</span><span class="class">.remoting</span><span class="class">.server</span><span class="class">.RPCServerHandler</span><span class="class">.handleRequest</span>(RPCServerHandler<span class="class">.java</span>:<span class="number">21</span>)
+    at com<span class="class">.taobao</span><span class="class">.hsf</span><span class="class">.remoting</span><span class="class">.netty</span><span class="class">.server</span><span class="class">.NettyServerHandler</span><span class="variable">$HandlerRunnable</span>.<span class="function"><span class="title">run</span><span class="params">(NettyServerHandler.java:<span class="number">109</span>)</span></span>
+    at java<span class="class">.util</span><span class="class">.concurrent</span><span class="class">.ThreadPoolExecutor</span><span class="class">.runWorker</span>(ThreadPoolExecutor<span class="class">.java</span>:<span class="number">1145</span>)
+    at java<span class="class">.util</span><span class="class">.concurrent</span><span class="class">.ThreadPoolExecutor</span><span class="variable">$Worker</span>.<span class="function"><span class="title">run</span><span class="params">(ThreadPoolExecutor.java:<span class="number">615</span>)</span></span>
+    at java<span class="class">.lang</span><span class="class">.Thread</span><span class="class">.run</span>(Thread<span class="class">.java</span>:<span class="number">744</span>)
+</code></pre><p>后面看到一个更好的排查方案：<a href="https://github.com/oldratlee/useful-scripts/blob/master/show-busy-java-threads.sh" target="_blank" rel="external">show-busy-java-threads.sh</a></p>
+<h2 id="解决方案">解决方案</h2><p>将HashMap换成线程安全的ConcurrentHashMap.</p>
+<p>至于关于HashMap线程不安全问题，可以查看左耳朵耗子的分析 <a href="http://coolshell.cn/articles/9606.html" target="_blank" rel="external">疫苗：Java HashMap的死循环</a></p>
+<h2 id="参考">参考</h2><ol>
+<li><a href="http://blog.csdn.net/fenglibing/article/details/6411940" target="_blank" rel="external">jstack命令(Java Stack Trace)</a></li>
+<li></li>
+</ol>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -173,7 +235,7 @@ true</script>
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#排查问题"><span class="toc-number">2.</span> <span class="toc-text">排查问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-number">3.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
  
   </div>
 
