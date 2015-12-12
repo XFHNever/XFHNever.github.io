@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://xfhnever.com/"/>
-  <updated>2015-12-12T08:02:50.000Z</updated>
+  <updated>2015-12-12T08:09:11.000Z</updated>
   <id>http://xfhnever.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Java(十四)-hashmap&cpu100%]]></title>
+    <title><![CDATA[Java(十四)-CPU飙升问题排查]]></title>
     <link href="http://xfhnever.com/2015/10/29/java-hashmap-cpu100/"/>
     <id>http://xfhnever.com/2015/10/29/java-hashmap-cpu100/</id>
     <published>2015-10-29T14:26:25.000Z</published>
-    <updated>2015-12-12T08:02:50.000Z</updated>
+    <updated>2015-12-12T08:09:11.000Z</updated>
     <content type="html"><![CDATA[<h2 id="问题">问题</h2><p>最近部署的应用监控提示一台机器CPU的load特别高，而部署相同应用的其他机器却没有任何问题。本文就记录下来解决该问题的整个过程。</p>
 <a id="more"></a>
 <h2 id="排查问题">排查问题</h2><p>首先是上线之后top命令，发现CPU飙高的正是部署在机器上的Java进程。</p>
@@ -80,7 +80,6 @@
 <p>至于关于HashMap线程不安全问题，可以查看左耳朵耗子的分析 <a href="http://coolshell.cn/articles/9606.html" target="_blank" rel="external">疫苗：Java HashMap的死循环</a></p>
 <h2 id="参考">参考</h2><ol>
 <li><a href="http://blog.csdn.net/fenglibing/article/details/6411940" target="_blank" rel="external">jstack命令(Java Stack Trace)</a></li>
-<li></li>
 </ol>
 ]]></content>
     <summary type="html">

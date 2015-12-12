@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Java(十四)-hashmap&amp;cpu100% | Never&#39;s Blog</title>
+    <title>Java(十四)-CPU飙升问题排查 | Never&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Never">
@@ -13,13 +13,13 @@
     
     <meta name="description" content="问题最近部署的应用监控提示一台机器CPU的load特别高，而部署相同应用的其他机器却没有任何问题。本文就记录下来解决该问题的整个过程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java(十四)-hashmap&cpu100%">
+<meta property="og:title" content="Java(十四)-CPU飙升问题排查">
 <meta property="og:url" content="http://xfhnever.com/2015/10/29/java-hashmap-cpu100/index.html">
 <meta property="og:site_name" content="Never's Blog">
 <meta property="og:description" content="问题最近部署的应用监控提示一台机器CPU的load特别高，而部署相同应用的其他机器却没有任何问题。本文就记录下来解决该问题的整个过程。">
-<meta property="og:updated_time" content="2015-12-12T08:02:50.000Z">
+<meta property="og:updated_time" content="2015-12-12T08:09:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java(十四)-hashmap&cpu100%">
+<meta name="twitter:title" content="Java(十四)-CPU飙升问题排查">
 <meta name="twitter:description" content="问题最近部署的应用监控提示一台机器CPU的load特别高，而部署相同应用的其他机器却没有任何问题。本文就记录下来解决该问题的整个过程。">
 <link rel="publisher" href="XFHNever## e.g. "111190881341800841449" for https://plus.google.com/u/0/111190881341800841449, the "" is needed!">
 
@@ -81,7 +81,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/29/java-hashmap-cpu100/" title="Java(十四)-hashmap&amp;cpu100%" itemprop="url">Java(十四)-hashmap&amp;cpu100%</a>
+      <a href="/2015/10/29/java-hashmap-cpu100/" title="Java(十四)-CPU飙升问题排查" itemprop="url">Java(十四)-CPU飙升问题排查</a>
   </h1>
   <p class="article-author">By
        
@@ -161,7 +161,6 @@
 <p>至于关于HashMap线程不安全问题，可以查看左耳朵耗子的分析 <a href="http://coolshell.cn/articles/9606.html" target="_blank" rel="external">疫苗：Java HashMap的死循环</a></p>
 <h2 id="参考">参考</h2><ol>
 <li><a href="http://blog.csdn.net/fenglibing/article/details/6411940" target="_blank" rel="external">jstack命令(Java Stack Trace)</a></li>
-<li></li>
 </ol>
   
 	</div>
@@ -185,7 +184,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://xfhnever.com/2015/10/29/java-hashmap-cpu100/" data-title="Java(十四)-hashmap&amp;cpu100% | Never&#39;s Blog" data-tsina="null" class="share clearfix">
+	  <div data-url="http://xfhnever.com/2015/10/29/java-hashmap-cpu100/" data-title="Java(十四)-CPU飙升问题排查 | Never&#39;s Blog" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -212,7 +211,7 @@
 	
   <section id="comments">
    <!-- 多说评论框 start -->
-<div id="ds-thread" class="ds-thread" data-thread-key="2015/10/29/java-hashmap-cpu100/" data-title="Java(十四)-hashmap&amp;cpu100%" data-url="http://xfhnever.com/2015/10/29/java-hashmap-cpu100/"></div>
+<div id="ds-thread" class="ds-thread" data-thread-key="2015/10/29/java-hashmap-cpu100/" data-title="Java(十四)-CPU飙升问题排查" data-url="http://xfhnever.com/2015/10/29/java-hashmap-cpu100/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
