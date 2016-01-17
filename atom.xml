@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://xfhnever.com/"/>
-  <updated>2015-12-12T08:09:11.000Z</updated>
+  <updated>2015-12-22T02:50:29.000Z</updated>
   <id>http://xfhnever.com/</id>
   
   <author>
@@ -13,6 +13,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://xfhnever.com/2015/12/22/EagleEye/"/>
+    <id>http://xfhnever.com/2015/12/22/EagleEye/</id>
+    <published>2015-12-22T02:50:29.000Z</published>
+    <updated>2015-12-22T02:50:29.000Z</updated>
+    <content type="html"><![CDATA[<p>EagleEye</p>
+<h2 id="简介">简介</h2><p>EagleEye （鹰眼）通过收集和分析在不同的网络调用中间件上的日志埋点，可以得到同一次请求上的各个系统的调用链关系，有助于梳理应用的请求入口与服务的调用来源、依赖关系，同时，也对分析系统调用瓶颈、估算链路容量、快速定位异常有很大帮助。另外，业务方也可以在调用链上添加自己的业务埋点，使网络调用和实际业务内容得到关联。 </p>
+<h2 id="功能">功能</h2><ol>
+<li>调用链的异常跟踪</li>
+<li>应用关键路径（强弱依赖分析 / 瓶颈分析 / 易故障点）</li>
+<li>突发流量来源跟踪</li>
+<li>入口实时大盘</li>
+<li>应用实时依赖情况</li>
+<li>服务实时调用大盘 </li>
+</ol>
+<p>##</p>
+<p>##</p>
+<p>业务方也可以在调用链上添加自己的业务埋点，使网络调用和实际业务内容得到关联。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>EagleEye</p>
+<h2 id="简介">简介</h2><p>EagleEye （鹰眼）通过收集和分析在不同的网络调用中间件上的日志埋点，可以得到同一次请求上的各个系统的调用链关系，有助于梳理应用的请求入口与服务的调用来源、依赖关系，同时，也对分析系统调用瓶颈、估算]]>
+    </summary>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Java(十四)-CPU飙升问题排查]]></title>
@@ -98,7 +125,7 @@
     <link href="http://xfhnever.com/2015/10/28/mongodb-slow-query/"/>
     <id>http://xfhnever.com/2015/10/28/mongodb-slow-query/</id>
     <published>2015-10-28T14:01:15.000Z</published>
-    <updated>2015-10-29T13:14:33.000Z</updated>
+    <updated>2016-01-17T03:28:10.000Z</updated>
     <content type="html"><![CDATA[<p>最近公司曲库接入新曲库上线，昨晚高峰期的时候应用报警，上去发现很多MongoTimeoutException异常，该异常最近一直有遇到，原因更是如出一辙，所以这里就记录一下。</p>
 <a id="more"></a>
 <h2 id="异常日志">异常日志</h2><pre><code>com<span class="class">.mongodb</span><span class="class">.MongoTimeoutException</span>: Timeout waiting <span class="keyword">for</span> <span class="tag">a</span> pooled item after <span class="number">3000</span> MILLISECONDS
@@ -130,8 +157,8 @@
 <pre><code>db.<span class="function"><span class="title">setProfilingLevel</span><span class="params">( level , slowms )</span></span> 设置
 </code></pre></li>
 <li><p>启动时</p>
-<p> 启动MongoDB时加上–profile 和 –slowms 参数</p>
-<pre><code>         　　　
+<pre><code>启动MongoDB时加上–<span class="keyword">profile</span> 和 –slowms 参数
+        　　　
 </code></pre></li>
 </ol>
 <h3 id="查询Profiling等级">查询Profiling等级</h3><pre><code><span class="tag">db</span><span class="class">.setProfilingLevel</span>();              　　　
@@ -1960,117 +1987,6 @@ DEBUG [<span class="number">2010</span>-<span class="number">04</span>-<span cla
 ]]></content>
     <summary type="html">
     <![CDATA[<p>之前的blog简单介绍了zookeeper的特性，安装配置和适用范围，本章我们将进一步介绍zookeeper的基本原理。<br>]]>
-    
-    </summary>
-    
-      <category term="Framework" scheme="http://xfhnever.com/tags/Framework/"/>
-    
-      <category term="Zookeeper" scheme="http://xfhnever.com/tags/Zookeeper/"/>
-    
-      <category term="ttpod" scheme="http://xfhnever.com/tags/ttpod/"/>
-    
-      <category term="Framework" scheme="http://xfhnever.com/categories/Framework/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[zookeeper（一）- 介绍]]></title>
-    <link href="http://xfhnever.com/2015/03/12/zookeeper-intro/"/>
-    <id>http://xfhnever.com/2015/03/12/zookeeper-intro/</id>
-    <published>2015-03-12T02:40:59.000Z</published>
-    <updated>2015-10-01T15:24:53.000Z</updated>
-    <content type="html"><![CDATA[<p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、名字服务、分布式同步、组服务等。<br><a id="more"></a><br>ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。</p>
-<p>ZooKeeper包含一个简单的原语集，提供Java和C的接口。</p>
-<h2 id="特点">特点</h2><ol>
-<li>最终一致性：client不论连接到哪个Server，展示给它都是同一个视图，这是zookeeper最重要的性能。</li>
-<li>可靠性：具有简单、健壮、良好的性能，如果消息m被到一台服务器接受，那么它将被所有的服务器接受。</li>
-<li>实时性：Zookeeper保证客户端将在一个时间间隔范围内获得服务器的更新信息，或者服务器失效的信息。但由于网络延时等原因，Zookeeper不能保证两个客户端能同时得到刚更新的数据，如果需要最新数据，应该在读数据之前调用sync()接口。</li>
-<li>等待无关（wait-free）：慢的或者失效的client不得干预快速的client的请求，使得每个client都能有效的等待。</li>
-<li>原子性：更新只能成功或者失败，没有中间状态。</li>
-<li>顺序性：包括全局有序和偏序两种：全局有序是指如果在一台服务器上消息a在消息b前发布，则在所有Server上消息a都将在消息b前被发布；偏序是指如果一个消息b在消息a后被同一个发送者发布，a必将排在b前面。</li>
-</ol>
-<h2 id="安装配置">安装配置</h2><p>Zookeeper的安装和配置十分简单, 既可以配置成单机模式, 也可以配置成集群模式. </p>
-<h3 id="单机模式">单机模式</h3><p>单机安装非常简单，下载之后解压就可以，然后linux或者mac系统下可以启动脚本zkServer.sh。</p>
-<p>不过在执行启动脚本之前，还有几个基本的配置项需要配置一下，Zookeeper 的配置文件在 conf 目录下，这个目录下有 zoo_sample.cfg 和 log4j.properties，你需要做的就是将 zoo_sample.cfg 改名为 zoo.cfg，因为 Zookeeper 在启动时会找这个文件作为默认配置文件。下面详细介绍一下，这个配置文件中各个配置项的意义。</p>
-<pre><code>tickTime=<span class="number">2000</span> 
-dataDir=<span class="constant">D</span><span class="symbol">:/devtools/zookeeper-</span><span class="number">3.2</span>.<span class="number">2</span>/build 
-clientPort=<span class="number">2181</span>
-</code></pre><p>下面详细介绍一下，这个配置文件中各个配置项的意义。</p>
-<ol>
-<li>tickTime：这个时间是作为 Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。</li>
-<li>dataDir：顾名思义就是 Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存在这个目录里。</li>
-<li>clientPort：这个端口就是客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求。</li>
-</ol>
-<h3 id="集群模式">集群模式</h3><p>Zookeeper 不仅可以单机提供服务，同时也支持多机组成集群来提供服务。实际上 Zookeeper 还支持另外一种伪集群的方式，也就是可以在一台物理机上运行多个 Zookeeper 实例，下面将介绍集群模式的安装和配置。</p>
-<p>Zookeeper 的集群模式的安装和配置也不是很复杂，所要做的就是增加几个配置项。集群模式除了上面的三个配置项还要增加下面几个配置项：</p>
-<pre><code>initLimit=<span class="number">5</span> 
-syncLimit=<span class="number">2</span> 
-server<span class="number">.1</span>=<span class="number">192.168</span><span class="number">.211</span><span class="number">.1</span>:<span class="number">2888</span>:<span class="number">3888</span> 
-server<span class="number">.2</span>=<span class="number">192.168</span><span class="number">.211</span><span class="number">.2</span>:<span class="number">2888</span>:<span class="number">3888</span>
-</code></pre><p>各个配置项的意义：</p>
-<ol>
-<li>initLimit：这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5*2000=10 秒</li>
-<li>syncLimit：这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 2*2000=4 秒</li>
-<li>server.A=B：C：D：其中 A 是一个数字，表示这个是第几号服务器；B 是这个服务器的 ip 地址；C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。</li>
-</ol>
-<p>除了修改 zoo.cfg 配置文件，集群模式下还要配置一个文件 myid，这个文件在 dataDir 目录下，这个文件里面就有一个数据就是 A 的值，Zookeeper 启动时会读取这个文件，拿到里面的数据与 zoo.cfg 里面的配置信息比较从而判断到底是那个 server。</p>
-<h2 id="应用场景">应用场景</h2><h3 id="名字服务(NameService)">名字服务(NameService)</h3><p>分布式应用中，通常需要有一套完整的命名规则，既能够产生唯一的名称又便于人识别和记住，通常情况下用树形的名称结构是一个理想的选择，树形的名称结构是一个有层次的目录结构，既对人友好又不会重复。说到这里你可能想到了 JNDI，没错 Zookeeper 的 Name Service 与 JNDI 能够完成的功能是差不多的，它们都是将有层次的目录结构关联到一定资源上，但是 Zookeeper 的 Name Service 更加是广泛意义上的关联，也许你并不需要将名称关联到特定资源上，你可能只需要一个不会重复名称，就像数据库中产生一个唯一的数字主键一样。</p>
-<p>Name Service 已经是 Zookeeper 内置的功能，你只要调用 Zookeeper 的 API 就能实现。如调用 create 接口就可以很容易创建一个目录节点。</p>
-<h3 id="配置管理(Configuration_Management)">配置管理(Configuration Management)</h3><p>在分布式系统中，常会遇到这样的场景: 某个Job的很多个实例在运行，它们在运行时大多数配置项是相同的，如果想要统一改某个配置，一个个实例去改，是比较低效，也是比较容易出错的方式。通过ZooKeeper可以很好的解决这样的问题，下面的基本的步骤：</p>
-<ol>
-<li>将公共的配置内容放到ZooKeeper中某个ZNode上，比如/service/common-conf</li>
-<li>所有的实例在启动时都会传入ZooKeeper集群的入口地址，并且在运行过程中Watch /service/common-conf这个ZNode</li>
-<li>如果集群管理员修改了了common-conf，所有的实例都会被通知到，根据收到的通知更新自己的配置，并继续Watch /service/common-conf</li>
-</ol>
-<h3 id="集群管理（Group_Membership）">集群管理（Group Membership）</h3><p>Zookeeper 能够很容易的实现集群管理的功能，如有多台 Server 组成一个服务集群，那么必须要一个“总管”知道当前集群中每台机器的服务状态，一旦有机器不能提供服务，集群中其它集群必须知道，从而做出调整重新分配服务策略。同样当增加集群的服务能力时，就会增加一台或多台 Server，同样也必须让“总管”知道。</p>
-<p>Zookeeper 不仅能够帮你维护当前的集群中机器的服务状态，而且能够帮你选出一个“总管”，让这个总管来管理集群，这就是 Zookeeper 的另一个功能 Leader Election。</p>
-<p>它们的实现方式都是在 Zookeeper 上创建一个 EPHEMERAL 类型的目录节点，然后每个 Server 在它们创建目录节点的父目录节点上调用 getChildren(String path, boolean watch) 方法并设置 watch 为 true，由于是 EPHEMERAL 目录节点，当创建它的 Server 死去，这个目录节点也随之被删除，所以 Children 将会变化，这时 getChildren上的 Watch 将会被调用，所以其它 Server 就知道已经有某台 Server 死去了。新增 Server 也是同样的原理。</p>
-<p>Zookeeper 如何实现 Leader Election，也就是选出一个 Master Server。和前面的一样每台 Server 创建一个 EPHEMERAL 目录节点，不同的是它还是一个 SEQUENTIAL 目录节点，所以它是个 EPHEMERAL_SEQUENTIAL 目录节点。之所以它是 EPHEMERAL_SEQUENTIAL 目录节点，是因为我们可以给每台 Server 编号，我们可以选择当前是最小编号的 Server 为 Master，假如这个最小编号的 Server 死去，由于是 EPHEMERAL 节点，死去的 Server 对应的节点也被删除，所以当前的节点列表中又出现一个最小编号的节点，我们就选择这个节点为当前 Master。这样就实现了动态选择 Master，避免了传统意义上单 Master 容易出现单点故障的问题。</p>
-<img src="/images/post/zookeeper1-1.png">
-<h3 id="简单互斥锁(Simple_Lock)">简单互斥锁(Simple Lock)</h3><p>在传统的应用程序中，线程、进程的同步，都可以通过操作系统提供的机制来完成。但是在分布式系统中，多个进程之间的同步，操作系统层面就无能为力了。这时候就需要像ZooKeeper这样的分布式的协调(Coordination)服务来协助完成同步，下面是用ZooKeeper实现简单的互斥锁的步骤，这个可以和线程间同步的mutex做类比来理解：</p>
-<ol>
-<li>多个进程尝试去在指定的目录下去创建一个临时性(Ephemeral)结点 /locks/my_lock</li>
-<li>ZooKeeper能保证，只会有一个进程成功创建该结点，创建结点成功的进程就是抢到锁的进程，假设该进程为A</li>
-<li>其它进程都对/locks/my_lock进行Watch</li>
-<li>当A进程不再需要锁，可以显式删除/locks/my_lock释放锁；或者是A进程宕机后Session超时，ZooKeeper系统自动删除/locks/my_lock结点释放锁。此时，其它进程就会收到ZooKeeper的通知，并尝试去创建/locks/my_lock抢锁，如此循环反复</li>
-</ol>
-<h3 id="互斥锁(Simple_Lock_without_Herd_Effect)">互斥锁(Simple Lock without Herd Effect)</h3><p>上一例子中有一个问题，每次抢锁都会有大量的进程去竞争，会造成羊群效应(Herd Effect)，为了解决这个问题，我们可以通过下面的步骤来改进上述过程：</p>
-<ol>
-<li>每个进程都在ZooKeeper上创建一个临时的顺序结点(Ephemeral Sequential) /locks/lock_${seq}<br>${seq}最小的为当前的持锁者(${seq}是ZooKeeper生成的Sequenctial Number)</li>
-<li>其它进程都对只watch比它次小的进程对应的结点，比如2 watch 1, 3 watch 2, 以此类推</li>
-<li>当前持锁者释放锁后，比它次大的进程就会收到ZooKeeper的通知，它成为新的持锁者，如此循环反复</li>
-</ol>
-<p>这里需要补充一点，通常在分布式系统中用ZooKeeper来做Leader Election(选主)就是通过上面的机制来实现的，这里的持锁者就是当前的“主”。</p>
-<h3 id="读写锁(Read/Write_Lock)">读写锁(Read/Write Lock)</h3><p>读写锁跟互斥锁相比不同的地方是，它分成了读和写两种模式，多个读可以并发执行，但写和读、写都互斥，不能同时执行行。利用ZooKeeper，在上面的基础上，稍做修改也可以实现传统的读写锁的语义，下面是基本的步骤:</p>
-<ol>
-<li>每个进程都在ZooKeeper上创建一个临时的顺序结点(Ephemeral Sequential) /locks/lock_${seq}</li>
-<li>${seq}最小的一个或多个结点为当前的持锁者，多个是因为多个读可以并发</li>
-<li>需要写锁的进程，Watch比它次小的进程对应的结点</li>
-<li>需要读锁的进程，Watch比它小的最后一个写进程对应的结点</li>
-<li>当前结点释放锁后，所有Watch该结点的进程都会被通知到，他们成为新的持锁者，如此循环反复</li>
-</ol>
-<h3 id="屏障(Barrier)">屏障(Barrier)</h3><p>在分布式系统中，屏障是这样一种语义: 客户端需要等待多个进程完成各自的任务，然后才能继续往前进行下一步。下用是用ZooKeeper来实现屏障的基本步骤：</p>
-<ol>
-<li>Client在ZooKeeper上创建屏障结点/barrier/my_barrier，并启动执行各个任务的进程</li>
-<li>Client通过exist()来Watch /barrier/my_barrier结点</li>
-<li>每个任务进程在完成任务后，去检查是否达到指定的条件，如果没达到就啥也不做，如果达到了就把/barrier/my_barrier结点删除</li>
-<li>Client收到/barrier/my_barrier被删除的通知，屏障消失，继续下一步任务</li>
-</ol>
-<h3 id="双屏障(Double_Barrier)">双屏障(Double Barrier)</h3><p>双屏障是这样一种语义: 它可以用来同步一个任务的开始和结束，当有足够多的进程进入屏障后，才开始执行任务；当所有的进程都执行完各自的任务后，屏障才撤销。下面是用ZooKeeper来实现双屏障的基本步骤：</p>
-<p>进入屏障：</p>
-<ol>
-<li>Client Watch /barrier/ready结点, 通过判断该结点是否存在来决定是否启动任务</li>
-<li>每个任务进程进入屏障时创建一个临时结点/barrier/process/${process_id}，然后检查进入屏障的结点数是否达到指定的值，如果达到了指定的值，就创建一个/barrier/ready结点，否则继续等待</li>
-<li>Client收到/barrier/ready创建的通知，就启动任务执行过程</li>
-</ol>
-<p>离开屏障：</p>
-<ol>
-<li>Client Watch /barrier/process，如果其没有子结点，就可以认为任务执行结束，可以离开屏障</li>
-<li>每个任务进程执行任务结束后，都需要删除自己对应的结点/barrier/process/${process_id}</li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、名字服务、分布式同步、组服务等。<br>]]>
     
     </summary>
     

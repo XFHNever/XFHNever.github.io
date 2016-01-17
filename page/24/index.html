@@ -82,6 +82,70 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2014/05/13/javanet-jdbc/" title="Java网络编程（二）---JDBC" itemprop="url">Java网络编程（二）---JDBC</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
+		
+  <p class="article-time">
+    <time datetime="2014-05-13T05:39:16.000Z" itemprop="datePublished"> 发表于 May 13 2014</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>开放数据库互连（ODBC）是MICROSOFT提出的数据库访问接口标准。开放数据库互连定义了访问数据库API的一个规范，这些API独立于不同厂商的DBMS，也独立于具体的编程语言。但是与其他Windows编程一样，它包括句柄、指针和选项，使其难以掌握。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2014/05/13/javanet-jdbc/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JDBC/">JDBC</a><a href="/tags/Java/">Java</a><a href="/tags/网络编程/">网络编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2014/05/13/javanet-jdbc/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/05/13/javanet-jdbc/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2014/05/13/javanet-applet/" title="Java网络编程（一）---Applet" itemprop="url">Java网络编程（一）---Applet</a>
   </h1>
   <p class="article-author">By
@@ -670,75 +734,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2014/05/06/java-mt-schedule/" title="Java多线程编程(三)---作业调度" itemprop="url">Java多线程编程(三)---作业调度</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/XFHNever## e.g. &quot;111190881341800841449&quot; for https://plus.google.com/u/0/111190881341800841449, the &quot;&quot; is needed!?rel=author" title="Never" target="_blank" itemprop="author">Never</a>
-		
-  <p class="article-time">
-    <time datetime="2014-05-06T03:08:50.000Z" itemprop="datePublished"> 发表于 May 6 2014</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="各种内核调用模型">各种内核调用模型</h2><ol>
-<li>多对一模型，也称为协作例程（co-routing）。线程创建在用户区，他们轮流在运行在一个LWP上。这种线程不会加速，当执行一个中断系统时，真个进程都会中断；然而，线程创建、作业调度和同步都100%在用户空间进行，因此运行得快而省，不使用内核资源。是绿色线程工作方式。</li>
-<li>一对一模型，为每个线程配置一个LWP。这种模型允许很多线程同时运行再不同的CPU上。它允许一个或多个线程发出中断系统调用—甚至在单处理器上也可以这样。但是每个LWP要占用附加的内核资源，因此所创建的线程总数受到限制。</li>
-<li>多对多模型，任何数目的线程复接到（小于或等于）某些数目的LWP。线程完全创建在用户空间，处于调度下，并且是同步的（几乎）。唯一限制线程数量的因素是实际内存的大小。</li>
-<li>两极模型。是严格的多对多模型，具有特殊的请求能力，请求一个一对一联编，用于单独的线程。</li>
-</ol>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2014/05/06/java-mt-schedule/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/多线程-作业调度/">多线程 作业调度</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2014/05/06/java-mt-schedule/#comments" class="ds-thread-count comments-count-link" data-thread-key="2014/05/06/java-mt-schedule/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/23/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/25/">Next<span></span></a>
@@ -1066,7 +1061,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
 		
 		<a href="/about" target="_blank" title="Never">Never</a>
 		
